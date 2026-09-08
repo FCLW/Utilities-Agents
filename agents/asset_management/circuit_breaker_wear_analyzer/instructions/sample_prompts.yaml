@@ -1,0 +1,9 @@
+prompts:
+- How many fault interruptions has Breaker CB-104 cleared since its last overhaul,
+  and what is its remaining contact wear percentage?
+- "Plot the cumulative I\xB2t fault energy curve for feeder breakers in Substation\
+  \ Alpha over the past 24 months."
+- What is the catastrophic failure probability of Breaker CB-22 if operated under
+  maximum short-circuit duty?
+- Flag Breaker CB-104 for emergency contact inspection and temporarily reduce recloser
+  shot attempts.

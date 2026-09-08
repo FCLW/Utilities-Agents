@@ -1,0 +1,9 @@
+prompts:
+- What is the day-ahead wind power production forecast (MW) for Plains Wind Farm based
+  on 80-meter hub height wind speeds?
+- Analyze wind turbine power curves and high-speed wind cut-out risks (> 25 m/s) associated
+  with the approaching cold front.
+- What is the financial imbalance settlement penalty exposure if actual wind output
+  falls 20% below day-ahead market schedules?
+- Submit the 24-hour hourly wind energy generation schedule to the RTO scheduling
+  portal.

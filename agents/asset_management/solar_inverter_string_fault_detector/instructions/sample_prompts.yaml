@@ -1,0 +1,9 @@
+prompts:
+- Which PV inverter strings in Solar Farm Bravo are exhibiting DC clipping or ground
+  fault insulation breakdown?
+- Compare the string-level current-voltage curves against clear-sky baseline expectations
+  for Inverter Block 7.
+- How much generation revenue is lost daily due to uncorrected string disconnections
+  in the Desert Vista facility?
+- Isolate Inverter String 14B remotely and dispatch a solar field technician with
+  replacement bypass diodes.

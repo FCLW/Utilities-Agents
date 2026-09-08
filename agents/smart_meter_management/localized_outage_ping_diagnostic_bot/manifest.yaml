@@ -1,0 +1,8 @@
+agent_id: localized_outage_ping_diagnostic_bot
+name: localized_outage_ping_diagnostic_bot
+display_name: Localized Outage Ping Diagnostic Bot
+domain: smart_meter_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,9 @@
+prompts:
+- What is the forecasted 24-hour Day-Ahead Locational Marginal Price (LMP) profile
+  across all commercial trading hubs tomorrow?
+- Analyze generation supply stack bids, forecasted regional load, and planned transmission
+  outages driving day-ahead clearing prices.
+- What is the forecast accuracy (MAPE) of our day-ahead nodal pricing model during
+  extreme weather transition days?
+- Commit day-ahead hourly price forecasts to the wholesale trading desk portfolio
+  optimization engine.

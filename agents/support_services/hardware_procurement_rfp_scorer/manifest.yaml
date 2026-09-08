@@ -1,0 +1,8 @@
+agent_id: hardware_procurement_rfp_scorer
+name: hardware_procurement_rfp_scorer
+display_name: Hardware Procurement Rfp Scorer
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,9 @@
+prompts:
+- Which building maintenance work orders for emergency HVAC failures in the primary
+  grid control center are currently unassigned?
+- Evaluate contractor response times and service level agreements (SLAs) for critical
+  utility administrative and warehouse facilities.
+- What is the backlog volume and cost variance of deferred facility maintenance tasks
+  across regional operating centers?
+- Dispatch an urgent HVAC repair contract team to Data Center Room B to resolve cooling
+  chiller redundancy loss.

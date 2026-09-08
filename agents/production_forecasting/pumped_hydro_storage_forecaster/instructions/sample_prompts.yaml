@@ -1,0 +1,9 @@
+prompts:
+- What is the optimal pumping schedule for Pumped Storage Hydro Unit 1 to take advantage
+  of low off-peak overnight power prices?
+- Model upper reservoir hydraulic head levels, pumping round-trip efficiency (78%),
+  and generation discharge capacity.
+- What is the net wholesale arbitrage profit margin achieved by pumping at $18/MWh
+  and generating at $95/MWh tomorrow?
+- Submit day-ahead pumping and generation bid schedules for the 600 MW pumped storage
+  plant to the regional market operator.

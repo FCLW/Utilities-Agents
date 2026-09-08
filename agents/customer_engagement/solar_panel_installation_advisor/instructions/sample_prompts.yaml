@@ -1,0 +1,9 @@
+prompts:
+- Can you estimate the solar generation potential and payback period for a 2,200 sq
+  ft residential rooftop in Zip Code 94107?
+- Compare the annual kWh yield of a south-facing 8 kW system with battery storage
+  versus a standalone solar array.
+- What are the local utility net metering interconnection requirements and transformer
+  capacity constraints for this parcel?
+- Generate a pre-interconnection feasibility score and dispatch the solar customer
+  application packet to the homeowner.

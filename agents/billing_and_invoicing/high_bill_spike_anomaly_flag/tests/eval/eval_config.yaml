@@ -1,0 +1,12 @@
+# ADK Evaluation Runner Configuration
+eval_name: "high_bill_spike_anomaly_flag_evaluation"
+description: "End-to-End semantic evaluation for High Bill Spike Anomaly Flag"
+dataset: "tests/eval/datasets/golden-dataset.json"
+
+metrics:
+  - name: Groundedness
+    description: "Evaluates if the agent's response is grounded in the provided BigQuery schema context."
+    threshold: 0.9
+  - name: InstructionFollowing
+    description: "Evaluates strict adherence to business_rules.md and safety_guardrails.md."
+    threshold: 0.95

@@ -1,0 +1,9 @@
+prompts:
+- Can you break down my monthly 1,450 kWh electric bill into heating, cooling, refrigeration,
+  and EV charging categories?
+- Compare this household's HVAC runtime and baseload phantom power draw against similar
+  homes in the neighborhood.
+- What are the top three energy conservation actions that would save this customer
+  at least $45 per month?
+- 'Dispatch a personalized Home Energy Audit report with tailored heat pump rebate
+  incentives to Customer #10294.'

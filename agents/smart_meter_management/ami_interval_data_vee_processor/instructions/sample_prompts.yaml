@@ -1,0 +1,9 @@
+prompts:
+- How many 15-minute smart meter interval reads failed automated Validation, Editing,
+  and Estimation (VEE) checks today?
+- Analyze continuous spike and flatline data gaps across residential meters caused
+  by mesh network collector dropouts.
+- What is our first-pass VEE data acceptance percentage, and how many missing intervals
+  required historical estimation?
+- Commit validated 15-minute interval energy records for 250,000 meters to the Meter
+  Data Management System (MDMS) for billing.

@@ -1,0 +1,8 @@
+agent_id: voltage_sag_swell_mitigator
+name: voltage_sag_swell_mitigator
+display_name: Voltage Sag Swell Mitigator
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

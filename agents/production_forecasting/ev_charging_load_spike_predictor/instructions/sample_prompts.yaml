@@ -1,0 +1,9 @@
+prompts:
+- Will fast-charging demand at fleet depot stations create an unmanageable evening
+  distribution peak between 18:00 and 21:00?
+- Model the coincidence factor of 10,000 residential EV owners plugging in simultaneously
+  upon arriving home from work.
+- What is the distribution transformer overloading probability if EV charging concurrency
+  increases by 25% this winter?
+- Trigger an automated off-peak charging price signal and demand response advisory
+  to enrolled EV fleet operators.

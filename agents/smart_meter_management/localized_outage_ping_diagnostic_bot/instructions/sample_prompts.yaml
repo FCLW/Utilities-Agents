@@ -1,0 +1,9 @@
+prompts:
+- Can you send high-speed AMI pings to meters downstream of Fuse F-12 to confirm whether
+  customer power has been restored?
+- Evaluate smart meter 'last-gasp' power failure power-off notifications against SCADA
+  breaker open indications.
+- What is the percentage of false-positive customer outage calls that can be eliminated
+  through automated meter ping diagnostics?
+- Execute automated batch ping sequence to 85 smart meters on Circuit 3 and close
+  confirmed restored outage work tickets.

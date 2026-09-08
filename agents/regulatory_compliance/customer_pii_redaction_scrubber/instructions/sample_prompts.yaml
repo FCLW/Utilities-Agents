@@ -1,0 +1,9 @@
+prompts:
+- Are there any unmasked Social Security numbers, banking details, or customer phone
+  numbers in the billing dispute case file?
+- Scan customer service email attachments and chat transcripts to verify compliance
+  with state consumer privacy regulations.
+- What is the risk exposure and audit penalty under CCPA/GDPR if customer account
+  files are exported without automated sanitization?
+- 'Execute automated redaction of all sensitive PII from Customer Record #44921 before
+  transmitting data to third-party auditors.'

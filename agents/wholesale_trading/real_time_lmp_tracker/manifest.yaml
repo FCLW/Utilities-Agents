@@ -1,0 +1,8 @@
+agent_id: real_time_lmp_tracker
+name: real_time_lmp_tracker
+display_name: Real Time Lmp Tracker
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,9 @@
+prompts:
+- Did the 115kV breaker trip at Substation West coincide with the fault event reported
+  by digital protective relay Relay-21?
+- Correlate SCADA sequence of events (SOE) millisecond logs with distance relay zone-1
+  trip signals and fault recorders.
+- 'What was the root cause of the breaker trip: tree contact, lightning strike flashover,
+  or relay misoperation?'
+- Issue a SCADA reclose supervisory permission signal after confirming line impedance
+  has returned to normal open state.

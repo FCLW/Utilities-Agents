@@ -1,0 +1,9 @@
+prompts:
+- Are there any Critical Notices or Operational Flow Orders (OFO) declared on major
+  interstate natural gas pipelines feeding our plants?
+- Map gas pipeline compressor station outages and pipeline capacity utilization factors
+  against electric generation fuel demand.
+- What is the financial imbalance penalty exposure if our power plant consumes gas
+  in excess of nominated pipeline scheduling quantities?
+- Rebalance intra-day gas nominations on Line 300 to avoid pipeline imbalance penalties
+  and secure evening turbine fuel supply.

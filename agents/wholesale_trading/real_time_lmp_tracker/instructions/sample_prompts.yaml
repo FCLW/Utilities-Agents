@@ -1,0 +1,9 @@
+prompts:
+- Why did the real-time five-minute LMP spike to $1,800/MWh at Substation Node 402
+  during the last dispatch interval?
+- Correlate transmission line thermal overloads, generator ramp rate limitations,
+  and real-time dispatch (RTD) ex-post price corrections.
+- What is our net financial settlement exposure across physical imbalance positions
+  during the active price spike?
+- Issue a fast-ramping dispatch instruction to peaker units to capture high real-time
+  LMP market revenues.

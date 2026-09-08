@@ -1,0 +1,9 @@
+prompts:
+- How many customer bills in District 4 required estimation due to cellular AMI collector
+  outages during the ice storm?
+- Compare heating degree-day regression estimates against subsequent actual meter
+  read true-ups for estimated accounts.
+- What is the customer complaint risk score and billing dispute volume attributable
+  to consecutive estimated reads?
+- Generate automated estimated bill statements using degree-day adjusted historical
+  profiles for missing AMI meters.

@@ -1,0 +1,9 @@
+prompts:
+- Do current wind gusts exceeding 55 mph and single-digit relative humidity meet the
+  criteria for a Public Safety Power Shutoff (PSPS)?
+- Correlate satellite fire weather telemetry, live fire camera imagery, and red flag
+  warnings across High Fire Threat Districts.
+- What is the customer reliability impact and critical infrastructure exposure if
+  Circuit 402 is proactively de-energized?
+- Initiate a Tier 2 Public Safety Power Shutoff (PSPS) de-energization sequence for
+  Feeder 402 to prevent catastrophic wildfire ignition.

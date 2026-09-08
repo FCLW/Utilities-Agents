@@ -1,0 +1,8 @@
+agent_id: warehouse_inventory_drone_auditor
+name: warehouse_inventory_drone_auditor
+display_name: Warehouse Inventory Drone Auditor
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

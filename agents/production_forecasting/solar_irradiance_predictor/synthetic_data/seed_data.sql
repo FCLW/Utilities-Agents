@@ -1,0 +1,2 @@
+INSERT INTO `utilities_production_forecasting.solar_irradiance_predictor_dim` (plant_id, description, region, commission_date) VALUES
+('PLANT-SOLAR-1', 'Standard Description for PLANT-SOLAR-1', 'Region-East', '2015-01-01'),('PLANT-WIND-2', 'Standard Description for PLANT-WIND-2', 'Region-East', '2015-01-01'),('PLANT-HYDRO-3', 'Standard Description for PLANT-HYDRO-3', 'Region-East', '2015-01-01');

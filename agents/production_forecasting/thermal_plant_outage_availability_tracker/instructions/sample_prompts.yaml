@@ -1,0 +1,9 @@
+prompts:
+- Which combined-cycle natural gas turbine units are currently on forced outage or
+  scheduled maintenance turnaround?
+- Track equivalent forced outage rates (EFOR) and mean time to repair (MTTR) across
+  the fossil generation fleet over the last year.
+- What is the total loss of generating capacity (MW) available to meet the summer
+  peak demand reserve margin?
+- Flag Unit 3 at Riverside Generating Station as available for commercial dispatch
+  following successful turbine test sync.

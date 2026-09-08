@@ -1,0 +1,4 @@
+workspace: enterprise-agents-suite
+version: 1.0
+agents:
+  - path: agents/*/*

@@ -1,0 +1,9 @@
+prompts:
+- Which upstream protective device opened to cause the sudden loss of 3,200 smart
+  meters in the Oakridge subdivision?
+- Trace the GIS network connectivity model from reporting meter 'last-gasp' alerts
+  to identify the common protective device.
+- What is the total customer outage count and nested outage probability within the
+  affected distribution lateral?
+- 'Update the operational outage management system (OMS) map to highlight the confirmed
+  blown transformer fuse at Pole #392.'

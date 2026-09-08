@@ -1,0 +1,9 @@
+prompts:
+- Can the Island Community microgrid maintain standalone power balance tomorrow using
+  its local solar, wind, and battery assets?
+- Forecast 24-hour microgrid generation versus critical hospital and water treatment
+  load under islanded conditions.
+- What is the probability of requiring diesel backup generator starts if overcast
+  skies reduce solar microgrid yield by 40%?
+- Schedule microgrid battery pre-charging from surplus wind generation tonight to
+  prepare for scheduled utility tie-line disconnection.

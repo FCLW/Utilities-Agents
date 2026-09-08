@@ -1,0 +1,9 @@
+prompts:
+- What is the progress of the over-the-air (OTA) firmware upgrade across our 150,000
+  Gen-5 smart meters?
+- Track download failure rates, transmission retry latency, and device battery drain
+  during nighttime mesh broadcast windows.
+- What is the risk of bricking older firmware revisions if the cryptographic security
+  patch is pushed concurrently?
+- Pause the OTA firmware broadcast campaign on Substation 8 cluster due to elevated
+  packet collision rates.

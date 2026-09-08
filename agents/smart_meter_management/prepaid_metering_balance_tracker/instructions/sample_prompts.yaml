@@ -1,0 +1,9 @@
+prompts:
+- How many prepaid electric service customers currently have account balances below
+  the $10 low-balance threshold?
+- Track daily consumption burn rates and predict which accounts will exhaust prepaid
+  balances before the weekend.
+- What is the customer notification response rate and payment replenishment latency
+  following automated SMS balance alerts?
+- 'Send an urgent low-balance SMS warning to Account #30194 and schedule an automated
+  grace-period extension until Monday morning.'

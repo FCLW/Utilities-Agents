@@ -1,0 +1,8 @@
+agent_id: circuit_breaker_wear_analyzer
+name: circuit_breaker_wear_analyzer
+display_name: Circuit Breaker Wear Analyzer
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

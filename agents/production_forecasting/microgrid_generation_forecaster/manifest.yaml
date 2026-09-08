@@ -1,0 +1,8 @@
+agent_id: microgrid_generation_forecaster
+name: microgrid_generation_forecaster
+display_name: Microgrid Generation Forecaster
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

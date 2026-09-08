@@ -1,0 +1,9 @@
+prompts:
+- What is the real-time clean spark spread ($/MWh) for Combined Cycle Gas Turbine
+  1 based on spot electricity and Henry Hub gas prices?
+- Analyze how ambient intake air temperature impacts gas turbine heat rate efficiency
+  and power output degradation.
+- What is the minimum power price required to economically fire the peaker turbine
+  given current delivered gas and emissions costs?
+- Dispatch Combined Cycle Unit 1 when the clean spark spread expands beyond the operational
+  margin threshold of $8.50/MWh.

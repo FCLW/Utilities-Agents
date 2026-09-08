@@ -1,0 +1,8 @@
+agent_id: grid_frequency_deviation_monitor
+name: grid_frequency_deviation_monitor
+display_name: Grid Frequency Deviation Monitor
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

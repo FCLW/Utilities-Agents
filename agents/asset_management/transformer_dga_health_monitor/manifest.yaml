@@ -1,0 +1,8 @@
+agent_id: transformer_dga_health_monitor
+name: transformer_dga_health_monitor
+display_name: Transformer Dga Health Monitor
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

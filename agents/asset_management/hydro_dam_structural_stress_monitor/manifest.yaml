@@ -1,0 +1,8 @@
+agent_id: hydro_dam_structural_stress_monitor
+name: hydro_dam_structural_stress_monitor
+display_name: Hydro Dam Structural Stress Monitor
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

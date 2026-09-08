@@ -1,0 +1,9 @@
+prompts:
+- Did yesterday's autonomous drone flight over Transmission Line 502 detect any chipped
+  ceramic insulators or frayed shield wires?
+- Evaluate the thermal infrared hotspot severity on conductor splice joints along
+  Tower Span 45 to 60.
+- Summarize the defect severity index and structural risk rating across all drone-surveyed
+  transmission corridors this week.
+- 'Generate a high-priority work ticket for structural reinforcement on Tower #118
+  with embedded LiDAR coordinate tags.'

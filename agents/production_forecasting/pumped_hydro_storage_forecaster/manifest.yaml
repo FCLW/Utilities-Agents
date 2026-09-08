@@ -1,0 +1,8 @@
+agent_id: pumped_hydro_storage_forecaster
+name: pumped_hydro_storage_forecaster
+display_name: Pumped Hydro Storage Forecaster
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

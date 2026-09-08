@@ -1,0 +1,9 @@
+prompts:
+- "Are any residential smart meter terminal blocks reporting internal temperatures\
+  \ exceeding 85\xB0C (185\xB0F)?"
+- Correlate meter temperature spikes with high electrical load draw to detect dangerous
+  loose meter socket jaws or impending meter fires.
+- What is the catastrophic meter melt and residential structure fire risk score across
+  aging socket installations?
+- 'Stage an emergency service ticket to immediately disconnect Meter #M-88219 and
+  dispatch a troubleshooter to replace burnt jaws.'

@@ -1,0 +1,9 @@
+prompts:
+- Has an unintentional island formed on Distribution Substation 6 following the upstream
+  transmission breaker lockout?
+- Verify that active anti-islanding relays (IEEE 1547) disconnected all distributed
+  solar generators within 2.0 seconds.
+- What is the public safety and recloser out-of-phase closing risk if the islanded
+  feeder remains energized?
+- Trigger an emergency trip signal to all DER inverters on Feeder 6 and de-energize
+  the islanded distribution section.

@@ -1,0 +1,8 @@
+agent_id: ancillary_services_bid_optimizer
+name: ancillary_services_bid_optimizer
+display_name: Ancillary Services Bid Optimizer
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

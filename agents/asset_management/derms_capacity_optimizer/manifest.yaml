@@ -1,0 +1,8 @@
+agent_id: derms_capacity_optimizer
+name: derms_capacity_optimizer
+display_name: Derms Capacity Optimizer
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

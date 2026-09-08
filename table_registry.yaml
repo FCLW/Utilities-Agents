@@ -1,0 +1,1686 @@
+# Centralized BigQuery Data Governance Registry
+# 
+# This registry maps every agent across all sub-domains to its dedicated 
+# BigQuery datasets, tables, partition keys, schema definitions, and required access levels.
+
+agents:
+  ami_interval_data_vee_processor:
+    agent_name: Ami Interval Data Vee Processor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ami interval data vee
+          processor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ami_interval_data_vee_processor_logs
+    service_account: ami_interval_data_vee_processor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  ami_mesh_network_health_monitor:
+    agent_name: Ami Mesh Network Health Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ami mesh network health
+          monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ami_mesh_network_health_monitor_logs
+    service_account: ami_mesh_network_health_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  ancillary_services_bid_optimizer:
+    agent_name: Ancillary Services Bid Optimizer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ancillary services bid
+          optimizer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ancillary_services_bid_optimizer_logs
+    service_account: ancillary_services_bid_optimizer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  appliance_disaggregation_efficiency_advisor:
+    agent_name: Appliance Disaggregation Efficiency Advisor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for appliance disaggregation
+          efficiency advisor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: appliance_disaggregation_efficiency_advisor_logs
+    service_account: appliance_disaggregation_efficiency_advisor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  battery_storage_discharge_optimizer:
+    agent_name: Battery Storage Discharge Optimizer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for battery storage discharge
+          optimizer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: battery_storage_discharge_optimizer_logs
+    service_account: battery_storage_discharge_optimizer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  black_start_restoration_sequencer:
+    agent_name: Black Start Restoration Sequencer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for black start restoration
+          sequencer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: black_start_restoration_sequencer_logs
+    service_account: black_start_restoration_sequencer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  budget_billing_levelization_calculator:
+    agent_name: Budget Billing Levelization Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for budget billing levelization
+          calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: budget_billing_levelization_calculator_logs
+    service_account: budget_billing_levelization_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  capital_replacement_simulator:
+    agent_name: Capital Replacement Simulator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for capital replacement
+          simulator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: capital_replacement_simulator_logs
+    service_account: capital_replacement_simulator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  carbon_allowance_market_tracker:
+    agent_name: Carbon Allowance Market Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for carbon allowance market
+          tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: carbon_allowance_market_tracker_logs
+    service_account: carbon_allowance_market_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  circuit_breaker_wear_analyzer:
+    agent_name: Circuit Breaker Wear Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for circuit breaker wear
+          analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: circuit_breaker_wear_analyzer_logs
+    service_account: circuit_breaker_wear_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  coal_inventory_burn_rate_advisor:
+    agent_name: Coal Inventory Burn Rate Advisor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for coal inventory burn
+          rate advisor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: coal_inventory_burn_rate_advisor_logs
+    service_account: coal_inventory_burn_rate_advisor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  commercial_load_curve_forecaster:
+    agent_name: Commercial Load Curve Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for commercial load curve
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: commercial_load_curve_forecaster_logs
+    service_account: commercial_load_curve_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  community_solar_subscription_allocator:
+    agent_name: Community Solar Subscription Allocator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for community solar subscription
+          allocator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: community_solar_subscription_allocator_logs
+    service_account: community_solar_subscription_allocator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  congestion_node_price_mapper:
+    agent_name: Congestion Node Price Mapper
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for congestion node price
+          mapper
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: congestion_node_price_mapper_logs
+    service_account: congestion_node_price_mapper@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  critical_peak_pricing_calculator:
+    agent_name: Critical Peak Pricing Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for critical peak pricing
+          calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: critical_peak_pricing_calculator_logs
+    service_account: critical_peak_pricing_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  customer_baseline_load_cbl_calculator:
+    agent_name: Customer Baseline Load Cbl Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for customer baseline load
+          cbl calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: customer_baseline_load_cbl_calculator_logs
+    service_account: customer_baseline_load_cbl_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  customer_pii_redaction_scrubber:
+    agent_name: Customer Pii Redaction Scrubber
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for customer pii redaction
+          scrubber
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: customer_pii_redaction_scrubber_logs
+    service_account: customer_pii_redaction_scrubber@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  dark_spread_heat_rate_calculator:
+    agent_name: Dark Spread Heat Rate Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for dark spread heat rate
+          calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: dark_spread_heat_rate_calculator_logs
+    service_account: dark_spread_heat_rate_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  day_ahead_lmp_forecaster:
+    agent_name: Day Ahead Lmp Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for day ahead lmp forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: day_ahead_lmp_forecaster_logs
+    service_account: day_ahead_lmp_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  demand_response_thermostat_setback_trigger:
+    agent_name: Demand Response Thermostat Setback Trigger
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for demand response thermostat
+          setback trigger
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: demand_response_thermostat_setback_trigger_logs
+    service_account: demand_response_thermostat_setback_trigger@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  derms_capacity_optimizer:
+    agent_name: Derms Capacity Optimizer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for derms capacity optimizer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: derms_capacity_optimizer_logs
+    service_account: derms_capacity_optimizer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  distribution_phase_imbalance_detector:
+    agent_name: Distribution Phase Imbalance Detector
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for distribution phase imbalance
+          detector
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: distribution_phase_imbalance_detector_logs
+    service_account: distribution_phase_imbalance_detector@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  drone_inspection_image_processor:
+    agent_name: Drone Inspection Image Processor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for drone inspection image
+          processor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: drone_inspection_image_processor_logs
+    service_account: drone_inspection_image_processor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  dynamic_etr_calculator:
+    agent_name: Dynamic Etr Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for dynamic etr calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: dynamic_etr_calculator_logs
+    service_account: dynamic_etr_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  dynamic_real_time_pricing_biller:
+    agent_name: Dynamic Real Time Pricing Biller
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for dynamic real time pricing
+          biller
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: dynamic_real_time_pricing_biller_logs
+    service_account: dynamic_real_time_pricing_biller@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  electric_vehicle_submeter_billing_processor:
+    agent_name: Electric Vehicle Submeter Billing Processor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for electric vehicle submeter
+          billing processor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: electric_vehicle_submeter_billing_processor_logs
+    service_account: electric_vehicle_submeter_billing_processor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  emergency_crew_dispatch_router:
+    agent_name: Emergency Crew Dispatch Router
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for emergency crew dispatch
+          router
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: emergency_crew_dispatch_router_logs
+    service_account: emergency_crew_dispatch_router@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  employee_fatigue_risk_monitor:
+    agent_name: Employee Fatigue Risk Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for employee fatigue risk
+          monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: employee_fatigue_risk_monitor_logs
+    service_account: employee_fatigue_risk_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  epa_cems_emissions_aggregator:
+    agent_name: Epa Cems Emissions Aggregator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for epa cems emissions aggregator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: epa_cems_emissions_aggregator_logs
+    service_account: epa_cems_emissions_aggregator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  esg_scope_1_2_carbon_calculator:
+    agent_name: Esg Scope 1 2 Carbon Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for esg scope 1 2 carbon
+          calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: esg_scope_1_2_carbon_calculator_logs
+    service_account: esg_scope_1_2_carbon_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  estimated_bill_fallback_generator:
+    agent_name: Estimated Bill Fallback Generator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for estimated bill fallback
+          generator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: estimated_bill_fallback_generator_logs
+    service_account: estimated_bill_fallback_generator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  ev_charging_load_spike_predictor:
+    agent_name: Ev Charging Load Spike Predictor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ev charging load spike
+          predictor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ev_charging_load_spike_predictor_logs
+    service_account: ev_charging_load_spike_predictor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  ev_charging_station_maintenance_tracker:
+    agent_name: Ev Charging Station Maintenance Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ev charging station
+          maintenance tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ev_charging_station_maintenance_tracker_logs
+    service_account: ev_charging_station_maintenance_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  ev_rate_plan_comparison_guide:
+    agent_name: Ev Rate Plan Comparison Guide
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ev rate plan comparison
+          guide
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ev_rate_plan_comparison_guide_logs
+    service_account: ev_rate_plan_comparison_guide@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  extreme_weather_anomaly_alert_bot:
+    agent_name: Extreme Weather Anomaly Alert Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for extreme weather anomaly
+          alert bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: extreme_weather_anomaly_alert_bot_logs
+    service_account: extreme_weather_anomaly_alert_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  facility_management_work_order_router:
+    agent_name: Facility Management Work Order Router
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for facility management
+          work order router
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: facility_management_work_order_router_logs
+    service_account: facility_management_work_order_router@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  ferc_form_1_financial_drafter:
+    agent_name: Ferc Form 1 Financial Drafter
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for ferc form 1 financial
+          drafter
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ferc_form_1_financial_drafter_logs
+    service_account: ferc_form_1_financial_drafter@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  financial_transmission_right_copilot:
+    agent_name: Financial Transmission Right Copilot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for financial transmission
+          right copilot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: financial_transmission_right_copilot_logs
+    service_account: financial_transmission_right_copilot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  flisr_switching_simulator:
+    agent_name: Flisr Switching Simulator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for flisr switching simulator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: flisr_switching_simulator_logs
+    service_account: flisr_switching_simulator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  geothermal_output_forecaster:
+    agent_name: Geothermal Output Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for geothermal output forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: geothermal_output_forecaster_logs
+    service_account: geothermal_output_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  grid_frequency_deviation_monitor:
+    agent_name: Grid Frequency Deviation Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for grid frequency deviation
+          monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: grid_frequency_deviation_monitor_logs
+    service_account: grid_frequency_deviation_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  hardware_procurement_rfp_scorer:
+    agent_name: Hardware Procurement Rfp Scorer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for hardware procurement
+          rfp scorer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: hardware_procurement_rfp_scorer_logs
+    service_account: hardware_procurement_rfp_scorer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  hazardous_waste_disposal_tracker:
+    agent_name: Hazardous Waste Disposal Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for hazardous waste disposal
+          tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: hazardous_waste_disposal_tracker_logs
+    service_account: hazardous_waste_disposal_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  high_bill_spike_anomaly_flag:
+    agent_name: High Bill Spike Anomaly Flag
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for high bill spike anomaly
+          flag
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: high_bill_spike_anomaly_flag_logs
+    service_account: high_bill_spike_anomaly_flag@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  high_bill_weather_correlation_explainer:
+    agent_name: High Bill Weather Correlation Explainer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for high bill weather correlation
+          explainer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: high_bill_weather_correlation_explainer_logs
+    service_account: high_bill_weather_correlation_explainer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  hydro_dam_structural_stress_monitor:
+    agent_name: Hydro Dam Structural Stress Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for hydro dam structural
+          stress monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: hydro_dam_structural_stress_monitor_logs
+    service_account: hydro_dam_structural_stress_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  hydro_inflow_snowpack_estimator:
+    agent_name: Hydro Inflow Snowpack Estimator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for hydro inflow snowpack
+          estimator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: hydro_inflow_snowpack_estimator_logs
+    service_account: hydro_inflow_snowpack_estimator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  industrial_load_curve_forecaster:
+    agent_name: Industrial Load Curve Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for industrial load curve
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: industrial_load_curve_forecaster_logs
+    service_account: industrial_load_curve_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  islanding_detection_and_management_bot:
+    agent_name: Islanding Detection And Management Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for islanding detection
+          and management bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: islanding_detection_and_management_bot_logs
+    service_account: islanding_detection_and_management_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  iso_rto_bidding_curve_generator:
+    agent_name: Iso Rto Bidding Curve Generator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for iso rto bidding curve
+          generator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: iso_rto_bidding_curve_generator_logs
+    service_account: iso_rto_bidding_curve_generator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  life_support_critical_care_outreach_bot:
+    agent_name: Life Support Critical Care Outreach Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for life support critical
+          care outreach bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: life_support_critical_care_outreach_bot_logs
+    service_account: life_support_critical_care_outreach_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  localized_outage_ping_diagnostic_bot:
+    agent_name: Localized Outage Ping Diagnostic Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for localized outage ping
+          diagnostic bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: localized_outage_ping_diagnostic_bot_logs
+    service_account: localized_outage_ping_diagnostic_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  loto_arc_flash_safety_knowledge_bot:
+    agent_name: Loto Arc Flash Safety Knowledge Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for loto arc flash safety
+          knowledge bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: loto_arc_flash_safety_knowledge_bot_logs
+    service_account: loto_arc_flash_safety_knowledge_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  low_income_assistance_eligibility_checker:
+    agent_name: Low Income Assistance Eligibility Checker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for low income assistance
+          eligibility checker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: low_income_assistance_eligibility_checker_logs
+    service_account: low_income_assistance_eligibility_checker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  maintenance_fleet_dispatch_scheduler:
+    agent_name: Maintenance Fleet Dispatch Scheduler
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for maintenance fleet dispatch
+          scheduler
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: maintenance_fleet_dispatch_scheduler_logs
+    service_account: maintenance_fleet_dispatch_scheduler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  meter_firmware_ota_scheduler:
+    agent_name: Meter Firmware Ota Scheduler
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for meter firmware ota scheduler
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: meter_firmware_ota_scheduler_logs
+    service_account: meter_firmware_ota_scheduler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  meter_inversion_tamper_detector:
+    agent_name: Meter Inversion Tamper Detector
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for meter inversion tamper
+          detector
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: meter_inversion_tamper_detector_logs
+    service_account: meter_inversion_tamper_detector@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  microgrid_generation_forecaster:
+    agent_name: Microgrid Generation Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for microgrid generation
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: microgrid_generation_forecaster_logs
+    service_account: microgrid_generation_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  mobile_substation_deployment_planner:
+    agent_name: Mobile Substation Deployment Planner
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for mobile substation deployment
+          planner
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: mobile_substation_deployment_planner_logs
+    service_account: mobile_substation_deployment_planner@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  move_in_move_out_coordinator:
+    agent_name: Move In Move Out Coordinator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for move in move out coordinator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: move_in_move_out_coordinator_logs
+    service_account: move_in_move_out_coordinator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  multi_language_translation_router:
+    agent_name: Multi Language Translation Router
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for multi language translation
+          router
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: multi_language_translation_router_logs
+    service_account: multi_language_translation_router@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  mutual_assistance_per_diem_auditor:
+    agent_name: Mutual Assistance Per Diem Auditor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for mutual assistance per
+          diem auditor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: mutual_assistance_per_diem_auditor_logs
+    service_account: mutual_assistance_per_diem_auditor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  mutual_assistance_resource_allocator:
+    agent_name: Mutual Assistance Resource Allocator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for mutual assistance resource
+          allocator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: mutual_assistance_resource_allocator_logs
+    service_account: mutual_assistance_resource_allocator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  natural_gas_pipeline_constraint_analyzer:
+    agent_name: Natural Gas Pipeline Constraint Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for natural gas pipeline
+          constraint analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: natural_gas_pipeline_constraint_analyzer_logs
+    service_account: natural_gas_pipeline_constraint_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  nerc_cip_cybersecurity_audit_analyzer:
+    agent_name: Nerc Cip Cybersecurity Audit Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for nerc cip cybersecurity
+          audit analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: nerc_cip_cybersecurity_audit_analyzer_logs
+    service_account: nerc_cip_cybersecurity_audit_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  net_metering_export_credit_processor:
+    agent_name: Net Metering Export Credit Processor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for net metering export
+          credit processor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: net_metering_export_credit_processor_logs
+    service_account: net_metering_export_credit_processor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  new_construction_trenching_guide:
+    agent_name: New Construction Trenching Guide
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for new construction trenching
+          guide
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: new_construction_trenching_guide_logs
+    service_account: new_construction_trenching_guide@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  omnichannel_intent_triage_router:
+    agent_name: Omnichannel Intent Triage Router
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for omnichannel intent triage
+          router
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: omnichannel_intent_triage_router_logs
+    service_account: omnichannel_intent_triage_router@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  osha_safety_incident_classifier:
+    agent_name: Osha Safety Incident Classifier
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for osha safety incident
+          classifier
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: osha_safety_incident_classifier_logs
+    service_account: osha_safety_incident_classifier@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  outage_footprint_topology_mapper:
+    agent_name: Outage Footprint Topology Mapper
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for outage footprint topology
+          mapper
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: outage_footprint_topology_mapper_logs
+    service_account: outage_footprint_topology_mapper@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  portfolio_value_at_risk_analyzer:
+    agent_name: Portfolio Value At Risk Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for portfolio value at risk
+          analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: portfolio_value_at_risk_analyzer_logs
+    service_account: portfolio_value_at_risk_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  power_purchase_agreement_legal_reviewer:
+    agent_name: Power Purchase Agreement Legal Reviewer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for power purchase agreement
+          legal reviewer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: power_purchase_agreement_legal_reviewer_logs
+    service_account: power_purchase_agreement_legal_reviewer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  prepaid_metering_balance_tracker:
+    agent_name: Prepaid Metering Balance Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for prepaid metering balance
+          tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: prepaid_metering_balance_tracker_logs
+    service_account: prepaid_metering_balance_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  proactive_outage_sms_communicator:
+    agent_name: Proactive Outage Sms Communicator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for proactive outage sms
+          communicator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: proactive_outage_sms_communicator_logs
+    service_account: proactive_outage_sms_communicator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  puc_rate_case_testimony_drafter:
+    agent_name: Puc Rate Case Testimony Drafter
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for puc rate case testimony
+          drafter
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: puc_rate_case_testimony_drafter_logs
+    service_account: puc_rate_case_testimony_drafter@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  pumped_hydro_storage_forecaster:
+    agent_name: Pumped Hydro Storage Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for pumped hydro storage
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: pumped_hydro_storage_forecaster_logs
+    service_account: pumped_hydro_storage_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  reactive_power_capacitor_dispatcher:
+    agent_name: Reactive Power Capacitor Dispatcher
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for reactive power capacitor
+          dispatcher
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: reactive_power_capacitor_dispatcher_logs
+    service_account: reactive_power_capacitor_dispatcher@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  real_time_lmp_tracker:
+    agent_name: Real Time Lmp Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for real time lmp tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: real_time_lmp_tracker_logs
+    service_account: real_time_lmp_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  renewable_energy_certificate_trader:
+    agent_name: Renewable Energy Certificate Trader
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for renewable energy certificate
+          trader
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: renewable_energy_certificate_trader_logs
+    service_account: renewable_energy_certificate_trader@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  residential_load_curve_forecaster:
+    agent_name: Residential Load Curve Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for residential load curve
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: residential_load_curve_forecaster_logs
+    service_account: residential_load_curve_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  saidi_saifi_reliability_metric_tracker:
+    agent_name: Saidi Saifi Reliability Metric Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for saidi saifi reliability
+          metric tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: saidi_saifi_reliability_metric_tracker_logs
+    service_account: saidi_saifi_reliability_metric_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  scada_breaker_trip_correlator:
+    agent_name: Scada Breaker Trip Correlator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for scada breaker trip correlator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: scada_breaker_trip_correlator_logs
+    service_account: scada_breaker_trip_correlator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  scada_vpn_access_helpdesk_bot:
+    agent_name: Scada Vpn Access Helpdesk Bot
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for scada vpn access helpdesk
+          bot
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: scada_vpn_access_helpdesk_bot_logs
+    service_account: scada_vpn_access_helpdesk_bot@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  smart_grid_sensor_health_monitor:
+    agent_name: Smart Grid Sensor Health Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for smart grid sensor health
+          monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: smart_grid_sensor_health_monitor_logs
+    service_account: smart_grid_sensor_health_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  smart_home_device_integration_helper:
+    agent_name: Smart Home Device Integration Helper
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for smart home device integration
+          helper
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: smart_home_device_integration_helper_logs
+    service_account: smart_home_device_integration_helper@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  smart_meter_temperature_anomaly_detector:
+    agent_name: Smart Meter Temperature Anomaly Detector
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for smart meter temperature
+          anomaly detector
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: smart_meter_temperature_anomaly_detector_logs
+    service_account: smart_meter_temperature_anomaly_detector@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management
+  solar_inverter_string_fault_detector:
+    agent_name: Solar Inverter String Fault Detector
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for solar inverter string
+          fault detector
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: solar_inverter_string_fault_detector_logs
+    service_account: solar_inverter_string_fault_detector@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  solar_irradiance_predictor:
+    agent_name: Solar Irradiance Predictor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for solar irradiance predictor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: solar_irradiance_predictor_logs
+    service_account: solar_irradiance_predictor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  solar_panel_installation_advisor:
+    agent_name: Solar Panel Installation Advisor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for solar panel installation
+          advisor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: solar_panel_installation_advisor_logs
+    service_account: solar_panel_installation_advisor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: customer_engagement
+  spare_parts_inventory_forecaster:
+    agent_name: Spare Parts Inventory Forecaster
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for spare parts inventory
+          forecaster
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: spare_parts_inventory_forecaster_logs
+    service_account: spare_parts_inventory_forecaster@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  spark_spread_heat_rate_calculator:
+    agent_name: Spark Spread Heat Rate Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for spark spread heat rate
+          calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: spark_spread_heat_rate_calculator_logs
+    service_account: spark_spread_heat_rate_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: wholesale_trading
+  storm_damage_prediction_modeler:
+    agent_name: Storm Damage Prediction Modeler
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for storm damage prediction
+          modeler
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: storm_damage_prediction_modeler_logs
+    service_account: storm_damage_prediction_modeler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  substation_battery_health_tracker:
+    agent_name: Substation Battery Health Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for substation battery health
+          tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: substation_battery_health_tracker_logs
+    service_account: substation_battery_health_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  system_inertia_tracker:
+    agent_name: System Inertia Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for system inertia tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: system_inertia_tracker_logs
+    service_account: system_inertia_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  thermal_plant_outage_availability_tracker:
+    agent_name: Thermal Plant Outage Availability Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for thermal plant outage
+          availability tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: thermal_plant_outage_availability_tracker_logs
+    service_account: thermal_plant_outage_availability_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  tie_line_interconnection_limit_supervisor:
+    agent_name: Tie Line Interconnection Limit Supervisor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for tie line interconnection
+          limit supervisor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: tie_line_interconnection_limit_supervisor_logs
+    service_account: tie_line_interconnection_limit_supervisor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  time_of_use_charge_calculator:
+    agent_name: Time Of Use Charge Calculator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for time of use charge calculator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: time_of_use_charge_calculator_logs
+    service_account: time_of_use_charge_calculator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  transformer_dga_health_monitor:
+    agent_name: Transformer Dga Health Monitor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for transformer dga health
+          monitor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: transformer_dga_health_monitor_logs
+    service_account: transformer_dga_health_monitor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  transmission_line_loss_minimizer:
+    agent_name: Transmission Line Loss Minimizer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for transmission line loss
+          minimizer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: transmission_line_loss_minimizer_logs
+    service_account: transmission_line_loss_minimizer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  transmission_tower_corrosion_analyzer:
+    agent_name: Transmission Tower Corrosion Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for transmission tower corrosion
+          analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: transmission_tower_corrosion_analyzer_logs
+    service_account: transmission_tower_corrosion_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  under_frequency_load_shedding_simulator:
+    agent_name: Under Frequency Load Shedding Simulator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for under frequency load
+          shedding simulator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: under_frequency_load_shedding_simulator_logs
+    service_account: under_frequency_load_shedding_simulator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  union_contract_benefits_assistant:
+    agent_name: Union Contract Benefits Assistant
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for union contract benefits
+          assistant
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: union_contract_benefits_assistant_logs
+    service_account: union_contract_benefits_assistant@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  utilities_master_orchestrator:
+    agent_name: Utilities Master Orchestrator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for utilities master orchestrator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: utilities_master_orchestrator_logs
+    service_account: utilities_master_orchestrator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: master_orchestrator
+  utility_vehicle_fleet_maintenance_tracker:
+    agent_name: Utility Vehicle Fleet Maintenance Tracker
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for utility vehicle fleet
+          maintenance tracker
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: utility_vehicle_fleet_maintenance_tracker_logs
+    service_account: utility_vehicle_fleet_maintenance_tracker@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  vegetation_encroachment_lidar_analyzer:
+    agent_name: Vegetation Encroachment Lidar Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for vegetation encroachment
+          lidar analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: vegetation_encroachment_lidar_analyzer_logs
+    service_account: vegetation_encroachment_lidar_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  voltage_sag_swell_mitigator:
+    agent_name: Voltage Sag Swell Mitigator
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for voltage sag swell mitigator
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: voltage_sag_swell_mitigator_logs
+    service_account: voltage_sag_swell_mitigator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_balancing
+  warehouse_inventory_drone_auditor:
+    agent_name: Warehouse Inventory Drone Auditor
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for warehouse inventory
+          drone auditor
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: warehouse_inventory_drone_auditor_logs
+    service_account: warehouse_inventory_drone_auditor@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: support_services
+  water_usage_discharge_reporter:
+    agent_name: Water Usage Discharge Reporter
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for water usage discharge
+          reporter
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: water_usage_discharge_reporter_logs
+    service_account: water_usage_discharge_reporter@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: regulatory_compliance
+  wholesale_vendor_payment_reconciler:
+    agent_name: Wholesale Vendor Payment Reconciler
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for wholesale vendor payment
+          reconciler
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: wholesale_vendor_payment_reconciler_logs
+    service_account: wholesale_vendor_payment_reconciler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: billing_and_invoicing
+  wildfire_risk_deenergization_trigger:
+    agent_name: Wildfire Risk Deenergization Trigger
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for wildfire risk deenergization
+          trigger
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: wildfire_risk_deenergization_trigger_logs
+    service_account: wildfire_risk_deenergization_trigger@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: grid_operations
+  wind_speed_generation_modeler:
+    agent_name: Wind Speed Generation Modeler
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for wind speed generation
+          modeler
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: wind_speed_generation_modeler_logs
+    service_account: wind_speed_generation_modeler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: production_forecasting
+  wind_turbine_gearbox_vibration_analyzer:
+    agent_name: Wind Turbine Gearbox Vibration Analyzer
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for wind turbine gearbox
+          vibration analyzer
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: wind_turbine_gearbox_vibration_analyzer_logs
+    service_account: wind_turbine_gearbox_vibration_analyzer@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: asset_management
+  zero_consumption_anomaly_flag:
+    agent_name: Zero Consumption Anomaly Flag
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_data
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Stores analytical logs and telemetry for zero consumption anomaly
+          flag
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: zero_consumption_anomaly_flag_logs
+    service_account: zero_consumption_anomaly_flag@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    sub_domain: smart_meter_management

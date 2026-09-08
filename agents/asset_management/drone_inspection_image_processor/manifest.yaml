@@ -1,0 +1,8 @@
+agent_id: drone_inspection_image_processor
+name: drone_inspection_image_processor
+display_name: Drone Inspection Image Processor
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

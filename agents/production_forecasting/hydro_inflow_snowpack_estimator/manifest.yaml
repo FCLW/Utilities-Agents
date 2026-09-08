@@ -1,0 +1,8 @@
+agent_id: hydro_inflow_snowpack_estimator
+name: hydro_inflow_snowpack_estimator
+display_name: Hydro Inflow Snowpack Estimator
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

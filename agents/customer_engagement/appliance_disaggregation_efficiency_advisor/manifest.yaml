@@ -1,0 +1,8 @@
+agent_id: appliance_disaggregation_efficiency_advisor
+name: appliance_disaggregation_efficiency_advisor
+display_name: Appliance Disaggregation Efficiency Advisor
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

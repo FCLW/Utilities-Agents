@@ -1,0 +1,9 @@
+prompts:
+- Are Phase A, B, and C current loadings on Feeder 14 balanced, or is the neutral
+  current exceeding the 15% threshold?
+- Track the historical voltage unbalance factor (VUF) on lateral taps with heavy single-phase
+  rooftop solar concentrations.
+- What are the line loss penalties and distribution transformer overheating risks
+  associated with persistent phase imbalance?
+- Stage a phase-swap switching recommendation to transfer three lateral taps from
+  overloaded Phase A to underloaded Phase C.

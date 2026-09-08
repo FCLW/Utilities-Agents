@@ -1,0 +1,9 @@
+prompts:
+- If the grid frequency plummets to 59.3 Hz, which specific distribution feeders are
+  assigned to Stage 1 automatic load shedding?
+- Simulate the dynamic frequency recovery curve following a simulated shedding of
+  450 MW of non-critical distribution load.
+- Are any critical medical facilities or wastewater pumping stations accidentally
+  mapped to automatic UFLS feeder blocks?
+- Arm the Stage 2 UFLS high-speed trip relays on designated industrial feeders ahead
+  of extreme generation deficit conditions.

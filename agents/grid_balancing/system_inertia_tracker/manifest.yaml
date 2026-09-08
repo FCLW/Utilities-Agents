@@ -1,0 +1,8 @@
+agent_id: system_inertia_tracker
+name: system_inertia_tracker
+display_name: System Inertia Tracker
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

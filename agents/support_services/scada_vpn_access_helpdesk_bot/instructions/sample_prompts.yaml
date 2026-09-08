@@ -1,0 +1,9 @@
+prompts:
+- Why is an authorized control center operator's hardware security token failing authentication
+  for SCADA network access?
+- Audit VPN connection logs, source IP geolocations, and dual-custody access policies
+  against NERC CIP-005 requirements.
+- What is the average resolution time for operational technology (OT) remote access
+  helpdesk tickets during shift changeovers?
+- 'Reset multi-factor authentication credentials for Dispatcher User #D-902 after
+  confirming out-of-band identity verification.'

@@ -1,0 +1,9 @@
+prompts:
+- What is the day-ahead hourly megawatt demand forecast for the downtown commercial
+  office district tomorrow?
+- Analyze temperature sensitivity and commercial occupancy patterns driving air conditioning
+  demand between 13:00 and 18:00.
+- What is the mean absolute percentage error (MAPE) of our commercial load forecast
+  during holiday transition weekends?
+- Commit the revised 24-hour commercial load forecast to the day-ahead energy trading
+  and procurement scheduling system.

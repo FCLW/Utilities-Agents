@@ -1,0 +1,8 @@
+agent_id: scada_breaker_trip_correlator
+name: scada_breaker_trip_correlator
+display_name: Scada Breaker Trip Correlator
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

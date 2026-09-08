@@ -1,0 +1,8 @@
+agent_id: carbon_allowance_market_tracker
+name: carbon_allowance_market_tracker
+display_name: Carbon Allowance Market Tracker
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

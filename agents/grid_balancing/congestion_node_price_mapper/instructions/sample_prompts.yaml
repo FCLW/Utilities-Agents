@@ -1,0 +1,9 @@
+prompts:
+- Which transmission interfaces and flowgates are currently driving Locational Marginal
+  Price (LMP) congestion over $250/MWh?
+- Map the historical shadow prices and shift factors on the North-South transmission
+  tie line over the last 30 days.
+- What is the financial congestion cost exposure across our physical generation portfolio
+  if Line 301 is de-rated?
+- Re-optimize generator dispatch setpoints across unconstrained nodes to mitigate
+  localized transmission congestion penalties.

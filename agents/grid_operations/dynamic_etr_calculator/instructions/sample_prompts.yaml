@@ -1,0 +1,9 @@
+prompts:
+- 'What is the predicted Estimated Time of Restoration (ETR) for Outage Ticket #9921
+  with 3 downed spans and broken crossarms?'
+- Evaluate historical crew repair durations and traffic congestion models to refine
+  restoration estimates for rural sectors.
+- What is the variance between preliminary customer-published ETRs and actual power
+  restoration timestamps over the storm?
+- Publish updated dynamic ETR of 18:45 to public outage dashboards and mobile subscriber
+  notifications for Sector 4.

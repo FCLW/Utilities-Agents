@@ -1,0 +1,8 @@
+agent_id: battery_storage_discharge_optimizer
+name: battery_storage_discharge_optimizer
+display_name: Battery Storage Discharge Optimizer
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

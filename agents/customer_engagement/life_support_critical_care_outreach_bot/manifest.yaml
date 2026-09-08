@@ -1,0 +1,8 @@
+agent_id: life_support_critical_care_outreach_bot
+name: life_support_critical_care_outreach_bot
+display_name: Life Support Critical Care Outreach Bot
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

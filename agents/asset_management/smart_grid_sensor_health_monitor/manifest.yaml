@@ -1,0 +1,8 @@
+agent_id: smart_grid_sensor_health_monitor
+name: smart_grid_sensor_health_monitor
+display_name: Smart Grid Sensor Health Monitor
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

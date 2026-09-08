@@ -1,0 +1,9 @@
+prompts:
+- Which DC fast chargers in the municipal fleet hub are reporting ground fault errors
+  or cable overheating?
+- Track the mean time between failures (MTBF) and connector wear rates for Level 3
+  CCS chargers over the past quarter.
+- What is our projected quarterly maintenance budget variance driven by vandalism
+  and thermal sensor failures at public EV stations?
+- 'Issue a remote reboot and preventive field service dispatch for Charger Hub #14
+  at Airport North.'

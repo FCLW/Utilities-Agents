@@ -1,0 +1,9 @@
+prompts:
+- Which smart meters have reported reverse energy flow or physical tilt tamper switch
+  triggers without approved solar generation interconnection?
+- Correlate meter inversion physical tilt alerts with sudden zero-consumption billing
+  patterns to detect physical meter flipping theft.
+- What is the estimated unmetered electricity revenue loss associated with flagged
+  active meter tamper accounts?
+- 'Dispatch a revenue protection field investigator to inspect Meter #MT-90214 for
+  unauthorized physical tampering and diversion.'

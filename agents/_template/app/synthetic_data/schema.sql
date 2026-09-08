@@ -1,0 +1,1 @@
+-- DDL with partitioned BigQuery table definitions

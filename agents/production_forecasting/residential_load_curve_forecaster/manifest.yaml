@@ -1,0 +1,8 @@
+agent_id: residential_load_curve_forecaster
+name: residential_load_curve_forecaster
+display_name: Residential Load Curve Forecaster
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

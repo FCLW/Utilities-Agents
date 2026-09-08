@@ -1,0 +1,9 @@
+prompts:
+- How many days of full-load coal burn inventory remain in the stockpile at Mohave
+  Generating Station based on current rail deliveries?
+- Model coal rail delivery cycle times, stockpile coal density, and forecasted generation
+  run-hours over the winter quarter.
+- What is the risk of fuel supply curtailment if freezing rail switches disrupt coal
+  deliveries for more than 10 days?
+- Adjust unit economic dispatch bids to conserve on-site coal inventory until incoming
+  unit trains arrive.

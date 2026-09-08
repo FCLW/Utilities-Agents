@@ -1,0 +1,8 @@
+agent_id: omnichannel_intent_triage_router
+name: omnichannel_intent_triage_router
+display_name: Omnichannel Intent Triage Router
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

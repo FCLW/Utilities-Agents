@@ -1,0 +1,9 @@
+prompts:
+- Do our monthly transmission wheeling fee invoices from Regional Grid Operator match
+  internal SCADA interchange logs?
+- Reconcile disputed line-item billing variances on fuel transport contracts with
+  pipeline operators for Q3.
+- What is the outstanding disputed payable balance currently withheld pending vendor
+  meter calibration proof?
+- Authorize scheduled wire settlement for wholesale power supplier invoices matching
+  contract settlement tolerance.

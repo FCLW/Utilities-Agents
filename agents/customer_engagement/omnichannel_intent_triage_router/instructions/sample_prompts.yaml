@@ -1,0 +1,9 @@
+prompts:
+- Is this incoming customer inquiry regarding a downed power line, a billing payment
+  arrangement, or a solar interconnection status?
+- Analyze customer sentiment scores and channel escalation frequency across mobile
+  app, chat, and IVR channels.
+- What is the first-contact resolution (FCR) rate for billing inquiries routed directly
+  to self-service resolution bots?
+- 'Escalate customer ticket #88412 directly to the Emergency Outage Dispatch queue
+  due to detected live wire keywords.'

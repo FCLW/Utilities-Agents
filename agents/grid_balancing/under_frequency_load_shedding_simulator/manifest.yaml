@@ -1,0 +1,8 @@
+agent_id: under_frequency_load_shedding_simulator
+name: under_frequency_load_shedding_simulator
+display_name: Under Frequency Load Shedding Simulator
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,9 @@
+prompts:
+- Did the 5 MW SunRidge Community Solar garden generate enough surplus kWh to cover
+  all 1,200 residential subscription credits this month?
+- Reconcile customer monthly kilowatt-hour allocations against metered solar production
+  and subscriber turnover rates.
+- What is the financial credit leakage rate resulting from delayed subscriber churn
+  updates in the billing engine?
+- Execute monthly subscriber credit balance distribution to the CIS billing system
+  for the upcoming billing cycle.

@@ -1,0 +1,12 @@
+# ADK Evaluation Runner Configuration
+eval_name: "critical_peak_pricing_calculator_evaluation"
+description: "End-to-End semantic evaluation for Critical Peak Pricing Calculator"
+dataset: "tests/eval/datasets/golden-dataset.json"
+
+metrics:
+  - name: Groundedness
+    description: "Evaluates if the agent's response is grounded in the provided BigQuery schema context."
+    threshold: 0.9
+  - name: InstructionFollowing
+    description: "Evaluates strict adherence to business_rules.md and safety_guardrails.md."
+    threshold: 0.95

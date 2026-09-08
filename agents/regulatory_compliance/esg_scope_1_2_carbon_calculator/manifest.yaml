@@ -1,0 +1,8 @@
+agent_id: esg_scope_1_2_carbon_calculator
+name: esg_scope_1_2_carbon_calculator
+display_name: Esg Scope 1 2 Carbon Calculator
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

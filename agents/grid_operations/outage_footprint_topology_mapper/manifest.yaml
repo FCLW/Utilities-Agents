@@ -1,0 +1,8 @@
+agent_id: outage_footprint_topology_mapper
+name: outage_footprint_topology_mapper
+display_name: Outage Footprint Topology Mapper
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

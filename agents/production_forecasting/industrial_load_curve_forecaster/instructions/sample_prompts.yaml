@@ -1,0 +1,9 @@
+prompts:
+- What is the forecasted 15-minute peak electric demand for the steel mill and heavy
+  manufacturing park tomorrow afternoon?
+- Evaluate factory production shift schedules and arc furnace operational cycles to
+  detect demand spike correlations.
+- What are the financial demand charge penalties incurred if the industrial cluster
+  exceeds the 120 MW substation contract limit?
+- Issue an automated peak-shaving alert to industrial customers requesting voluntary
+  production modulation between 14:00 and 16:00.

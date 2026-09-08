@@ -1,0 +1,9 @@
+prompts:
+- What is our wholesale energy portfolio 99% one-day Value at Risk (VaR) under a simulated
+  20% natural gas price spike?
+- Run 10,000 Monte Carlo iterations combining correlated forward power price volatility,
+  heat rates, and plant forced outage probabilities.
+- What is our potential mark-to-market loss exposure if extreme summer heat triggers
+  widespread generator curtailments?
+- Recommend immediate forward hedging transactions to reduce portfolio VaR below the
+  corporate board risk ceiling of $15M.

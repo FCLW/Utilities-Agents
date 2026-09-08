@@ -1,0 +1,8 @@
+agent_id: substation_battery_health_tracker
+name: substation_battery_health_tracker
+display_name: Substation Battery Health Tracker
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

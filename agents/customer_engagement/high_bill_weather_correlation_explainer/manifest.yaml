@@ -1,0 +1,8 @@
+agent_id: high_bill_weather_correlation_explainer
+name: high_bill_weather_correlation_explainer
+display_name: High Bill Weather Correlation Explainer
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

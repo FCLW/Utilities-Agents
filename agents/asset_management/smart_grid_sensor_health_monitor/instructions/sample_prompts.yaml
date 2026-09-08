@@ -1,0 +1,9 @@
+prompts:
+- Which distribution line sensors on Feeder 8 are reporting anomalous battery voltage
+  drops or lost DNP3 heartbeats?
+- Analyze the packet loss rate and signal-to-noise ratio across cellular IoT fault
+  current indicators over the past week.
+- What percentage of our distribution sensor fleet is expected to reach end-of-life
+  battery exhaustion within 90 days?
+- Trigger an over-the-air sensor diagnostic reboot and reassign primary telemetry
+  routing to redundant node S-19.

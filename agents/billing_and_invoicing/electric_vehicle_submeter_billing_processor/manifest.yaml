@@ -1,0 +1,8 @@
+agent_id: electric_vehicle_submeter_billing_processor
+name: electric_vehicle_submeter_billing_processor
+display_name: Electric Vehicle Submeter Billing Processor
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: prepaid_metering_balance_tracker
+name: prepaid_metering_balance_tracker
+display_name: Prepaid Metering Balance Tracker
+domain: smart_meter_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: reactive_power_capacitor_dispatcher
+name: reactive_power_capacitor_dispatcher
+display_name: Reactive Power Capacitor Dispatcher
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

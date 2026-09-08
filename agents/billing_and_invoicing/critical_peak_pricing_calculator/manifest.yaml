@@ -1,0 +1,8 @@
+agent_id: critical_peak_pricing_calculator
+name: critical_peak_pricing_calculator
+display_name: Critical Peak Pricing Calculator
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

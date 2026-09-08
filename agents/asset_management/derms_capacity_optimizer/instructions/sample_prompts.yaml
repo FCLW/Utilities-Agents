@@ -1,0 +1,9 @@
+prompts:
+- What is the aggregate flexible curtailment capacity available from residential battery
+  and solar DERs on Feeder 12?
+- Analyze the reverse power flow and voltage rise profile along Circuit 4B during
+  peak PV generation hours.
+- How will onboarding 500 new commercial rooftop PV installations impact local substation
+  hosting capacity?
+- Dispatch a dynamic 1.5 MW reactive power absorption setpoint to connected commercial
+  smart inverters in West Ridge.

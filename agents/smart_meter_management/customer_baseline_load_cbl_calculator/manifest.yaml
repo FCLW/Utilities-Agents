@@ -1,0 +1,8 @@
+agent_id: customer_baseline_load_cbl_calculator
+name: customer_baseline_load_cbl_calculator
+display_name: Customer Baseline Load Cbl Calculator
+domain: smart_meter_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

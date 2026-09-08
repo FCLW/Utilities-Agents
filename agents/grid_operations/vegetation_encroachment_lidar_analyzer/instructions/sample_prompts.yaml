@@ -1,0 +1,9 @@
+prompts:
+- Which tree canopies along 500kV Transmission Corridor Alpha violate minimum vegetation
+  clearance distance (MVCD) standards?
+- Analyze airborne LiDAR point cloud returns to identify hazardous strike trees and
+  rapid-growth eucalyptus encroachment.
+- What is the wildfire ignition risk score for spans where tree branch proximity is
+  within 4 feet of conductors under high sag?
+- Generate a prioritized vegetation trimming work order for Span 104-108 and assign
+  a certified utility arborist crew.

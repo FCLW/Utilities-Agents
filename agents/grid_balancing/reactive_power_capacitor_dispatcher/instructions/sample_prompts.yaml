@@ -1,0 +1,9 @@
+prompts:
+- Which distribution substations are currently exhibiting a lagging power factor below
+  0.92 during heavy inductive motor loading?
+- Evaluate the voltage profile improvement along Circuit 7 before and after switching
+  in the 1,200 kVar capacitor bank.
+- What are the total system megawatt line loss savings achieved by maintaining unity
+  power factor at bulk supply points?
+- Dispatch a supervisory close command to Capacitor Bank C-2 at North Substation to
+  boost feeder voltage.

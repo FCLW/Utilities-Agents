@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voltage Sag Swell Mitigator — Gemini Enterprise Demo Walkthrough</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('utilities_agents_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
+  <style>
+    :root, [data-theme="dark"] {
+      --bg-primary: #0b1120;
+      --bg-card: #131c31;
+      --bg-surface: #0f172a;
+      --border-color: #27354f;
+      --border-faint: rgba(255, 255, 255, 0.12);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-teal: #2dd4bf;
+      --accent-indigo: #818cf8;
+      --badge-bg: rgba(56, 189, 248, 0.12);
+      --badge-border: rgba(56, 189, 248, 0.28);
+      --badge-text: #38bdf8;
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-faint: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-blue: #0284c7;
+      --accent-teal: #0d9488;
+      --accent-indigo: #6366f1;
+      --badge-bg: #e0f2fe;
+      --badge-border: #bae6fd;
+      --badge-text: #0284c7;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 40px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-faint);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-faint);
+    }
+
+    .nav-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .nav-back-link:hover {
+      text-decoration: underline;
+    }
+
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      border: 1px solid var(--badge-border);
+      color: var(--badge-text);
+    }
+
+    .badge-model {
+      background: rgba(45, 212, 191, 0.12);
+      border-color: rgba(45, 212, 191, 0.3);
+      color: var(--accent-teal);
+    }
+
+    h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p.subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--border-faint);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    video {
+      width: 100%;
+      display: block;
+      max-height: 640px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-faint);
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .meta-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .meta-item.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .turns-section {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-faint);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .turns-section h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.15rem;
+      margin-bottom: 14px;
+      color: var(--accent-indigo);
+    }
+
+    .turn-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .turn-list li {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .turn-list strong {
+      color: var(--text-primary);
+    }
+
+    .app-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: 6px;
+      transition: background 0.15s ease;
+    }
+
+    .app-link-btn:hover {
+      background: #1d4ed8;
+    }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <a href="../../index.html" class="nav-back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Utilities Agents Portal
+      </a>
+      <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        Toggle Theme
+      </button>
+    </nav>
+
+    <header>
+      <div class="badge-row">
+        <span class="badge">⚖️ Grid Balancing & Frequency Regulation</span>
+        <span class="badge badge-model">🧠 gemini-3.7-flash</span>
+        <span class="badge">Google ADK v2.0</span>
+      </div>
+      <h1><span>⚖️</span> Voltage Sag Swell Mitigator</h1>
+      <p class="subtitle">Problem: Manual tracking and analysis of voltage sag swell mitigator is error-prone and slow. Solution: Autonomously monitors and triggers workflows for voltage sag swell mitigator.</p>
+    </header>
+
+    <div class="video-wrapper">
+      <video controls autoplay loop muted playsinline poster="">
+        <source src="voltage_sag_swell_mitigator.mp4" type="video/mp4">
+        <source src="https://storage.cloud.google.com/utilities-agents-demos/grid_balancing/voltage_sag_swell_mitigator.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:-10px; margin-bottom:20px; font-size:0.82rem; color:var(--text-secondary);">
+      <span>📹 Hosted on Google Cloud Storage</span>
+      <a href="https://storage.cloud.google.com/utilities-agents-demos/grid_balancing/voltage_sag_swell_mitigator.mp4" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue); text-decoration:none; font-weight:500;">Open in GCS (Authenticated) ↗</a>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Domain</span>
+        <span class="meta-value">Grid Balancing & Frequency Regulation</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Business Role</span>
+        <span class="meta-value">Grid Operator / Transmission Engineer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Reasoning Model</span>
+        <span class="meta-value">gemini-3.7-flash</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">BigQuery Datasets</span>
+        <span class="meta-value" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; word-break: break-all; overflow-wrap: anywhere; white-space: normal;">utilities_grid_balancing.voltage_sag_swell_mitigator_logs</span>
+      </div>
+      <div class="meta-item full-width">
+        <span class="meta-label">Primary Business Problem & Solution</span>
+        <span class="meta-value" style="font-weight: 400; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary); margin-top: 4px;">
+          <strong style="color: var(--text-primary);">Problem:</strong> Manual tracking and analysis of voltage sag swell mitigator is error-prone and slow.<br>
+          <strong style="color: var(--text-primary); display: inline-block; margin-top: 4px;">Solution:</strong> Autonomously monitors and triggers workflows for voltage sag swell mitigator.
+        </span>
+      </div>
+      <div class="meta-item full-width">
+        <span class="meta-label">Key Business KPIs</span>
+        <span class="meta-value" style="font-weight: 500; font-size: 0.88rem; color: var(--accent-blue); margin-top: 2px;">Process Efficiency, Anomaly Detection Rate</span>
+      </div>
+      
+      <div class="meta-item full-width">
+        <span class="meta-label">Gemini Enterprise App</span>
+        <div>
+          <a href="https://vertexaisearch.cloud.google.com/home/cid/4d886c3b-e9e0-419c-a168-d25114e2dad6/r/agent/6525396056250507987/session/-" target="_blank" rel="noopener noreferrer" class="app-link-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Open in Gemini Enterprise
+          </a>
+        </div>
+      </div>
+        
+    </div>
+
+    <section class="turns-section">
+      <h2>🎬 Multi-Turn Conversation Flow Showcase</h2>
+      <ul class="turn-list">
+        <li><strong>Turn 1 (Data Insight):</strong> "Did the industrial park on Feeder 8 experience an ITIC-curve violating voltage sag during the transmission fault at 03:14?"</li>
+        <li><strong>Turn 2 (Root Cause & Diagnostics):</strong> "Examine the high-speed power quality meter waveforms to classify the sag duration, depth, and point-on-wave initiation."</li>
+        <li><strong>Turn 3 (Recommendations & Benchmarks):</strong> "What is the financial equipment damage liability exposure for industrial semiconductor customers sensitive to sub-cycle sags?"</li>
+        <li><strong>Turn 4 (Operational Action & Staging):</strong> "Trigger dynamic voltage restorer (DVR) fast-injection and adjust Substation Load Tap Changer (LTC) by two steps."</li>
+    </section>
+
+    <footer>
+      Energy & Utilities Multi-Agent Operations Platform • Google Gemini Enterprise & Vertex AI
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('utilities_agents_theme', next);
+    }
+  </script>
+</body>
+</html>

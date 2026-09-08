@@ -1,0 +1,9 @@
+prompts:
+- Which commercial smart meters have reported continuous zero kWh consumption for
+  the past 14 days despite active account status?
+- Filter zero-read accounts against move-out records, seasonal vacation properties,
+  and potential current transformer (CT) failures.
+- What is the total monthly unbilled energy volume attributable to undetected broken
+  smart meters or phase bypass theft?
+- 'Schedule an on-site field meter technician visit to inspect Account #10492 for
+  defective current sensors or internal meter failure.'

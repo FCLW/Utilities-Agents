@@ -1,0 +1,8 @@
+agent_id: thermal_plant_outage_availability_tracker
+name: thermal_plant_outage_availability_tracker
+display_name: Thermal Plant Outage Availability Tracker
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

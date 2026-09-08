@@ -1,0 +1,9 @@
+prompts:
+- What is the optimal state-of-charge schedule to maximize revenue for our 20 MW /
+  80 MWh battery during evening peak LMP spikes?
+- Analyze battery degradation cost per equivalent full cycle under aggressive frequency
+  regulation versus energy arbitrage.
+- How much reserve capacity must remain in Battery Unit 2 to meet mandated emergency
+  spin commitments?
+- Commit an automated 15 MW discharge dispatch order to CAISO real-time market for
+  BESS Unit 1 starting at 17:30.

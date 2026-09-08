@@ -1,0 +1,8 @@
+agent_id: financial_transmission_right_copilot
+name: financial_transmission_right_copilot
+display_name: Financial Transmission Right Copilot
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

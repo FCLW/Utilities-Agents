@@ -1,0 +1,8 @@
+agent_id: vegetation_encroachment_lidar_analyzer
+name: vegetation_encroachment_lidar_analyzer
+display_name: Vegetation Encroachment Lidar Analyzer
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

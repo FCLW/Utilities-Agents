@@ -1,0 +1,8 @@
+agent_id: net_metering_export_credit_processor
+name: net_metering_export_credit_processor
+display_name: Net Metering Export Credit Processor
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

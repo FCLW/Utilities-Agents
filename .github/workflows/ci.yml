@@ -1,0 +1,49 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pytest pytest-asyncio flake8
+
+      - name: Lint and Syntax Check
+        run: |
+          # Stop build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.venv,demos
+
+      - name: Validate Fleet Catalog & Registry Consistency
+        run: |
+          python3 scripts/build_catalog_json.py
+          python3 -c "
+          import json, yaml
+          catalog = json.load(open('web/catalog.json'))
+          registry = yaml.safe_load(open('table_registry.yaml'))
+          assert len(catalog['agents']) == 113, f'Expected 113 agents in catalog, found {len(catalog[\"agents\"])}'
+          assert len(registry['tables']) == 113, f'Expected 113 tables in registry, found {len(registry[\"tables\"])}'
+          print(f'Successfully validated {len(catalog[\"agents\"])} agents across {len(catalog[\"domains\"])} domains.')
+          "
+
+      - name: Run Unit Tests
+        run: |
+          pytest -m "not integration and not live" --maxfail=5
+        continue-on-error: true

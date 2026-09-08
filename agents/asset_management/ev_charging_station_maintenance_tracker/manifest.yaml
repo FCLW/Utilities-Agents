@@ -1,0 +1,8 @@
+agent_id: ev_charging_station_maintenance_tracker
+name: ev_charging_station_maintenance_tracker
+display_name: Ev Charging Station Maintenance Tracker
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

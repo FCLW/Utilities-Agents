@@ -1,0 +1,9 @@
+prompts:
+- What is the current dark spread ($/MWh) for our 600 MW supercritical coal plant
+  given wholesale power and delivered coal costs?
+- Evaluate plant operational heat rates (Btu/kWh) across partial loading points to
+  determine minimum profitable generation thresholds.
+- How does the cost of SO2 and NOx emission allowances impact the net generation margin
+  across the coal fleet?
+- Submit a generation commitment schedule to the ISO when dark spread margins exceed
+  the $12.50/MWh hurdle rate.

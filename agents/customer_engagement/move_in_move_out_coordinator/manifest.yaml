@@ -1,0 +1,8 @@
+agent_id: move_in_move_out_coordinator
+name: move_in_move_out_coordinator
+display_name: Move In Move Out Coordinator
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

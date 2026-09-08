@@ -1,0 +1,22 @@
+[project]
+name = "enterprise-agents-suite"
+version = "0.1.0"
+description = "Enterprise Agents Suite using Google ADK"
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk[gcp]>=2.0.0",
+    "fastapi",
+    "pydantic-settings",
+    "pydantic",
+    "uvicorn",
+    "pyyaml",
+    "httpx",
+    "google-auth",
+    "opentelemetry-api",
+    "opentelemetry-sdk",
+    "opentelemetry-instrumentation-fastapi",
+    "opentelemetry-exporter-gcp-trace",
+    "google-cloud-bigquery",
+    "pandas",
+    "db-dtypes"
+]

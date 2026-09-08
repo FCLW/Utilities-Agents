@@ -1,0 +1,9 @@
+prompts:
+- Are all decommissioned polychlorinated biphenyl (PCB) contaminated distribution
+  transformers documented with EPA hazardous manifests?
+- Track chain-of-custody disposal records, storage dwell times, and licensed hazardous
+  waste recycling facility receipts.
+- What is our regulatory violation risk under the Toxic Substances Control Act (TSCA)
+  if PCB disposal manifests exceed 30 days?
+- Generate the certified hazardous waste shipping manifest and schedule pickup of
+  12 retired PCB-mineral oil transformers.

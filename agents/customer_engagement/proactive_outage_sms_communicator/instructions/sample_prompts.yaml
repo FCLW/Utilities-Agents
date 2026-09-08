@@ -1,0 +1,9 @@
+prompts:
+- Which customers on Feeder 4 should receive proactive SMS notifications about the
+  tree-related power outage?
+- Track SMS delivery throughput and customer click-through rates on live outage map
+  tracking links.
+- What is the estimated reduction in call center inbound volume achieved by proactive
+  outage notifications during storm events?
+- Dispatch an automated restoration update SMS with updated Estimated Time of Restoration
+  (ETR) to 2,400 affected premises.

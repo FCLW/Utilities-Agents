@@ -1,0 +1,9 @@
+prompts:
+- Which commercial accounts experienced an unexplained 300% billing increase compared
+  to their 12-month seasonal median?
+- Correlate billing spike flags with meter multiplier errors, water heater faults,
+  or stuck HVAC relays.
+- What is the total disputed billing dollar volume currently held under audit review
+  for spike anomalies?
+- 'Place a temporary billing hold on Account #882194 to prevent auto-debit pending
+  on-site meter re-verification.'

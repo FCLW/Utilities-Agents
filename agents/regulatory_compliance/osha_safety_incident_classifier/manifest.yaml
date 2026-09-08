@@ -1,0 +1,8 @@
+agent_id: osha_safety_incident_classifier
+name: osha_safety_incident_classifier
+display_name: Osha Safety Incident Classifier
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

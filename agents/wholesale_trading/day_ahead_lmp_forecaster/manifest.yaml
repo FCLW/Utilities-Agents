@@ -1,0 +1,8 @@
+agent_id: day_ahead_lmp_forecaster
+name: day_ahead_lmp_forecaster
+display_name: Day Ahead Lmp Forecaster
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

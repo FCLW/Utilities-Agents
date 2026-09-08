@@ -1,0 +1,8 @@
+agent_id: natural_gas_pipeline_constraint_analyzer
+name: natural_gas_pipeline_constraint_analyzer
+display_name: Natural Gas Pipeline Constraint Analyzer
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

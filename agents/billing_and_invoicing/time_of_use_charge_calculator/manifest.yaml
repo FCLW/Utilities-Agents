@@ -1,0 +1,8 @@
+agent_id: time_of_use_charge_calculator
+name: time_of_use_charge_calculator
+display_name: Time Of Use Charge Calculator
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

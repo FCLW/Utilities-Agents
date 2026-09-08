@@ -1,0 +1,8 @@
+agent_id: mutual_assistance_resource_allocator
+name: mutual_assistance_resource_allocator
+display_name: Mutual Assistance Resource Allocator
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

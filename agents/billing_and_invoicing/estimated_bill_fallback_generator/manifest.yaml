@@ -1,0 +1,8 @@
+agent_id: estimated_bill_fallback_generator
+name: estimated_bill_fallback_generator
+display_name: Estimated Bill Fallback Generator
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: ami_interval_data_vee_processor
+name: ami_interval_data_vee_processor
+display_name: Ami Interval Data Vee Processor
+domain: smart_meter_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

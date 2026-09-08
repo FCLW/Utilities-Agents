@@ -1,0 +1,9 @@
+prompts:
+- How does a customer pair their ecobee or Nest smart thermostat with our utility
+  Demand Response rewards program?
+- Audit telemetry communication success rates between the utility DERMS cloud and
+  customer smart home smart plugs.
+- What is the customer attrition rate from smart thermostat pre-cooling programs during
+  consecutive high-temperature days?
+- Issue a test demand reduction event signal to enrolled smart home devices on Circuit
+  9 to verify gateway responsiveness.

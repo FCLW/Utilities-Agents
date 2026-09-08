@@ -1,0 +1,9 @@
+prompts:
+- Can you construct the piecewise linear three-part energy bid curve for Combined
+  Cycle Unit 2 for tomorrow's market auction?
+- Calculate no-load costs, start-up cost profiles, and incremental heat rate curves
+  based on latest spot natural gas index prices.
+- What is the risk of unit dispatch commitment rejection if start-up bid adders exceed
+  ISO market mitigation caps?
+- Transmit the validated generation supply offer curves to PJM / CAISO market scheduling
+  systems before gate closure.

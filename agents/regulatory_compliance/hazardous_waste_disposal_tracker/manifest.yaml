@@ -1,0 +1,8 @@
+agent_id: hazardous_waste_disposal_tracker
+name: hazardous_waste_disposal_tracker
+display_name: Hazardous Waste Disposal Tracker
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

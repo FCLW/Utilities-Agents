@@ -1,0 +1,8 @@
+agent_id: multi_language_translation_router
+name: multi_language_translation_router
+display_name: Multi Language Translation Router
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

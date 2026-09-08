@@ -1,0 +1,8 @@
+agent_id: renewable_energy_certificate_trader
+name: renewable_energy_certificate_trader
+display_name: Renewable Energy Certificate Trader
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

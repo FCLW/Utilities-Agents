@@ -1,0 +1,8 @@
+agent_id: '{{AGENT_ID}}'
+name: '{{AGENT_NAME}}'
+display_name: '{{AGENT_NAME}}'
+domain: '{{DOMAIN}}'
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

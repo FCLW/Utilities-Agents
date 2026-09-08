@@ -1,0 +1,8 @@
+agent_id: smart_home_device_integration_helper
+name: smart_home_device_integration_helper
+display_name: Smart Home Device Integration Helper
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

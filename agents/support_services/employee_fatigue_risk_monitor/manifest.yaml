@@ -1,0 +1,8 @@
+agent_id: employee_fatigue_risk_monitor
+name: employee_fatigue_risk_monitor
+display_name: Employee Fatigue Risk Monitor
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

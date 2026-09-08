@@ -1,0 +1,8 @@
+agent_id: dynamic_etr_calculator
+name: dynamic_etr_calculator
+display_name: Dynamic Etr Calculator
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

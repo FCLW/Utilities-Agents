@@ -1,0 +1,8 @@
+agent_id: mobile_substation_deployment_planner
+name: mobile_substation_deployment_planner
+display_name: Mobile Substation Deployment Planner
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

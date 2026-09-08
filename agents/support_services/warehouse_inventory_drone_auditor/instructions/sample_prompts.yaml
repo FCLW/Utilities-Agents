@@ -1,0 +1,9 @@
+prompts:
+- Did last night's autonomous warehouse drone LiDAR scan detect any inventory discrepancies
+  for 15kV distribution cable spools?
+- Reconcile drone RFID scanner inventory counts against SAP enterprise resource planning
+  (ERP) inventory ledger records.
+- What is the inventory shrinkage and barcode mismatch rate across substation spare
+  parts in the central distribution yard?
+- Update the warehouse inventory database to reflect actual verified stock counts
+  of 48 porcelain insulator bushings.

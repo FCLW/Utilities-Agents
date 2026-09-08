@@ -1,0 +1,9 @@
+prompts:
+- 'Did the submetered Level 2 EV charger at account #449210 properly isolate charging
+  kWh from the main household consumption?'
+- Audit interval charging records to ensure zero double-counting of net-metered residential
+  solar exports against EV submeters.
+- What is our revenue leakage volume from unassigned or desynchronized smart EV charging
+  submeters this month?
+- 'Apply the discounted overnight EV-9 charging tariff credit to submetered charging
+  sessions for Account #449210.'

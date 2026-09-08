@@ -1,0 +1,8 @@
+agent_id: solar_inverter_string_fault_detector
+name: solar_inverter_string_fault_detector
+display_name: Solar Inverter String Fault Detector
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

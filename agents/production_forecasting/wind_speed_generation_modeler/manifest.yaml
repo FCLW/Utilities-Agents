@@ -1,0 +1,8 @@
+agent_id: wind_speed_generation_modeler
+name: wind_speed_generation_modeler
+display_name: Wind Speed Generation Modeler
+domain: production_forecasting
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

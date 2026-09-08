@@ -1,0 +1,8 @@
+agent_id: mutual_assistance_per_diem_auditor
+name: mutual_assistance_per_diem_auditor
+display_name: Mutual Assistance Per Diem Auditor
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

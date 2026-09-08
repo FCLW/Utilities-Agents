@@ -1,0 +1,8 @@
+agent_id: islanding_detection_and_management_bot
+name: islanding_detection_and_management_bot
+display_name: Islanding Detection And Management Bot
+domain: grid_balancing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

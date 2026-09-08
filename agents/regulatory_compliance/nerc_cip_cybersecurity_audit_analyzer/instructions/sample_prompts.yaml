@@ -1,0 +1,9 @@
+prompts:
+- Are all Electronic Security Perimeters (ESP) and physical access control logs for
+  Substation Control Rooms compliant with NERC CIP-005?
+- Audit firewall rules, open ports, and transient cyber asset (laptop) patching records
+  against NERC CIP-007 and CIP-010 standards.
+- What is the regulatory penalty exposure per day per violation if unauthorized remote
+  interactive access is discovered in an audit?
+- Generate an immediate mitigation ticket and revoke unapproved VPN credentials for
+  third-party contractor accounts.

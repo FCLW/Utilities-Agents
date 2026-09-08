@@ -1,0 +1,8 @@
+agent_id: ferc_form_1_financial_drafter
+name: ferc_form_1_financial_drafter
+display_name: Ferc Form 1 Financial Drafter
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

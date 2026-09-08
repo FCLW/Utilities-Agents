@@ -1,0 +1,8 @@
+agent_id: nerc_cip_cybersecurity_audit_analyzer
+name: nerc_cip_cybersecurity_audit_analyzer
+display_name: Nerc Cip Cybersecurity Audit Analyzer
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

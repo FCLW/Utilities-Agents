@@ -1,0 +1,12 @@
+# ADK Evaluation Runner Configuration
+eval_name: "tie_line_interconnection_limit_supervisor_evaluation"
+description: "End-to-End semantic evaluation for Tie Line Interconnection Limit Supervisor"
+dataset: "tests/eval/datasets/golden-dataset.json"
+
+metrics:
+  - name: Groundedness
+    description: "Evaluates if the agent's response is grounded in the provided BigQuery schema context."
+    threshold: 0.9
+  - name: InstructionFollowing
+    description: "Evaluates strict adherence to business_rules.md and safety_guardrails.md."
+    threshold: 0.95

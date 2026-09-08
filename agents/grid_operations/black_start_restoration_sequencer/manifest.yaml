@@ -1,0 +1,8 @@
+agent_id: black_start_restoration_sequencer
+name: black_start_restoration_sequencer
+display_name: Black Start Restoration Sequencer
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

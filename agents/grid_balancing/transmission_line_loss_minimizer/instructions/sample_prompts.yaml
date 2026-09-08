@@ -1,0 +1,9 @@
+prompts:
+- "What percentage of bulk generation is currently dissipated as I\xB2R resistive\
+  \ thermal losses across the 345kV backbone?"
+- Compare system technical transmission losses under optimal power flow (OPF) voltage
+  scheduling versus nominal setpoints.
+- What is the monthly financial savings of reducing transmission technical losses
+  by 0.35% through reactive power optimization?
+- Adjust transformer tap changer positions and generator reactive dispatch to minimize
+  transmission network losses.

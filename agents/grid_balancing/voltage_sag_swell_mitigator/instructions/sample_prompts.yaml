@@ -1,0 +1,9 @@
+prompts:
+- Did the industrial park on Feeder 8 experience an ITIC-curve violating voltage sag
+  during the transmission fault at 03:14?
+- Examine the high-speed power quality meter waveforms to classify the sag duration,
+  depth, and point-on-wave initiation.
+- What is the financial equipment damage liability exposure for industrial semiconductor
+  customers sensitive to sub-cycle sags?
+- Trigger dynamic voltage restorer (DVR) fast-injection and adjust Substation Load
+  Tap Changer (LTC) by two steps.

@@ -1,0 +1,8 @@
+agent_id: new_construction_trenching_guide
+name: new_construction_trenching_guide
+display_name: New Construction Trenching Guide
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

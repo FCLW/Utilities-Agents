@@ -1,0 +1,9 @@
+prompts:
+- What is the forecasted Direct Normal Irradiance (DNI) and Global Horizontal Irradiance
+  (GHI) across Solar Plant Alpha tomorrow?
+- Track satellite cloud motion vectors to predict sudden 50 MW ramp-down events caused
+  by cumulus cloud cover over the solar field.
+- What is the reserve regulation requirement needed to compensate for intra-hour solar
+  PV ramp fluctuations?
+- Commit the 5-minute solar generation ramp profile to the real-time energy management
+  system (EMS) for balancing support.

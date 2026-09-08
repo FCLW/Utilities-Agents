@@ -1,0 +1,8 @@
+agent_id: customer_pii_redaction_scrubber
+name: customer_pii_redaction_scrubber
+display_name: Customer Pii Redaction Scrubber
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

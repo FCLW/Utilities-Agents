@@ -1,0 +1,8 @@
+agent_id: spare_parts_inventory_forecaster
+name: spare_parts_inventory_forecaster
+display_name: Spare Parts Inventory Forecaster
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

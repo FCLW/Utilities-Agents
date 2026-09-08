@@ -1,0 +1,8 @@
+agent_id: facility_management_work_order_router
+name: facility_management_work_order_router
+display_name: Facility Management Work Order Router
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

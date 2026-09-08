@@ -1,0 +1,9 @@
+prompts:
+- Did the bulk power system frequency drop below the 59.95 Hz Governor Deadband threshold
+  during the generator trip event?
+- Analyze the rate of change of frequency (RoCoF) over the first 500 milliseconds
+  following the 1,200 MW nuclear plant trip.
+- What was the total primary frequency response delivered by participating fast-frequency
+  batteries versus thermal governors?
+- Deploy 50 MW of fast frequency response from utility battery assets to arrest declining
+  grid frequency.

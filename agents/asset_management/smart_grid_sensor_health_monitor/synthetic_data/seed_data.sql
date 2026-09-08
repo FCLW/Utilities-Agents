@@ -1,0 +1,2 @@
+INSERT INTO `utilities_asset_management.smart_grid_sensor_health_monitor_dim` (asset_id, description, region, commission_date) VALUES
+('TX-5543', 'Standard Description for TX-5543', 'Region-East', '2015-01-01'),('WTG-01', 'Standard Description for WTG-01', 'Region-East', '2015-01-01'),('CB-990', 'Standard Description for CB-990', 'Region-East', '2015-01-01'),('SUB-ALPHA', 'Standard Description for SUB-ALPHA', 'Region-East', '2015-01-01');

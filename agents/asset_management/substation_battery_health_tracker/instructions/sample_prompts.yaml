@@ -1,0 +1,9 @@
+prompts:
+- Are internal cell resistance and float voltages on the 125V DC control battery bank
+  at Substation Echo within IEEE 450 specs?
+- Track the thermal runaway risk and electrolyte level degradation across lead-acid
+  banks over the trailing 12 months.
+- What is the probability of DC trip failure on transmission breakers during an AC
+  station service blackout?
+- 'Schedule urgent cell replacement for Jar #8 in Bank 2 and trigger an automated
+  battery discharge load test.'

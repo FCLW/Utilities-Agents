@@ -1,0 +1,8 @@
+agent_id: wind_turbine_gearbox_vibration_analyzer
+name: wind_turbine_gearbox_vibration_analyzer
+display_name: Wind Turbine Gearbox Vibration Analyzer
+domain: asset_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

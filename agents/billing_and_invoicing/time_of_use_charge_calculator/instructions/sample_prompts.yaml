@@ -1,0 +1,9 @@
+prompts:
+- Are off-peak, mid-peak, and on-peak interval kWh accurately categorized for residential
+  accounts under Tariff TOU-D?
+- Evaluate the distribution of customer load shifting away from the 4 PM to 9 PM peak
+  window since tariff migration.
+- What is the uncollected demand charge variance across commercial accounts on seasonal
+  time-of-use schedules?
+- Calculate and commit the multi-tier TOU charge distribution across 85,000 smart-metered
+  customer accounts.

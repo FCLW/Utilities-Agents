@@ -1,0 +1,9 @@
+prompts:
+- Which emergency restoration line workers have exceeded 16 consecutive hours on duty
+  or 60 hours over the rolling 7-day storm window?
+- Track crew shift rotations, rest periods, and circadian fatigue risk scores to ensure
+  full compliance with utility labor safety rules.
+- What is the safety incident probability correlation when overtime hours exceed 25%
+  of regular scheduled shift time?
+- Issue a mandatory rest stand-down order for Line Crew Bravo and assign fresh relief
+  personnel to ongoing restoration shifts.

@@ -1,0 +1,9 @@
+prompts:
+- What is the real-time synchronous grid inertia level in megawatt-seconds across
+  the interconnect, and does it exceed NERC safety floors?
+- Analyze the reduction in system kinetic energy resulting from the seasonal retirement
+  of thermal synchronous generators.
+- How close is the current operating grid to the critical RoCoF threshold where under-frequency
+  load shedding would trigger?
+- Issue a directive to synchronize two idle gas turbines in synchronous condenser
+  mode to bolster system kinetic inertia.

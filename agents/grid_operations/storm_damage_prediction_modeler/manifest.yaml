@@ -1,0 +1,8 @@
+agent_id: storm_damage_prediction_modeler
+name: storm_damage_prediction_modeler
+display_name: Storm Damage Prediction Modeler
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

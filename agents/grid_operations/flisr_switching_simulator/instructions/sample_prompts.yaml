@@ -1,0 +1,9 @@
+prompts:
+- Can Fault Location, Isolation, and Service Restoration (FLISR) automatically restore
+  power to 1,400 customers on Feeder 12B?
+- Simulate open-tie closing sequences to ensure adjacent Feeder 15 does not exceed
+  its continuous thermal ampacity limit.
+- What is the SAIDI minute reduction achieved by executing automated FLISR within
+  60 seconds of fault detection?
+- 'Execute automated FLISR switching sequence: open recloser R-3 and close mid-point
+  tie switch TS-12 to isolate fault section.'

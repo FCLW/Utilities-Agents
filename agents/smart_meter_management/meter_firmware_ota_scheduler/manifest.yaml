@@ -1,0 +1,8 @@
+agent_id: meter_firmware_ota_scheduler
+name: meter_firmware_ota_scheduler
+display_name: Meter Firmware Ota Scheduler
+domain: smart_meter_management
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

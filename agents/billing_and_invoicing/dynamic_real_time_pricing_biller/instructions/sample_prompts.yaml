@@ -1,0 +1,9 @@
+prompts:
+- How do five-minute wholesale LMP spot prices map to large industrial customer bills
+  for yesterday's afternoon price spike?
+- Evaluate the bill savings achieved by metallurgical facilities that curtailed load
+  when spot prices exceeded $300/MWh.
+- What is our unbilled revenue reconciliation gap between real-time wholesale procurement
+  costs and customer billing receipts?
+- Generate and dispatch dynamic interval billing statements for all Schedule RTP high-voltage
+  customers.

@@ -1,0 +1,8 @@
+agent_id: saidi_saifi_reliability_metric_tracker
+name: saidi_saifi_reliability_metric_tracker
+display_name: Saidi Saifi Reliability Metric Tracker
+domain: regulatory_compliance
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

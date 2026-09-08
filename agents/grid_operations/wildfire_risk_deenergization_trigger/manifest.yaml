@@ -1,0 +1,8 @@
+agent_id: wildfire_risk_deenergization_trigger
+name: wildfire_risk_deenergization_trigger
+display_name: Wildfire Risk Deenergization Trigger
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

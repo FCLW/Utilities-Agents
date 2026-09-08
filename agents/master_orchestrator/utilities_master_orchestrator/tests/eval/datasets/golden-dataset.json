@@ -1,0 +1,44 @@
+[
+  {
+    "input": "Which specialized agents are currently handling active telemetry anomalies across the distribution grid?",
+    "expected_output_contains": [
+      "Executive Summary",
+      "Data Presentation",
+      "Actionable Recommendations"
+    ],
+    "expected_format": "markdown_table",
+    "expected_output": "In the Energy & Utilities orchestration framework, active telemetry anomalies across the distribution grid are managed and resolved through the following specialized sub-agents coordinated by the **Utilities Master Orchestrator**:\n\n---\n\n### 1. **Utilities Execution Agent (`utilities_master_orchestrator_execution`)**\n* **Primary Role:** Operational dispatch and automated mitigation.\n* **Responsibilities:**\n  * Executes automated grid stabilization actions (e.g., dynamic load shedding, Volt/VAR optimization, tap-changer adjustments).\n  * Generates and routes field service/crew dispatch orders for physical asset anomalies.\n  * Implements corrective switching plans and recloser operational adjustments to isolate fault conditions.\n\n---\n\n### 2. **Utilities Critic & Validation Agent (`utilities_master_orchestrator_critic`)**\n* **Primary Role:** Quality assurance, constraint validation, and safety verification.\n* **Responsibilities:**\n  * Verifies telemetry anomaly detections against regulatory, safety, and operating threshold constraints (NERC/FERC guidelines).\n  * Critiques proposed execution plans to ensure power quality standards (IEEE 519/1547) and thermal limits are not breached.\n  * Flags false positives or high-risk operational proposals before executing grid modifications.\n\n---\n\n### 3. **Utilities Master Orchestrator (`utilities_master_orchestrator`)**\n* **Primary Role:** Central supervisory coordinator.\n* **Responsibilities:**\n  * Telemetry stream ingestion, cross-referencing BigQuery asset databases and external conditions (e.g., weather feeds).\n  * Triages and assigns anomalies to appropriate diagnostic routines and sub-agents.\n  * Synthesizes health index scores (e.g., asset operational status and telemetry variance) to maintain real-time distribution grid situational awareness."
+  },
+  {
+    "input": "Audit cross-agent routing latency and dispatch accuracy for storm event #2026-B.",
+    "expected_output_contains": [
+      "Executive Summary",
+      "Data Presentation",
+      "Baseline",
+      "Variance"
+    ],
+    "expected_format": "markdown_table",
+    "expected_output": "### Audit Report: Cross-Agent Routing Latency & Dispatch Accuracy\n**Event ID:** `#2026-B`  \n**Audit Status:** `COMPLETED / VERIFIED`\n\n---\n\n### 1. Performance & Telemetry Summary\n\n| Event ID | Metric / Indicator | Value | Benchmark / SLA Target | Compliance Status |\n| :--- | :--- | :--- | :--- | :--- |\n| **2026-B** | Average Routing Latency | `14.2 ms` | < 50.0 ms | **PASS** |\n| **2026-B** | Dispatch Accuracy Score | `88.5%` | > 85.0% | **PASS** |\n| **2026-B** | System Operational Status | `Active` | Active | **PASS** |\n| **2026-B** | Monitored Asset ID | `ASSET-101` | \u2014 | **LOGGED** |\n\n---\n\n### 2. Safety & Governance Review\n\n| Verification Item | Assessment | Details |\n| :--- | :--- | :--- |\n| **SQL Query Safety** | **APPROVED** | Read-only queries executed (`SHOW`, `SELECT`). No DDL/DML mutations (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`) detected. |\n| **Operation Tier Classification** | **TIER 1 (Read-Only)** | No mutative grid control or financial transactions detected. No HITL escalation required. |\n| **PII & Data Leakage** | **CLEARED** | No Personally Identifiable Information (PII) identified in telemetry logs or query outputs. |\n| **Data Integrity** | **VALIDATED** | Records processed and structured without hallucination or calculation anomalies. |"
+  },
+  {
+    "input": "What is the system-wide operational risk score aggregated across all sub-domains today?",
+    "expected_output_contains": [
+      "Executive Summary",
+      "Data Presentation",
+      "Actionable Recommendations"
+    ],
+    "expected_format": "markdown_table",
+    "expected_output": "Based on telemetry and asset health data aggregated across enterprise utility sub-domains today:\n\n### **System-Wide Operational Risk Summary**\n\n* **Aggregated Operational Risk Score:** **`14.2 / 100`** *(Low Risk Profile)*\n* **System Health Score Average:** **`88.5%`**\n* **System Operational Status:** **Active & Nominal**\n\n---\n\n### **Sub-Domain Breakdown & Insights**\n1. **Grid & Transmission Telemetry:**\n   - Operational health index remains high at **88.5%**.\n   - Risk indicators across substations and transmission lines reflect low baseline failure probabilities.\n2. **Asset Status:**\n   - Core telemetry monitored across active asset clusters (e.g., Primary Distribution & Generation Units) indicates normal operating thresholds with no critical escalation alerts active today."
+  },
+  {
+    "input": "Initiate a multi-agent emergency coordination protocol across Grid Operations and Crew Dispatch.",
+    "expected_output_contains": [
+      "Utilities Master Orchestrator",
+      "[TIER 2 ACTION REQUIRED]",
+      "HITL",
+      "operator"
+    ],
+    "expected_format": "markdown_table",
+    "expected_output": "The multi-agent emergency coordination protocol has been successfully initiated across **Grid Operations** and **Crew Dispatch**:\n\n### 1. Grid Operations\n- **Task Initiated:** Emergency assessment, fault/outage isolation, and operational metrics analysis.\n- **Status:** Completed operational assessment and established baseline metrics for dispatch coordination.\n\n### 2. Crew Dispatch\n- **Task Initiated:** Emergency crew resource allocation, route optimization, and synchronization with Grid Operations findings.\n- **Status:** Emergency response crews mobilized and dispatched based on real-time grid operational status.\n\n### Summary\nInter-agent communication and data exchange between Grid Operations and Crew Dispatch are active, enabling dynamic resource re-routing and prioritized power restoration across all critical operational zones."
+  }
+]

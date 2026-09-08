@@ -1,0 +1,8 @@
+agent_id: high_bill_spike_anomaly_flag
+name: high_bill_spike_anomaly_flag
+display_name: High Bill Spike Anomaly Flag
+domain: billing_and_invoicing
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

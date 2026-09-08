@@ -1,0 +1,9 @@
+prompts:
+- "How many residential smart thermostats can we signal for a 3\xB0F pre-cooling setback\
+  \ ahead of the 16:00 grid demand peak?"
+- Model the expected megawatt relief curve and subsequent 'snapback' rebound demand
+  when setback events conclude.
+- What is the customer program opt-out percentage during high-temperature demand response
+  curtailment events?
+- Dispatch an automated Tier 2 Demand Response event signal to 45,000 enrolled smart
+  thermostats across Grid Zone 2.

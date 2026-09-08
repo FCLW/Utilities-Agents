@@ -1,0 +1,8 @@
+agent_id: union_contract_benefits_assistant
+name: union_contract_benefits_assistant
+display_name: Union Contract Benefits Assistant
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: utilities_master_orchestrator
+name: utilities_master_orchestrator
+display_name: Utilities Master Orchestrator
+domain: master_orchestrator
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

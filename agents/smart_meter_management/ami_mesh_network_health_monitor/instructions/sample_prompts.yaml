@@ -1,0 +1,9 @@
+prompts:
+- Which RF mesh collectors in the downtown district are experiencing buffer overruns
+  or high packet retransmission rates?
+- Map cellular backhaul signal strength (RSSI) and routing hop counts across smart
+  meter nodes in rural distribution areas.
+- What is the meter unreachable rate and communication failure percentage following
+  the recent firmware rollout?
+- Rebalance mesh routing topologies by reassigning 120 isolated smart meter child
+  nodes to adjacent high-gain Collector C-04.

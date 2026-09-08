@@ -1,0 +1,8 @@
+agent_id: solar_panel_installation_advisor
+name: solar_panel_installation_advisor
+display_name: Solar Panel Installation Advisor
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: coal_inventory_burn_rate_advisor
+name: coal_inventory_burn_rate_advisor
+display_name: Coal Inventory Burn Rate Advisor
+domain: wholesale_trading
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

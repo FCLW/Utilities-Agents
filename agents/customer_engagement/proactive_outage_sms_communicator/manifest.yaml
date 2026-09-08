@@ -1,0 +1,8 @@
+agent_id: proactive_outage_sms_communicator
+name: proactive_outage_sms_communicator
+display_name: Proactive Outage Sms Communicator
+domain: customer_engagement
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

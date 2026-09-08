@@ -1,0 +1,9 @@
+prompts:
+- Is the real-time megawatt power transfer across Intertie Line 500 approaching the
+  Total Transfer Capability (TTC) limit?
+- Correlate ambient air temperature and line conductor sag telemetry to determine
+  dynamic line rating headroom on Intertie 2.
+- What is the N-1 contingency overvoltage and thermal overload risk on adjacent ties
+  if Intertie Line 500 trips?
+- Initiate a scheduled interchange curtailment of 150 MW across the Western Tie to
+  preserve NERC operating reliability margins.

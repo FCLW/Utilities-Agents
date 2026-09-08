@@ -1,0 +1,8 @@
+agent_id: scada_vpn_access_helpdesk_bot
+name: scada_vpn_access_helpdesk_bot
+display_name: Scada Vpn Access Helpdesk Bot
+domain: support_services
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []

@@ -1,0 +1,8 @@
+agent_id: emergency_crew_dispatch_router
+name: emergency_crew_dispatch_router
+display_name: Emergency Crew Dispatch Router
+domain: grid_operations
+icon: robot
+target_model: gemini-3.7-flash
+tables: []
+kpis: []
