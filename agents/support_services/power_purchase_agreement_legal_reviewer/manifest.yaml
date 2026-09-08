@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Analyzes renewable energy Power Purchase Agreements (PPAs) for curtailment liability terms, performance guarantees, and credit security provisions."

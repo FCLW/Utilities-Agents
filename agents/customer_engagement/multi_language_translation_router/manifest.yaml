@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Provides real-time, culturally attuned multilingual translation of customer service inquiries, outage alerts, and billing explanations across multiple languages."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Interprets Dissolved Gas Analysis (DGA) ppm ratios (Duval Triangle, Rogers Ratios) to detect arcing, partial discharges, and thermal hotspots in power transformers before catastrophic failure."

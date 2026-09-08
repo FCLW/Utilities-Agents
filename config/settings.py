@@ -33,5 +33,18 @@ class Settings:
             "MODEL_ARMOR_BLOCK_ON_FAILURE", "false"
         ).lower() in ("true", "1", "yes")
 
+        # Google Cloud Native Observability (Cloud Trace, Cloud Logging, Cloud Monitoring)
+        self.telemetry_enabled = os.getenv("TELEMETRY_ENABLED", "true").lower() in ("true", "1", "yes")
+        self.cloud_trace_enabled = os.getenv("CLOUD_TRACE_ENABLED", "true").lower() in ("true", "1", "yes")
+        self.cloud_logging_enabled = os.getenv("CLOUD_LOGGING_ENABLED", "true").lower() in ("true", "1", "yes")
+        self.cloud_metrics_enabled = os.getenv("CLOUD_METRICS_ENABLED", "true").lower() in ("true", "1", "yes")
+        self.log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+        self.capture_message_content = os.getenv(
+            "OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT", "NO_CONTENT"
+        )
+        self.adk_capture_message_content_in_spans = os.getenv(
+            "ADK_CAPTURE_MESSAGE_CONTENT_IN_SPANS", "false"
+        ).lower() in ("true", "1", "yes")
+
 settings = Settings()
 

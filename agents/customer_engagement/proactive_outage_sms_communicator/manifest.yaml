@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Generates real-time, circuit-specific SMS outage notifications with estimated restoration times, cause updates, and field crew status for impacted customers."

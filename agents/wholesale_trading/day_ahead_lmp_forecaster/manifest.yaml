@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Forecasts day-ahead Locational Marginal Prices (LMP) across ISO pricing hubs by modeling load forecasts, generation supply stacks, and transmission bottlenecks."

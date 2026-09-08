@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Evaluates atmospheric salinity, zinc galvanization loss, and steel structural thickness to prioritize protective recoating schedules for high-voltage transmission towers."

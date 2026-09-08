@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Evaluates rooftop solar irradiance potential, historical consumption offsets, and net metering payback periods for customers exploring solar photovoltaic installations."

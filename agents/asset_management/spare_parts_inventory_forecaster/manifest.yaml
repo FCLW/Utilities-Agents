@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Forecasts critical substation transformer bushings, circuit breaker spares, and relay inventory demands using predictive failure rates and supply chain lead times."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Calculates real-time online synchronous rotational inertia and synthetic inertia headroom to assess grid vulnerability to sudden generation loss contingencies."

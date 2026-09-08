@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Guides residential customers through connecting smart thermostats, home batteries, and EV chargers to utility demand response and energy management programs."

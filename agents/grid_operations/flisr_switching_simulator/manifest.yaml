@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Simulates Fault Location, Isolation, and Service Restoration (FLISR) switching sequences to isolate faulted feeder sections and automatically restore power to healthy segments."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Automates meter reading transfers, final bill settlement, and service activation workflows for residential and commercial customer move-in and move-out requests."

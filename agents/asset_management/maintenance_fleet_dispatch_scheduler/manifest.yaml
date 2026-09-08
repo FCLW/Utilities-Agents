@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Optimizes bucket truck and utility maintenance crew routing, travel routes, and work order assignments based on emergency priority and technician skill certifications."

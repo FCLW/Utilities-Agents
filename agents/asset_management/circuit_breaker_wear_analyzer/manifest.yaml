@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Tracks cumulative fault interruption currents, mechanical duty cycles, and SF6 gas pressure to predict breaker remaining useful life and schedule condition-based overhauls."

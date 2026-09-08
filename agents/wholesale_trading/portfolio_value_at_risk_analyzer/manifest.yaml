@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Calculates Portfolio Value at Risk (VaR), stress tests extreme weather price shocks, and monitors counterparty credit exposure across trading books."

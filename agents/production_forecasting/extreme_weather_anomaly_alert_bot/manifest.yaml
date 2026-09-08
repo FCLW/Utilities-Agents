@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Alerts grid forecasting operators to sudden temperature plunges, polar vortex anomalies, and extreme heatwaves that trigger unprecedented demand spikes."

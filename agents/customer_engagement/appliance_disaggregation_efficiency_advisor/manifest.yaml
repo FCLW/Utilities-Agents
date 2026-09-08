@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Decomposes smart meter interval data into appliance-level consumption profiles (HVAC, water heating, refrigeration) to deliver personalized energy efficiency recommendations."

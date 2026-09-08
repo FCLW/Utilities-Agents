@@ -28,6 +28,22 @@ except ImportError:
     except ImportError:
         armor_callbacks = {}
 
+try:
+    from .config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+except ImportError:
+    try:
+        from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    except ImportError:
+        def get_telemetry_callbacks(name): return {}
+        def combine_agent_callbacks(*dicts):
+            c = {}
+            for d in dicts:
+                if d: c.update(d)
+            return c
+
+telemetry_callbacks = get_telemetry_callbacks(agent_name="day_ahead_lmp_forecaster")
+callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+
 
 persona = load_prompt_layer("persona")
 business_rules = load_prompt_layer("business_rules")
@@ -39,9 +55,10 @@ instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_
 agent = Agent(
     name="day_ahead_lmp_forecaster",
     model="gemini-3.7-flash",
+    description="Forecasts day-ahead Locational Marginal Prices (LMP) across ISO pricing hubs by modeling load forecasts, generation supply stacks, and transmission bottlenecks.",
     instruction=instruction,
     tools=[BigQueryQueryTool(), VisualizerTool()],
-    **armor_callbacks
+    **callbacks
 )
 
 task_lead_agent = agent

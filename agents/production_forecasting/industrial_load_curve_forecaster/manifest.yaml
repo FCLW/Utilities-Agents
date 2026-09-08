@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Forecasts electricity load profiles for heavy industrial manufacturing, arc furnaces, and chemical processing facilities based on production schedules and shift changes."

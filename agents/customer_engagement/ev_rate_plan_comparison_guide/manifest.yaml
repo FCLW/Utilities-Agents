@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Simulates customer annual charging costs across available residential and whole-home TOU tariffs based on personalized EV commuting and home charging patterns."

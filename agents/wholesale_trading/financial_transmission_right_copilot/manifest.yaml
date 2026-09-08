@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Analyzes historical congestion patterns and auction clearing prices to optimize Financial Transmission Right (FTR) and Congestion Revenue Right (CRR) portfolios."

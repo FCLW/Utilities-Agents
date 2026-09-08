@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Monitors radio frequency (RF) mesh network latency, collector throughput, and node hopping hops across the AMI communication backhaul."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Analyzes three-phase current and voltage telemetry on distribution feeders to identify and remediate phase load unbalance and reduce neutral conductor heating."

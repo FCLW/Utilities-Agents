@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Classifies incoming customer inquiries across voice, web chat, and mobile channels, routing complex technical or billing issues to specialized domain agents or live representatives."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Coordinates autonomous indoor warehouse drone flights to scan barcode and RFID tags on high-bay utility equipment racks."

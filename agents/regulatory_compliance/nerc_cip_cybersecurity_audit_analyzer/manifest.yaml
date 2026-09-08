@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Audits access control logs, electronic security perimeters (ESP), and patch management schedules for NERC Critical Infrastructure Protection (CIP) compliance."

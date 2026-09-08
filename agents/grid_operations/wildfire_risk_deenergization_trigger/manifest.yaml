@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Evaluates real-time wind speeds, fuel moisture levels, and red flag warnings to model risk thresholds for Public Safety Power Shutoff (PSPS) decisions."

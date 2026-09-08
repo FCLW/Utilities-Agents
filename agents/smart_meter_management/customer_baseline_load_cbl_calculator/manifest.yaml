@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Computes customer baseline load (CBL) profiles using standard 10-in-10 or weather-matched algorithms to verify demand response curtailment performance."

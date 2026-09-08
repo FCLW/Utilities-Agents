@@ -31,14 +31,31 @@ except ImportError:
     except ImportError:
         armor_callbacks = {}
 
+try:
+    from .config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+except ImportError:
+    try:
+        from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    except ImportError:
+        def get_telemetry_callbacks(name): return {}
+        def combine_agent_callbacks(*dicts):
+            c = {}
+            for d in dicts:
+                if d: c.update(d)
+            return c
+
+telemetry_callbacks = get_telemetry_callbacks(agent_name="utilities_master_orchestrator")
+callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+
 
 agent = Agent(
     name="utilities_master_orchestrator",
     model="gemini-3.7-flash",
+    description="Serves as the enterprise AI master coordinator, intelligently routing domain queries, orchestrating multi-agent workflows, and aggregating telemetry insights across all 10 utility operational sub-domains.",
     instruction="You are the Utilities Master Orchestrator for Energy & Utilities workflows. You coordinate across specialized sub-agents to analyze telemetry, calculate metrics, and execute operational recommendations.",
     sub_agents=[execution_agent, critic_agent],
     tools=[BigQueryQueryTool(), GoogleSearchTool(), VisualizerTool()],
-    **armor_callbacks
+    **callbacks
 )
 
 task_lead_agent = agent

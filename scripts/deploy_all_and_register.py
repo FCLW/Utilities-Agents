@@ -89,13 +89,18 @@ def deploy_single_agent(agent_info: dict, adk_bin: str, project_id: str) -> dict
         "--project", project_id,
         "--region", region,
         "--display_name", display_name,
-        "--agent_engine_id", re_id
+        "--agent_engine_id", re_id,
+        "--extra_packages", "config",
+        "--otel_to_cloud"
     ]
 
     max_attempts = 2
     for attempt in range(1, max_attempts + 1):
         try:
-            res = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            res = subprocess.run(cmd, capture_output=True, text=True)
+            if res.returncode != 0 or "Deploy failed:" in res.stdout or "Failed to deploy" in res.stdout:
+                err_output = res.stderr or res.stdout or "Deployment returned non-zero or failure message"
+                raise RuntimeError(err_output[-500:])
             elapsed = int(time.time() - start_time)
             print(f"[{time.strftime('%X')}] ✅ Successfully deployed {agent_name} in {elapsed}s")
             return {
@@ -105,8 +110,8 @@ def deploy_single_agent(agent_info: dict, adk_bin: str, project_id: str) -> dict
                 "re_id": re_id,
                 "elapsed": elapsed
             }
-        except subprocess.CalledProcessError as e:
-            err_msg = (e.stderr or e.stdout or str(e))[-500:]
+        except Exception as e:
+            err_msg = str(e)[-500:]
             if attempt < max_attempts:
                 print(f"[{time.strftime('%X')}] ⚠️ Attempt {attempt} failed for {agent_name}. Retrying in 10s... ({err_msg[:120]})")
                 time.sleep(10)
@@ -126,6 +131,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser(description="Batch deploy agents to Agent Engine with Model Armor")
     parser.add_argument("--workers", type=int, default=5, help="Number of concurrent deployment workers (default: 5)")
+    parser.add_argument("--agent", type=str, default=None, help="Target a specific agent by name (e.g. utilities_master_orchestrator)")
     parser.add_argument("--dry-run", action="store_true", help="Print plan without executing deployments")
     parser.add_argument("--force", action="store_true", help="Redeploy all agents even if previously marked SUCCESS")
     parser.add_argument("--skip-ge-register", action="store_true", help="Skip registration to Gemini Enterprise at the end")
@@ -161,6 +167,10 @@ def main():
             else:
                 print(f"⚠️ Warning: Agent {ag_name} not found in GCP Reasoning Engines!")
 
+    if args.agent:
+        local_agents = [ag for ag in local_agents if ag["agent_name"] == args.agent]
+        print(f"Filtered for single agent: {args.agent} (found {len(local_agents)})")
+
     # Sort master orchestrator first, then alphabetically
     local_agents.sort(key=lambda x: (0 if x["domain"] == "master_orchestrator" else 1, x["domain"], x["agent_name"]))
 
@@ -172,17 +182,6 @@ def main():
     for ag in local_agents:
         name = ag["agent_name"]
         if name in progress and progress[name].get("status") == "SUCCESS":
-            already_done.append(ag)
-        elif name == "capital_replacement_simulator" and not args.force:
-            # Capital replacement simulator was deployed & verified in initial test
-            progress[name] = {
-                "agent_name": name,
-                "status": "SUCCESS",
-                "region": ag["region"],
-                "re_id": ag["re_id"],
-                "note": "Deployed and verified in initial test"
-            }
-            save_progress(progress)
             already_done.append(ag)
         else:
             to_deploy.append(ag)

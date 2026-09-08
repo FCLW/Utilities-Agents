@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Predicts global horizontal irradiance (GHI) and direct normal irradiance (DNI) using satellite cloud-cover vectors and numerical weather prediction models."

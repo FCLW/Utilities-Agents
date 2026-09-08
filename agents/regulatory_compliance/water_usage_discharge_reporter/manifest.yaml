@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Tracks thermal power plant cooling water withdrawal volumes, consumptive usage, and National Pollutant Discharge Elimination System (NPDES) thermal limits."

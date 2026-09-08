@@ -5,13 +5,27 @@ from fastapi.responses import StreamingResponse
 
 try:
     from .config.model_armor import get_model_armor_plugins
-    plugins = get_model_armor_plugins()
+    armor_plugins = get_model_armor_plugins()
 except ImportError:
     try:
         from config.model_armor import get_model_armor_plugins
-        plugins = get_model_armor_plugins()
+        armor_plugins = get_model_armor_plugins()
     except ImportError:
-        plugins = []
+        armor_plugins = []
+
+try:
+    from .config.telemetry import setup_telemetry, get_telemetry_plugins
+    setup_telemetry(task_lead_agent.name)
+    telemetry_plugins = get_telemetry_plugins(task_lead_agent.name)
+except ImportError:
+    try:
+        from config.telemetry import setup_telemetry, get_telemetry_plugins
+        setup_telemetry(task_lead_agent.name)
+        telemetry_plugins = get_telemetry_plugins(task_lead_agent.name)
+    except ImportError:
+        telemetry_plugins = []
+
+plugins = armor_plugins + telemetry_plugins
 
 app = FastAPI(title="Distribution Phase Imbalance Detector")
 adk_app = App(name=task_lead_agent.name, root_agent=task_lead_agent, plugins=plugins)

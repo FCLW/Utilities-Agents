@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Calculates virtual net metering generation credits and subscriber bill allocations from community solar projects against monthly utility customer tariffs."

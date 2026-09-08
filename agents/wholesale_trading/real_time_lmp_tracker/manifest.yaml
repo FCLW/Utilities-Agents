@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Monitors 5-minute real-time LMP price spikes, scarcity pricing triggers, and reserve shortage events across wholesale market nodes."

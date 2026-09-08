@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Aggregates continuous emissions monitoring system (CEMS) telemetry to verify utility compliance with EPA Clean Air Act SO2, NOx, and CO2 limits."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Detects reverse energy flow, tilt sensor trips, and anomalous zero-current events indicating physical meter tampering or unmetered energy theft."

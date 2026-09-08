@@ -28,6 +28,22 @@ except ImportError:
     except ImportError:
         armor_callbacks = {}
 
+try:
+    from .config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+except ImportError:
+    try:
+        from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    except ImportError:
+        def get_telemetry_callbacks(name): return {}
+        def combine_agent_callbacks(*dicts):
+            c = {}
+            for d in dicts:
+                if d: c.update(d)
+            return c
+
+telemetry_callbacks = get_telemetry_callbacks(agent_name="high_bill_weather_correlation_explainer")
+callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+
 
 persona = load_prompt_layer("persona")
 business_rules = load_prompt_layer("business_rules")
@@ -39,9 +55,10 @@ instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_
 agent = Agent(
     name="high_bill_weather_correlation_explainer",
     model="gemini-3.7-flash",
+    description="Correlates heating and cooling degree days against customer interval energy usage to generate clear, transparent explanations for monthly utility bill fluctuations.",
     instruction=instruction,
     tools=[BigQueryQueryTool(), VisualizerTool()],
-    **armor_callbacks
+    **callbacks
 )
 
 task_lead_agent = agent

@@ -28,6 +28,22 @@ except ImportError:
     except ImportError:
         armor_callbacks = {}
 
+try:
+    from .config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+except ImportError:
+    try:
+        from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    except ImportError:
+        def get_telemetry_callbacks(name): return {}
+        def combine_agent_callbacks(*dicts):
+            c = {}
+            for d in dicts:
+                if d: c.update(d)
+            return c
+
+telemetry_callbacks = get_telemetry_callbacks(agent_name="epa_cems_emissions_aggregator")
+callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+
 
 persona = load_prompt_layer("persona")
 business_rules = load_prompt_layer("business_rules")
@@ -39,9 +55,10 @@ instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_
 agent = Agent(
     name="epa_cems_emissions_aggregator",
     model="gemini-3.7-flash",
+    description="Aggregates continuous emissions monitoring system (CEMS) telemetry to verify utility compliance with EPA Clean Air Act SO2, NOx, and CO2 limits.",
     instruction=instruction,
     tools=[BigQueryQueryTool(), VisualizerTool()],
-    **armor_callbacks
+    **callbacks
 )
 
 task_lead_agent = agent

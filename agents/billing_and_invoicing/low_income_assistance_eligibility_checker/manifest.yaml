@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Evaluates customer income thresholds and assistance criteria for LIHEAP, state rate discounts, and arrearage management programs to streamline subsidy enrollment."

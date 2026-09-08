@@ -382,11 +382,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
       <div class="meta-item">
         <span class="meta-label">BigQuery Datasets</span>
         <span class="meta-value" style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; word-break: break-all; overflow-wrap: anywhere; white-space: normal;">{tables}</span>
+      </div>
       <div class="meta-item full-width">
-        <span class="meta-label">Primary Business Problem & Solution</span>
+        <span class="meta-label">Business Purpose & Operational Value</span>
+        <span class="meta-value" style="font-weight: 500; font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); margin-top: 4px;">
+          {description}
+        </span>
+      </div>
+      <div class="meta-item full-width">
+        <span class="meta-label">Operational Challenge & Autonomous Solution</span>
         <span class="meta-value" style="font-weight: 400; font-size: 0.88rem; line-height: 1.5; color: var(--text-secondary); margin-top: 4px;">
-          <strong style="color: var(--text-primary);">Problem:</strong> {problem}<br>
-          <strong style="color: var(--text-primary); display: inline-block; margin-top: 4px;">Solution:</strong> {solution}
+          <strong style="color: var(--text-primary);">Challenge:</strong> {problem}<br>
+          <strong style="color: var(--text-primary); display: inline-block; margin-top: 4px;">Autonomous Solution:</strong> {solution}
         </span>
       </div>
       <div class="meta-item full-width">
@@ -469,7 +476,8 @@ def generate_html_showcase(agent_name: str, domain: str | None = None, output_di
     content = HTML_TEMPLATE.format(
         page_title=f"{clean_name} — Gemini Enterprise Demo Walkthrough",
         domain_icon=domain_icon,
-        domain=domain,
+        domain_name=domain,
+        domain_title=domain_title,
         agent_icon=agent_icon,
         display_name=display_name,
         clean_name=clean_name,

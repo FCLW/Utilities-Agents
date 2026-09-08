@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Computes real-time kilowatt-hour drawdowns, daily balances, and automated low-balance warning alerts for enrolled prepaid electricity customers."

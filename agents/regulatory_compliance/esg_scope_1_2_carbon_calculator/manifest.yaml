@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Computes Scope 1 direct generation emissions and Scope 2 transmission loss emissions for annual ESG regulatory disclosures and sustainability reports."

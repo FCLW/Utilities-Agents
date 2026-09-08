@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Processes high-resolution aerial drone imagery using computer vision to detect structural rust, insulator flashovers, and conductor fraying on high-voltage transmission lines."

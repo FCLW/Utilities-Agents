@@ -28,13 +28,14 @@ def deploy_agent(domain_name, agent_name, project_id, region):
     
     print(f"Deploying {agent_name} to Agent Engine...")
     try:
-        # Run adk deploy agent_engine
+        # Run adk deploy agent_engine with Google Cloud native OpenTelemetry enabled
         subprocess.run([
             adk_bin, "deploy", "agent_engine", agent_path,
             "--project", project_id,
             "--region", region,
             "--display_name", display_name,
-            "--extra_packages", "config"
+            "--extra_packages", "config",
+            "--otel_to_cloud"
         ], check=True, capture_output=True)
         print(f"✅ Successfully deployed {agent_name} to Agent Engine")
     except subprocess.CalledProcessError as e:

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Schedules battery energy storage system (BESS) charge and discharge cycles to maximize wholesale market revenue while minimizing battery cell degradation."

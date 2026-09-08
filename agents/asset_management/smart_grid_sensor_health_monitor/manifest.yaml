@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Monitors battery health, signal-to-noise ratios, calibration drift, and reporting latency across distribution grid IoT sensors to guarantee reliable telemetry streams."

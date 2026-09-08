@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Automates authentication troubleshooting, MFA token verification, and role-based access approval for authorized engineers accessing SCADA networks."

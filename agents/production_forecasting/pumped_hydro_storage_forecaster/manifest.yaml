@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Optimizes upper reservoir pumping schedules during low-cost renewable hours and generation dispatch during high-priced peak demand periods."

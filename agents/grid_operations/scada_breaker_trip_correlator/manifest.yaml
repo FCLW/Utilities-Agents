@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Correlates high-speed SCADA digital fault recorder events, protective relay targets, and breaker operations to identify fault locations and root causes."

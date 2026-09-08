@@ -28,6 +28,22 @@ except ImportError:
     except ImportError:
         armor_callbacks = {}
 
+try:
+    from .config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+except ImportError:
+    try:
+        from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    except ImportError:
+        def get_telemetry_callbacks(name): return {}
+        def combine_agent_callbacks(*dicts):
+            c = {}
+            for d in dicts:
+                if d: c.update(d)
+            return c
+
+telemetry_callbacks = get_telemetry_callbacks(agent_name="customer_pii_redaction_scrubber")
+callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+
 
 persona = load_prompt_layer("persona")
 business_rules = load_prompt_layer("business_rules")
@@ -39,9 +55,10 @@ instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_
 agent = Agent(
     name="customer_pii_redaction_scrubber",
     model="gemini-3.7-flash",
+    description="Autonomously detects and redacts customer personally identifiable information (PII) from work orders, billing dispute transcripts, and public regulatory filings.",
     instruction=instruction,
     tools=[BigQueryQueryTool(), VisualizerTool()],
-    **armor_callbacks
+    **callbacks
 )
 
 task_lead_agent = agent

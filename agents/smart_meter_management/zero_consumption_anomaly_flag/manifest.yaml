@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Flags meters reporting consecutive zero-consumption intervals for occupied premises to diagnose meter failures or unauthorized bypasses."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Predicts utility pole breakage, conductor wire-down counts, and customer outage volumes based on incoming wind gust, ice accretion, and soil saturation forecasts."

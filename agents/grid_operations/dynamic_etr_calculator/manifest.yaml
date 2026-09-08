@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Calculates dynamic Estimated Time of Restoration (ETR) based on incoming storm severity, damage assessment reports, travel conditions, and field crew allocations."

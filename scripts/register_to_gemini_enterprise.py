@@ -1,20 +1,29 @@
 import json
 import time
+import subprocess
 import requests
 import google.auth
 import google.auth.transport.requests
 from pathlib import Path
 
 def get_auth():
+    try:
+        token = subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True).strip()
+        if token:
+            return token
+    except Exception:
+        pass
     creds, project = google.auth.default()
     auth_req = google.auth.transport.requests.Request()
     creds.refresh(auth_req)
     return creds.token
 
 def list_reasoning_engines(token, project_id, locations):
-    headers = {'Authorization': f'Bearer {token}'}
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'x-goog-user-project': project_id
+    }
     all_engines = []
-    
     for loc in locations:
         url = f'https://{loc}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{loc}/reasoningEngines'
         page_token = ''

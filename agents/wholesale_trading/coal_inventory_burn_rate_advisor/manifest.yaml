@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Models coal pile inventory levels, daily plant burn rates, and railcar delivery schedules to optimize stockpile replenishment economics."

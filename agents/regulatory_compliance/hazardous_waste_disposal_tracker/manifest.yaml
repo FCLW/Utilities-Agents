@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Tracks manifest compliance, storage limits, and certified disposal documentation for transformer PCB oils, SF6 gas cylinders, and substation chemical waste."

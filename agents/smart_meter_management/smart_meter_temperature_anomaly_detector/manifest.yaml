@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Monitors internal meter collar terminal temperature telemetry to identify high-resistance electrical connections and prevent meter fires."

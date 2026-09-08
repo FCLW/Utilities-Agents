@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Forecasts behind-the-meter solar PV, combined heat and power (CHP), and battery storage availability for resilient campus and hospital microgrids."

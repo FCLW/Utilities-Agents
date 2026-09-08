@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Processes aerial LiDAR point clouds and satellite vegetation indices to prioritize hazardous tree trimming along transmission and distribution rights-of-way."

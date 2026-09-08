@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Estimates seasonal river inflows and reservoir water volumes using satellite snowpack depth measurements and melting degree-day hydrological models."

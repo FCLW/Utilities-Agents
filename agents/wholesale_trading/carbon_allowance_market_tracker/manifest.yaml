@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Tracks spot prices, trading volumes, and forward price trends for regional carbon compliance allowances and voluntary carbon offsets."

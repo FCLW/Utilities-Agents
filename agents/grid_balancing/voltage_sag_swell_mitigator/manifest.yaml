@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Detects and classifies transient voltage sags and swells caused by faults or heavy industrial switching, coordinating fast-acting volt-VAR controls to protect sensitive customer equipment."

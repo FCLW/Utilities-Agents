@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Disaggregates dedicated EV charging submeter interval data from whole-home smart meters to apply specialized off-peak EV charging rate tariffs."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Answers worker queries regarding collective bargaining agreement provisions, overtime seniority rules, and utility retirement benefits."

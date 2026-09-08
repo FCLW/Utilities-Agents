@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Tracks telematics, engine diagnostic fault codes, hydraulic aerial lift inspections, and preventive maintenance for utility service bucket trucks."

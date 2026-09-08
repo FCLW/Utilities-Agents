@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Maps transmission congestion bottlenecks and shadow prices across nodal pricing nodes to identify grid redispatch constraints and power flow bottlenecks."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Guides contractors and builders through utility trenching specifications, joint-use clearances, and service connection inspection milestones for new construction projects."

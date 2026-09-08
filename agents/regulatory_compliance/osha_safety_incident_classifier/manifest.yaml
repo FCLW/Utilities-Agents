@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Classifies workplace injuries, near-misses, and OSHA recordable incidents while tracking Days Away, Restricted, or Transferred (DART) safety metrics."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Partitions interval smart meter consumption into on-peak, mid-peak, and off-peak rate tiers to accurately apply complex multi-tier time-of-use tariffs."

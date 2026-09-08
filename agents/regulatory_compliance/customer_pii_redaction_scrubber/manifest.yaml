@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Autonomously detects and redacts customer personally identifiable information (PII) from work orders, billing dispute transcripts, and public regulatory filings."

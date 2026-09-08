@@ -131,8 +131,43 @@ def get_model_armor_plugin():
 
     try:
         from google.adk.integrations.model_armor import ModelArmorPlugin
+        from google.cloud import modelarmor_v1
+        from google.api_core.gapic_v1.client_info import ClientInfo
+        from google.api_core.client_options import ClientOptions
+        from google.adk.integrations.model_armor._plugin import USER_AGENT, _regional_endpoint
+
+        class UtilitiesModelArmorPlugin(ModelArmorPlugin):
+            """Loop-aware ModelArmorPlugin ensuring gRPC client is bound to active event loop."""
+            @property
+            def client(self) -> modelarmor_v1.ModelArmorAsyncClient:
+                current_loop = None
+                try:
+                    current_loop = asyncio.get_running_loop()
+                except RuntimeError:
+                    pass
+
+                if self._client is not None:
+                    try:
+                        transport = getattr(self._client, "transport", None)
+                        channel = getattr(transport, "grpc_channel", None)
+                        channel_loop = getattr(channel, "_loop", None)
+                        if channel_loop is not None and (channel_loop.is_closed() or (current_loop and channel_loop is not current_loop)):
+                            self._client = None
+                    except Exception:
+                        self._client = None
+
+                if self._client is None:
+                    self._client = modelarmor_v1.ModelArmorAsyncClient(
+                        credentials=self._credentials,
+                        client_info=ClientInfo(user_agent=USER_AGENT),
+                        client_options=ClientOptions(
+                            api_endpoint=_regional_endpoint(self._location)
+                        ),
+                    )
+                return self._client
+
         creds = get_model_armor_credentials()
-        _plugin_instance = ModelArmorPlugin(
+        _plugin_instance = UtilitiesModelArmorPlugin(
             config=config,
             name="utilities_model_armor_plugin",
             credentials=creds
@@ -176,13 +211,17 @@ def get_model_armor_plugins() -> list:
 
 
 async def model_armor_before_model_callback(
-    *, callback_context: Any, llm_request: Any
+    callback_context: Any = None, llm_request: Any = None, **kwargs
 ) -> Optional[Any]:
     """Callback for Agent(before_model_callback=...).
 
     Screens incoming prompt against Model Armor prompt template.
     Avoids duplicate screening if App plugin already screened this turn.
     """
+    if callback_context is None and "callback_context" in kwargs:
+        callback_context = kwargs["callback_context"]
+    if llm_request is None and "llm_request" in kwargs:
+        llm_request = kwargs["llm_request"]
     if hasattr(callback_context, "state") and callback_context.state is not None:
         if callback_context.state.get(_INPUT_SCREENED_KEY):
             return None
@@ -217,13 +256,17 @@ async def model_armor_before_model_callback(
 
 
 async def model_armor_after_model_callback(
-    *, callback_context: Any, llm_response: Any
+    callback_context: Any = None, llm_response: Any = None, **kwargs
 ) -> Optional[Any]:
     """Callback for Agent(after_model_callback=...).
 
     Screens outgoing response against Model Armor response template.
     Avoids duplicate screening if App plugin already screened this turn.
     """
+    if callback_context is None and "callback_context" in kwargs:
+        callback_context = kwargs["callback_context"]
+    if llm_response is None and "llm_response" in kwargs:
+        llm_response = kwargs["llm_response"]
     if hasattr(callback_context, "state") and callback_context.state is not None:
         if callback_context.state.get(_OUTPUT_SCREENED_KEY):
             return None

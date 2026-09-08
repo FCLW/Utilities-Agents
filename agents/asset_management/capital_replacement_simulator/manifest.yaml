@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Simulates CapEx allocation, asset health degradation trajectories, and optimal replacement cycles for aging substation transformers and switchgear to minimize lifecycle costs and avoid catastrophic failures."

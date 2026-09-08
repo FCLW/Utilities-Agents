@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Generates weather-normalized, algorithmically sound fallback usage estimations for unread smart meters to maintain billing schedules without revenue leakage."

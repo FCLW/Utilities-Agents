@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Optimizes emergency troubleman and lineworker dispatch routing to high-priority hazard locations, wire-down reports, and critical infrastructure circuits during storm events."

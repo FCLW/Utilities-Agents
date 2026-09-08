@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Detects anomalous consumption spikes relative to historical weather-adjusted usage before invoice dispatch to prevent customer billing disputes and billing errors."

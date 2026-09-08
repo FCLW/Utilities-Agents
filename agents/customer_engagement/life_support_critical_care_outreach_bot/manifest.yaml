@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Manages priority registry communications and proactive outreach workflows for medical baseline and life-support customers during planned and unplanned outages."

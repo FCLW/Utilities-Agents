@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Detects DC string ground faults, thermal clipping anomalies, and MPPT tracking efficiency degradation across utility-scale solar photovoltaic plants."

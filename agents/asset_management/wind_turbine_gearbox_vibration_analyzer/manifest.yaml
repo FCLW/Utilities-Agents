@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Analyzes high-frequency accelerometer vibration spectra and oil particle counts to detect early bearing spalling and gear tooth pitting in wind turbine drivetrains."

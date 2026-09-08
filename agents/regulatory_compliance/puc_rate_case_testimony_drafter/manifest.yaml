@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Drafts technical exhibits, revenue requirement schedules, and cost-of-service testimony for state Public Utility Commission general rate cases."

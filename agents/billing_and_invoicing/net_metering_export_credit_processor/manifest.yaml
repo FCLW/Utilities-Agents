@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Reconciles bidirectional AMI solar export kilowatt-hours against retail grid consumption to calculate tariff-accurate net energy metering (NEM) bill credits."

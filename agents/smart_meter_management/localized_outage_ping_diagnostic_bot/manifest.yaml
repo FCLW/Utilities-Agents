@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Sends targeted on-demand ping interrogations to smart meters on suspect feeder lateral branches to confirm whether service has been restored."

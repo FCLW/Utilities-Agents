@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Forecasts 24-hour and day-ahead electricity demand profiles for commercial building portfolios using weather forecasts and business occupancy schedules."

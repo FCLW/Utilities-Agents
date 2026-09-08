@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Calculates interval billing charges indexed to real-time locational marginal prices (LMP) and capacity demand curves for commercial and industrial customers."

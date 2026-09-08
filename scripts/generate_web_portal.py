@@ -2,6 +2,11 @@ import json
 import re
 from pathlib import Path
 import yaml
+import sys
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+from config.agent_descriptions import AGENT_DESCRIPTIONS
 
 def get_actual_agent_model(agent_id, domain_id, fallback="gemini-3.7-flash"):
     """Determines actual LLM model used by inspecting manifest.yaml, agent.py, and settings.py."""
@@ -190,7 +195,7 @@ for sec in sections[1:]:
             "persona": persona,
             "problem": problem_text,
             "solution": solution_text,
-            "description": f"Problem: {problem_text} Solution: {solution_text}",
+            "description": AGENT_DESCRIPTIONS.get(agent_id, f"Specialized AI agent for {name} within {domain_title}."),
             "kpis": kpis,
             "tables": tables,
             "model": model,
@@ -1839,8 +1844,7 @@ template = """<!DOCTYPE html>
             <h3 class="card-title" onclick="openAgentModal('${agent.id}', 'spec')" style="cursor:pointer;" title="View Details">${htmlEscape(agent.display_name)}</h3>
             <div class="card-persona">👤 ${htmlEscape(agent.persona)}</div>
             <p class="card-desc">
-              <strong>Problem:</strong> ${htmlEscape(agent.problem)}<br>
-              <strong>Solution:</strong> ${htmlEscape(agent.solution)}
+              ${htmlEscape(agent.description)}
             </p>
 
             ${kpiPills ? `<div class="kpi-row">${kpiPills}</div>` : ''}
@@ -1949,8 +1953,9 @@ template = """<!DOCTYPE html>
       if (modalGeAgentId) modalGeAgentId.textContent = agent.ge_agent_id || 'N/A';
       
       modalProblemSolution.innerHTML = `
-        <div style="margin-bottom:8px;"><strong>⚠️ Primary Business Problem:</strong> ${htmlEscape(agent.problem)}</div>
-        <div><strong>💡 Autonomous Solution:</strong> ${htmlEscape(agent.solution)}</div>
+        <div style="margin-bottom:12px; font-size: 0.95rem; line-height: 1.6; color: var(--text-primary); font-weight: 500;">${htmlEscape(agent.description)}</div>
+        <div style="margin-bottom:8px; font-size: 0.88rem;"><strong>⚠️ Operational Challenge:</strong> ${htmlEscape(agent.problem)}</div>
+        <div style="font-size: 0.88rem;"><strong>💡 Autonomous Solution:</strong> ${htmlEscape(agent.solution)}</div>
       `;
 
       if (agent.prompts && agent.prompts.length > 0) {

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Analyzes distributed energy resource management system (DERMS) telemetry to optimize hosting capacity, prevent feeder overvoltage, and minimize renewable curtailment."

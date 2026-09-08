@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Assembles standardized utility financial accounts, plant investment schedules, and operational expenses for annual FERC Form 1 regulatory submissions."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Monitors thermal and transient stability limits across regional balancing authority interties to enforce NERC reliability standards and prevent tie-line overloads."

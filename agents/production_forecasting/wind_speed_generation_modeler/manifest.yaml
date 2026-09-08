@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Converts hub-height wind speed and direction forecasts into turbine power curves to generate hourly wind farm generation forecasts."

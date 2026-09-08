@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Simulates multi-stage UFLS relay trip schemes and feeder load-shed priorities to prevent system-wide blackout during extreme generation contingency events."

@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Computes rolling 12-month budget billing settlement balances and recalculates levelized monthly installments to prevent year-end true-up bill shock for residential customers."

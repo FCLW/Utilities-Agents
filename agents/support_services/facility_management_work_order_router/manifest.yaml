@@ -6,3 +6,4 @@ icon: robot
 target_model: gemini-3.7-flash
 tables: []
 kpis: []
+description: "Triages and dispatches HVAC, electrical, and physical security maintenance work orders across utility operational service centers and substations."
