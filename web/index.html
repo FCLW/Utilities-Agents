@@ -946,7 +946,8 @@
 
     /* Architecture Blueprint Visual Component */
     .modal-dialog.arch-dialog {
-      max-width: 1040px;
+      max-width: 1060px;
+      width: 95vw;
     }
 
     .arch-flow-container {
@@ -967,7 +968,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
       margin-bottom: 12px;
       flex-wrap: wrap;
       gap: 8px;
@@ -986,7 +986,6 @@
     .arch-layer-pill {
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 2px 8px;
       padding: 3px 10px;
       border-radius: 9999px;
       background: var(--badge-bg);
@@ -997,8 +996,7 @@
 
     .arch-layer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 10px;
     }
 
@@ -1015,7 +1013,6 @@
     .arch-item strong {
       display: block;
       color: var(--text-primary);
-      margin-bottom: 3px;
       margin-bottom: 4px;
       font-size: 0.84rem;
     }
@@ -1023,11 +1020,9 @@
     .arch-subagents-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
       gap: 12px;
     }
 
-    @media (max-width: 640px) {
     .arch-subagent-box {
       background: var(--bg-card);
       border: 1px solid var(--border-faint);
@@ -1035,7 +1030,7 @@
       padding: 12px 14px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .arch-subagent-tag {
@@ -1047,7 +1042,7 @@
       gap: 6px;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 768px) {
       .arch-subagents-row {
         grid-template-columns: 1fr;
       }
@@ -1058,7 +1053,7 @@
       color: var(--accent-blue);
       font-size: 1.1rem;
       line-height: 1;
-      margin: -6px 0;
+      margin: -4px 0;
       opacity: 0.85;
     }
 
@@ -1294,114 +1289,91 @@
 
   <!-- Architecture Modal -->
   <div class="modal-backdrop" id="archModal">
-    <div class="modal-dialog">
     <div class="modal-dialog arch-dialog">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <div style="display:flex; gap:8px; align-items:center; margin-bottom:4px;">
-            <span class="badge-domain">Architecture Spec</span>
-            <span class="badge-region">Global & Multi-Region</span>
           <div style="display:flex; gap:8px; align-items:center; margin-bottom:6px; flex-wrap:wrap;">
             <span class="badge-domain">Google ADK v2.0 Enterprise</span>
             <span class="badge-region">113 Production Agents (11 Domains)</span>
             <span class="badge-model">Vertex AI & Cloud Run (us-central1)</span>
           </div>
-          <h2 class="modal-title">📐 Utilities Enterprise Multi-Agent Architecture</h2>
           <h2 class="modal-title">📐 Utilities Enterprise 4-Tier ADK Architecture Blueprint</h2>
         </div>
         <button class="modal-close" id="archCloseBtn" aria-label="Close modal">✕</button>
       </div>
       <div class="modal-body">
-        <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.9rem; line-height:1.5;">
-          End-to-end architecture blueprint connecting 113 specialized Energy & Utilities agents across 11 core sub-domains, orchestrating real-time BigQuery telemetry queries and grounded industry intelligence via Google Agent Development Kit (ADK) and Gemini Enterprise.
         <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.92rem; line-height:1.55;">
           End-to-end multi-agent system architecture connecting <strong>113 specialized Energy & Utilities agents</strong> across <strong>11 core sub-domains</strong>, orchestrating real-time BigQuery telemetry queries, dynamic visual charting, and grounded industry intelligence via Google Agent Development Kit (ADK), Gemini Enterprise, and Cloud Run.
         </p>
 
         <div class="arch-flow-container">
-          <!-- Tier 1 -->
+          <!-- Tier 1: Experience & Delivery Layer -->
           <div class="arch-layer-card" style="border-top: 3px solid var(--accent-blue);">
             <div class="arch-layer-header">
               <div class="arch-layer-title">
-                <span>🖥️</span> Tier 1: Gemini Enterprise Natural Language Workspace
                 <span>🖥️</span> Tier 1: Experience & Delivery Layer
               </div>
-              <span class="arch-layer-pill">Gemini Enterprise App</span>
-              <span class="arch-layer-pill">Gemini Enterprise + Cloud Run (IAP)</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <span class="arch-layer-pill">Gemini Enterprise App</span>
+                <span class="arch-layer-pill">Cloud Run (IAP Secured)</span>
+              </div>
             </div>
             <div class="arch-layer-grid">
               <div class="arch-item">
-                <strong>Natural Language Chat Interface</strong>
-                Unified conversational UI for utility executives, dispatchers & engineers
                 <strong>Gemini Enterprise (GE) Workspace App</strong>
                 Conversational UI integrated into Google Workspace with dedicated agent personas, direct chat, and @-mentions.
               </div>
               <div class="arch-item">
-                <strong>Enterprise Search & Agent Gateway</strong>
-                113 Registered Enterprise Agents searchable via natural language chat
                 <strong>Interactive Cloud Run Web Showcase</strong>
-                Containerized Nginx portal (`utilities-agents-portal`) secured by Identity-Aware Proxy (IAP) for `@google.com` users with faceted domain filtering.
+                Containerized Nginx portal (<code>utilities-agents-portal</code>) secured by Identity-Aware Proxy (IAP) for <code>@google.com</code> users with faceted domain filtering.
               </div>
               <div class="arch-item">
-                <strong>Gemini Canvas Workspace</strong>
-                Artifact rendering, dynamic operational dashboards & executive briefing export
                 <strong>Dual-Streaming Video Engine</strong>
                 High-throughput same-origin HTTP 206 byte-range streaming bundled directly into Cloud Run behind IAP, plus authenticated GCS Console fallback.
               </div>
               <div class="arch-item">
                 <strong>Inline Markdown Technical Specs</strong>
-                All 113 agent READMEs served locally from `/readmes/` with UTF-8 markdown MIME typing for seamless in-browser viewing.
+                All 113 agent READMEs served locally from <code>/readmes/</code> with UTF-8 markdown MIME typing for seamless in-browser viewing.
               </div>
             </div>
           </div>
 
           <div class="arch-arrow">▼</div>
 
-          <!-- Tier 2 -->
+          <!-- Tier 2: Agent Orchestration & Master Router -->
           <div class="arch-layer-card" style="border-top: 3px solid var(--accent-amber);">
             <div class="arch-layer-header">
               <div class="arch-layer-title">
-                <span>🎯</span> Tier 2: Master Orchestrator & Domain Lead Agents
                 <span>🎯</span> Tier 2: Agent Orchestration & Master Router
               </div>
-              <span class="arch-layer-pill">ADK v2.0 Multi-Agent Router</span>
-              <span class="arch-layer-pill" style="color:var(--accent-amber); border-color:var(--accent-amber);">Vertex AI Reasoning Engine</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <span class="arch-layer-pill">ADK v2.0 Multi-Agent Router</span>
+                <span class="arch-layer-pill" style="color:var(--accent-amber); border-color:var(--accent-amber);">Vertex AI Reasoning Engine</span>
+              </div>
             </div>
             <div class="arch-layer-grid">
               <div class="arch-item">
-                <strong>Intent Classification Router</strong>
-                Routes incoming utility inquiries to the exact sub-domain lead
                 <strong>Utilities Master Orchestrator</strong>
-                Universal entrypoint (`utilities_master_orchestrator`) handling global natural language intent triage and multi-agent decomposition.
+                Universal entrypoint (<code>utilities_master_orchestrator</code>) handling global natural language intent triage and multi-agent decomposition.
               </div>
               <div class="arch-item">
-                <strong>Global Model Inference</strong>
-                `gemini-3.7-flash` & `gemini-3.1-pro` for reasoning and rapid triage
                 <strong>Agent-to-Agent (A2A) Protocol</strong>
                 Autonomous routing to downstream domain agents across Asset Management, Grid Balancing, Trading, Outage Ops, etc.
               </div>
               <div class="arch-item">
-                <strong>Lifecycle Callbacks</strong>
-                IAM token scoping, grid zone injection & dataset context binding
                 <strong>Dual Model Inference Fleet</strong>
-                High-velocity real-time triage via `gemini-3.7-flash` and deep analytical reasoning via `gemini-3.1-pro`.
+                High-velocity real-time triage via <code>gemini-3.7-flash</code> and deep analytical reasoning via <code>gemini-3.1-pro</code>.
               </div>
               <div class="arch-item">
                 <strong>Shared Session State & Observability</strong>
-                Propagates `customer_id`, `grid_zone_id`, `operating_mode`, and `alert_level` with OpenTelemetry and Cloud Trace distributed spans.
+                Propagates <code>customer_id</code>, <code>grid_zone_id</code>, <code>operating_mode</code>, and <code>alert_level</code> with OpenTelemetry and Cloud Trace distributed spans.
               </div>
             </div>
           </div>
 
           <div class="arch-arrow">▼</div>
 
-          <!-- Tier 3: Parallel Sub-Agents -->
-          <div class="arch-subagents-row">
-            <div class="arch-layer-card" style="border-top: 3px solid var(--accent-emerald);">
-              <div class="arch-layer-header">
-                <div class="arch-layer-title" style="font-size:0.95rem;">
-                  <span>📊</span> Sub-Agent 3A: BigQuery Telemetry & Data Insights
-          <!-- Tier 3: Parallel Sub-Agents & Tools -->
+          <!-- Tier 3: Specialist Sub-Agents & Tool Suite -->
           <div class="arch-layer-card" style="border-top: 3px solid var(--accent-emerald);">
             <div class="arch-layer-header">
               <div class="arch-layer-title">
@@ -1416,62 +1388,36 @@
                 <div class="arch-item" style="border:none; padding:4px 0 0 0; background:transparent;">
                   Executes specialized domain algorithms, scenario modeling, load curve forecasting, and read-only parameterized BigQuery SQL queries.
                 </div>
-                <span class="arch-layer-pill" style="color:var(--accent-emerald); background:var(--kpi-bg); border-color:var(--kpi-border);">Conversational Analytics</span>
+                <div style="margin-top:auto;">
+                  <span class="arch-layer-pill" style="color:var(--accent-emerald); background:var(--kpi-bg); border-color:var(--kpi-border);">Conversational Analytics</span>
+                </div>
               </div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <div class="arch-item">
-                  <strong>Natural Language to SQL Engine</strong>
-                  Conversational Analytics executes parameterized BigQuery SQL directly
               <div class="arch-subagent-box">
                 <div class="arch-subagent-tag" style="color:var(--accent-amber);">🛡️ Critic Sub-Agent (Safety Gatekeeper)</div>
                 <div class="arch-item" style="border:none; padding:4px 0 0 0; background:transparent;">
-                  Mandatory evaluator. Intercepts outputs, validates against `safety_guardrails.md`, checks for hallucinations or PII leaks, and formats structured Markdown tables before returning control.
+                  Mandatory evaluator. Intercepts outputs, validates against <code>safety_guardrails.md</code>, checks for hallucinations or PII leaks, and formats structured Markdown tables before returning control.
                 </div>
-                <div class="arch-item">
-                  <strong>Built-in ML Models</strong>
-                  BigQuery forecasting, anomaly detection & asset health trend analysis
-                </div>
-                <div class="arch-item">
-                  <strong>Telemetry Aggregator</strong>
-                  Smart meter AMI, SCADA, sensor, and grid telemetry correlation
+                <div style="margin-top:auto;">
+                  <span class="arch-layer-pill" style="color:var(--accent-amber); background:var(--badge-bg); border-color:var(--badge-border);">Safety & HITL Evaluator</span>
                 </div>
               </div>
             </div>
 
-            <div class="arch-layer-card" style="border-top: 3px solid var(--accent-blue);">
-              <div class="arch-layer-header">
-                <div class="arch-layer-title" style="font-size:0.95rem;">
-                  <span>🌐</span> Sub-Agent 3B: Industry & Regulatory Grounding
-                </div>
-                <span class="arch-layer-pill">Google Search Grounding</span>
             <div class="arch-layer-grid">
               <div class="arch-item">
-                <strong>BigQuery Tool (`bigquery_tool.py`)</strong>
-                Parameterized read-only SQL with regex validation blocking mutative DDL/DML (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`).
+                <strong>BigQuery Tool (<code>bigquery_tool.py</code>)</strong>
+                Parameterized read-only SQL with regex validation blocking mutative DDL/DML (<code>DROP</code>, <code>DELETE</code>, <code>INSERT</code>, <code>ALTER</code>, <code>TRUNCATE</code>).
               </div>
-              <div style="display:flex; flex-direction:column; gap:8px;">
-                <div class="arch-item">
-                  <strong>Real-Time Web Grounding</strong>
-                  Live Google Search verification for fresh energy market prices & weather
-                </div>
-                <div class="arch-item">
-                  <strong>Regulatory Standards</strong>
-                  FERC, NERC, IEEE, OSHA compliance rules & regional reliability benchmarks
-                </div>
-                <div class="arch-item">
-                  <strong>Wholesale Market Intelligence</strong>
-                  ISO/RTO real-time LMP, spark spreads, REC, and carbon allowance trading
-                </div>
               <div class="arch-item">
-                <strong>Search Grounding (`search_tool.py`)</strong>
+                <strong>Search Grounding (<code>search_tool.py</code>)</strong>
                 Live Google Search verification for fresh energy market prices (LMP, spark spreads, REC), weather forecasts, and regulatory rules.
               </div>
               <div class="arch-item">
-                <strong>Visualizer Tool (`visualizer.py`)</strong>
+                <strong>Visualizer Tool (<code>visualizer.py</code>)</strong>
                 Dynamic Matplotlib chart generator rendering operational graphs, load curves, heat rates, and asset health diagrams.
               </div>
               <div class="arch-item">
-                <strong>Delegation Tool (`delegation_tool.py`)</strong>
+                <strong>Delegation Tool (<code>delegation_tool.py</code>)</strong>
                 A2A protocol dispatcher executing synchronous and asynchronous sub-task handoffs between domain specialists.
               </div>
             </div>
@@ -1479,33 +1425,29 @@
 
           <div class="arch-arrow">▼</div>
 
-          <!-- Tier 4 -->
+          <!-- Tier 4: Enterprise Utilities BigQuery Lakehouse -->
           <div class="arch-layer-card" style="border-top: 3px solid var(--accent-indigo);">
             <div class="arch-layer-header">
               <div class="arch-layer-title">
                 <span>🗄️</span> Tier 4: Enterprise Utilities BigQuery Lakehouse
               </div>
-              <span class="arch-layer-pill" style="color:var(--region-text); background:var(--region-bg); border-color:var(--region-border);">Google Cloud BigQuery</span>
-              <span class="arch-layer-pill" style="color:var(--accent-indigo); border-color:var(--accent-indigo);">Google Cloud BigQuery</span>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <span class="arch-layer-pill" style="color:var(--region-text); background:var(--region-bg); border-color:var(--region-border);">Google Cloud BigQuery</span>
+                <span class="arch-layer-pill" style="color:var(--accent-indigo); border-color:var(--accent-indigo);">utilities_agents Dataset</span>
+              </div>
             </div>
             <div class="arch-layer-grid">
               <div class="arch-item">
-                <strong>Enterprise Dataset</strong>
-                `utilities_agents` multi-tenant energy & utilities schema
                 <strong>113 Partitioned & Clustered Tables</strong>
-                Governed by `table_registry.yaml`, covering SCADA telemetry, AMI interval VEE, asset health DGA, and wholesale trading logs.
+                Governed by <code>table_registry.yaml</code>, covering SCADA telemetry, AMI interval VEE, asset health DGA, and wholesale trading logs.
               </div>
               <div class="arch-item">
-                <strong>113+ Partitioned Tables</strong>
-                Structured telemetry namespace across all 11 sub-domains
                 <strong>Least-Privilege Security Isolation</strong>
-                Dedicated IAM service account per agent (`<agent>@utilities-agents.iam.gserviceaccount.com`) granted strictly `roles/bigquery.dataViewer` and `roles/bigquery.jobUser`.
+                Dedicated IAM service account per agent (<code>&lt;agent&gt;@utilities-agents.iam.gserviceaccount.com</code>) granted strictly <code>roles/bigquery.dataViewer</code> and <code>roles/bigquery.jobUser</code>.
               </div>
               <div class="arch-item">
-                <strong>IAM Table Allowlisting</strong>
-                Strict per-agent service account dataset authorization & row-level security
                 <strong>Synthetic Data & Schema Pipeline</strong>
-                Dedicated DDL schemas (`schema.sql`), seed data (`seed_data.sql`), and sample CSV fixtures (`mock_records.csv`) per agent.
+                Dedicated DDL schemas (<code>schema.sql</code>), seed data (<code>seed_data.sql</code>), and sample CSV fixtures (<code>mock_records.csv</code>) per agent.
               </div>
               <div class="arch-item">
                 <strong>Tiered Authorization (HITL)</strong>
@@ -1515,19 +1457,16 @@
           </div>
         </div>
 
-        <div class="modal-turns">
         <div class="modal-turns" style="margin-top:20px;">
           <div class="modal-section-title">
             <span>🚀</span> Key Architectural Pillars
           </div>
           <ul class="modal-turns-list">
-            <li><strong>Declarative ADK Architecture:</strong> Zero-code orchestrator models bind BigQuery tools and Google Search tools with strict sub-domain boundaries.</li>
-            <li><strong>Distributed Vertex AI Hosting:</strong> High-density reasoning engine deployment across `us-central1` and `us-east4` ensures zero quota bottlenecks.</li>
-            <li><strong>Dual Sub-Agent Pattern:</strong> Quantitative BigQuery queries and qualitative market grounding execute in specialized sub-agent contexts for hallucination-free answers.</li>
             <li><strong>Strict Single-Purpose Scope (113 Production Agents across 11 Domains):</strong> Universal Master Orchestrator + 10 specialized industry sub-domains ensuring atomic responsibilities, zero bloat, and low cognitive load.</li>
             <li><strong>The Critic Protocol (Automated Gatekeeper + HITL):</strong> Every specialized agent contains an internal Critic sub-agent that audits safety guardrails and prevents hallucinated metrics before any response leaves the agent boundary.</li>
-            <li><strong>Modular Prompt Composition:</strong> Dynamic runtime assembly of 4 modular prompt layers (`persona.md`, `business_rules.md`, `output_format.md`, and `safety_guardrails.md`) for maintainable governance.</li>
-            <li><strong>Dual-Tier High-Performance Video Delivery:</strong> Native byte-range streaming bundled into Cloud Run Nginx behind Google IAP eliminates cross-origin cookie friction for corporate `@google.com` users, backed by authenticated GCS fallback.</li>
+            <li><strong>Modular Prompt Composition:</strong> Dynamic runtime assembly of 4 modular prompt layers (<code>persona.md</code>, <code>business_rules.md</code>, <code>output_format.md</code>, and <code>safety_guardrails.md</code>) for maintainable governance.</li>
+            <li><strong>Enterprise Lakehouse Isolation:</strong> Dedicated per-agent BigQuery tables and least-privilege IAM service accounts ensuring zero cross-tenant contamination.</li>
+            <li><strong>Dual-Tier High-Performance Delivery:</strong> Native byte-range streaming bundled into Cloud Run Nginx behind Google IAP eliminates cross-origin cookie friction for corporate <code>@google.com</code> users, backed by authenticated GCS fallback.</li>
           </ul>
         </div>
       </div>
