@@ -16,8 +16,8 @@ Ensure you have the following installed on your local machine or development env
 
 1. Clone the repository and enter the directory:
    ```bash
-   git clone https://github.com/your-org/enterprise-agents-suite.git
-   cd enterprise-agents-suite
+   git clone https://github.com/FCLW/Utilities-Agents.git
+   cd Utilities-Agents
    ```
 
 2. Initialize your local environment file from the template:

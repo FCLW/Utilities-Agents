@@ -138,15 +138,14 @@ For the complete catalog of individual agent capabilities, datasets, and reasoni
 
 ### 1. Prerequisites
 - Python 3.11+
-- Google Cloud SDK (`gcloud`) authenticated to a GCP project with:
-  - BigQuery API
-  - Vertex AI API
-  - Cloud Run API
-  - Discovery Engine API (for Gemini Enterprise)
+- Google Cloud SDK (`gcloud`) authenticated to a GCP project with BigQuery, Vertex AI, and Cloud Run APIs enabled.
 
-### 2. Environment Configuration
-Copy the provided `.env.example` template:
+### 2. Clone Repository & Setup Environment
 ```bash
+git clone https://github.com/FCLW/Utilities-Agents.git
+cd Utilities-Agents
+
+# Copy environment template
 cp .env.example .env
 ```
 Configure your GCP project and BigQuery parameters:

@@ -38,7 +38,7 @@ All contributions must follow the repository standards defined in [GEMINI.md](fi
 ### Initializing Environment
 ```bash
 # Clone the repository
-git clone <repo-url>
+git clone https://github.com/FCLW/Utilities-Agents.git
 cd Utilities-Agents
 
 # Create and activate virtual environment
