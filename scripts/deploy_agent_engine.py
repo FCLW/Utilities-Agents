@@ -7,22 +7,39 @@ import concurrent.futures
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config.settings import settings
 
+import shutil
+
+def get_adk_binary() -> str:
+    local_adk = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".venv", "bin", "adk"))
+    if os.path.exists(local_adk):
+        return local_adk
+    if os.path.exists(".venv/bin/adk"):
+        return os.path.abspath(".venv/bin/adk")
+    which_adk = shutil.which("adk")
+    if which_adk:
+        return which_adk
+    return "adk"
+
+
 def deploy_agent(domain_name, agent_name, project_id, region):
     agent_path = f"agents/{domain_name}/{agent_name}"
     display_name = agent_name.replace("_", " ").title()
+    adk_bin = get_adk_binary()
     
     print(f"Deploying {agent_name} to Agent Engine...")
     try:
         # Run adk deploy agent_engine
         subprocess.run([
-            ".venv/bin/adk", "deploy", "agent_engine", agent_path,
+            adk_bin, "deploy", "agent_engine", agent_path,
             "--project", project_id,
             "--region", region,
-            "--display_name", display_name
+            "--display_name", display_name,
+            "--extra_packages", "config"
         ], check=True, capture_output=True)
         print(f"✅ Successfully deployed {agent_name} to Agent Engine")
     except subprocess.CalledProcessError as e:
         print(f"❌ Failed to deploy {agent_name}: {e.stderr.decode() if e.stderr else str(e)}")
+
 
 def deploy_agents():
     project_id = settings.gcp_project_id

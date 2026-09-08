@@ -3,8 +3,18 @@ from .agent import task_lead_agent
 from google.adk.apps.app import App
 from fastapi.responses import StreamingResponse
 
+try:
+    from .config.model_armor import get_model_armor_plugins
+    plugins = get_model_armor_plugins()
+except ImportError:
+    try:
+        from config.model_armor import get_model_armor_plugins
+        plugins = get_model_armor_plugins()
+    except ImportError:
+        plugins = []
+
 app = FastAPI(title="Real Time Lmp Tracker")
-adk_app = App(name=task_lead_agent.name, root_agent=task_lead_agent)
+adk_app = App(name=task_lead_agent.name, root_agent=task_lead_agent, plugins=plugins)
 
 # OpenTelemetry Middleware
 try:

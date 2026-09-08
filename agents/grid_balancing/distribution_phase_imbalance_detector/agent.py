@@ -18,6 +18,16 @@ except ImportError:
         reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-3.7-flash")
         bq_dataset_name = os.getenv("BQ_DATASET_NAME", "utilities-agents")
     settings = Settings()
+try:
+    from .config.model_armor import get_model_armor_callbacks
+    armor_callbacks = get_model_armor_callbacks()
+except ImportError:
+    try:
+        from config.model_armor import get_model_armor_callbacks
+        armor_callbacks = get_model_armor_callbacks()
+    except ImportError:
+        armor_callbacks = {}
+
 
 persona = load_prompt_layer("persona")
 business_rules = load_prompt_layer("business_rules")
@@ -30,7 +40,8 @@ agent = Agent(
     name="distribution_phase_imbalance_detector",
     model="gemini-3.7-flash",
     instruction=instruction,
-    tools=[BigQueryQueryTool(), VisualizerTool()]
+    tools=[BigQueryQueryTool(), VisualizerTool()],
+    **armor_callbacks
 )
 
 task_lead_agent = agent

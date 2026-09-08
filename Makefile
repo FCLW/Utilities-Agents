@@ -10,24 +10,34 @@ help:
 	@echo "  make deploy-portal  - Build and deploy web showcase portal to Cloud Run"
 	@echo "  make deploy-fleet   - Deploy all 113 agents to Vertex AI Reasoning Engine"
 
+VENV ?= .venv
+PYTHON := $(VENV)/bin/python
+ADK := $(VENV)/bin/adk
+PYTEST := $(VENV)/bin/pytest
+
+setup:
+	@echo "Setting up local environment in $(VENV)..."
+	uv pip install --default-index https://pypi.org/simple --python $(PYTHON) -e .
+
 dev:
-	agents-cli dev
+	$(ADK) api_server agents/
 
 test:
-	pytest agents/
+	$(PYTEST) tests/
 
 test-live:
-	python3 scripts/live_agent_portfolio_tester.py
+	$(PYTHON) scripts/live_agent_portfolio_tester.py
 
 build:
-	python3 scripts/build_catalog_json.py
-	python3 scripts/generate_web_portal.py
+	$(PYTHON) scripts/build_catalog_json.py
+	$(PYTHON) scripts/generate_web_portal.py
 
 web: build
-	python3 -m http.server -d web 8000
+	$(PYTHON) -m http.server -d web 8000
 
 deploy-portal: build
-	python3 scripts/deploy_web_portal.py
+	$(PYTHON) scripts/deploy_web_portal.py
 
 deploy-fleet:
-	python3 scripts/deploy_all_and_register.py
+	$(PYTHON) scripts/deploy_all_and_register.py
+

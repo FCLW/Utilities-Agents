@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Utilities Agents Model Armor Security Policy",
+  "description": "Google Cloud Model Armor guardrails policy specification for Utilities AI Agents protecting against prompt injections, jailbreaks, PII leakage, and malicious content.",
+  "templateConfig": {
+    "templateId": "utilities-agent-guardrails",
+    "location": "us",
+    "supportedLocations": ["us", "us-central1"],
+
+    "filterConfig": {
+      "piAndJailbreakFilterSettings": {
+        "filterEnforcement": "ENABLED",
+        "confidenceLevel": "MEDIUM_AND_ABOVE"
+      },
+      "maliciousUrisFilterSettings": {
+        "filterEnforcement": "ENABLED"
+      },
+      "raiSettings": {
+        "raiFilters": [
+          {
+            "filterType": "HATE_SPEECH",
+            "confidenceLevel": "MEDIUM_AND_ABOVE"
+          },
+          {
+            "filterType": "HARASSMENT",
+            "confidenceLevel": "MEDIUM_AND_ABOVE"
+          },
+          {
+            "filterType": "SEXUALLY_EXPLICIT",
+            "confidenceLevel": "MEDIUM_AND_ABOVE"
+          },
+          {
+            "filterType": "DANGEROUS_CONTENT",
+            "confidenceLevel": "MEDIUM_AND_ABOVE"
+          }
+        ]
+      }
+    },
+    "templateMetadata": {
+      "enforcementType": "INSPECT_AND_BLOCK",
+      "customPromptSafetyErrorMessage": "Request blocked by Model Armor security policy: prompt injection or safety risk detected.",
+      "customLlmResponseSafetyErrorMessage": "Response blocked by Model Armor security policy: sensitive data or safety risk detected.",
+      "logSanitizeOperations": true,
+      "logOperations": true
+    }
+  }
+}
+

@@ -18,5 +18,5 @@ agent = Agent(
     business_rules=instructions_dir / "business_rules.md",
     output_format=instructions_dir / "output_format.md",
     safety_guardrails=instructions_dir / "safety_guardrails.md",
-    tools=[BigQueryQueryTool(), GoogleSearchTool(), render_chart]
-)
+    tools=[BigQueryQueryTool(), GoogleSearchTool(), render_chart],
+

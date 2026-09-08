@@ -4,9 +4,8 @@ from google.adk.apps.app import App
 from fastapi.responses import StreamingResponse
 
 app = FastAPI(title="{{AGENT_NAME}}")
-adk_app = App(name=agent.name, root_agent=agent)
+adk_app = App(name=agent.name, root_agent=agent, plugins=plugins)
 
-# OpenTelemetry Middleware
 try:
     from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
     FastAPIInstrumentor.instrument_app(app)
