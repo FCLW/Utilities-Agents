@@ -1,5 +1,6 @@
-from typing import Optional, Literal
+from typing import Optional, Any, Literal
 from pydantic import BaseModel, Field
+from pydantic.fields import FieldInfo
 
 class UtilitiesSessionState(BaseModel):
     """Enterprise session state schema propagated across Utilities Agents."""
@@ -12,3 +13,7 @@ class UtilitiesSessionState(BaseModel):
         default="LOW", description="Current utility threat/alert severity level."
     )
     session_id: Optional[str] = Field(default=None, description="Unique telemetry session ID.")
+
+# Declare Model Armor runtime state keys so ADK session state validation allows them
+UtilitiesSessionState.model_fields["_model_armor_screened_input"] = FieldInfo(annotation=Optional[Any], default=None)
+UtilitiesSessionState.model_fields["_model_armor_screened_output"] = FieldInfo(annotation=Optional[Any], default=None)
