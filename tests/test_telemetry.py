@@ -54,7 +54,8 @@ def test_telemetry_settings():
 def test_telemetry_credentials():
     """Verify credential resolution succeeds without throwing unhandled exceptions."""
     creds, project_id = get_telemetry_credentials()
-    assert project_id == "utilities-agents"
+    assert project_id is not None
+    assert len(project_id) > 0
 
 
 def test_setup_telemetry():

@@ -522,30 +522,40 @@ async def run_batch(
     skip_existing: bool = False,
     upload: bool = False
 ):
-    semaphore = asyncio.Semaphore(concurrency)
+    queue = asyncio.Queue()
+    for a in agents_to_run:
+        queue.put_nowait(a)
 
-    async def worker(agent_info: dict, wid: int):
-        async with semaphore:
-            return await record_single_agent(
-                agent_name=agent_info["id"],
-                domain=agent_info["domain"],
-                output_dir=output_dir,
-                worker_id=wid,
-                turns_count=turns,
-                typing_delay=typing_delay,
-                read_pause=read_pause,
-                speedup_factor=speedup,
-                skip_existing=skip_existing,
-                upload=upload
-            )
+    all_results = []
 
-    tasks = []
-    for idx, a in enumerate(agents_to_run):
-        wid = idx % concurrency
-        tasks.append(worker(a, wid))
+    async def worker_loop(wid: int):
+        while not queue.empty():
+            try:
+                agent_info = queue.get_nowait()
+            except asyncio.QueueEmpty:
+                break
+            try:
+                res = await record_single_agent(
+                    agent_name=agent_info["id"],
+                    domain=agent_info["domain"],
+                    output_dir=output_dir,
+                    worker_id=wid,
+                    turns_count=turns,
+                    typing_delay=typing_delay,
+                    read_pause=read_pause,
+                    speedup_factor=speedup,
+                    skip_existing=skip_existing,
+                    upload=upload
+                )
+                all_results.append(res)
+            except Exception as err:
+                print(f"⚠️ Error recording {agent_info['id']}: {err}", flush=True)
+            finally:
+                queue.task_done()
 
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    successes = sum(1 for r in results if isinstance(r, Path) and r.exists())
+    worker_tasks = [asyncio.create_task(worker_loop(w)) for w in range(concurrency)]
+    await asyncio.gather(*worker_tasks)
+    successes = sum(1 for r in all_results if isinstance(r, Path) and r.exists())
     print(f"\n🎉 Batch completed: {successes}/{len(agents_to_run)} videos successfully recorded!")
 
 

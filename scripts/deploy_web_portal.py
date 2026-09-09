@@ -106,7 +106,7 @@ timeout: '1200s'
             "--image", image_tag,
             "--region", region,
             "--port", "8080",
-            "--memory", "1Gi",
+            "--memory", "2Gi",
             "--format", "value(status.url)"
         ]
         
