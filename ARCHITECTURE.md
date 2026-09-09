@@ -20,7 +20,7 @@ enterprise-agents-suite/
 │   ├── __init__.py
 │   └── settings.py                   # Pydantic Settings reading .env & global models
 │
-├── agents/                           # 11 Domains Total (1 Master Orchestrator + 10 Industry Sub-Domains)
+├── agents/                           # 10 Business Domains + 1 Master Orchestrator (113 Agents Total)
 │   ├── master_orchestrator/          # Global Entry Point & Intent Router (1 agent)
 │   │   └── utilities_master_orchestrator/
 │   ├── asset_management/             # Power plants, renewables, substations, & DER assets (14 agents)

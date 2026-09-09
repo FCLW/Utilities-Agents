@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Synthetic data generator for tie_line_interconnection_limit_supervisor grounded in golden-dataset.json.
+Synthetic data generator for utilities_master_orchestrator grounded in golden-dataset.json.
 Temporal coverage: 2025-09-09 to 2026-10-09.
 """
 import sys
@@ -17,11 +17,11 @@ from scripts.generate_golden_synthetic_data import (
 
 def generate_data():
     agent_dir = Path(__file__).resolve().parent.parent
-    domain_name = "grid_balancing"
-    agent_name = "tie_line_interconnection_limit_supervisor"
+    domain_name = "master_orchestrator"
+    agent_name = "utilities_master_orchestrator"
     golden_path = agent_dir / "tests" / "eval" / "datasets" / "golden-dataset.json"
     entities = extract_entities_from_golden(golden_path, domain_name)
-    schema = {"cols": ['timestamp_column', 'node_id', 'frequency_hz', 'status_flag', 'anomaly_score', 'entity_name', 'metric_name', 'current_value', 'baseline_target', 'delta_pct', 'substation_or_region', 'details_json']}
+    schema = {"cols": ['timestamp_column', 'id', 'value', 'status_flag', 'anomaly_score', 'entity_name', 'metric_name', 'current_value', 'baseline_target', 'delta_pct', 'substation_or_region', 'details_json']}
     df = generate_agent_timeseries(agent_name, domain_name, entities, schema)
     out_csv = agent_dir / "synthetic_data" / "mock_records.csv"
     df.to_csv(out_csv, index=False)

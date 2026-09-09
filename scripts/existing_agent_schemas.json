@@ -1,0 +1,1136 @@
+{
+  "utility_vehicle_fleet_maintenance_tracker": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "mutual_assistance_per_diem_auditor": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "hardware_procurement_rfp_scorer": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "loto_arc_flash_safety_knowledge_bot": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "employee_fatigue_risk_monitor": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "scada_vpn_access_helpdesk_bot": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "union_contract_benefits_assistant": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "warehouse_inventory_drone_auditor": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "facility_management_work_order_router": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "power_purchase_agreement_legal_reviewer": {
+    "domain": "support_services",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "app": {
+    "domain": "_template",
+    "cols": [
+      "id",
+      "value"
+    ]
+  },
+  "critical_peak_pricing_calculator": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "low_income_assistance_eligibility_checker": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "wholesale_vendor_payment_reconciler": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "dynamic_real_time_pricing_biller": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "high_bill_spike_anomaly_flag": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "budget_billing_levelization_calculator": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "net_metering_export_credit_processor": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "electric_vehicle_submeter_billing_processor": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "community_solar_subscription_allocator": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "estimated_bill_fallback_generator": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "time_of_use_charge_calculator": {
+    "domain": "billing_and_invoicing",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "dark_spread_heat_rate_calculator": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "iso_rto_bidding_curve_generator": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "real_time_lmp_tracker": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "financial_transmission_right_copilot": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "carbon_allowance_market_tracker": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "natural_gas_pipeline_constraint_analyzer": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "coal_inventory_burn_rate_advisor": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "spark_spread_heat_rate_calculator": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "day_ahead_lmp_forecaster": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "renewable_energy_certificate_trader": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "portfolio_value_at_risk_analyzer": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ancillary_services_bid_optimizer": {
+    "domain": "wholesale_trading",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "price_usd_mwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "under_frequency_load_shedding_simulator": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "reactive_power_capacitor_dispatcher": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "tie_line_interconnection_limit_supervisor": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "system_inertia_tracker": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "islanding_detection_and_management_bot": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "voltage_sag_swell_mitigator": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "battery_storage_discharge_optimizer": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "distribution_phase_imbalance_detector": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "grid_frequency_deviation_monitor": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "congestion_node_price_mapper": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "transmission_line_loss_minimizer": {
+    "domain": "grid_balancing",
+    "cols": [
+      "timestamp_column",
+      "node_id",
+      "frequency_hz",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ev_rate_plan_comparison_guide": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "high_bill_weather_correlation_explainer": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "appliance_disaggregation_efficiency_advisor": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "solar_panel_installation_advisor": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "move_in_move_out_coordinator": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "multi_language_translation_router": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "new_construction_trenching_guide": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "proactive_outage_sms_communicator": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "life_support_critical_care_outreach_bot": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "smart_home_device_integration_helper": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "omnichannel_intent_triage_router": {
+    "domain": "customer_engagement",
+    "cols": [
+      "timestamp_column",
+      "customer_id",
+      "amount_billed",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "drone_inspection_image_processor": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "transformer_dga_health_monitor": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "hydro_dam_structural_stress_monitor": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "substation_battery_health_tracker": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ev_charging_station_maintenance_tracker": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "transmission_tower_corrosion_analyzer": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "maintenance_fleet_dispatch_scheduler": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "solar_inverter_string_fault_detector": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "circuit_breaker_wear_analyzer": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "wind_turbine_gearbox_vibration_analyzer": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "capital_replacement_simulator": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "derms_capacity_optimizer": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "smart_grid_sensor_health_monitor": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "spare_parts_inventory_forecaster": {
+    "domain": "asset_management",
+    "cols": [
+      "timestamp_column",
+      "asset_id",
+      "health_score",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ferc_form_1_financial_drafter": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "puc_rate_case_testimony_drafter": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "saidi_saifi_reliability_metric_tracker": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "esg_scope_1_2_carbon_calculator": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "osha_safety_incident_classifier": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "water_usage_discharge_reporter": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "customer_pii_redaction_scrubber": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "epa_cems_emissions_aggregator": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "nerc_cip_cybersecurity_audit_analyzer": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "hazardous_waste_disposal_tracker": {
+    "domain": "regulatory_compliance",
+    "cols": [
+      "timestamp_column",
+      "record_id",
+      "metric_value",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "demand_response_thermostat_setback_trigger": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "zero_consumption_anomaly_flag": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "meter_firmware_ota_scheduler": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "customer_baseline_load_cbl_calculator": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ami_interval_data_vee_processor": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "smart_meter_temperature_anomaly_detector": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ami_mesh_network_health_monitor": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "localized_outage_ping_diagnostic_bot": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "meter_inversion_tamper_detector": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "prepaid_metering_balance_tracker": {
+    "domain": "smart_meter_management",
+    "cols": [
+      "timestamp_column",
+      "meter_id",
+      "consumption_kwh",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "microgrid_generation_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "pumped_hydro_storage_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "thermal_plant_outage_availability_tracker": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "commercial_load_curve_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "extreme_weather_anomaly_alert_bot": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "ev_charging_load_spike_predictor": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "hydro_inflow_snowpack_estimator": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "wind_speed_generation_modeler": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "geothermal_output_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "solar_irradiance_predictor": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "industrial_load_curve_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "residential_load_curve_forecaster": {
+    "domain": "production_forecasting",
+    "cols": [
+      "timestamp_column",
+      "plant_id",
+      "generation_mw",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "utilities_master_orchestrator": {
+    "domain": "master_orchestrator",
+    "cols": [
+      "id",
+      "value"
+    ]
+  },
+  "mutual_assistance_resource_allocator": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "mobile_substation_deployment_planner": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "emergency_crew_dispatch_router": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "outage_footprint_topology_mapper": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "dynamic_etr_calculator": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "wildfire_risk_deenergization_trigger": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "scada_breaker_trip_correlator": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "storm_damage_prediction_modeler": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "vegetation_encroachment_lidar_analyzer": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "flisr_switching_simulator": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  },
+  "black_start_restoration_sequencer": {
+    "domain": "grid_operations",
+    "cols": [
+      "timestamp_column",
+      "feeder_id",
+      "voltage_kv",
+      "status_flag",
+      "anomaly_score"
+    ]
+  }
+}

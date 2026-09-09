@@ -12,7 +12,7 @@ This document defines the architectural principles, operational standards, and f
 
 2. **Strict Single-Purpose Scope:**
    - Every agent enforces the Single Responsibility Principle: Atomic, focused tasks (e.g., separating solar generation prediction from wholesale bidding curve optimization).
-   - The fleet spans 113 production agents across 11 sub-domains, covering the complete operational footprint of a modern energy & water utility.
+   - The fleet spans 113 production agents across 10 business domains (coordinated by the Master Orchestrator), covering the complete operational footprint of a modern energy & water utility.
 
 3. **Standardized Agent Package & Sub-Agent Structure (Worker + Critic):** 
    - Every specialized agent contains:

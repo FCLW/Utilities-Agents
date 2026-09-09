@@ -7,7 +7,7 @@
 [![BigQuery](https://img.shields.io/badge/Lakehouse-BigQuery-669DF6.svg)](https://cloud.google.com/bigquery)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
-A production-ready enterprise multi-agent fleet comprising **113 specialized autonomous agents** across **11 core energy and utilities sub-domains**. Built on the **Google Agent Development Kit (ADK) v2.0** and powered by Gemini models, the fleet orchestrates real-time BigQuery telemetry queries, dynamic visual charting, automated regulatory audits, and grounded industry intelligence.
+A production-ready enterprise multi-agent fleet comprising **113 specialized autonomous agents** across **10 business domains** (coordinated by the Universal Master Orchestrator). Built on the **Google Agent Development Kit (ADK) v2.0** and powered by Gemini models, the fleet orchestrates real-time BigQuery telemetry queries, dynamic visual charting, automated regulatory audits, and grounded industry intelligence.
 
 ---
 
@@ -60,7 +60,7 @@ For complete technical specifications, see [ARCHITECTURE.md](file:///usr/local/g
 
 ---
 
-## 📊 Fleet Portfolio (113 Agents Across 11 Domains)
+## 📊 Fleet Portfolio (113 Agents Across 10 Business Domains + Master Orchestrator)
 
 | Sub-Domain | Count | Primary Focus | Key KPIs |
 | :--- | :---: | :--- | :--- |
