@@ -41,7 +41,43 @@ except ImportError:
 def healthz():
     return {"status": "ok"}
 
+import json
+import asyncio
+
 @app.post("/chat/stream")
 async def chat_stream(request: dict):
-    # Process with adk_app and return SSE
-    pass
+    """Streams agent responses formatted as Server-Sent Events (SSE)."""
+    message = request.get("message") or request.get("prompt") or request.get("query") or ""
+    session_state = request.get("session_state") or {}
+
+    async def event_generator():
+        try:
+            yield f"event: open
+data: {json.dumps({'agent': task_lead_agent.name})}
+
+"
+            from .agent import workflow_router
+            result = await workflow_router(message, session_state)
+            
+            chunk_size = 64
+            for i in range(0, len(result), chunk_size):
+                chunk = result[i:i + chunk_size]
+                payload = json.dumps({"delta": chunk, "agent": task_lead_agent.name})
+                yield f"event: message
+data: {payload}
+
+"
+                await asyncio.sleep(0.01)
+            
+            yield f"event: done
+data: {json.dumps({'status': 'completed'})}
+
+"
+        except Exception as e:
+            err_payload = json.dumps({"error": str(e)})
+            yield f"event: error
+data: {err_payload}
+
+"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")

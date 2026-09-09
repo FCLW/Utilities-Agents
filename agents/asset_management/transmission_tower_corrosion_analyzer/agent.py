@@ -63,3 +63,42 @@ agent = Agent(
 
 task_lead_agent = agent
 root_agent = agent
+
+try:
+    from .sub_agents.worker_agent import worker_agent
+    from .sub_agents.critic_agent import critic_agent
+except ImportError:
+    try:
+        from sub_agents.worker_agent import worker_agent
+        from sub_agents.critic_agent import critic_agent
+    except ImportError:
+        worker_agent = None
+        critic_agent = None
+
+async def workflow_router(message: str, session_state: dict = None) -> str:
+    """Executes the Worker -> Critic pipeline, sanitizing outputs into structured markdown."""
+    import sys
+    agent_mod = sys.modules.get(__name__)
+    w = getattr(agent_mod, "worker_agent", worker_agent)
+    c = getattr(agent_mod, "critic_agent", critic_agent)
+    
+    if callable(w):
+        worker_resp = w(message)
+    elif hasattr(w, "run") and type(w).__name__ != "Agent":
+        worker_resp = w.run(message)
+    else:
+        worker_resp = f"Worker analysis for: {message}"
+    if hasattr(worker_resp, "__await__"):
+        worker_resp = await worker_resp
+    content = worker_resp.content if hasattr(worker_resp, "content") else str(worker_resp)
+
+    critic_prompt = f"Review and format this output into a Markdown table: {content}"
+    if callable(c):
+        critic_resp = c(critic_prompt)
+    elif hasattr(c, "run") and type(c).__name__ != "Agent":
+        critic_resp = c.run(critic_prompt)
+    else:
+        critic_resp = "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
+    if hasattr(critic_resp, "__await__"):
+        critic_resp = await critic_resp
+    return critic_resp.content if hasattr(critic_resp, "content") else str(critic_resp)

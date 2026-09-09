@@ -21,9 +21,10 @@ import sys
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from config.settings import settings
 from config.agent_descriptions import AGENT_DESCRIPTIONS
 
-PROJECT_ID = "utilities-agents"
+PROJECT_ID = settings.gcp_project_id
 PROJECT_NUMBER = "1032317060288"
 GE_APP_ID = f"projects/{PROJECT_NUMBER}/locations/global/collections/default_collection/engines/gemini-enterprise-utilitie_1787647502756"
 

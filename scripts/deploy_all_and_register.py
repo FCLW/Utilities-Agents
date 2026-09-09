@@ -15,6 +15,9 @@ import concurrent.futures
 from pathlib import Path
 import requests
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config.settings import settings
+
 def get_adk_binary() -> str:
     local_adk = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".venv", "bin", "adk"))
     if os.path.exists(local_adk):
@@ -137,7 +140,7 @@ def main():
     parser.add_argument("--skip-ge-register", action="store_true", help="Skip registration to Gemini Enterprise at the end")
     args = parser.parse_args()
 
-    project_id = "utilities-agents"
+    project_id = settings.gcp_project_id
     regions = ["us-central1", "us-east4"]
     adk_bin = get_adk_binary()
 

@@ -48,15 +48,58 @@ telemetry_callbacks = get_telemetry_callbacks(agent_name="utilities_master_orche
 callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
 
 
+try:
+    from config.session_state import UtilitiesSessionState
+except ImportError:
+    UtilitiesSessionState = None
+
+from .app_utils.prompt_loader import load_prompt_layer
+
+persona = load_prompt_layer("persona")
+business_rules = load_prompt_layer("business_rules")
+safety_guardrails = load_prompt_layer("safety_guardrails")
+output_format = load_prompt_layer("output_format")
+
+instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_format}"
+
 agent = Agent(
     name="utilities_master_orchestrator",
     model="gemini-3.7-flash",
     description="Serves as the enterprise AI master coordinator, intelligently routing domain queries, orchestrating multi-agent workflows, and aggregating telemetry insights across all 10 utility operational sub-domains.",
-    instruction="You are the Utilities Master Orchestrator for Energy & Utilities workflows. You coordinate across specialized sub-agents to analyze telemetry, calculate metrics, and execute operational recommendations.",
+    instruction=instruction,
     sub_agents=[execution_agent, critic_agent],
     tools=[BigQueryQueryTool(), GoogleSearchTool(), VisualizerTool()],
+    state_schema=UtilitiesSessionState,
     **callbacks
 )
 
 task_lead_agent = agent
 root_agent = agent
+
+async def workflow_router(message: str, session_state: dict = None) -> str:
+    """Executes the Execution -> Critic pipeline, sanitizing outputs into structured markdown."""
+    import sys
+    agent_mod = sys.modules.get(__name__)
+    w = getattr(agent_mod, "execution_agent", execution_agent)
+    c = getattr(agent_mod, "critic_agent", critic_agent)
+    
+    if callable(w):
+        worker_resp = w(message)
+    elif hasattr(w, "run") and type(w).__name__ != "Agent":
+        worker_resp = w.run(message)
+    else:
+        worker_resp = f"Execution analysis for: {message}"
+    if hasattr(worker_resp, "__await__"):
+        worker_resp = await worker_resp
+    content = worker_resp.content if hasattr(worker_resp, "content") else str(worker_resp)
+
+    critic_prompt = f"Review and format this output into a Markdown table: {content}"
+    if callable(c):
+        critic_resp = c(critic_prompt)
+    elif hasattr(c, "run") and type(c).__name__ != "Agent":
+        critic_resp = c.run(critic_prompt)
+    else:
+        critic_resp = "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
+    if hasattr(critic_resp, "__await__"):
+        critic_resp = await critic_resp
+    return critic_resp.content if hasattr(critic_resp, "content") else str(critic_resp)

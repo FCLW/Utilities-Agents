@@ -14,6 +14,9 @@ import json
 import re
 from pathlib import Path
 
+sys.path.insert(0, str(Path('.').resolve()))
+from config.settings import settings
+
 # Set up DirectTokenCredentials for Vertex AI
 from google.auth.credentials import Credentials
 import google.auth
@@ -31,11 +34,9 @@ class DirectTokenCredentials(Credentials):
 try:
     token = subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True).strip()
     creds = DirectTokenCredentials(token)
-    google.auth.default = lambda *args, **kwargs: (creds, 'utilities-agents')
+    google.auth.default = lambda *args, **kwargs: (creds, settings.gcp_project_id)
 except Exception as e:
     print(f"Warning: Failed to fetch gcloud token: {e}")
-
-sys.path.insert(0, str(Path('.').resolve()))
 
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService

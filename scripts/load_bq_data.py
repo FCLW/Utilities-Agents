@@ -36,7 +36,9 @@ def load_data():
             if not agent_dir.is_dir():
                 continue
             
-            sync_data_dir = agent_dir / "app" / "synthetic_data"
+            sync_data_dir = agent_dir / "synthetic_data"
+            if not sync_data_dir.exists():
+                sync_data_dir = agent_dir / "app" / "synthetic_data"
             if not sync_data_dir.exists():
                 continue
 

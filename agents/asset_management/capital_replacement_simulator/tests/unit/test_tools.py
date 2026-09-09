@@ -1,6 +1,22 @@
+import sys
+from pathlib import Path
 import pytest
 from unittest.mock import patch, MagicMock
-from app.tools.bigquery_tool import BigQueryQueryTool
+
+agent_dir = Path(__file__).resolve().parents[2]
+if str(agent_dir) not in sys.path:
+    sys.path.insert(0, str(agent_dir))
+
+import tools.bigquery_tool
+import types
+if 'app' not in sys.modules:
+    app_mod = types.ModuleType('app')
+    app_tools_mod = types.ModuleType('app.tools')
+    sys.modules['app'] = app_mod
+    sys.modules['app.tools'] = app_tools_mod
+sys.modules['app.tools.bigquery_tool'] = tools.bigquery_tool
+
+from tools.bigquery_tool import BigQueryQueryTool
 
 def test_defensive_sql_guardrails():
     tool = BigQueryQueryTool()

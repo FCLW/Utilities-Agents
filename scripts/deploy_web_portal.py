@@ -3,9 +3,12 @@ import os
 import sys
 from pathlib import Path
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config.settings import settings
+
 def deploy_showcase():
-    project_id = "utilities-agents"
-    region = "us-central1"
+    project_id = settings.gcp_project_id
+    region = settings.gcp_region
     web_dir = Path("web")
     
     if not web_dir.exists():
@@ -59,7 +62,7 @@ EXPOSE 8080
 }
 """
 
-    image_tag = f"us-central1-docker.pkg.dev/{project_id}/cloud-run-source-deploy/utilities-agents-portal:latest"
+    image_tag = f"{region}-docker.pkg.dev/{project_id}/cloud-run-source-deploy/utilities-agents-portal:latest"
 
     cloudbuild_content = f"""steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'

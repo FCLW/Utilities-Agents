@@ -1,22 +1,56 @@
-from google.adk import Agent
+import os
 from pathlib import Path
 import sys
-import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
-from config.settings import settings
+# Ensure global endpoint for Gemini 3.7 Flash on Vertex AI
+os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+
+from google.adk import Agent
+from .app_utils.prompt_loader import load_prompt_layer
 from .tools.bigquery_tool import BigQueryQueryTool
 from .tools.search_tool import GoogleSearchTool
-from .tools.visualizer import render_chart
+from .tools.visualizer import VisualizerTool
 
-instructions_dir = Path(__file__).parent / "instructions"
+try:
+    from config.settings import settings
+except ImportError:
+    class Settings:
+        gcp_project_id = os.getenv("GCP_PROJECT_ID", "utilities-agents")
+        gcp_region = os.getenv("GCP_REGION", "us-central1")
+        gcp_location = "global"
+        llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-3.7-flash")
+        reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-3.7-flash")
+        bq_dataset_name = os.getenv("BQ_DATASET_NAME", "utilities-agents")
+    settings = Settings()
+
+try:
+    from config.model_armor import get_model_armor_callbacks
+    armor_callbacks = get_model_armor_callbacks()
+except ImportError:
+    armor_callbacks = {}
+
+try:
+    from config.telemetry import get_telemetry_callbacks, combine_agent_callbacks
+    telemetry_callbacks = get_telemetry_callbacks(agent_name="{{AGENT_ID}}")
+    callbacks = combine_agent_callbacks(armor_callbacks, telemetry_callbacks)
+except ImportError:
+    callbacks = armor_callbacks
+
+persona = load_prompt_layer("persona")
+business_rules = load_prompt_layer("business_rules")
+safety_guardrails = load_prompt_layer("safety_guardrails")
+output_format = load_prompt_layer("output_format")
+
+instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_format}"
 
 agent = Agent(
-    name="{{agent_name}}",
+    name="{{AGENT_ID}}",
     model=settings.llm_model_name,
-    persona=instructions_dir / "persona.md",
-    business_rules=instructions_dir / "business_rules.md",
-    output_format=instructions_dir / "output_format.md",
-    safety_guardrails=instructions_dir / "safety_guardrails.md",
-    tools=[BigQueryQueryTool(), GoogleSearchTool(), render_chart],
+    description="{{AGENT_NAME}} autonomous agent for enterprise utilities workflows.",
+    instruction=instruction,
+    tools=[BigQueryQueryTool(), GoogleSearchTool(), VisualizerTool()],
+    **callbacks
+)
 
+task_lead_agent = agent
+root_agent = agent

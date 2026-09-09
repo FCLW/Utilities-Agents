@@ -30,3 +30,9 @@ dependencies = [
     "pytest-asyncio>=0.23.0"
 ]
 
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "--import-mode=importlib -W ignore::DeprecationWarning"
+testpaths = ["agents"]
+asyncio_mode = "auto"
+

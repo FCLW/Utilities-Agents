@@ -5,6 +5,11 @@ import requests
 import google.auth
 import google.auth.transport.requests
 from pathlib import Path
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config.settings import settings
 
 def get_auth():
     try:
@@ -49,7 +54,7 @@ def list_reasoning_engines(token, project_id, locations):
 def get_registered_ge_agents(token, ge_app_id):
     headers = {
         'Authorization': f'Bearer {token}',
-        'x-goog-user-project': 'utilities-agents'
+        'x-goog-user-project': settings.gcp_project_id
     }
     url = f"https://discoveryengine.googleapis.com/v1alpha/{ge_app_id}/assistants/default_assistant/agents"
     registered = []
@@ -73,7 +78,7 @@ def get_registered_ge_agents(token, ge_app_id):
     return registered
 
 def main():
-    project_id = "utilities-agents"
+    project_id = settings.gcp_project_id
     project_number = "1032317060288"
     ge_app_id = f"projects/{project_number}/locations/global/collections/default_collection/engines/gemini-enterprise-utilitie_1787647502756"
     locations = ["us-central1", "us-east4", "us-east1", "us-west1"]

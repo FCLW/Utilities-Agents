@@ -11,6 +11,9 @@ try:
 except ImportError:
     class MockClient:
         def __init__(self, **kwargs): pass
+    bigquery = MockClient()
+
+DOMAIN_SA_MAP = {
     "master_orchestrator": "orchestrator-sa",
     "asset_management": "asset-mgmt-sa",
     "billing_and_invoicing": "billing-sa",
