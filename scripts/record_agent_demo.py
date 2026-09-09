@@ -227,8 +227,9 @@ async def record_single_agent(
     worker_id: int = 0,
     headless: bool = True,
     turns_count: int = 4,
-    read_pause: float = 1.8,
-    speedup_factor: float = 6.0,
+    typing_delay: int = 35,
+    read_pause: float = 2.2,
+    speedup_factor: float = 10.0,
     skip_existing: bool = False,
     upload: bool = False
 ) -> Path | None:
@@ -238,9 +239,9 @@ async def record_single_agent(
     domain_output_dir.mkdir(parents=True, exist_ok=True)
     target_video_file = domain_output_dir / f"{agent_name}.mp4"
 
-    AUTHENTIC_CUTOFF = 1788957600  # 2026-09-09 12:40:00 UTC (4-turn sped-up cutoff)
+    AUTHENTIC_CUTOFF = 1788961200  # 2026-09-09 13:40:00 UTC (enhanced slower typing, natural scroll, 10x speedup cutoff)
     if skip_existing and target_video_file.exists() and target_video_file.stat().st_mtime > AUTHENTIC_CUTOFF:
-        print(f"⏩ Skipping {agent_name} (already recorded with 4-turn sped-up format: {target_video_file.stat().st_size / (1024*1024):.1f} MB)", flush=True)
+        print(f"⏩ Skipping {agent_name} (already recorded with enhanced 4-turn format: {target_video_file.stat().st_size / (1024*1024):.1f} MB)", flush=True)
         try:
             generate_html_showcase(agent_name, domain=domain, output_dir=output_dir)
         except Exception:
@@ -323,7 +324,7 @@ async def record_single_agent(
                 await agents_btn.click()
             await asyncio.sleep(2.5)
 
-            # 2. Search for the agent in center search box
+            # 2. Search for the agent in center search box (with readable typing)
             print(f"👉 Step 2: Searching for '{clean_name}'...", flush=True)
             candidate_inputs = await page.locator("input:visible").all()
             searched = False
@@ -331,13 +332,13 @@ async def record_single_agent(
                 box = await inp.bounding_box()
                 if box and box["x"] > 250 and box["y"] < 350:
                     await inp.click()
-                    await inp.type(clean_name, delay=20)
+                    await inp.type(clean_name, delay=typing_delay)
                     searched = True
                     break
             if not searched:
                 search_box = page.locator("input[placeholder*='Search' i]:visible").last
                 await search_box.click()
-                await search_box.type(clean_name, delay=20)
+                await search_box.type(clean_name, delay=typing_delay)
             await asyncio.sleep(2.5)
 
             # 3. Click the agent card
@@ -368,12 +369,16 @@ async def record_single_agent(
                 await input_box.wait_for(state="visible", timeout=15000)
                 await input_box.click()
                 await asyncio.sleep(0.3)
+                
                 # Clear any lingering text
                 await input_box.press("ControlOrMeta+a")
                 await input_box.press("Backspace")
                 await asyncio.sleep(0.2)
-                await input_box.press_sequentially(prompt_text, delay=10)
-                await asyncio.sleep(0.4)
+                
+                # Slower typing so the viewer can read clearly
+                await input_box.press_sequentially(prompt_text, delay=typing_delay)
+                # Pause slightly after typing completes so viewer can see the complete text
+                await asyncio.sleep(0.6)
 
                 send_btn = page.locator(
                     "button[aria-label*='Send' i]:visible, button[aria-label*='Submit' i]:visible, button:visible:has(mat-icon:has-text('arrow_upward'))"
@@ -408,7 +413,30 @@ async def record_single_agent(
                 wait_end = time.time() - rec_start_time
                 wait_intervals.append((wait_start, wait_end))
 
-                # Short readable pause before next turn
+                # Smooth, natural-pace scroll down through the response to the bottom
+                print(f"   📜 Scrolling down through Turn {idx} response at natural pace...", flush=True)
+                center_x = int(w * 0.55)
+                center_y = int(h * 0.5)
+                await page.mouse.move(center_x, center_y)
+                await asyncio.sleep(0.3)
+
+                # Incremental natural mouse wheel scrolling
+                for _ in range(16):
+                    await page.mouse.wheel(0, 85)
+                    await asyncio.sleep(0.08)
+
+                # Ensure container is smoothly aligned to the absolute bottom
+                await page.evaluate("""() => {
+                    const scrollables = Array.from(document.querySelectorAll('*')).filter(el => {
+                        const style = window.getComputedStyle(el);
+                        return (style.overflowY === 'auto' || style.overflowY === 'scroll') && el.scrollHeight > el.clientHeight;
+                    });
+                    for (const el of scrollables) {
+                        el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+                    }
+                }""")
+
+                # Pause at bottom for human reading comprehension before moving to next turn
                 await asyncio.sleep(read_pause)
 
             # 5. Smooth mouse scroll walkthrough across the multi-turn session
@@ -419,19 +447,19 @@ async def record_single_agent(
             await asyncio.sleep(0.5)
 
             # Scroll up smoothly to inspect previous turns
-            for _ in range(35):
-                await page.mouse.wheel(0, -220)
-                await asyncio.sleep(0.03)
-            await asyncio.sleep(2.0)
+            for _ in range(30):
+                await page.mouse.wheel(0, -180)
+                await asyncio.sleep(0.04)
+            await asyncio.sleep(1.8)
 
             # Scroll down smoothly to return to latest turn
-            for _ in range(35):
-                await page.mouse.wheel(0, 220)
-                await asyncio.sleep(0.03)
-            await asyncio.sleep(2.0)
+            for _ in range(30):
+                await page.mouse.wheel(0, 180)
+                await asyncio.sleep(0.04)
+            await asyncio.sleep(1.8)
 
             print("👉 Step 6: Finalizing recording...", flush=True)
-            await asyncio.sleep(1.5)
+            await asyncio.sleep(1.2)
             await context.close()
 
         except Exception as e:
@@ -488,8 +516,9 @@ async def run_batch(
     output_dir: Path,
     concurrency: int = 1,
     turns: int = 4,
-    speedup: float = 6.0,
-    read_pause: float = 1.8,
+    typing_delay: int = 35,
+    speedup: float = 10.0,
+    read_pause: float = 2.2,
     skip_existing: bool = False,
     upload: bool = False
 ):
@@ -503,6 +532,7 @@ async def run_batch(
                 output_dir=output_dir,
                 worker_id=wid,
                 turns_count=turns,
+                typing_delay=typing_delay,
                 read_pause=read_pause,
                 speedup_factor=speedup,
                 skip_existing=skip_existing,
@@ -526,8 +556,9 @@ def main():
     parser.add_argument("--domain-filter", type=str, help="Filter by sub-domain for batch recording")
     parser.add_argument("--all", action="store_true", help="Record all agents in the catalog")
     parser.add_argument("--turns", type=int, default=4, help="Number of turns to record per agent (default: 4)")
-    parser.add_argument("--speedup", type=float, default=6.0, help="Acceleration factor for agent waiting periods (default: 6.0)")
-    parser.add_argument("--read-pause", type=float, default=1.8, help="Pause between turns in seconds (default: 1.8)")
+    parser.add_argument("--typing-delay", type=int, default=35, help="Keystroke typing delay in ms (default: 35)")
+    parser.add_argument("--speedup", type=float, default=10.0, help="Acceleration factor for agent waiting periods (default: 10.0)")
+    parser.add_argument("--read-pause", type=float, default=2.2, help="Pause after response scroll in seconds (default: 2.2)")
     parser.add_argument("--concurrency", type=int, default=1, help="Number of concurrent browser instances (default: 1)")
     parser.add_argument("--skip-existing", action="store_true", help="Skip agents with existing MP4")
     parser.add_argument("--headless", action="store_true", default=True, help="Run Chrome headless (default: True)")
@@ -545,6 +576,7 @@ def main():
                 output_dir=args.output_dir,
                 headless=args.headless,
                 turns_count=args.turns,
+                typing_delay=args.typing_delay,
                 read_pause=args.read_pause,
                 speedup_factor=args.speedup,
                 skip_existing=args.skip_existing,
@@ -562,13 +594,14 @@ def main():
         if args.domain_filter:
             agents = [a for a in agents if a["domain"] == args.domain_filter]
 
-        print(f"📋 Queued {len(agents)} agents for recording (concurrency={args.concurrency}, turns={args.turns}, speedup={args.speedup}x)...")
+        print(f"📋 Queued {len(agents)} agents for recording (concurrency={args.concurrency}, turns={args.turns}, speedup={args.speedup}x, typing_delay={args.typing_delay}ms)...")
         asyncio.run(
             run_batch(
                 agents_to_run=agents,
                 output_dir=args.output_dir,
                 concurrency=args.concurrency,
                 turns=args.turns,
+                typing_delay=args.typing_delay,
                 speedup=args.speedup,
                 read_pause=args.read_pause,
                 skip_existing=args.skip_existing,
