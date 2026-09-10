@@ -23,7 +23,7 @@ def test_collaborative_workflows():
     w3 = orchestrator.run_workflow("dynamic_line_rating", corridor_id="LINE-NORTH-230")
     assert w3["status"] == "CONGESTION_RELIEVED"
 
-    # FLISR with AlphaEvolve & Mandatory HITL
+    # FLISR with Topological Reconfiguration & Mandatory HITL
     w4 = orchestrator.run_workflow("flisr_restoration", faulted_feeder="F-102")
     assert w4["requires_hitl_approval"] is True
     ticket_id = w4["hitl_ticket_id"]

@@ -6,7 +6,7 @@ from grid_optimization.tools.multi_dataset_bq_tool import MultiDatasetBigQueryTo
 from grid_optimization.sub_agents.planning_sub_agents import (
     ContingencySimulatorSubAgent,
     HostingCapacityEngineSubAgent,
-    AlphaEvolveFeederReconfiguratorSubAgent,
+    TopologicalFeederReconfiguratorSubAgent,
     LoadGrowthForecasterSubAgent,
     NonWiresAlternativesEvaluatorSubAgent,
     InterconnectionStudyCopilotSubAgent
@@ -24,7 +24,7 @@ class PlanningEngineerPersona:
         self.sub_agents = {
             "contingency": ContingencySimulatorSubAgent(),
             "hosting_capacity": HostingCapacityEngineSubAgent(),
-            "alphaevolve_feeder": AlphaEvolveFeederReconfiguratorSubAgent(),
+            "topological_feeder": TopologicalFeederReconfiguratorSubAgent(),
             "load_growth": LoadGrowthForecasterSubAgent(),
             "nwa_evaluator": NonWiresAlternativesEvaluatorSubAgent(),
             "interconnection": InterconnectionStudyCopilotSubAgent()
@@ -43,7 +43,7 @@ class PlanningEngineerPersona:
                 "status": "COMPLETED"
             }
         elif task_type == "SEASONAL_TOPOLOGY_OPTIMIZATION":
-            sub_results["evolved_topology"] = self.sub_agents["alphaevolve_feeder"].execute(payload).data
+            sub_results["evolved_topology"] = self.sub_agents["topological_feeder"].execute(payload).data
             return {
                 "persona": self.persona_id,
                 "task_type": task_type,

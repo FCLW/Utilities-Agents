@@ -1,7 +1,6 @@
 import pytest
 from grid_optimization.advanced_engines.weathernext_engine import WeatherNextEngine
 from grid_optimization.advanced_engines.vizier_optimizer import VizierOptimizer
-from grid_optimization.advanced_engines.alphaevolve_engine import AlphaEvolveEngine
 from grid_optimization.advanced_engines.pdm_engine import PredictiveMaintenanceEngine
 
 def test_weathernext_engine():

@@ -2,7 +2,7 @@ import pytest
 from grid_optimization.skills import (
     WeatherNextTelemetryCorrelatorSkill,
     VizierBayesianVvoTunerSkill,
-    AlphaEvolveReconfiguratorSkill,
+    TopologicalFlisrReconfiguratorSkill,
     PredictiveMaintenanceHealthScorerSkill,
     PowerFlowSimulationSkill,
     ContingencyConstraintCheckerSkill,
@@ -23,8 +23,8 @@ def test_all_12_skills():
     s2 = VizierBayesianVvoTunerSkill().execute("F-101")
     assert s2["loss_reduction_pct"] > 0
 
-    # 3. AlphaEvolve reconfigurator
-    s3 = AlphaEvolveReconfiguratorSkill().execute("Sub-Metro")
+    # 3. Topological FLISR reconfigurator
+    s3 = TopologicalFlisrReconfiguratorSkill().execute("Sub-Metro")
     assert s3["optimal_loss_mw"] < s3["baseline_loss_mw"]
 
     # 4. PdM health scorer

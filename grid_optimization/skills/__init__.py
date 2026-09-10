@@ -1,7 +1,7 @@
 """Abstracted Reusable Analytical Skills for the Grid Optimization MAS."""
 from .skill_weathernext_telemetry_correlator import WeatherNextTelemetryCorrelatorSkill
 from .skill_vizier_bayesian_vvo_tuner import VizierBayesianVvoTunerSkill
-from .skill_alphaevolve_reconfigurator import AlphaEvolveReconfiguratorSkill
+from .skill_topological_flisr_reconfigurator import TopologicalFlisrReconfiguratorSkill
 from .skill_predictive_maintenance_health_scorer import PredictiveMaintenanceHealthScorerSkill
 from .skill_power_flow_simulation import PowerFlowSimulationSkill
 from .skill_contingency_constraint_checker import ContingencyConstraintCheckerSkill
@@ -15,7 +15,7 @@ from .skill_regulatory_audit_reporter import RegulatoryAuditReporterSkill
 __all__ = [
     "WeatherNextTelemetryCorrelatorSkill",
     "VizierBayesianVvoTunerSkill",
-    "AlphaEvolveReconfiguratorSkill",
+    "TopologicalFlisrReconfiguratorSkill",
     "PredictiveMaintenanceHealthScorerSkill",
     "PowerFlowSimulationSkill",
     "ContingencyConstraintCheckerSkill",

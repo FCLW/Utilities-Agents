@@ -8,7 +8,7 @@ from grid_optimization.sub_agents.dispatcher_sub_agents import (
     WeatherNextStormTrackerSubAgent,
     StateEstimationEngineSubAgent,
     VoltVarDispatchOptimizerSubAgent,
-    AlphaEvolveSwitchingCoordinatorSubAgent,
+    TopologicalSwitchingCoordinatorSubAgent,
     ContingencyScreenerSubAgent,
     DispatcherCopilotReasonerSubAgent
 )
@@ -27,7 +27,7 @@ class GridDispatcherPersona:
             "weathernext_storm": WeatherNextStormTrackerSubAgent(),
             "state_estimation": StateEstimationEngineSubAgent(),
             "vvo_optimizer": VoltVarDispatchOptimizerSubAgent(),
-            "alphaevolve_switching": AlphaEvolveSwitchingCoordinatorSubAgent(),
+            "topological_switching": TopologicalSwitchingCoordinatorSubAgent(),
             "contingency_screener": ContingencyScreenerSubAgent(),
             "copilot": DispatcherCopilotReasonerSubAgent()
         }
@@ -53,7 +53,7 @@ class GridDispatcherPersona:
             }
 
         elif task_type == "TRIGGER_FLISR_SWITCHING":
-            sub_results["switching"] = self.sub_agents["alphaevolve_switching"].execute(payload).data
+            sub_results["switching"] = self.sub_agents["topological_switching"].execute(payload).data
             ticket = self.hitl.evaluate_and_ticket(
                 requesting_agent=self.persona_id,
                 target_substation=payload.get("substation", "Sub-Metro"),

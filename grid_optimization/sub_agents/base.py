@@ -9,7 +9,7 @@ class AgentType(str, Enum):
     PREDICTIVE_ML = "PREDICTIVE_ML"                  # WeatherNext, LSTM load forecast, anomaly detection
     RULE_BASED_EXPERT = "RULE_BASED_EXPERT"          # Interlocking rules, NERC standards, safety tagouts
     EVENT_DRIVEN_REFLEX = "EVENT_DRIVEN_REFLEX"      # Low-latency SCADA alarm threshold triggers
-    OPTIMIZATION_ENGINE = "OPTIMIZATION_ENGINE"      # Vizier Bayesian tuning, AlphaEvolve genetic search
+    OPTIMIZATION_ENGINE = "OPTIMIZATION_ENGINE"      # Vizier Bayesian tuning, Topological Reconfiguration & Mathematical Optimization
 
 @dataclass
 class SubAgentOutput:
