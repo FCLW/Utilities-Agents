@@ -1,4 +1,4 @@
-"""Collaborative Workflow: FLISR Restoration with AlphaEvolve & Mandatory HITL."""
+"""Collaborative Workflow: FLISR Restoration with Topological Optimization & Mandatory HITL."""
 from typing import Dict, Any
 from grid_optimization.personas.grid_dispatcher import GridDispatcherPersona
 from grid_optimization.personas.field_operations_tech import FieldOperationsTechPersona
@@ -13,7 +13,7 @@ class FlisrRestorationWorkflow:
         self.protection = ProtectionControlPersona(hitl=self.hitl)
 
     def run(self, faulted_feeder: str = "F-102", substation: str = "Sub-Metro") -> Dict[str, Any]:
-        # Step 1: Dispatcher initiates FLISR via AlphaEvolve
+        # Step 1: Dispatcher initiates FLISR via Topological Reconfiguration
         disp_out = self.dispatcher.execute_task("TRIGGER_FLISR_SWITCHING", {
             "feeder_id": faulted_feeder,
             "substation": substation,
@@ -23,7 +23,7 @@ class FlisrRestorationWorkflow:
 
         ticket = disp_out["approval_ticket"]
         return {
-            "workflow_name": "Automated FLISR Restoration with AlphaEvolve Discovery",
+            "workflow_name": "Automated FLISR Restoration with Topological Reconfiguration",
             "faulted_feeder": faulted_feeder,
             "substation": substation,
             "requires_hitl_approval": True,

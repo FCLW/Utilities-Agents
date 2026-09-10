@@ -1,65 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grid Optimization MAS | Gemini Enterprise Agents for Utilities</title>
+  <title>Grid Optimization Multi-Agent System | Enterprise Utilities Catalog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-primary: #f8f9fa;
+      --bg-primary: #0f131a;
+      --bg-secondary: #181d28;
+      --bg-tertiary: #222938;
+      --border-color: #2e384d;
+      --text-primary: #f0f4fc;
+      --text-secondary: #9ba8c0;
+      --text-muted: #657491;
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: rgba(26, 115, 232, 0.15);
+      --success: #0d904f;
+      --success-light: rgba(13, 144, 79, 0.15);
+      --warning: #f9ab00;
+      --warning-light: rgba(249, 171, 0, 0.15);
+      --danger: #d93025;
+      --danger-light: rgba(217, 48, 37, 0.15);
+      --accent: #8ab4f8;
+      --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8fafd;
       --bg-secondary: #ffffff;
-      --bg-tertiary: #f1f3f4;
-      --text-primary: #202124;
+      --bg-tertiary: #f1f4f9;
+      --border-color: #e0e5ed;
+      --text-primary: #1f2329;
       --text-secondary: #5f6368;
-      --text-tertiary: #80868b;
-      --border-color: #dadce0;
+      --text-muted: #80868b;
       --primary: #1a73e8;
       --primary-hover: #1557b0;
       --primary-light: #e8f0fe;
-      --success: #1e8e3e;
+      --success: #137333;
       --success-light: #e6f4ea;
       --warning: #f9ab00;
       --warning-light: #fef7e0;
-      --danger: #d93025;
+      --danger: #c5221f;
       --danger-light: #fce8e6;
-      --card-shadow: 0 1px 3px rgba(60,64,67,0.12), 0 1px 2px rgba(60,64,67,0.08);
-      --card-shadow-hover: 0 4px 12px rgba(60,64,67,0.15), 0 1px 3px rgba(60,64,67,0.1);
-      --accent-purple: #9334e8;
-      --accent-purple-light: #f3e8fd;
-      --accent-cyan: #007b83;
-      --accent-cyan-light: #e0f2f1;
-      --accent-orange: #e8710a;
-      --accent-orange-light: #feefe3;
-    }
-
-    [data-theme="dark"] {
-      --bg-primary: #121212;
-      --bg-secondary: #1e1e1e;
-      --bg-tertiary: #2d2d2d;
-      --text-primary: #e8eaed;
-      --text-secondary: #9aa0a6;
-      --text-tertiary: #80868b;
-      --border-color: #3c4043;
-      --primary: #8ab4f8;
-      --primary-hover: #aecbfa;
-      --primary-light: rgba(138, 180, 248, 0.15);
-      --success: #81c995;
-      --success-light: rgba(129, 201, 149, 0.15);
-      --warning: #fdd663;
-      --warning-light: rgba(253, 214, 99, 0.15);
-      --danger: #f28b82;
-      --danger-light: rgba(242, 139, 130, 0.15);
-      --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      --card-shadow-hover: 0 4px 16px rgba(0,0,0,0.4);
-      --accent-purple: #c58af9;
-      --accent-purple-light: rgba(197, 138, 249, 0.15);
-      --accent-cyan: #4dd0e1;
-      --accent-cyan-light: rgba(77, 208, 225, 0.15);
-      --accent-orange: #fcad70;
-      --accent-orange-light: rgba(252, 173, 112, 0.15);
+      --accent: #1967d2;
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --card-shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,18 +58,18 @@
       font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-primary);
       color: var(--text-primary);
-      line-height: 1.6;
-      transition: background-color 0.2s, color 0.2s;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     /* Header */
     .site-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
       position: sticky;
       top: 0;
-      z-index: 100;
-      background-color: var(--bg-secondary);
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: 0 1px 2px rgba(60,64,67,0.06);
+      z-index: 110;
+      backdrop-filter: blur(8px);
     }
     .header-inner {
       max-width: 1440px;
@@ -94,141 +85,223 @@
       align-items: center;
       gap: 12px;
       text-decoration: none;
-      color: inherit;
+      color: var(--text-primary);
     }
     .brand-icon {
-      font-size: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, #1a73e8, #007b83);
-      color: #fff;
-      border-radius: 10px;
+      font-size: 1.8rem;
+      line-height: 1;
     }
     .brand-title {
       font-family: 'Google Sans', sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
+      display: block;
       color: var(--text-primary);
     }
     .brand-subtitle {
       font-size: 0.78rem;
-      color: var(--text-secondary);
+      color: var(--text-muted);
+      display: block;
     }
     .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .btn-header {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 14px;
+      padding: 8px 16px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       font-family: 'Google Sans', sans-serif;
-      border-radius: 8px;
+      border-radius: 20px;
       border: 1px solid var(--border-color);
       background: var(--bg-secondary);
       color: var(--text-primary);
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
     }
     .btn-header:hover {
       background: var(--bg-tertiary);
-      border-color: var(--text-tertiary);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .btn-primary-header {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.35);
+    }
+    .btn-primary-header:hover {
+      background: var(--primary-hover);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.45);
+    }
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .theme-toggle:hover {
+      background: var(--bg-tertiary);
     }
 
-    /* Container */
+    /* Main Container */
     .container {
       max-width: 1440px;
       margin: 0 auto;
-      padding: 24px 24px 64px;
+      padding: 24px 24px 80px;
     }
 
-    /* Hero */
-    .hero {
+    /* Hero Section */
+    .hero-section {
+      padding: 24px 0 20px;
       text-align: center;
-      padding: 24px 20px 20px;
-      max-width: 1100px;
-      margin: 0 auto 20px;
     }
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
-      background: linear-gradient(135deg, rgba(26,115,232,0.1), rgba(0,123,131,0.15));
-      border: 1px solid rgba(26,115,232,0.3);
-      border-radius: 20px;
+      border-radius: 24px;
+      background: var(--primary-light);
+      color: var(--accent);
       font-size: 0.85rem;
       font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 14px;
-    }
-    .hero h1 {
       font-family: 'Google Sans', sans-serif;
-      font-size: 2.3rem;
-      font-weight: 700;
-      margin-bottom: 12px;
-      line-height: 1.25;
-      background: linear-gradient(135deg, var(--text-primary), var(--primary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      border: 1px solid rgba(26, 115, 232, 0.25);
     }
-    .hero p {
-      font-size: 1.05rem;
+    .hero-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .hero-description {
+      max-width: 920px;
+      margin: 0 auto 28px;
       color: var(--text-secondary);
+      font-size: 1rem;
       line-height: 1.6;
-      margin-bottom: 24px;
     }
 
-    /* Navigation Tabs Bar */
-    .nav-tabs-wrapper {
+    /* Stats Grid - 5 Clean Cards (No HITL Box) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 6px;
-      margin-bottom: 32px;
+      border-radius: 14px;
+      padding: 16px 20px;
+      text-align: center;
       box-shadow: var(--card-shadow);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      position: sticky;
-      top: 68px;
-      z-index: 90;
+      transition: transform 0.2s;
     }
-    .nav-tab-btn {
-      flex: 1;
-      min-width: 140px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      color: var(--text-secondary);
+    .stat-card:hover {
+      transform: translateY(-2px);
+    }
+    .stat-value {
       font-family: 'Google Sans', sans-serif;
-      font-size: 0.86rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
       font-weight: 600;
-      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* STICKY TAB NAVIGATION BAR - Modern Pill Formatting with Zero Overlap */
+    .nav-tabs-container {
+      position: sticky;
+      top: 61px;
+      z-index: 100;
+      background: var(--bg-primary);
+      padding: 10px 0 14px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 28px;
+    }
+    .nav-tabs-wrapper {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.2s;
+      gap: 10px;
+      overflow-x: auto;
+      overflow-y: hidden;
       white-space: nowrap;
+      padding: 4px 2px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+    .nav-tabs-wrapper::-webkit-scrollbar {
+      height: 5px;
+    }
+    .nav-tabs-wrapper::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+    .nav-tab-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 24px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.2;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
     }
     .nav-tab-btn:hover {
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
+      background: var(--primary-light);
+      color: var(--accent);
+      border-color: rgba(26, 115, 232, 0.35);
+      transform: translateY(-1px);
     }
     .nav-tab-btn.active {
       background: var(--primary);
       color: #ffffff;
-      box-shadow: 0 2px 6px rgba(26,115,232,0.3);
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
+    }
+    .nav-tab-btn .tab-badge {
+      background: rgba(0, 0, 0, 0.15);
+      color: inherit;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-size: 0.74rem;
+      font-weight: 700;
+    }
+    .nav-tab-btn.active .tab-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
     }
 
     /* Tab Panes */
@@ -240,24 +313,25 @@
       display: block;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Common Card Styles */
+    /* Card Panels */
     .card {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 24px;
       box-shadow: var(--card-shadow);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
       gap: 12px;
     }
     .card-title {
@@ -267,89 +341,56 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      color: var(--text-primary);
     }
     .card-subtitle {
+      color: var(--text-muted);
       font-size: 0.88rem;
-      color: var(--text-secondary);
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .stat-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 18px;
-      text-align: center;
-      box-shadow: var(--card-shadow);
-    }
-    .stat-value {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* Filter Tabs for Personas */
+    /* Filter Bar for Personas */
     .filter-tabs {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       margin-bottom: 24px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
+      overflow-x: auto;
+      white-space: nowrap;
+      padding-bottom: 6px;
     }
-    .filter-tab {
+    .filter-btn {
       padding: 8px 16px;
       border-radius: 20px;
       border: 1px solid var(--border-color);
-      background: var(--bg-secondary);
+      background: var(--bg-tertiary);
       color: var(--text-secondary);
       font-family: 'Google Sans', sans-serif;
-      font-size: 0.86rem;
-      font-weight: 500;
+      font-size: 0.84rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .filter-tab:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+    .filter-btn:hover {
+      background: var(--primary-light);
+      color: var(--accent);
     }
-    .filter-tab.active {
+    .filter-btn.active {
       background: var(--primary);
-      color: #fff;
+      color: #ffffff;
       border-color: var(--primary);
     }
 
-    /* Personas Grid */
+    /* Personas Grid & Cards */
     .personas-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
       gap: 24px;
-      margin-bottom: 40px;
-    }
-    @media (max-width: 960px) {
-      .personas-grid { grid-template-columns: 1fr; }
     }
     .persona-card {
-      background: var(--bg-secondary);
+      background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 24px;
+      padding: 22px;
       box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
@@ -363,43 +404,44 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       gap: 12px;
     }
     .persona-name {
       font-family: 'Google Sans', sans-serif;
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-primary);
     }
     .persona-id {
       font-family: 'Roboto Mono', monospace;
       font-size: 0.78rem;
-      color: var(--text-tertiary);
-      margin-top: 2px;
+      color: var(--accent);
     }
     .horizon-tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--primary-light);
+      color: var(--accent);
       font-size: 0.75rem;
       font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 12px;
-      background: var(--primary-light);
-      color: var(--primary);
       white-space: nowrap;
     }
     .persona-role {
-      font-size: 0.88rem;
       color: var(--text-secondary);
-      margin-bottom: 18px;
-      line-height: 1.55;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      flex-grow: 1;
     }
     .subagent-section-title {
       font-family: 'Google Sans', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      color: var(--text-secondary);
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -409,437 +451,546 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .subagent-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-tertiary);
-      padding: 8px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      font-size: 0.84rem;
-      border: 1px solid rgba(0,0,0,0.03);
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
     }
     .subagent-title {
+      color: var(--text-primary);
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .agent-badge {
-      font-size: 0.72rem;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
       font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      white-space: nowrap;
+      text-transform: uppercase;
+      font-family: 'Roboto Mono', monospace;
     }
-    .badge-llm { background: var(--accent-purple-light); color: var(--accent-purple); }
-    .badge-physics { background: var(--primary-light); color: var(--primary); }
-    .badge-ml { background: var(--accent-cyan-light); color: var(--accent-cyan); }
-    .badge-rules { background: var(--warning-light); color: var(--warning); }
-    .badge-reflex { background: var(--danger-light); color: var(--danger); }
-    .badge-opt { background: var(--accent-orange-light); color: var(--accent-orange); }
+    .badge-reflex { background: rgba(234, 67, 53, 0.2); color: #ea4335; }
+    .badge-physics { background: rgba(66, 133, 244, 0.2); color: #4285f4; }
+    .badge-ml { background: rgba(161, 66, 244, 0.2); color: #a142f4; }
+    .badge-rule { background: rgba(52, 168, 83, 0.2); color: #34a853; }
+    .badge-opt { background: rgba(251, 188, 4, 0.2); color: #fbbc04; }
+    .badge-llm { background: rgba(255, 109, 0, 0.2); color: #ff6d00; }
 
-    .persona-footer {
-      margin-top: auto;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .meta-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-    }
-    .meta-title {
-      font-weight: 600;
-      color: var(--text-secondary);
-      min-width: 90px;
-    }
-    .meta-pills {
+    .bq-tag-group {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-top: 10px;
     }
-    .meta-pill {
-      background: var(--bg-tertiary);
+    .bq-tag {
+      background: var(--bg-secondary);
+      color: var(--text-muted);
       border: 1px solid var(--border-color);
-      padding: 2px 8px;
       border-radius: 6px;
-      font-family: 'Roboto Mono', monospace;
+      padding: 3px 8px;
       font-size: 0.72rem;
-      color: var(--text-primary);
+      font-family: 'Roboto Mono', monospace;
     }
 
-    /* Workflow Studio Styles */
-    .workflow-selector-grid {
+    /* Workflow Simulator */
+    .wf-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 960px) {
+      .wf-grid { grid-template-columns: 1fr; }
+      .personas-grid { grid-template-columns: 1fr; }
+    }
+    .wf-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
     .wf-select-card {
-      background: var(--bg-secondary);
+      background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 16px;
+      padding: 14px 16px;
       cursor: pointer;
       transition: all 0.2s;
-      position: relative;
     }
     .wf-select-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: var(--primary-light);
     }
     .wf-select-card.active {
       border-color: var(--primary);
       background: var(--primary-light);
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.25);
     }
     .wf-select-title {
       font-family: 'Google Sans', sans-serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      margin-bottom: 4px;
     }
-    .wf-select-desc {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-      line-height: 1.4;
+    .wf-select-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
-    .wf-run-container {
-      background: var(--bg-secondary);
+    .wf-display {
+      background: var(--bg-tertiary);
       border: 1px solid var(--border-color);
       border-radius: 14px;
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      margin-bottom: 32px;
-    }
-    .wf-diagram-step {
+      padding: 24px;
       display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 16px 0;
-      border-left: 3px solid var(--border-color);
-      padding-left: 20px;
-      margin-left: 14px;
-      position: relative;
+      flex-direction: column;
+      gap: 20px;
     }
-    .wf-diagram-step.active {
-      border-left-color: var(--primary);
-    }
-    .wf-diagram-step::before {
-      content: '';
-      position: absolute;
-      left: -9px;
-      top: 20px;
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
+    .wf-step-node {
       background: var(--bg-secondary);
-      border: 3px solid var(--border-color);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      position: relative;
+      transition: all 0.2s;
     }
-    .wf-diagram-step.active::before {
-      border-color: var(--primary);
-      background: var(--primary);
-    }
-    .wf-diagram-step.completed::before {
+    .wf-step-node.completed {
       border-color: var(--success);
-      background: var(--success);
+      background: rgba(13, 144, 79, 0.08);
     }
-    .wf-step-content {
-      flex: 1;
+    .wf-step-node.active-step {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(26, 115, 232, 0.35);
     }
-    .wf-step-header {
+    .step-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-    .wf-step-title {
+    .step-title {
       font-family: 'Google Sans', sans-serif;
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: var(--text-primary);
     }
-    .wf-step-persona {
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
+    .step-persona {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 10px;
       background: var(--primary-light);
-      color: var(--primary);
+      color: var(--accent);
+      font-weight: 600;
     }
-    .wf-step-desc {
-      font-size: 0.88rem;
+    .step-desc {
+      font-size: 0.85rem;
       color: var(--text-secondary);
-      line-height: 1.5;
-      margin-bottom: 10px;
+      line-height: 1.4;
+      margin-bottom: 8px;
     }
-    .wf-step-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.76rem;
+    .step-meta {
+      font-size: 0.74rem;
       font-family: 'Roboto Mono', monospace;
-      color: var(--text-tertiary);
+      color: var(--text-muted);
+    }
+    .wf-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .btn-sim {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 24px;
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sim:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+    .btn-sim-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+    .btn-sim-secondary:hover {
+      background: var(--bg-primary);
     }
 
-    /* Interactive Simulators */
-    .sim-grid {
+    /* Interactive Simulators Layout */
+    .studio-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 360px 1fr;
       gap: 24px;
-      margin-bottom: 32px;
     }
     @media (max-width: 960px) {
-      .sim-grid { grid-template-columns: 1fr; }
+      .studio-grid { grid-template-columns: 1fr; }
     }
-    .sim-control-panel {
-      background: var(--bg-tertiary);
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-    }
-    .sim-output-panel {
-      background: var(--bg-secondary);
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
+    .slider-group {
       display: flex;
       flex-direction: column;
+      gap: 16px;
     }
-    .control-group {
-      margin-bottom: 18px;
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .control-label {
+    .slider-label-row {
       display: flex;
       justify-content: space-between;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--text-primary);
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      font-weight: 500;
     }
-    .control-val {
+    .slider-val {
       font-family: 'Roboto Mono', monospace;
-      color: var(--primary);
+      color: var(--accent);
+      font-weight: 600;
     }
-    input[type=range] {
+    input[type="range"] {
       width: 100%;
       height: 6px;
       border-radius: 3px;
       background: var(--border-color);
       outline: none;
-      -webkit-appearance: none;
+      accent-color: var(--primary);
     }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--primary);
-      cursor: pointer;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-    }
-
-    /* SVG Canvas Visualizations */
-    .vis-canvas-box {
-      width: 100%;
-      height: 280px;
+    .visual-stage {
       background: var(--bg-tertiary);
-      border-radius: 10px;
       border: 1px solid var(--border-color);
-      margin-bottom: 16px;
+      border-radius: 14px;
+      padding: 24px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 380px;
       position: relative;
-      overflow: hidden;
-    }
-    svg.interactive-svg {
-      width: 100%;
-      height: 100%;
     }
 
-    /* Live HITL & Validation Section */
-    .live-dashboard {
+    /* Skills Grid */
+    .skills-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 16px;
     }
-    @media (max-width: 960px) {
-      .live-dashboard { grid-template-columns: 1fr; }
+    .skill-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s;
     }
+    .skill-card:hover {
+      transform: translateY(-2px);
+    }
+    .skill-id {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .skill-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .skill-formula {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Gauges */
     .gauge-group {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 24px;
     }
-    .gauge-card {
+    @media (max-width: 600px) {
+      .gauge-group { grid-template-columns: 1fr; }
+    }
+    .gauge-box {
       background: var(--bg-tertiary);
-      border-radius: 10px;
-      padding: 14px;
-      text-align: center;
       border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
-    .gauge-val {
+    .gauge-val-big {
       font-family: 'Roboto Mono', monospace;
-      font-size: 1.45rem;
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 2px;
     }
-    .gauge-status {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      display: inline-block;
-      margin-top: 4px;
-    }
-    .status-pass { background: var(--success-light); color: var(--success); }
-    .status-warn { background: var(--warning-light); color: var(--warning); }
-    .status-fail { background: var(--danger-light); color: var(--danger); }
+    .val-safe { color: var(--success); }
+    .val-warn { color: var(--warning); }
+    .val-danger { color: var(--danger); }
 
-    .hitl-ticket-box {
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px;
+    /* HITL Ticket Box */
+    .hitl-ticket {
       background: var(--bg-tertiary);
-      margin-bottom: 18px;
+      border: 1px solid var(--warning);
+      border-radius: 14px;
+      padding: 20px;
+      margin-top: 16px;
     }
     .ticket-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .ticket-id {
-      font-family: 'Roboto Mono', monospace;
+    .ticket-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.05rem;
       font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--primary);
-    }
-    .tier-badge {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: var(--danger-light);
-      color: var(--danger);
-      letter-spacing: 0.5px;
-    }
-    .ticket-body {
-      font-size: 0.86rem;
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-    .safety-checklist {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      font-size: 0.8rem;
-    }
-    .check-item {
+      color: var(--warning);
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 4px 0;
     }
-    .check-icon {
-      color: var(--success);
-      font-weight: bold;
+    .ticket-badge {
+      background: rgba(249, 171, 0, 0.2);
+      color: var(--warning);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-family: 'Roboto Mono', monospace;
     }
-    .hitl-actions {
+    .ticket-body {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .ticket-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .btn-approve {
-      flex: 1;
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: none;
       background: var(--success);
-      color: #fff;
+      color: #ffffff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 20px;
       font-family: 'Google Sans', sans-serif;
+      font-size: 0.85rem;
       font-weight: 600;
-      font-size: 0.88rem;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-approve:hover {
+      box-shadow: 0 4px 12px rgba(13, 144, 79, 0.4);
+    }
+    .btn-reject {
+      background: var(--danger);
+      color: #ffffff;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 20px;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-reject:hover {
+      box-shadow: 0 4px 12px rgba(217, 48, 37, 0.4);
+    }
+
+    /* ARCHITECTURE MODAL */
+    .arch-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .arch-modal-overlay.active {
+      display: flex;
+    }
+    .arch-modal-dialog {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 1200px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .arch-modal-header {
+      padding: 20px 28px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .arch-modal-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .arch-modal-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .arch-close-btn {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .arch-close-btn:hover {
+      background: var(--danger-light);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+    .arch-modal-body {
+      padding: 28px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 5-Tier Architecture Diagram Styles */
+    .arch-tier {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      position: relative;
+    }
+    .arch-tier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .arch-tier-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tier-tag {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .tier-blocks {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .arch-block {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.82rem;
+    }
+    .arch-block-name {
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .arch-block-desc {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      line-height: 1.35;
+    }
+    .arch-arrow-down {
+      text-align: center;
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: -6px 0;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background 0.2s;
     }
-    .btn-approve:hover { background: #137333; }
-    .btn-reject {
-      padding: 10px 16px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: var(--bg-secondary);
-      color: var(--danger);
-      font-family: 'Google Sans', sans-serif;
-      font-weight: 600;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .btn-reject:hover { background: var(--danger-light); }
-
-    /* Skills Grid */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      margin-bottom: 48px;
-    }
-    .skill-card {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 18px;
-      box-shadow: var(--card-shadow);
-    }
-    .skill-id {
+    .arch-arrow-label {
+      font-size: 0.74rem;
       font-family: 'Roboto Mono', monospace;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 6px;
-    }
-    .skill-desc {
-      font-size: 0.86rem;
-      color: var(--text-secondary);
-      margin-bottom: 10px;
-      line-height: 1.45;
-    }
-    .skill-formula {
-      background: var(--bg-tertiary);
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.76rem;
-      color: var(--text-primary);
-      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     /* Footer */
-    .footer {
+    footer {
       border-top: 1px solid var(--border-color);
-      padding: 32px 24px;
+      padding: 32px 0;
       text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-size: 0.84rem;
     }
   </style>
 </head>
@@ -856,32 +1007,31 @@
         </div>
       </a>
       <div class="header-actions">
+        <button class="btn-header btn-primary-header" onclick="openArchModal()" title="View System Architecture">
+          <span>🏗️</span> System Architecture
+        </button>
         <a href="index.html" class="btn-header">
           <span>←</span> Main Catalog (113 Agents)
         </a>
-        <button id="themeToggleBtn" class="btn-header" aria-label="Toggle Theme">
-          <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
-        </button>
-        <a href="https://github.com/FCLW/Utilities-Agents" target="_blank" rel="noopener noreferrer" class="btn-header">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 4px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> GitHub
-        </a>
+        <button class="theme-toggle" id="themeToggle" onclick="setTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')">🌓</button>
       </div>
     </div>
   </header>
 
+  <!-- Main Showcase Container -->
   <main class="container">
 
-    <!-- Hero -->
-    <section class="hero">
+    <!-- Hero Section -->
+    <section class="hero-section">
       <div class="hero-badge">
-        <span>🌐</span> Google DeepMind WeatherNext • Vertex AI Vizier • DeepMind AlphaEvolve • Predictive Maintenance
+        <span>⚡</span> Google DeepMind WeatherNext • Vertex AI Vizier • Predictive Maintenance
       </div>
-      <h1>Grid Optimization Multi-Agent System (MAS)</h1>
-      <p>
-        A collaborative, heterogeneous multi-agent architecture bridging <strong>Real-Time Operations (OT)</strong>, <strong>Long-Term Planning & Asset Management (ET)</strong>, and <strong>Enterprise IT / Data Science</strong>. Programmatically hardened with mathematical validation guardrails and mandatory Human-In-The-Loop (HITL) 3-tier governance.
+      <h1 class="hero-title">Autonomous Grid Optimization Multi-Agent System</h1>
+      <p class="hero-description">
+        Enterprise multi-agent fabric orchestrating 8 operational personas and 48 heterogeneous sub-agents across Real-Time Operations (OT), Long-Term Planning (ET), and IT BigQuery Analytics — bound by ANSI/IEEE physical safety harnesses and Human-In-The-Loop gatekeeping.
       </p>
 
-      <!-- Stats Grid -->
+      <!-- Stats Grid: Exactly 5 Clean Cards (HITL stat box removed) -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-value">8</div>
@@ -896,122 +1046,543 @@
           <div class="stat-label">Collaborative Workflows</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">4</div>
+          <div class="stat-value">3</div>
           <div class="stat-label">Advanced AI Engines</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">12</div>
           <div class="stat-label">Reusable Skills</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value">100%</div>
-          <div class="stat-label">HITL Operator Governance</div>
-        </div>
       </div>
     </section>
 
-    <!-- Navigation Tabs Bar -->
-    <nav class="nav-tabs-wrapper" role="tablist">
-      <button class="nav-tab-btn active" onclick="switchMainTab('personas', this)" role="tab">
-        <span>👥</span> Personas Fleet (8)
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('workflows', this)" role="tab">
-        <span>🔄</span> Multi-Persona Workflows (6)
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('weathernext', this)" role="tab">
-        <span>⛅</span> WeatherNext Radar & DLR
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('vizier', this)" role="tab">
-        <span>📊</span> Vizier Bayesian Studio
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('alphaevolve', this)" role="tab">
-        <span>🧬</span> AlphaEvolve Topology
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('pdm', this)" role="tab">
-        <span>🛡️</span> Predictive Maintenance (PdM)
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('governance', this)" role="tab">
-        <span>⚖️</span> Safety & HITL
-      </button>
-      <button class="nav-tab-btn" onclick="switchMainTab('skills', this)" role="tab">
-        <span>🧩</span> Reusable Skills (12)
-      </button>
-    </nav>
+    <!-- STICKY TAB NAVIGATION BAR: Modern Pill Formatting, Zero Overlapping Text -->
+    <div class="nav-tabs-container">
+      <div class="nav-tabs-wrapper" role="tablist">
+        <button class="nav-tab-btn active" role="tab" id="tabBtn-personas" onclick="switchMainTab('tab-personas', this)">
+          <span>👥</span> Personas Fleet <span class="tab-badge">8</span>
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-workflows" onclick="switchMainTab('tab-workflows', this)">
+          <span>🔄</span> Multi-Persona Workflows <span class="tab-badge">6</span>
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-weathernext" onclick="switchMainTab('tab-weathernext', this)">
+          <span>⛅</span> WeatherNext Radar &amp; DLR
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-vizier" onclick="switchMainTab('tab-vizier', this)">
+          <span>📊</span> Vizier Bayesian Studio
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-pdm" onclick="switchMainTab('tab-pdm', this)">
+          <span>🛡️</span> Predictive Maintenance (PdM)
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-governance" onclick="switchMainTab('tab-governance', this)">
+          <span>⚖️</span> Safety &amp; HITL
+        </button>
+        <button class="nav-tab-btn" role="tab" id="tabBtn-skills" onclick="switchMainTab('tab-skills', this)">
+          <span>🧩</span> Reusable Skills <span class="tab-badge">12</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- TAB 1: PERSONAS & SUB-AGENTS -->
+    <!-- TAB 1: PERSONAS FLEET (8 Personas & 48 Sub-Agents) -->
     <div id="tab-personas" class="tab-pane active" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>👥</span> 8 Core Business Personas & 48 Heterogeneous Sub-Agents</h2>
+            <h2 class="card-title"><span>👥</span> 8 Core Business Personas &amp; 48 Heterogeneous Sub-Agents</h2>
             <div class="card-subtitle">Operational horizons spanning Real-Time Operations (OT), Planning (ET), and IT Analytics.</div>
           </div>
         </div>
         
         <!-- Filter Tabs -->
         <div class="filter-tabs">
-          <button class="filter-tab active" onclick="filterPersonas('all', this)">All Horizons (8)</button>
-          <button class="filter-tab" onclick="filterPersonas('realtime', this)">Real-Time OT (Secs to Hours)</button>
-          <button class="filter-tab" onclick="filterPersonas('intraday', this)">Intraday to Day-Ahead</button>
-          <button class="filter-tab" onclick="filterPersonas('planning', this)">Planning & Asset Health (ET)</button>
-          <button class="filter-tab" onclick="filterPersonas('governance', this)">Regulatory & Governance</button>
+          <button class="filter-btn active" onclick="filterPersonas('all', this)">All Horizons (8)</button>
+          <button class="filter-btn" onclick="filterPersonas('realtime', this)">Real-Time OT (Secs to Hours)</button>
+          <button class="filter-btn" onclick="filterPersonas('intraday', this)">Intraday to Day-Ahead</button>
+          <button class="filter-btn" onclick="filterPersonas('planning', this)">Planning &amp; Asset Health (ET)</button>
+          <button class="filter-btn" onclick="filterPersonas('regulatory', this)">Regulatory &amp; Governance</button>
         </div>
 
-        
+        <!-- 8 Full Persona Cards Extracted Authentically -->
+        <div class="personas-grid" id="personasGrid">
+
+      <!-- Persona 1 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Grid Operations Dispatcher</div>
+            <div class="persona-id">grid_dispatcher_agent</div>
+          </div>
+          <span class="horizon-tag">Real-Time (Secs to Hours)</span>
+        </div>
+        <div class="persona-role">
+          Monitors high/medium voltage circuits in real-time, coordinates active/reactive power dispatch, manages Volt-VAR optimization (VVO), mitigates voltage sags, and triggers topological FLISR restoration under strict HITL approval.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 7 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚨</span> SCADA Telemetry Monitor</span>
+            <span class="agent-badge badge-reflex">Reflex</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext Severe Storm Tracker</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📐</span> State Estimation WLS Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📊</span> Volt-VAR Dispatch Optimizer (Vizier)</span>
+            <span class="agent-badge badge-opt">Bayesian Opt</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧬</span> FLISR Switching Coordinator</span>
+            <span class="agent-badge badge-opt">TopologicalReconfig</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> N-1 Contingency Screener</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Dispatcher Copilot Reasoner</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">ADMS</span><span class="meta-pill">EMS</span><span class="meta-pill">SCADA</span><span class="meta-pill">OMS</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_grid_balancing</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 2 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">T&D System Planning Engineer</div>
+            <div class="persona-id">planning_engineer_agent</div>
+          </div>
+          <span class="horizon-tag">Near/Long-Term (Months/Years)</span>
+        </div>
+        <div class="persona-role">
+          Conducts seasonal contingency studies (N-1, N-1-1), calculates DER hosting capacity limits, models 10-year spatial EV load growth, and evaluates Non-Wires Alternatives (BESS + solar) against capital substation expansion.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> N-1-1 Contingency Simulator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>☀️</span> Hosting Capacity Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧬</span> Topological Feeder Reconfigurator</span>
+            <span class="agent-badge badge-opt">TopologicalReconfig</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚗</span> 10-Yr Load Growth Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> Non-Wires Alternatives Evaluator</span>
+            <span class="agent-badge badge-physics">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Interconnection Study Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">PSS/E</span><span class="meta-pill">CYME</span><span class="meta-pill">Synergi</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 3 -->
+      <div class="persona-card" data-horizon="intraday">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">DER & Flexibility Program Manager</div>
+            <div class="persona-id">derms_manager_agent</div>
+          </div>
+          <span class="horizon-tag">Intraday to Day-Ahead</span>
+        </div>
+        <div class="persona-role">
+          Aggregates Virtual Power Plants (VPPs) pooling solar, commercial loads, and battery storage. Uses Vertex AI Vizier to co-optimize battery cycle degradation vs. wholesale LMP arbitrage, and triggers auto-DR events.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> VPP Fleet Aggregator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📊</span> Vizier BESS Arbitrageur</span>
+            <span class="agent-badge badge-opt">Bayesian Opt</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext DER Predictor</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🏢</span> Demand Response Dispatcher</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⚙️</span> Smart Inverter Curve Manager</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Flexibility Program Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">DERMS</span><span class="meta-pill">DRMS</span><span class="meta-pill">Wholesale Market Portals</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_wholesale_trading</span><span class="meta-pill">utilities_grid_balancing</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 4 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Protection & Control (P&C) Engineer</div>
+            <div class="persona-id">protection_control_agent</div>
+          </div>
+          <span class="horizon-tag">Lifecycle & Event Analysis</span>
+        </div>
+        <div class="persona-role">
+          Verifies protective relay coordination, evaluates bidirectional fault currents under high inverter-based resources (IBRs), uses mathematical optimization to discover adaptive trip curves, and validates IEEE 1547 anti-islanding.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📐</span> Relay Coordination Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> Adaptive Protection Discovery</span>
+            <span class="agent-badge badge-opt">Adaptive Opt</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⚡</span> Bidirectional Fault Analyzer</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> Anti-Islanding IEEE 1547 Validator</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> COMTRADE Waveform Diagnostic</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Relay Setting Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">Relay Tools</span><span class="meta-pill">CAPE</span><span class="meta-pill">Aspen OneLiner</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_asset_management</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 5 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Asset Performance & Reliability (PdM)</div>
+            <div class="persona-id">asset_reliability_agent</div>
+          </div>
+          <span class="horizon-tag">Medium to Long-Term (PdM)</span>
+        </div>
+        <div class="persona-role">
+          Leads Predictive Maintenance (PdM) across critical assets: diagnoses transformer DGA using Duval Triangle 1, tracks breaker arcing wear (∑I²t), models battery cell degradation, and computes Dynamic Line Rating (DLR).
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧪</span> Transformer DGA PdM Analyzer</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⏱️</span> Circuit Breaker Timing & Arc Wear</span>
+            <span class="agent-badge badge-reflex">Reflex</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🌬️</span> Dynamic Line Rating (DLR) Solver</span>
+            <span class="agent-badge badge-physics">Physics (WeatherNext)</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> Substation Battery Health Tracker</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📋</span> PdM Risk-Ranked Scheduler</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Asset Strategy Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">APM</span><span class="meta-pill">EAM / CMMS</span><span class="meta-pill">GIS</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_data</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 6 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Data Scientist / Grid Analytics Engineer</div>
+            <div class="persona-id">grid_analytics_data_scientist_agent</div>
+          </div>
+          <span class="horizon-tag">Continuous / MLOps</span>
+        </div>
+        <div class="persona-role">
+          Ingests DeepMind WeatherNext AI predictions into spatial grid electrical models, generates 15-minute ensemble feeder load forecasts, detects sensor drift via Isolation Forests, and models renewable generation curves.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext Forecast Consumer</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> 15-Min Short-Term Load Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>☀️</span> Solar & Wind Generation Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🗺️</span> Spatial GIS & AMI Graph Fusion</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔍</span> SCADA / AMI Anomaly Detector</span>
+            <span class="agent-badge badge-ml">Isolation Forest</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Grid Analytics Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">Vertex AI</span><span class="meta-pill">BigQuery ML</span><span class="meta-pill">WeatherNext</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_smart_meter_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 7 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Field Operations & Substation Tech</div>
+            <div class="persona-id">field_operations_tech_agent</div>
+          </div>
+          <span class="horizon-tag">Real-Time Field Execution</span>
+        </div>
+        <div class="persona-role">
+          Executes condition-based PdM work orders, verifies zero-energy lockout/tagout (LOTO) clearances, calibrates RTU analog telemetry, audits smart inverter IEEE 2030.5 cybersecurity firmware, and optimizes crew routing.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛠️</span> PdM Work Order Receiver</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔒</span> Switching Order Safety LOTO Verifier</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔌</span> Field Telemetry Calibrator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> Smart Inverter Firmware Auditor</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚛</span> Mobile Workforce Dispatcher</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Field Technician Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">MWM</span><span class="meta-pill">Field GIS</span><span class="meta-pill">Substation SCADA</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_grid_operations</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 8 -->
+      <div class="persona-card" data-horizon="governance">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Regulatory, Market & Compliance Officer</div>
+            <div class="persona-id">regulatory_compliance_officer_agent</div>
+          </div>
+          <span class="horizon-tag">Periodic / Audit Cycles</span>
+        </div>
+        <div class="persona-role">
+          Audits operations against NERC PRC-005 and FAC-008 reliability standards, calculates IEEE 1366 reliability benchmarks (SAIDI, SAIFI, CAIDI), tracks state Renewable Portfolio Standards (RPS), and reconciles ISO invoices.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 5 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📜</span> NERC PRC/FAC Compliance Auditor</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⏱️</span> IEEE 1366 Reliability Calculator</span>
+            <span class="agent-badge badge-physics">Math</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🌱</span> Clean Energy RPS Tracker</span>
+            <span class="agent-badge badge-physics">Math</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>💰</span> Wholesale Settlement Reconciler</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Regulatory Filing Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">NERC Portals</span><span class="meta-pill">ISO Settlements</span><span class="meta-pill">PUC Filing System</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_regulatory_compliance</span><span class="meta-pill">utilities_wholesale_trading</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
       </div>
     </div>
 
-    <!-- TAB 2: MULTI-PERSONA WORKFLOWS -->
+    <!-- TAB 2: MULTI-PERSONA WORKFLOWS (6 Interactive Workflows) -->
     <div id="tab-workflows" class="tab-pane" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>🔄</span> Multi-Persona Collaborative Workflows</h2>
-            <div class="card-subtitle">End-to-end orchestrated processes coordinating Real-Time OT, Engineering Planning, Asset Reliability, and Field Operations.</div>
+            <h2 class="card-title"><span>🔄</span> 6 Collaborative Multi-Persona Workflows</h2>
+            <div class="card-subtitle">Cross-horizon autonomous collaboration linking dispatchers, planners, field tech, and data science.</div>
           </div>
         </div>
 
-        <div class="workflow-selector-grid">
-          <div class="wf-select-card active" onclick="loadWorkflow('flisr', this)">
-            <div class="wf-select-title"><span>⚡</span> FLISR Restoration & Switching</div>
-            <div class="wf-select-desc">AlphaEvolve tie-switch discovery, safety validation, and mandatory HITL dual-operator approval.</div>
+        <div class="wf-grid">
+          <!-- Workflow Selector Menu -->
+          <div class="wf-menu">
+            <div class="wf-select-card active" onclick="loadWorkflow('flisr', this)">
+              <div class="wf-select-title">🚨 FLISR Restoration &amp; Switching</div>
+              <div class="wf-select-sub">Dispatcher • P&amp;C • Field Tech • HITL Gate</div>
+            </div>
+            <div class="wf-select-card" onclick="loadWorkflow('vvo', this)">
+              <div class="wf-select-title">⚡ Dynamic Volt-VAR Optimization</div>
+              <div class="wf-select-sub">Dispatcher • DERMS • Vizier Bayesian • Loss Reduction</div>
+            </div>
+            <div class="wf-select-card" onclick="loadWorkflow('pdm', this)">
+              <div class="wf-select-title">🛡️ Predictive Maintenance Dispatch</div>
+              <div class="wf-select-sub">Asset Reliability • Data Science • Field Tech • Duval DGA</div>
+            </div>
+            <div class="wf-select-card" onclick="loadWorkflow('dlr', this)">
+              <div class="wf-select-title">⛅ WeatherNext Dynamic Line Rating</div>
+              <div class="wf-select-sub">Planning Engineer • WeatherNext • IEEE 738 Ampacity</div>
+            </div>
+            <div class="wf-select-card" onclick="loadWorkflow('hosting', this)">
+              <div class="wf-select-title">☀️ DER Hosting Capacity Study</div>
+              <div class="wf-select-sub">Planning • DERMS • BigQuery Telemetry • Thermal/Sag</div>
+            </div>
+            <div class="wf-select-card" onclick="loadWorkflow('vpp', this)">
+              <div class="wf-select-title">🔋 VPP Wholesale Market Dispatch</div>
+              <div class="wf-select-sub">DERMS • Market Officer • BESS Degradation Arbitrage</div>
+            </div>
           </div>
-          <div class="wf-select-card" onclick="loadWorkflow('vvo', this)">
-            <div class="wf-select-title"><span>📊</span> Dynamic Volt-VAR Optimization</div>
-            <div class="wf-select-desc">Vertex AI Vizier Bayesian curve tuning balancing ANSI C84.1 voltage tolerances and technical losses.</div>
-          </div>
-          <div class="wf-select-card" onclick="loadWorkflow('pdm', this)">
-            <div class="wf-select-title"><span>🛡️</span> Predictive Maintenance Dispatch</div>
-            <div class="wf-select-desc">Duval Triangle 1 DGA transformer diagnosis, breaker wear, RPN risk scoring, and field work orders.</div>
-          </div>
-          <div class="wf-select-card" onclick="loadWorkflow('dlr', this)">
-            <div class="wf-select-title"><span>🌬️</span> WeatherNext Dynamic Line Rating</div>
-            <div class="wf-select-desc">Coupling atmospheric crosswinds with IEEE 738 steady-state thermal ampacity calculations.</div>
-          </div>
-          <div class="wf-select-card" onclick="loadWorkflow('hosting', this)">
-            <div class="wf-select-title"><span>☀️</span> DER Hosting Capacity Study</div>
-            <div class="wf-select-desc">Iterative feeder injection sweeps evaluating thermal, voltage, and protection limits under WeatherNext.</div>
-          </div>
-          <div class="wf-select-card" onclick="loadWorkflow('vpp', this)">
-            <div class="wf-select-title"><span>🔋</span> VPP Wholesale Market Dispatch</div>
-            <div class="wf-select-desc">Co-optimizing BESS cycle degradation against CAISO/ERCOT LMP price spikes via Vizier.</div>
-          </div>
-        </div>
 
-        <div class="wf-run-container">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <!-- Active Workflow Display & Interactive Stepper -->
+          <div class="wf-display">
             <div>
-              <h3 id="wfActiveTitle" style="font-family: 'Google Sans', sans-serif; font-size: 1.25rem;">FLISR Restoration & Switching Workflow</h3>
-              <p id="wfActiveSummary" style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">Orchestrating 3 Personas (Dispatcher, Protection, Field Tech) + DeepMind AlphaEvolve + HITL Gateway.</p>
+              <h3 id="wfActiveTitle" style="font-family: 'Google Sans', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-primary);">
+                FLISR Automated Restoration &amp; Switching Workflow
+              </h3>
+              <p id="wfActiveSummary" style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px;">
+                Coordinates Grid Dispatcher, Protection &amp; Control, and Field Operations with Topological Optimization and Mandatory HITL Gateway.
+              </p>
             </div>
-            <div style="display: flex; gap: 10px;">
-              <button class="btn-header" onclick="stepWorkflow()"><span>▶</span> Step Forward</button>
-              <button class="btn-header" onclick="resetWorkflow()"><span>↺</span> Reset</button>
+
+            <!-- Steps Container -->
+            <div id="wfStepsContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+
+            <!-- Stepper Controls -->
+            <div class="wf-controls">
+              <button class="btn-sim" onclick="stepWorkflow()">
+                <span>▶</span> Step Forward
+              </button>
+              <button class="btn-sim btn-sim-secondary" onclick="resetWorkflow()">
+                <span>↺</span> Reset Workflow
+              </button>
+              <span id="wfProgressLabel" style="font-size: 0.82rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); margin-left: auto;">
+                Step 1 of 4
+              </span>
             </div>
           </div>
-
-          <div id="wfStepsContainer"></div>
         </div>
       </div>
     </div>
@@ -1021,89 +1592,122 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>⛅</span> Google DeepMind WeatherNext Radar & Dynamic Line Rating (DLR)</h2>
-            <div class="card-subtitle">Sub-hourly AI weather prediction powering IEEE 738 dynamic transmission ampacity and solar forecasting.</div>
+            <h2 class="card-title"><span>⛅</span> Google DeepMind WeatherNext Radar &amp; Dynamic Line Rating (DLR)</h2>
+            <div class="card-subtitle">Couples sub-kilometer atmospheric forecasts with IEEE 738 steady-state conductor heat balance.</div>
           </div>
+          <span class="horizon-tag">WeatherNext AI Model: Sub-0.1° GFS/ERA5</span>
         </div>
 
-        <div class="sim-grid">
-          <div class="sim-control-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Weather Parameter Controls</h3>
-            
-            <div class="control-group">
-              <div class="control-label">
-                <span>Solar Direct Normal Irradiance (DNI)</span>
-                <span class="control-val" id="valDni">880 W/m²</span>
+        <div class="studio-grid">
+          <!-- Interactive Microclimate Sliders -->
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Direct Normal Irradiance (DNI)</span>
+                <span class="slider-val" id="valDni">850 W/m²</span>
               </div>
-              <input type="range" id="sliderDni" min="0" max="1100" value="880" oninput="updateWeatherNextSim()">
+              <input type="range" id="inputDni" min="0" max="1100" value="850" oninput="updateWeatherNextSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>10m Wind Speed (Convective Cooling)</span>
-                <span class="control-val" id="valWind">4.8 m/s</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>10m Crosswind Speed</span>
+                <span class="slider-val" id="valWindSpeed">4.8 m/s</span>
               </div>
-              <input type="range" id="sliderWind" min="0.2" max="25.0" step="0.2" value="4.8" oninput="updateWeatherNextSim()">
+              <input type="range" id="inputWindSpeed" min="0.2" max="25" step="0.2" value="4.8" oninput="updateWeatherNextSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>Wind Incident Angle to Conductor</span>
-                <span class="control-val" id="valAngle">85° (Perpendicular)</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Wind Incident Angle</span>
+                <span class="slider-val" id="valWindAngle">60° (Crosswind)</span>
               </div>
-              <input type="range" id="sliderAngle" min="0" max="90" value="85" oninput="updateWeatherNextSim()">
+              <input type="range" id="inputWindAngle" min="0" max="90" value="60" oninput="updateWeatherNextSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
+            <div class="slider-item">
+              <div class="slider-label-row">
                 <span>Ambient Air Temperature</span>
-                <span class="control-val" id="valTemp">30.5 °C</span>
+                <span class="slider-val" id="valAmbTemp">28°C</span>
               </div>
-              <input type="range" id="sliderTemp" min="-10" max="48" step="0.5" value="30.5" oninput="updateWeatherNextSim()">
+              <input type="range" id="inputAmbTemp" min="-10" max="48" value="28" oninput="updateWeatherNextSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
+            <div class="slider-item">
+              <div class="slider-label-row">
                 <span>Convective Storm Cell Probability</span>
-                <span class="control-val" id="valStorm">38% (Moderate)</span>
+                <span class="slider-val" id="valStormProb">15% (Low Risk)</span>
               </div>
-              <input type="range" id="sliderStorm" min="0" max="100" value="38" oninput="updateWeatherNextSim()">
+              <input type="range" id="inputStormProb" min="0" max="100" value="15" oninput="updateWeatherNextSim()">
+            </div>
+
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+              <strong style="color: var(--accent);">IEEE 738 Heat Balance:</strong><br>
+              <code>q_c(V_w, φ) + q_r = q_s(DNI) + I²·R(T_c)</code><br>
+              Higher crosswind forces turbulent convective cooling, unlocking dynamic transmission headroom without reconductoring.
             </div>
           </div>
 
-          <div class="sim-output-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Live IEEE 738 Dynamic Conductor Ampacity</h3>
+          <!-- Dynamic SVG Conductor & Ampacity Gauge Visualizer -->
+          <div class="visual-stage">
+            <svg id="dlrSvg" width="100%" height="220" viewBox="0 0 500 200" style="overflow: visible;">
+              <defs>
+                <linearGradient id="conductorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#78909c" />
+                  <stop offset="50%" stop-color="#b0bec5" />
+                  <stop offset="100%" stop-color="#78909c" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
 
-            <div class="vis-canvas-box" id="dlrCanvasBox">
-              <svg class="interactive-svg" viewBox="0 0 500 240">
-                <line x1="50" y1="120" x2="450" y2="120" stroke="#80868b" stroke-width="12" stroke-linecap="round"/>
-                <text x="250" y="105" text-anchor="middle" fill="#5f6368" font-size="12" font-family="Roboto Mono">230kV ACSR Drake (795 kcmil)</text>
-                <line x1="50" y1="160" x2="450" y2="160" stroke="#dadce0" stroke-width="2" stroke-dasharray="4"/>
-                <text x="50" y="178" fill="#80868b" font-size="11" font-family="Roboto">Static Thermal Rating: 900 A (100%)</text>
-                <rect id="dlrBar" x="50" y="135" width="280" height="16" rx="4" fill="#1e8e3e"/>
-                <text id="dlrAmpText" x="340" y="148" fill="#1e8e3e" font-size="12" font-weight="bold" font-family="Roboto Mono">1,114 A (+23.8%)</text>
+              <!-- Transmission Towers -->
+              <path d="M 40 180 L 70 30 L 100 180 M 55 100 L 85 100 M 50 140 L 90 140" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
+              <path d="M 400 180 L 430 30 L 460 180 M 415 100 L 445 100 M 410 140 L 450 140" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
 
-                <g id="windVectors" opacity="0.8">
-                  <path d="M 120 40 L 120 90 M 115 80 L 120 90 L 125 80" stroke="#007b83" stroke-width="2" fill="none"/>
-                  <path d="M 250 40 L 250 90 M 245 80 L 250 90 L 255 80" stroke="#007b83" stroke-width="2" fill="none"/>
-                  <path d="M 380 40 L 380 90 M 375 80 L 380 90 L 385 80" stroke="#007b83" stroke-width="2" fill="none"/>
-                  <text x="250" y="32" text-anchor="middle" fill="#007b83" font-size="11" font-family="Roboto">Convective Crosswind Cooling (q_c)</text>
-                </g>
-              </svg>
-            </div>
+              <!-- ACSR Catenary Conductor Line -->
+              <path id="conductorLine" d="M 70 70 Q 250 120 430 70" stroke="url(#conductorGrad)" stroke-width="5" fill="none" filter="url(#glow)" />
 
-            <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 14px; font-family: 'Roboto Mono', monospace; font-size: 0.8rem;">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Convective Cooling (q_c):</span><strong id="metricQc" style="color:var(--accent-cyan);">44.8 W/m</strong>
+              <!-- Wind Vectors -->
+              <g id="windVectorsGroup" opacity="0.8">
+                <path d="M 120 140 L 170 140 M 160 135 L 170 140 L 160 145" stroke="#8ab4f8" stroke-width="2" />
+                <path d="M 220 150 L 270 150 M 260 145 L 270 150 L 260 155" stroke="#8ab4f8" stroke-width="2" />
+                <path d="M 320 140 L 370 140 M 360 135 L 370 140 L 360 145" stroke="#8ab4f8" stroke-width="2" />
+              </g>
+
+              <!-- Solar Radiation Indicator -->
+              <g transform="translate(250, 25)">
+                <circle cx="0" cy="0" r="14" fill="#f9ab00" opacity="0.9" />
+                <line x1="0" y1="-20" x2="0" y2="-26" stroke="#f9ab00" stroke-width="2" />
+                <line x1="14" y1="-14" x2="19" y2="-19" stroke="#f9ab00" stroke-width="2" />
+                <line x1="20" y1="0" x2="26" y2="0" stroke="#f9ab00" stroke-width="2" />
+                <line x1="-14" y1="-14" x2="-19" y2="-19" stroke="#f9ab00" stroke-width="2" />
+                <line x1="-20" y1="0" x2="-26" y2="0" stroke="#f9ab00" stroke-width="2" />
+              </g>
+
+              <text x="250" y="185" text-anchor="middle" fill="var(--text-secondary)" font-size="12" font-family="'Roboto Mono', monospace">
+                230 kV ACSR "Drake" Corridor #104 (Span: 380m)
+              </text>
+            </svg>
+
+            <!-- Real-Time Metrics Output -->
+            <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted);">STATIC BOOK RATING</div>
+                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--text-secondary);">900 A (358 MVA)</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Solar Heat Absorption (q_s):</span><strong id="metricQs" style="color:var(--accent-orange);">18.2 W/m</strong>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--accent);">WEATHERNEXT DLR RATING</div>
+                <div id="dlrAmpacityVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--success);">1,114 A (443 MVA)</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Net Headroom Unlocked:</span><strong id="metricHeadroom" style="color:var(--success);">+214 A (+23.8% MVA)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between;">
-                <span>WeatherNext Latency:</span><span style="color:var(--text-secondary);">42ms (GraphCast sub-hourly)</span>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted);">UNLOCKED CAPACITY</div>
+                <div id="dlrHeadroomVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent);">+23.8% Headroom</div>
               </div>
             </div>
           </div>
@@ -1116,167 +1720,103 @@
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>📊</span> Vertex AI Vizier Bayesian Grid Tuning Studio</h2>
-            <div class="card-subtitle">Gaussian Process Expected Improvement (GP-EI) black-box parameter optimization over smart inverter Volt-VAR curves.</div>
+            <h2 class="card-title"><span>📊</span> Vertex AI Vizier Bayesian Volt-VAR Optimization Studio</h2>
+            <div class="card-subtitle">Gaussian Process Expected Improvement (GP-EI) searches non-convex piecewise inverter setpoints.</div>
           </div>
+          <span class="horizon-tag">Engine: Vertex AI Vizier GP-EI</span>
         </div>
 
-        <div class="sim-grid">
-          <div class="sim-control-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Smart Inverter Volt-VAR Knee Breakpoints</h3>
-
-            <div class="control-group">
-              <div class="control-label">
-                <span>V1 (Max Reactive VAR Injection Knee)</span>
-                <span class="control-val" id="valV1">0.920 p.u.</span>
+        <div class="studio-grid">
+          <!-- Parameter Breakpoint Sliders -->
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>V1 (Max Reactive Injection Knee)</span>
+                <span class="slider-val" id="valV1">0.920 p.u.</span>
               </div>
-              <input type="range" id="sliderV1" min="0.88" max="0.95" step="0.005" value="0.920" oninput="updateVizierSim()">
+              <input type="range" id="inputV1" min="0.88" max="0.95" step="0.005" value="0.92" oninput="updateVizierSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
+            <div class="slider-item">
+              <div class="slider-label-row">
                 <span>V2 (Deadband Start)</span>
-                <span class="control-val" id="valV2">0.970 p.u.</span>
+                <span class="slider-val" id="valV2">0.970 p.u.</span>
               </div>
-              <input type="range" id="sliderV2" min="0.95" max="0.99" step="0.005" value="0.970" oninput="updateVizierSim()">
+              <input type="range" id="inputV2" min="0.95" max="0.99" step="0.005" value="0.97" oninput="updateVizierSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
+            <div class="slider-item">
+              <div class="slider-label-row">
                 <span>V3 (Deadband End)</span>
-                <span class="control-val" id="valV3">1.030 p.u.</span>
+                <span class="slider-val" id="valV3">1.030 p.u.</span>
               </div>
-              <input type="range" id="sliderV3" min="1.01" max="1.05" step="0.005" value="1.030" oninput="updateVizierSim()">
+              <input type="range" id="inputV3" min="1.01" max="1.05" step="0.005" value="1.03" oninput="updateVizierSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>V4 (Max Reactive VAR Absorption Knee)</span>
-                <span class="control-val" id="valV4">1.065 p.u.</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>V4 (Max Reactive Absorption Knee)</span>
+                <span class="slider-val" id="valV4">1.080 p.u.</span>
               </div>
-              <input type="range" id="sliderV4" min="1.05" max="1.10" step="0.005" value="1.065" oninput="updateVizierSim()">
+              <input type="range" id="inputV4" min="1.05" max="1.12" step="0.005" value="1.08" oninput="updateVizierSim()">
             </div>
 
-            <button class="btn-approve" style="width:100%; margin-top:10px;" onclick="runVizierBayesianTrial()">
-              <span>⚡</span> Run Vertex AI Vizier Trial (GP-EI)
+            <button class="btn-sim" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="runVizierBayesianTrial()">
+              <span>⚡</span> Run Vizier Trial (GP-EI)
             </button>
-          </div>
 
-          <div class="sim-output-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Live Volt-VAR Curve Q(V) Response</h3>
-
-            <div class="vis-canvas-box">
-              <svg class="interactive-svg" viewBox="0 0 500 240">
-                <line x1="50" y1="120" x2="450" y2="120" stroke="#80868b" stroke-width="1.5"/>
-                <line x1="250" y1="20" x2="250" y2="220" stroke="#80868b" stroke-width="1.5"/>
-                <text x="440" y="135" fill="#80868b" font-size="11" font-family="Roboto">V (p.u.)</text>
-                <text x="255" y="30" fill="#80868b" font-size="11" font-family="Roboto">+Q (Inject)</text>
-                <text x="255" y="215" fill="#80868b" font-size="11" font-family="Roboto">-Q (Absorb)</text>
-
-                <rect id="deadbandBox" x="180" y="20" width="140" height="200" fill="rgba(26, 115, 232, 0.06)"/>
-                <path id="voltVarPath" d="M 50 40 L 120 40 L 190 120 L 310 120 L 380 200 L 450 200" stroke="#1a73e8" stroke-width="3" fill="none"/>
-                <circle id="dotV1" cx="120" cy="40" r="5" fill="#e8710a"/>
-                <circle id="dotV2" cx="190" cy="120" r="5" fill="#1a73e8"/>
-                <circle id="dotV3" cx="310" cy="120" r="5" fill="#1a73e8"/>
-                <circle id="dotV4" cx="380" cy="200" r="5" fill="#e8710a"/>
-              </svg>
-            </div>
-
-            <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 14px; font-family: 'Roboto Mono', monospace; font-size: 0.8rem;">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Bayesian Trials Evaluated:</span><strong id="vizierTrialsCount">14 Trials</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Active Feeder Losses:</span><strong id="vizierLossMetric" style="color:var(--success);">1.91 MW (-22.0% loss reduction)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>ANSI C84.1 Voltage Margin:</span><strong style="color:var(--success);">0.984 - 1.022 p.u. (Pass)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between;">
-                <span>Acquisition Function:</span><span style="color:var(--accent-purple);">GP Expected Improvement (EI)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 5: ALPHAEVOLVE TOPOLOGY DISCOVERY -->
-    <div id="tab-alphaevolve" class="tab-pane" role="tabpanel">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <h2 class="card-title"><span>🧬</span> DeepMind AlphaEvolve Topology Discovery Visualizer</h2>
-            <div class="card-subtitle">Evolutionary graph search for Distribution Network Reconfiguration (DNR) and adaptive protection synthesis.</div>
-          </div>
-        </div>
-
-        <div class="sim-grid">
-          <div class="sim-control-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Distribution Feeder Topology</h3>
-
-            <div class="vis-canvas-box" style="height: 240px;">
-              <svg class="interactive-svg" viewBox="0 0 460 220">
-                <rect x="20" y="30" width="70" height="40" rx="6" fill="#1a73e8"/>
-                <text x="55" y="55" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">SUB-A</text>
-
-                <rect x="20" y="150" width="70" height="40" rx="6" fill="#007b83"/>
-                <text x="55" y="175" fill="#fff" font-size="11" font-weight="bold" text-anchor="middle">SUB-B</text>
-
-                <path d="M 90 50 L 200 50 L 320 50 L 420 50" stroke="#1a73e8" stroke-width="3" fill="none"/>
-                <path d="M 90 170 L 200 170 L 320 170 L 420 170" stroke="#007b83" stroke-width="3" fill="none"/>
-
-                <line id="tieLine" x1="260" y1="50" x2="260" y2="170" stroke="#80868b" stroke-width="3" stroke-dasharray="6"/>
-                <circle id="tieSwitchCircle" cx="260" cy="110" r="14" fill="#d93025" cursor="pointer" onclick="toggleTieSwitch()"/>
-                <text id="tieSwitchText" x="260" y="114" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle" cursor="pointer" onclick="toggleTieSwitch()">OPEN</text>
-                <text x="260" y="138" fill="#5f6368" font-size="10" text-anchor="middle">SW-TIE-44</text>
-
-                <circle id="secSwitchCircle" cx="160" cy="50" r="10" fill="#1e8e3e"/>
-                <text x="160" y="35" fill="#5f6368" font-size="10" text-anchor="middle">SW-SEC-23</text>
-
-                <circle id="secSwitchCircle2" cx="370" cy="170" r="10" fill="#1e8e3e"/>
-                <text x="370" y="195" fill="#5f6368" font-size="10" text-anchor="middle">SW-SEC-77</text>
-              </svg>
-            </div>
-
-            <div style="display:flex; gap:10px; margin-top:14px;">
-              <button class="btn-approve" onclick="runAlphaEvolveSim()">
-                <span>🧬</span> Run AlphaEvolve Generation (12 Gens)
-              </button>
-              <button class="btn-header" onclick="toggleTieSwitch()">
-                Toggle Tie Switch
-              </button>
+            <div id="vizierTrialLog" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-size: 0.78rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); line-height: 1.4; max-height: 120px; overflow-y: auto;">
+              [Vizier Engine]: Study ready. 12 trials completed. Global minimum loss: 2.34 MW.
             </div>
           </div>
 
-          <div class="sim-output-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Evolutionary Discovery Results</h3>
+          <!-- Dynamic SVG Volt-VAR Q(V) Response Curve -->
+          <div class="visual-stage">
+            <svg id="vvoSvg" width="100%" height="240" viewBox="0 0 500 240" style="overflow: visible;">
+              <!-- Grid lines -->
+              <line x1="50" y1="20" x2="50" y2="200" stroke="var(--border-color)" stroke-width="1.5" />
+              <line x1="50" y1="110" x2="470" y2="110" stroke="var(--border-color)" stroke-width="1.5" stroke-dasharray="4 4" />
+              <line x1="50" y1="200" x2="470" y2="200" stroke="var(--border-color)" stroke-width="1.5" />
 
-            <div style="margin-bottom: 16px;">
-              <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
-                <span>Genetic Algorithm Convergence:</span>
-                <span id="aeGenText" style="font-family:'Roboto Mono'; font-weight:bold; color:var(--primary);">Gen 12 / 12 (Evaluated: 480)</span>
-              </div>
-              <div style="background:var(--bg-tertiary); height:10px; border-radius:5px; overflow:hidden;">
-                <div id="aeProgressBar" style="width:100%; height:100%; background:linear-gradient(90deg, #1e8e3e, #1a73e8);"></div>
-              </div>
-            </div>
+              <!-- ANSI C84.1 Safe Voltage Zone Highlight (0.95 to 1.05) -->
+              <rect x="150" y="20" width="200" height="180" fill="rgba(13, 144, 79, 0.08)" />
+              <text x="250" y="36" text-anchor="middle" fill="var(--success)" font-size="11" font-family="'Roboto Mono', monospace">
+                ANSI C84.1 Envelope (0.95 - 1.05 p.u.)
+              </text>
 
-            <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 14px; font-family: 'Roboto Mono', monospace; font-size: 0.8rem; margin-top: auto;">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Optimal State:</span><strong id="aeSwitchState" style="color:var(--success);">SW-TIE-44 CLOSED, SW-SEC-23 OPEN</strong>
+              <!-- Axes labels -->
+              <text x="40" y="30" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">+Q (Inject)</text>
+              <text x="40" y="114" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0 VAR</text>
+              <text x="40" y="198" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">-Q (Absorb)</text>
+
+              <text x="50" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0.90</text>
+              <text x="150" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0.95</text>
+              <text x="250" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.00</text>
+              <text x="350" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.05</text>
+              <text x="450" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.10</text>
+
+              <!-- Dynamic Piecewise Volt-VAR Curve -->
+              <polyline id="vvoPolyline" points="50,40 100,40 190,110 310,110 410,180 470,180" fill="none" stroke="var(--primary)" stroke-width="3.5" />
+
+              <!-- Knee points circles -->
+              <circle id="ptV1" cx="100" cy="40" r="5" fill="#8ab4f8" />
+              <circle id="ptV2" cx="190" cy="110" r="5" fill="#8ab4f8" />
+              <circle id="ptV3" cx="310" cy="110" r="5" fill="#8ab4f8" />
+              <circle id="ptV4" cx="410" cy="180" r="5" fill="#8ab4f8" />
+            </svg>
+
+            <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">ACTIVE LOSSES</div>
+                <div id="vvoLossVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent);">2.34 MW (-22.0%)</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Active Feeder Losses:</span><strong id="aeLossDelta" style="color:var(--success);">3.85 MW → 2.94 MW (-23.5%)</strong>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">VOLTAGE COMPLIANCE</div>
+                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--success);">100% ANSI Compliant</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Radiality Check:</span><strong style="color:var(--success);">PASS (No Loops, Zero Islands)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Adaptive Relay Curve:</span><span style="color:var(--accent-purple);">t(I) = (0.14*TMS)/((I/Ip)^0.02-1) + Δ</span>
-              </div>
-              <div style="display:flex; justify-content:space-between;">
-                <span>Misoperation Risk:</span><strong style="color:var(--success);">-94.2% Risk Reduction</strong>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">INVERTER CAP RATIO</div>
+                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">0.44 kVAR / kW</div>
               </div>
             </div>
           </div>
@@ -1284,86 +1824,95 @@
       </div>
     </div>
 
-    <!-- TAB 6: PREDICTIVE MAINTENANCE (PDM) -->
+    <!-- TAB 5: PREDICTIVE MAINTENANCE (PdM) -->
     <div id="tab-pdm" class="tab-pane" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>🛡️</span> Predictive Maintenance (PdM) & Duval Triangle Diagnostics</h2>
-            <div class="card-subtitle">Dissolved Gas Analysis (DGA), circuit breaker arc energy wear (∑I²t), Remaining Useful Life (RUL), and automated work order scheduling.</div>
+            <h2 class="card-title"><span>🛡️</span> Predictive Maintenance (PdM) &amp; Duval Triangle DGA Studio</h2>
+            <div class="card-subtitle">IEC 60599 dissolved gas analysis, breaker arcing wear (∑I²t), and remaining useful life (RUL) estimation.</div>
           </div>
+          <span class="horizon-tag">Asset Standards: IEC 60599 • IEEE C57.104</span>
         </div>
 
-        <div class="sim-grid">
-          <div class="sim-control-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Dissolved Gas Concentrations (ppm)</h3>
-
-            <div class="control-group">
-              <div class="control-label">
-                <span>Methane (CH4) Concentration</span>
-                <span class="control-val" id="valCh4">120 ppm (35.5%)</span>
+        <div class="studio-grid">
+          <!-- DGA & Breaker Wear Sliders -->
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Methane (CH₄) Concentration</span>
+                <span class="slider-val" id="valCh4">65 ppm</span>
               </div>
-              <input type="range" id="sliderCh4" min="10" max="600" value="120" oninput="updatePdmSim()">
+              <input type="range" id="inputCh4" min="5" max="300" value="65" oninput="updatePdmSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>Ethylene (C2H4) Concentration</span>
-                <span class="control-val" id="valC2h4">214 ppm (63.3%)</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Ethylene (C₂H₄) Concentration</span>
+                <span class="slider-val" id="valC2h4">185 ppm (Thermal Stress)</span>
               </div>
-              <input type="range" id="sliderC2h4" min="10" max="800" value="214" oninput="updatePdmSim()">
+              <input type="range" id="inputC2h4" min="5" max="500" value="185" oninput="updatePdmSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>Acetylene (C2H2) Concentration</span>
-                <span class="control-val" id="valC2h2">4 ppm (1.2%)</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Acetylene (C₂H₂) Concentration</span>
+                <span class="slider-val" id="valC2h2">12 ppm</span>
               </div>
-              <input type="range" id="sliderC2h2" min="0" max="150" value="4" oninput="updatePdmSim()">
+              <input type="range" id="inputC2h2" min="0" max="150" value="12" oninput="updatePdmSim()">
             </div>
 
-            <div class="control-group">
-              <div class="control-label">
-                <span>Circuit Breaker Arcing Contact Wear (∑I²t)</span>
-                <span class="control-val" id="valCbWear">56.8% of Max Rating</span>
+            <div class="slider-item">
+              <div class="slider-label-row">
+                <span>Breaker Arcing Contact Wear (∑I²t)</span>
+                <span class="slider-val" id="valBreakerWear">78.4% Life Expended</span>
               </div>
-              <input type="range" id="sliderCbWear" min="5" max="100" value="57" oninput="updatePdmSim()">
+              <input type="range" id="inputBreakerWear" min="5" max="100" value="78" oninput="updatePdmSim()">
             </div>
 
-            <button class="btn-approve" style="width:100%; margin-top:10px;" onclick="dispatchPdmWorkOrder()">
-              <span>📋</span> Generate Risk-Prioritized Work Order (RPN)
+            <button class="btn-sim" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="dispatchPdmWorkOrder()">
+              <span>📋</span> Generate Risk-Prioritized Work Order
             </button>
           </div>
 
-          <div class="sim-output-panel">
-            <h3 style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; margin-bottom: 16px;">Duval Triangle 1 Graphical Diagnostic</h3>
+          <!-- Dynamic SVG Duval Triangle 1 Visualization -->
+          <div class="visual-stage">
+            <svg id="duvalSvg" width="100%" height="260" viewBox="0 0 340 300" style="overflow: visible;">
+              <!-- Outer Equilateral Triangle -->
+              <polygon points="170,20 30,260 310,260" fill="var(--bg-secondary)" stroke="var(--border-color)" stroke-width="2" />
 
-            <div class="vis-canvas-box" style="height: 240px;">
-              <svg class="interactive-svg" viewBox="0 0 320 240">
-                <polygon points="160,20 40,210 280,210" fill="none" stroke="#80868b" stroke-width="2"/>
-                <text x="160" y="14" fill="#80868b" font-size="11" font-weight="bold" text-anchor="middle">%CH4 (100% Top)</text>
-                <text x="30" y="226" fill="#80868b" font-size="11" font-weight="bold" text-anchor="middle">%C2H4</text>
-                <text x="290" y="226" fill="#80868b" font-size="11" font-weight="bold" text-anchor="middle">%C2H2</text>
+              <!-- Fault Zone Partitions (IEC 60599 Duval 1) -->
+              <!-- T3: Thermal fault > 700°C (High Ethylene C2H4) -->
+              <polygon points="170,20 220,110 190,160 110,120" fill="rgba(217, 48, 37, 0.15)" stroke="rgba(217, 48, 37, 0.4)" stroke-width="1" />
+              <!-- D2: High energy arcing (High Acetylene C2H2) -->
+              <polygon points="30,260 120,260 140,210 70,180" fill="rgba(249, 171, 0, 0.15)" stroke="rgba(249, 171, 0, 0.4)" stroke-width="1" />
+              <!-- T1: Low temperature thermal fault -->
+              <polygon points="220,110 310,260 200,260 190,160" fill="rgba(66, 133, 244, 0.1)" stroke="rgba(66, 133, 244, 0.3)" stroke-width="1" />
 
-                <polygon points="120,110 90,170 190,170 160,110" fill="rgba(217, 48, 37, 0.2)" stroke="#d93025" stroke-width="1"/>
-                <text x="140" y="145" fill="#d93025" font-size="10" font-weight="bold">T3 Fault</text>
+              <!-- Triangle Labels -->
+              <text x="170" y="12" text-anchor="middle" fill="#ff7043" font-size="11" font-weight="700" font-family="'Roboto Mono', monospace">% C₂H₄ (Ethylene)</text>
+              <text x="20" y="278" text-anchor="start" fill="#42a5f5" font-size="11" font-weight="700" font-family="'Roboto Mono', monospace">% CH₄ (Methane)</text>
+              <text x="320" y="278" text-anchor="end" fill="#fbc02d" font-size="11" font-weight="700" font-family="'Roboto Mono', monospace">% C₂H₂ (Acetylene)</text>
 
-                <circle id="duvalPoint" cx="130" cy="135" r="7" fill="#d93025" stroke="#fff" stroke-width="2"/>
-              </svg>
-            </div>
+              <!-- Diagnostic Coordinate Marker -->
+              <circle id="duvalPoint" cx="178" cy="115" r="7" fill="#d93025" stroke="#ffffff" stroke-width="2" />
+              <text id="duvalZoneLabel" x="170" y="190" text-anchor="middle" fill="var(--danger)" font-size="12" font-weight="700" font-family="'Google Sans', sans-serif">
+                FAULT: T3 (Thermal Fault &gt; 700°C)
+              </text>
+            </svg>
 
-            <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 14px; font-family: 'Roboto Mono', monospace; font-size: 0.8rem;">
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Duval Fault Classification:</span><strong id="duvalClassText" style="color:var(--danger);">T3 Thermal Fault (>700°C Carbonization)</strong>
+            <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">TRANSFORMER HEALTH (AHI)</div>
+                <div id="ahiScoreVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--danger);">AHI: 38.4 / 100 (POOR)</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Estimated RUL:</span><strong id="pdmRulText" style="color:var(--warning);">180 Days (Prob Fail: 34.0%)</strong>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">REMAINING USEFUL LIFE</div>
+                <div id="rulVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--warning);">RUL: 3.2 Months</div>
               </div>
-              <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-                <span>Risk Priority Number (RPN):</span><strong id="pdmRpnText" style="color:var(--danger);">RPN 71 / 1000 (Expedited Action)</strong>
-              </div>
-              <div style="display:flex; justify-content:space-between;">
-                <span>Dispatch Status:</span><span id="pdmDispatchStatus" style="color:var(--text-secondary);">Ready for Work Order Creation</span>
+              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                <div style="font-size: 0.72rem; color: var(--text-muted);">BREAKER REMAINING SHOTS</div>
+                <div id="breakerShotsVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent);">18 Full-Fault Trips</div>
               </div>
             </div>
           </div>
@@ -1371,93 +1920,89 @@
       </div>
     </div>
 
-    <!-- TAB 7: SAFETY & HITL GOVERNANCE -->
+    <!-- TAB 6: SAFETY & HITL GOVERNANCE -->
     <div id="tab-governance" class="tab-pane" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>⚖️</span> Validation Harness & Human-In-The-Loop (HITL) Gatekeeper</h2>
-            <div class="card-subtitle">Statutory physical boundaries and mandatory dual-operator authorization for grid switching.</div>
+            <h2 class="card-title"><span>⚖️</span> Validation Harness &amp; HITL Gatekeeper Console</h2>
+            <div class="card-subtitle">Zero unverified commands reach the physical grid. Strict ANSI C84.1 limits and dual-operator authorization.</div>
+          </div>
+          <span class="horizon-tag">Protocol: ANSI C84.1 • NERC BAL-001 • IEEE 1547</span>
+        </div>
+
+        <!-- Real-Time Physical Feasibility Gauges -->
+        <div class="gauge-group">
+          <div class="gauge-box">
+            <div style="font-size: 2rem;">⚡</div>
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">ANSI C84.1 VOLTAGE ENVELOPE</div>
+              <div class="gauge-val-big val-safe">1.021 p.u.</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Target: 0.95 - 1.05 p.u. (Nominal: 12.47 kV)</div>
+            </div>
+          </div>
+          <div class="gauge-box">
+            <div style="font-size: 2rem;">🔥</div>
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">LINE THERMAL AMPACITY</div>
+              <div class="gauge-val-big val-safe">74.2% MVA</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Limit: 100% Continuous (480 A Peak)</div>
+            </div>
+          </div>
+          <div class="gauge-box">
+            <div style="font-size: 2rem;">⏱️</div>
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">INTERCONNECTION FREQUENCY</div>
+              <div class="gauge-val-big val-safe">60.012 Hz</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">NERC Bound: 59.80 - 60.20 Hz</div>
+            </div>
+          </div>
+          <div class="gauge-box">
+            <div style="font-size: 2rem;">🔒</div>
+            <div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); font-weight: 600;">IEEE 1547 ANTI-ISLANDING</div>
+              <div class="gauge-val-big val-safe">LOCKED &amp; VERIFIED</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Zero intentional islanding without transfer trip</div>
+            </div>
           </div>
         </div>
 
-        <div class="live-dashboard">
-          <div class="card" style="margin-bottom:0;">
-            <div class="card-title" style="font-size:1.15rem; margin-bottom:16px;">
-              <span>⚡</span> Live Physical Feasibility Guardrails
+        <!-- Interactive HITL Gatekeeper Ticket Console -->
+        <div class="hitl-ticket" id="hitlTicketBox">
+          <div class="ticket-header">
+            <div class="ticket-title">
+              <span>🚨</span> ACTION APPROVAL REQUIRED: TICKET #TICK-A94E1B02
             </div>
-            <div class="gauge-group">
-              <div class="gauge-card">
-                <div class="gauge-val" style="color: var(--success);">1.002 p.u.</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">ANSI C84.1 Voltage</div>
-                <span class="gauge-status status-pass">0.95 - 1.05 SAFE</span>
-              </div>
-              <div class="gauge-card">
-                <div class="gauge-val" style="color: var(--success);">74.2% MVA</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">Line Thermal Ampacity</div>
-                <span class="gauge-status status-pass">25.8% HEADROOM</span>
-              </div>
-              <div class="gauge-card">
-                <div class="gauge-val" style="color: var(--success);">59.99 Hz</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">NERC BAL-001 Freq</div>
-                <span class="gauge-status status-pass">±0.01 Hz NOMINAL</span>
-              </div>
-              <div class="gauge-card">
-                <div class="gauge-val" style="color: var(--success);">100% INTERLOCKED</div>
-                <div style="font-size: 0.8rem; color: var(--text-secondary);">IEEE 1547 Anti-Islanding</div>
-                <span class="gauge-status status-pass">ZERO BACKFEED</span>
-              </div>
-            </div>
-
-            <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 12px; font-size: 0.82rem; border: 1px solid var(--border-color);">
-              <strong>Pre/Post Execution Rule:</strong> Every autonomous agent action is verified against BigQuery historical baselines and physical power flow limits. Actions inducing V &lt; 0.95 p.u. or loading &gt; 100% are programmatically aborted.
-            </div>
+            <span class="ticket-badge">Tier 3: Physical Grid Change</span>
           </div>
-
-          <div class="card" style="margin-bottom:0;">
-            <div class="card-title" style="font-size:1.15rem; margin-bottom:16px;">
-              <span>👨‍✈️</span> Human-In-The-Loop (HITL) Gatekeeper Console
-            </div>
-            
-            <div class="hitl-ticket-box" id="hitlBox">
-              <div class="ticket-header">
-                <span class="ticket-id" id="ticketId">TICK-A94E1B02</span>
-                <span class="tier-badge" id="ticketTier">TIER 3: PHYSICAL CHANGE</span>
-              </div>
-              <div class="ticket-body" id="ticketDesc">
-                <strong>FLISR Automated Restoration Order:</strong> Request from <code>grid_dispatcher_agent</code> to execute evolved AlphaEvolve switching sequence: <em>CLOSE SW-TIE-44 AND OPEN SW-SEC-23</em> on Feeder F-102 (Substation Metro). Restores 2,270 customers while isolating faulted cable segment.
-              </div>
-              <div class="safety-checklist">
-                <div class="check-item"><span class="check-icon">✓</span> Zero-energy LOTO verified on isolated segment</div>
-                <div class="check-item"><span class="check-icon">✓</span> Projected voltage profile: 0.985 - 1.015 p.u. (Feasible)</div>
-                <div class="check-item"><span class="check-icon">✓</span> Secondary feeder loading: 78.4% (Within 100% MVA ceiling)</div>
-                <div class="check-item"><span class="check-icon">✓</span> IEEE 1547 transfer trip interlock verified</div>
-              </div>
-              <div class="hitl-actions">
-                <button class="btn-approve" onclick="approveHitlAction()">
-                  <span>✓</span> Operator Sign-Off & Execute
-                </button>
-                <button class="btn-reject" onclick="rejectHitlAction()">
-                  <span>✕</span> Reject / Keep Safe
-                </button>
-              </div>
-            </div>
-
-            <div id="hitlAuditStatus" style="font-family: 'Roboto Mono', monospace; font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-tertiary); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);">
-              Audit Trail: Ticket TICK-A94E1B02 awaiting certified operator digital signature.
-            </div>
+          <div class="ticket-body">
+            <strong>Proposed Action:</strong> FLISR automated switching reconfiguration following fault isolation on Feeder F-102.<br>
+            <strong>Generated Switching Steps:</strong> (1) OPEN Sectionalizer SW-SEC-23 (interlocked) &rarr; (2) CLOSE Tie-Switch SW-TIE-44 to restore 2,270 customers from Substation West.<br>
+            <strong>Safety Harness Status:</strong> Verified safe. Post-switch voltage sag estimated at 0.984 p.u. (within ANSI limits). Backfeed loading on Substation West transformer at 81.3%.<br>
+            <strong>Originating Persona:</strong> Grid Operations Dispatcher (Agent ID: <code>grid_dispatcher_agent</code>).
+          </div>
+          <div class="ticket-actions">
+            <button class="btn-approve" onclick="approveHitlAction()">
+              <span>✓</span> Operator Sign-Off &amp; Execute
+            </button>
+            <button class="btn-reject" onclick="rejectHitlAction()">
+              <span>✕</span> Reject / Keep Safe
+            </button>
+            <span id="hitlStatusMsg" style="font-size: 0.82rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); align-self: center; margin-left: auto;">
+              Awaiting Certified Operator Authorization
+            </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 8: REUSABLE SKILLS (12) -->
+    <!-- TAB 7: REUSABLE SKILLS (12 Abstracted Skills) -->
     <div id="tab-skills" class="tab-pane" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
             <h2 class="card-title"><span>🧩</span> 12 Abstracted Reusable Skills Layer</h2>
-            <div class="card-subtitle">Common mathematical and physical execution algorithms shared across personas.</div>
+            <div class="card-subtitle">Common mathematical and physical execution algorithms shared across personas without duplicating logic.</div>
           </div>
         </div>
 
@@ -1465,127 +2010,257 @@
           <div class="skill-card">
             <div class="skill-id">skill_weathernext_telemetry_correlator</div>
             <div class="skill-desc">Spatializes DeepMind WeatherNext AI predictions to feeder coordinates.</div>
-            <div class="skill-formula">GHI, DNI, Wind(10m, 100m) → Generation Capacity %</div>
+            <div class="skill-formula">GHI, DNI, Wind(10m, 100m) &rarr; Generation Capacity %</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_vizier_bayesian_vvo_tuner</div>
             <div class="skill-desc">Vertex AI Vizier GP-EI optimization for Volt-VAR curves.</div>
-            <div class="skill-formula">min Loss_MW(V1..V4, Q_max) s.t. 0.95 ≤ V ≤ 1.05</div>
+            <div class="skill-formula">min Loss(V1,V2,V3,V4) s.t. ANSI C84.1 Range A</div>
           </div>
           <div class="skill-card">
-            <div class="skill-id">skill_alphaevolve_reconfigurator</div>
-            <div class="skill-desc">Evolutionary tie-switch search for active loss minimization.</div>
-            <div class="skill-formula">opt DNR(NO_switches) s.t. Radiality & Headroom</div>
+            <div class="skill-id">skill_topological_flisr_reconfigurator</div>
+            <div class="skill-desc">Mixed-integer linear programming (MILP) &amp; heuristic tie-switch network reconfiguration.</div>
+            <div class="skill-formula">min ∑ I_k² R_k s.t. Radiality, V_min ≤ V_i ≤ V_max, I_k ≤ I_max</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_predictive_maintenance_health_scorer</div>
-            <div class="skill-desc">Duval Triangle DGA and breaker arc energy wear scoring.</div>
-            <div class="skill-formula">RPN = P(Fail) × Crit_Index × SAIDI_Impact (1-1000)</div>
+            <div class="skill-desc">Calculates Asset Health Index (AHI) combining DGA and wear physics.</div>
+            <div class="skill-formula">AHI = 0.4·DGA + 0.3·(∑I²t) + 0.3·Thermog</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_power_flow_simulation</div>
-            <div class="skill-desc">AC/DC power flow engine calculating voltages, loadings, and losses.</div>
-            <div class="skill-formula">P_i, Q_i = f(V_i, V_j, Y_bus) [Newton-Raphson]</div>
+            <div class="skill-desc">Newton-Raphson AC power flow solver with PV/PQ buses.</div>
+            <div class="skill-formula">J · [Δθ, Δ|V|]ᵀ = [ΔP, ΔQ]ᵀ</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_contingency_constraint_checker</div>
-            <div class="skill-desc">Enforces ANSI C84.1 voltage tolerances and N-1 thermal bounds.</div>
-            <div class="skill-formula">0.95 ≤ V_pu ≤ 1.05, S_branch ≤ 100% MVA</div>
+            <div class="skill-desc">Fast N-1 transmission and distribution branch contingency screening.</div>
+            <div class="skill-formula">P_flow,k(c) = P_k^0 + LODF_k,c · P_c^0 ≤ Limit_k</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_hosting_capacity_evaluator</div>
-            <div class="skill-desc">Iterative feeder sweep evaluating thermal and overvoltage headroom.</div>
-            <div class="skill-formula">HC_max = min(HC_thermal, HC_voltage, HC_protection)</div>
+            <div class="skill-desc">Iterative solar PV/BESS injection sweeps evaluating thermal and voltage limits.</div>
+            <div class="skill-formula">HC = max P_inj s.t. V_max ≤ 1.05 p.u. &amp; I_line ≤ 100%</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_dynamic_line_rating_calculator</div>
-            <div class="skill-desc">IEEE 738 steady-state conductor dynamic ampacity solver.</div>
-            <div class="skill-formula">I_dynamic = sqrt((q_c + q_r - q_s) / R_T) [WeatherNext]</div>
+            <div class="skill-desc">IEEE 738 steady-state conductor thermal rating calculation.</div>
+            <div class="skill-formula">q_c(V_w, φ) + q_r = q_s + I²·R(T_c)</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_automated_switching_planner</div>
-            <div class="skill-desc">Interlocked breaker/switch toggle sequencing with LOTO tags.</div>
-            <div class="skill-formula">Sequenced steps s.t. Zero-Energy & Inrush Limits</div>
+            <div class="skill-desc">Generates interlocked switching orders with clearance validation.</div>
+            <div class="skill-formula">Sequence: Open Break &rarr; Verify Dead &rarr; Close Tie &rarr; Restore</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_der_vpp_co_optimizer</div>
-            <div class="skill-desc">Co-optimizes BESS SoC, DR setback, and solar vs wholesale LMP.</div>
-            <div class="skill-formula">max Revenue(P_bess, P_dr, P_pv) - Cost(Degradation)</div>
+            <div class="skill-desc">Wholesale arbitrage vs battery degradation co-optimization.</div>
+            <div class="skill-formula">max ∑ (LMP_t · P_t - C_deg(DoD, T))</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_scada_ami_anomaly_detector</div>
-            <div class="skill-desc">Statistical Z-score and Isolation Forest outlier detection.</div>
-            <div class="skill-formula">Z = |X - μ| / σ > 1.90 (p < 0.05 Outlier Flag)</div>
+            <div class="skill-desc">Isolation Forest and rolling Z-score detection on telemetry streams.</div>
+            <div class="skill-formula">Z_t = (X_t - μ_roll) / σ_roll &gt; 3.0</div>
           </div>
           <div class="skill-card">
             <div class="skill-id">skill_regulatory_audit_reporter</div>
-            <div class="skill-desc">Calculates IEEE 1366 reliability indices and formats audit filings.</div>
-            <div class="skill-formula">SAIDI = ∑(r_i × N_i) / N_T, SAIFI = ∑(N_i) / N_T</div>
+            <div class="skill-desc">Generates immutable audit logs and NERC reliability filings.</div>
+            <div class="skill-formula">Log(Time, Agent, Operator, Action, Proof) &rarr; BigQuery</div>
           </div>
         </div>
       </div>
     </div>
+
   </main>
 
+  <!-- INTERACTIVE SYSTEM ARCHITECTURE MODAL -->
+  <div class="arch-modal-overlay" id="archModal" onclick="if(event.target === this) closeArchModal()">
+    <div class="arch-modal-dialog">
+      <div class="arch-modal-header">
+        <div>
+          <h2 class="arch-modal-title"><span>🏗️</span> Grid Optimization Multi-Agent System Architecture</h2>
+          <div class="arch-modal-subtitle">Heterogeneous 5-Tier Agentic Fabric: OT Real-Time, ET Planning, Safety Guardrails, and BigQuery Lakehouse</div>
+        </div>
+        <button class="arch-close-btn" onclick="closeArchModal()" title="Close Architecture Modal">✕</button>
+      </div>
+
+      <div class="arch-modal-body">
+        <!-- Tier 1 -->
+        <div class="arch-tier">
+          <div class="arch-tier-header">
+            <div class="arch-tier-title"><span>📡</span> Tier 1: Telemetry, GIS &amp; Advanced External AI Foundation</div>
+            <span class="tier-tag" style="background: rgba(66, 133, 244, 0.2); color: #4285f4;">Foundation Layer</span>
+          </div>
+          <div class="tier-blocks">
+            <div class="arch-block">
+              <div class="arch-block-name"><span>⛅</span> DeepMind WeatherNext</div>
+              <div class="arch-block-desc">High-resolution 0.1° atmospheric NWP, solar DNI, crosswind vectors, convective storm risk.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>📊</span> Vertex AI Vizier</div>
+              <div class="arch-block-desc">Black-box Bayesian hyperparameter &amp; Volt-VAR curve optimizer using Gaussian Processes (GP-EI).</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>🛡️</span> Predictive Maintenance (PdM)</div>
+              <div class="arch-block-desc">Duval Triangle 1 DGA, breaker arcing wear (∑I²t), and remaining useful life (RUL) estimation.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>🗄️</span> Enterprise BigQuery Lakehouse</div>
+              <div class="arch-block-desc">5 Datasets: SCADA Real-Time, AMI Smart Meter 15-min, GIS Spatial Assets, PdM Diagnostics, DER Telemetry.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow-down">
+          <span>▼</span> <span class="arch-arrow-label">Bidirectional Ingestion, Real-Time Telemetry &amp; Microclimate Priors</span> <span>▼</span>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="arch-tier">
+          <div class="arch-tier-header">
+            <div class="arch-tier-title"><span>👥</span> Tier 2: 8 Business Personas &amp; 48 Heterogeneous Sub-Agents Fleet</div>
+            <span class="tier-tag" style="background: rgba(161, 66, 244, 0.2); color: #a142f4;">Cognitive &amp; Autonomous Agents</span>
+          </div>
+          <div class="tier-blocks">
+            <div class="arch-block">
+              <div class="arch-block-name"><span>⚡</span> Real-Time OT (Secs to Hours)</div>
+              <div class="arch-block-desc"><strong>Grid Dispatcher</strong> (7 agents) • <strong>Protection &amp; Control</strong> (6 agents) • <strong>Field Operations</strong> (6 agents). Sub-second SCADA trips, VVO, and fault response.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>☀️</span> Intraday to Day-Ahead</div>
+              <div class="arch-block-desc"><strong>DER &amp; Flexibility Manager</strong> (6 agents). Aggregates VPP batteries, EV smart charging, dynamic DR dispatch, and market settlement.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>📐</span> Planning &amp; Asset Management (ET)</div>
+              <div class="arch-block-desc"><strong>T&amp;D Planning Engineer</strong> (6 agents) • <strong>Asset Reliability (PdM)</strong> (5 agents). Hosting capacity studies, N-1 contingency, and RUL rankings.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name"><span>📈</span> Analytics &amp; Compliance</div>
+              <div class="arch-block-desc"><strong>Data Scientist</strong> (6 agents) • <strong>Regulatory Officer</strong> (6 agents). AMI neural load forecasts, NERC BAL/PRC audits, and immutable filing logs.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow-down">
+          <span>▼</span> <span class="arch-arrow-label">Delegates Standardized Mathematical Tasks via Common API Contracts</span> <span>▼</span>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="arch-tier">
+          <div class="arch-tier-header">
+            <div class="arch-tier-title"><span>🧩</span> Tier 3: 12 Abstracted Reusable Skills Layer</div>
+            <span class="tier-tag" style="background: rgba(251, 188, 4, 0.2); color: #fbbc04;">Reusable Microservices</span>
+          </div>
+          <div class="tier-blocks">
+            <div class="arch-block">
+              <div class="arch-block-name">Physics &amp; Network Solvers</div>
+              <div class="arch-block-desc">Newton-Raphson Power Flow • Fast N-1 Contingency • IEEE 738 Dynamic Line Rating • Hosting Capacity Sweeps.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">Optimization &amp; AI Algorithms</div>
+              <div class="arch-block-desc">Vizier Bayesian VVO • Topological FLISR Reconfiguration • WeatherNext Telemetry Correlator • VPP Arbitrage.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">Diagnostics &amp; Governance</div>
+              <div class="arch-block-desc">Duval Triangle 1 Scorer • SCADA/AMI Z-Score Anomaly Detector • Switching Sequence Planner • Regulatory Auditor.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow-down">
+          <span>▼</span> <span class="arch-arrow-label">Generated Action Proposals Verified by Deterministic Physical Constraints</span> <span>▼</span>
+        </div>
+
+        <!-- Tier 4 -->
+        <div class="arch-tier">
+          <div class="arch-tier-header">
+            <div class="arch-tier-title"><span>⚖️</span> Tier 4: Safety Validation Harness &amp; 3-Tier HITL Gatekeeper</div>
+            <span class="tier-tag" style="background: rgba(217, 48, 37, 0.2); color: #d93025;">Mandatory Safety Guardrails</span>
+          </div>
+          <div class="tier-blocks">
+            <div class="arch-block">
+              <div class="arch-block-name">Physical Feasibility Harness</div>
+              <div class="arch-block-desc">ANSI C84.1 Envelope (0.95 - 1.05 p.u.) • Conductor Thermal Limits (&lt;100%) • NERC Frequency (60 ± 0.2 Hz) • IEEE 1547 Anti-Islanding.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">3-Tier Human-In-The-Loop Gateway</div>
+              <div class="arch-block-desc"><strong>Tier 1:</strong> Advisory / Informational (Auto-approved).<br><strong>Tier 2:</strong> Operational Optimization (Single operator sign-off).<br><strong>Tier 3:</strong> Physical Grid Switching (Dual-operator safety sign-off required).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-arrow-down">
+          <span>▼</span> <span class="arch-arrow-label">Certified Dispatch Commands Released to Field RTUs &amp; Enterprise Systems</span> <span>▼</span>
+        </div>
+
+        <!-- Tier 5 -->
+        <div class="arch-tier">
+          <div class="arch-tier-header">
+            <div class="arch-tier-title"><span>🏭</span> Tier 5: Physical Grid Actuation &amp; Enterprise Integration</div>
+            <span class="tier-tag" style="background: rgba(13, 144, 79, 0.2); color: #0d904f;">Execution Layer</span>
+          </div>
+          <div class="tier-blocks">
+            <div class="arch-block">
+              <div class="arch-block-name">SCADA / EMS RTU Telecontrol</div>
+              <div class="arch-block-desc">Substation Breakers, Reclosers, Capacitor Banks, and Load Tap Changers (LTC).</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">DERMS Smart Inverters</div>
+              <div class="arch-block-desc">Autonomous IEEE 1547-2018 Volt-VAR and Volt-Watt reactive injection profiles.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">Enterprise CMMS / Work Orders</div>
+              <div class="arch-block-desc">Automated field technician work orders routed to SAP / IBM Maximo mobile units.</div>
+            </div>
+            <div class="arch-block">
+              <div class="arch-block-name">Wholesale Markets &amp; Regulators</div>
+              <div class="arch-block-desc">Real-time LMP settlement bids (CAISO/PJM/ERCOT) and immutable FERC/NERC compliance records.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
-  <footer class="footer">
-    <p>Gemini Enterprise Agents for Utilities • Grid Optimization Multi-Agent System (MAS)</p>
-    <p style="margin-top: 6px; font-size: 0.8rem;">Powered by Google ADK v2, Google DeepMind WeatherNext, Vertex AI Vizier, DeepMind AlphaEvolve, and BigQuery Analytics.</p>
+  <footer>
+    <div class="container" style="padding: 0;">
+      <p>Utilities Enterprise Multi-Agent System (MAS) • Grid Optimization Domain Fleet</p>
+      <p style="margin-top: 6px; font-size: 0.78rem;">Built with ADK v2 • Google DeepMind WeatherNext • Vertex AI Vizier • Google Cloud BigQuery Lakehouse</p>
+    </div>
   </footer>
 
+  <!-- Interactive JavaScript Application -->
   <script>
-    // Theme toggle logic
-    const themeBtn = document.getElementById('themeToggleBtn');
-    const themeIcon = document.getElementById('themeIcon');
-    const themeText = document.getElementById('themeText');
-
+    // Theme Management
     function setTheme(theme) {
-      if (theme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        themeIcon.textContent = '🌙';
-        themeText.textContent = 'Dark';
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.documentElement.removeAttribute('data-theme');
-        themeIcon.textContent = '☀️';
-        themeText.textContent = 'Light';
-        localStorage.setItem('theme', 'light');
-      }
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      const btn = document.getElementById('themeToggle');
+      if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
     }
-
-    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
     setTheme(savedTheme);
 
-    themeBtn.addEventListener('click', () => {
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      setTheme(isDark ? 'light' : 'dark');
-    });
+    // Tab Navigation
+    function switchMainTab(tabId, btnElem) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
 
-    // Main Tab Switching Logic
-    function switchMainTab(tabKey, btnElem) {
-      document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.add('active');
       if (btnElem) btnElem.classList.add('active');
 
-      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
-      const targetPane = document.getElementById('tab-' + tabKey);
-      if (targetPane) targetPane.classList.add('active');
-
-      window.location.hash = tabKey;
+      // Scroll tab into view if needed
+      if (btnElem) {
+        btnElem.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const hash = window.location.hash.replace('#', '');
-      if (hash) {
-        const matchingBtn = document.querySelector(`.nav-tab-btn[onclick*="'${hash}'"]`);
-        if (matchingBtn) switchMainTab(hash, matchingBtn);
-      }
-      loadWorkflow('flisr');
-    });
-
-    // Persona Filtering
+    // Filter Personas
     function filterPersonas(horizon, tabElem) {
-      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-      tabElem.classList.add('active');
+      document.querySelectorAll('.filter-btn').forEach(t => t.classList.remove('active'));
+      if (tabElem) tabElem.classList.add('active');
 
       const cards = document.querySelectorAll('.persona-card');
       cards.forEach(card => {
@@ -1597,11 +2272,26 @@
       });
     }
 
-    // Workflow Definitions & Interactive Runner
+    // Architecture Modal Controls
+    function openArchModal() {
+      const modal = document.getElementById('archModal');
+      if (modal) modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeArchModal() {
+      const modal = document.getElementById('archModal');
+      if (modal) modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeArchModal();
+    });
+
+    // Workflows Stepper Engine
     const workflowsData = {
       flisr: {
         title: "FLISR Automated Restoration & Switching Workflow",
-        summary: "Coordinates Grid Dispatcher, Protection & Control, and Field Operations with AlphaEvolve and HITL Gateway.",
+        summary: "Coordinates Grid Dispatcher, Protection & Control, and Field Operations with Topological Optimization and Mandatory HITL Gateway.",
         steps: [
           {
             title: "Step 1: Fault Telemetry Ingestion & Anomaly Flagging",
@@ -1610,159 +2300,171 @@
             meta: "Dataset: utilities_grid_operations.scada_realtime_telemetry | Guardrail: ANSI C84.1 Sag Flag"
           },
           {
-            title: "Step 2: AlphaEvolve DNR Reconfiguration Discovery",
+            title: "Step 2: Topological DNR Reconfiguration Optimization",
             persona: "Grid Operations Dispatcher",
-            desc: "DeepMind AlphaEvolve evaluates 480 candidate switching permutations across normally open tie switches. Identifies optimal closure of SW-TIE-44 to restore 2,270 customers.",
-            meta: "Engine: DeepMind AlphaEvolve | Active Feeder Loss Delta: -23.5%"
+            desc: "Mixed-integer feeder reconfiguration engine evaluates candidate switching permutations across normally open tie-switches to determine the optimal radial topology minimizing line losses.",
+            meta: "Engine: Mixed-Integer Feeder Reconfiguration | Target: SW-TIE-44 Close, SW-SEC-23 Open"
           },
           {
-            title: "Step 3: Protection & Anti-Islanding Verification",
-            persona: "Protection & Control Engineer",
-            desc: "Validates bidirectional fault trip coordination and confirms IEEE 1547 anti-islanding transfer trip interlocks are energized.",
-            meta: "Dataset: utilities_grid_operations.substation_relays | Standard: IEEE 1547-2018"
+            title: "Step 3: Protection Interlock & Reverse Power Check",
+            persona: "Protection & Control (P&C) Engineer",
+            desc: "Calculates adaptive relay coordination curves under backfeed conditions. Verifies IEEE 1547 anti-islanding compliance before closing tie-breaker.",
+            meta: "Dataset: utilities_protection_and_control.relay_settings_logs | CTI: 250ms maintained"
           },
           {
-            title: "Step 4: Mandatory Human-In-The-Loop Approval (Tier 3)",
-            persona: "Lead Control Room Operator",
-            desc: "Generates Ticket TICK-A94E1B02. Dual-operator review of electrical clearances, projected voltages (0.985 p.u.), and zero-energy LOTO verification.",
-            meta: "Gateway: HITL Tier 3 Physical Change | Audit: BigQuery Session Log"
-          },
-          {
-            title: "Step 5: Field Tech Switching Execution & Restoration",
+            title: "Step 4: Mandatory HITL Sign-Off & SCADA Dispatch",
             persona: "Field Operations & Substation Tech",
-            desc: "Automated interlocked SCADA dispatch to RTU. Confirms breaker state feedback. 2,270 customers restored in under 4 minutes.",
-            meta: "Benchmark: SAIDI Index Impact: -0.42 mins | Status: COMPLETE"
+            desc: "Ticket #TICK-A94E1B02 presented to Lead Control Room Operator. Upon dual-sign off, interlocked commands release to substation RTU, restoring 2,270 customers.",
+            meta: "Audit: BigQuery utilities_compliance.immutable_audit_logs | SAIDI avoided: 18.2 mins"
           }
         ]
       },
       vvo: {
-        title: "Dynamic Volt-VAR Optimization (VVO) Workflow",
-        summary: "Vertex AI Vizier Bayesian curve optimization coordinated across Dispatcher, Data Scientist, and DERMS Manager.",
+        title: "Dynamic Volt-VAR Optimization (VVO) with Vizier",
+        summary: "Couples SCADA real-time voltages with Vertex AI Vizier Bayesian Gaussian Processes to tune piecewise inverter curves.",
         steps: [
           {
-            title: "Step 1: WeatherNext Irradiance Forecast Ingestion",
-            persona: "Data Scientist / Grid Analytics Engineer",
-            desc: "Ingests sub-hourly DNI and GHI forecasts. Predicts solar generation peak on Feeder F-401 reaching 4.2 MW.",
-            meta: "Engine: Google DeepMind WeatherNext | Telemetry: 15-min Irradiance"
+            title: "Step 1: AMI Interval Voltage Profiling",
+            persona: "Data Scientist / Grid Analytics",
+            desc: "Clusters 15-minute AMI smart meter telemetry identifying secondary voltage drops down to 0.942 p.u. along end-of-line lateral nodes.",
+            meta: "Dataset: utilities_customer_analytics.ami_smart_meter_intervals | Nodes: 84 end-of-line drops"
           },
           {
-            title: "Step 2: Power Flow Simulation & Voltage Rise Detection",
+            title: "Step 2: Vertex AI Vizier Bayesian Curve Tuning",
             persona: "Grid Operations Dispatcher",
-            desc: "Simulates high solar reverse feed. Warns of potential upper ANSI C84.1 limit exceedance (1.054 p.u. at line end).",
-            meta: "Skill: skill_power_flow_simulation | Voltage Violation Warning"
+            desc: "Vizier executes 20 Bayesian trials with GP-EI acquisition function, searching optimal piecewise knee breakpoints (V1, V2, V3, V4).",
+            meta: "Engine: Vertex AI Vizier | Result: -22.0% Active Loss Reduction"
           },
           {
-            title: "Step 3: Vertex AI Vizier Bayesian Curve Tuning",
+            title: "Step 3: Substation LTC & Capacitor Coordination",
             persona: "DER & Flexibility Program Manager",
-            desc: "Vizier executes 20 Bayesian trials to optimize smart inverter Volt-VAR curves (V1=0.92, V4=1.065 p.u.).",
-            meta: "Engine: Vertex AI Vizier (GP-EI) | Technical Loss Reduction: -22.0%"
+            desc: "Synchronizes substation LTC tap changer position with commercial smart inverter Volt-VAR autonomous curves.",
+            meta: "Protocol: IEEE 1547-2018 Category B | CVR Factor: 0.78"
           },
           {
-            title: "Step 4: Dispatcher Advisory Approval (Tier 2)",
+            title: "Step 4: Real-Time Closed-Loop Validation",
             persona: "Grid Operations Dispatcher",
-            desc: "Tier 2 advisory sign-off automatically applied to DERMS smart inverter fleet profile.",
-            meta: "Gateway: HITL Tier 2 Advisory | Status: COMPLETE"
+            desc: "Validation harness confirms all 12.47 kV buses operate strictly within 0.95 to 1.05 p.u. with zero tap-hunting oscillation.",
+            meta: "Verification: ANSI C84.1 Range A (100% compliant)"
           }
         ]
       },
       pdm: {
-        title: "Predictive Maintenance (PdM) Dispatch Workflow",
-        summary: "Condition-based Dissolved Gas Analysis (DGA), breaker wear monitoring, and automated field dispatch.",
+        title: "Predictive Maintenance & Asset Health Dispatch",
+        summary: "IEC 60599 Dissolved Gas Analysis (DGA), breaker arcing wear tracking, and automated SAP work order creation.",
         steps: [
           {
-            title: "Step 1: Substation Online DGA Telemetry Ingestion",
-            persona: "Asset Performance & Reliability Engineer",
-            desc: "Continuous oil sensor on Transformer XFMR-SUB-44 reports CH4=120 ppm, C2H4=214 ppm, C2H2=4 ppm.",
-            meta: "Dataset: utilities_asset_management.transformer_dga_online"
+            title: "Step 1: Online DGA Gas Ratio Sampling",
+            persona: "Asset Performance & Reliability (PdM)",
+            desc: "Continuous oil sensor reports Ethylene C2H4 at 185 ppm and Methane CH4 at 65 ppm on 50 MVA Substation Transformer #XFMR-01.",
+            meta: "Dataset: utilities_asset_management.transformer_dga_health_monitor_logs"
           },
           {
-            title: "Step 2: Duval Triangle 1 Diagnostic Classification",
-            persona: "Asset Performance & Reliability Engineer",
-            desc: "PdM engine classifies coordinates as T3 Thermal Fault (>700°C with heavy oil carbonization). RUL estimated at 180 days.",
-            meta: "Engine: PdM Duval Engine | Risk Priority Number: RPN 71 / 1000"
+            title: "Step 2: Duval Triangle 1 Fault Classification",
+            persona: "Asset Performance & Reliability (PdM)",
+            desc: "Coordinates (%CH4=24.8%, %C2H4=70.6%, %C2H2=4.6%) project onto Zone T3: Severe Thermal Fault (>700°C) with oil carbonization.",
+            meta: "Standard: IEC 60599 Duval Triangle 1 | Fault: Zone T3 (Alarm)"
           },
           {
-            title: "Step 3: Circuit Breaker Arc Energy Wear Correlation",
-            persona: "Asset Performance & Reliability Engineer",
-            desc: "Correlates feeder breaker CB-230-01 accumulated interruption energy (∑I²t = 56.8%) and SF6 gas pressure.",
-            meta: "Skill: skill_predictive_maintenance_health_scorer"
+            title: "Step 3: Circuit Breaker Arcing Wear (∑I²t) Aggregation",
+            persona: "Data Scientist / Grid Analytics",
+            desc: "Integrates cumulative short-circuit interruption currents. Substation Breaker BKR-402 has expended 78.4% of contact endurance.",
+            meta: "Physics: ∑I²t = 4.21e8 A²s | Remaining shots: 18"
           },
           {
-            title: "Step 4: Risk-Prioritized Field Work Order Generation",
+            title: "Step 4: Risk-Prioritized Field Crew Dispatch",
             persona: "Field Operations & Substation Tech",
-            desc: "Generates Expedited CMMS Work Order WO-XFMR-8812 with pre-reserved replacement parts and mobile crew assignment.",
-            meta: "System: CMMS / MWM | Dispatch Status: Scheduled within 48 Hours"
+            desc: "Generates emergency SAP PM work order WO-XFMR-8812 with mobile checklist, acoustic probe calibration, and bypass routing.",
+            meta: "Action: Substation Crew Dispatched | RPN Score: 384 (Critical)"
           }
         ]
       },
       dlr: {
-        title: "Dynamic Line Rating (DLR) Ampacity Workflow",
-        summary: "WeatherNext wind vector coupling with IEEE 738 steady-state conductor ampacity solver.",
+        title: "WeatherNext Dynamic Line Rating (DLR) Ampacity Expansion",
+        summary: "High-resolution atmospheric NWP forecasts coupled with IEEE 738 steady-state conductor heat balance.",
         steps: [
           {
-            title: "Step 1: WeatherNext Geospatial Atmospheric Ingestion",
-            persona: "Data Scientist / Grid Analytics Engineer",
-            desc: "Correlates 10m wind speeds (4.8 m/s) and ambient temperatures (30.5°C) across transmission corridor 230kV-Line-12.",
-            meta: "Engine: Google DeepMind WeatherNext | Coordinate: 37.77° N, -122.42° W"
+            title: "Step 1: WeatherNext Atmospheric Microclimate Fetch",
+            persona: "T&D System Planning Engineer",
+            desc: "Fetches sub-0.1° resolution predictions: 4.8 m/s crosswind at 60° incident angle, 850 W/m² DNI, and 28°C ambient air temperature.",
+            meta: "Engine: Google DeepMind WeatherNext | Corridors: 230 kV Line 104"
           },
           {
-            title: "Step 2: IEEE 738 Thermal Ampacity Computation",
-            persona: "Asset Performance & Reliability Engineer",
-            desc: "Calculates convective cooling (q_c) and solar radiation (q_s). Dynamic rating increases from 900 A to 1,114 A (+23.8%).",
-            meta: "Skill: skill_dynamic_line_rating_calculator | Conductor: ACSR Drake"
+            title: "Step 2: IEEE 738 Conductor Heat Balance Solver",
+            persona: "T&D System Planning Engineer",
+            desc: "Computes convective cooling qc and solar absorption qs for ACSR Drake conductor. Unlocks +23.8% ampacity above book rating.",
+            meta: "Standard: IEEE 738-2012 | Headroom: 900 A -> 1,114 A (443 MVA)"
           },
           {
-            title: "Step 3: Real-Time Dispatch Headroom Unlocked",
+            title: "Step 3: Contingency Verification (N-1 Overload Screening)",
             persona: "Grid Operations Dispatcher",
-            desc: "Dispatcher safely accepts 185 MW additional wind power import without triggering thermal curtailment.",
-            meta: "System: EMS / SCADA | Curtailment Saved: 185 MWh"
+            desc: "Validates that adjacent parallel corridor trip does not exceed emergency sag clearances or anneal aluminum strands.",
+            meta: "Check: Clearance > 28.5 ft at mid-span under 1,114 A loading"
+          },
+          {
+            title: "Step 4: Dispatch Limit Update in EMS/SCADA",
+            persona: "Grid Operations Dispatcher",
+            desc: "Updates dynamic transmission constraint in control room EMS, relieving $48,000/day in renewable generation curtailment.",
+            meta: "Economic Impact: $1.75M Annual Curtailment Savings"
           }
         ]
       },
       hosting: {
-        title: "DER Hosting Capacity Evaluation Workflow",
-        summary: "Seasonal feeder injection sweeps evaluating thermal, voltage, and protection limits.",
+        title: "DER Hosting Capacity & Interconnection Sweep",
+        summary: "Automates utility-scale solar and commercial storage interconnection studies across feeders.",
         steps: [
           {
-            title: "Step 1: Feeder Topology & Historical Load Profile Ingestion",
+            title: "Step 1: GIS Feeder Topology & Model Extraction",
             persona: "T&D System Planning Engineer",
-            desc: "Loads 8,760 hourly load profiles from BigQuery and GIS topology models.",
-            meta: "Dataset: utilities_smart_meter_management.feeder_hourly_ami"
+            desc: "Queries BigQuery GIS dataset for 12.47 kV Feeder F-NORTH-08: 4.2 miles, 34 distribution transformers, 1.8 MW peak load.",
+            meta: "Dataset: utilities_planning.gis_network_topology | Feeders: F-NORTH-08"
           },
           {
-            title: "Step 2: Iterative Solar Injection Sweep",
+            title: "Step 2: Iterative Injection Power Flow Sweeps",
             persona: "T&D System Planning Engineer",
-            desc: "Sweeps distributed solar injections in 100 kW steps along all 44 feeder nodes.",
-            meta: "Skill: skill_hosting_capacity_evaluator | Limits: ANSI C84.1 & 100% MVA"
+            desc: "Injects incremental PV generation from 0 to 5 MW in 100 kW steps. Evaluates ANSI C84.1 upper voltage bound (1.05 p.u.).",
+            meta: "Algorithm: Newton-Raphson AC Power Flow | Limit: 3.4 MW (Thermal limit)"
           },
           {
-            title: "Step 3: Hosting Capacity Map Generation",
+            title: "Step 3: Anti-Islanding & Protection Screening",
+            persona: "Protection & Control (P&C) Engineer",
+            desc: "Simulates minimum daytime load vs aggregate PV capacity ratio. Verifies recloser sensing threshold under reverse fault flow.",
+            meta: "Rule: IEEE 1547-2018 | Min Load Ratio: 68% (Safe)"
+          },
+          {
+            title: "Step 4: Interconnection Report & Smart Inverter Spec",
             persona: "DER & Flexibility Program Manager",
-            desc: "Publishes interconnection public portal map. Maximum feasible hosting capacity identified as 3.4 MW.",
-            meta: "Deliverable: PUC Rule 21 Hosting Capacity Map"
+            desc: "Issues developer approval letter with mandatory autonomous Volt-VAR curve settings and IEEE 2030.5 telemetry gateway.",
+            meta: "Outcome: Interconnection Study approved within 48 hours"
           }
         ]
       },
       vpp: {
-        title: "VPP Wholesale Market Dispatch Workflow",
-        summary: "Co-optimizing BESS degradation against CAISO/ERCOT LMP price spikes via Vertex AI Vizier.",
+        title: "VPP Wholesale Market Dispatch & Battery Degradation",
+        summary: "Co-optimizes residential/commercial BESS fleet dispatch against CAISO/ERCOT wholesale LMP spikes.",
         steps: [
           {
-            title: "Step 1: Wholesale LMP Day-Ahead Price Ingestion",
+            title: "Step 1: Aggregated VPP Capacity & State of Charge Assessment",
             persona: "DER & Flexibility Program Manager",
-            desc: "Ingests day-ahead nodal LMP prices forecasting an evening peak of $185.00/MWh between 18:00 and 21:00.",
-            meta: "Dataset: utilities_wholesale_trading.iso_day_ahead_lmp"
+            desc: "Aggregates 1,450 residential Powerwalls and 8 commercial BESS units: total fleet capacity of 18.4 MW / 42.1 MWh (Avg SoC: 88%).",
+            meta: "Dataset: utilities_der_orchestration.vpp_aggregate_telemetry"
           },
           {
-            title: "Step 2: Vizier Battery Degradation vs Arbitrage Balance",
-            persona: "DER & Flexibility Program Manager",
-            desc: "Vertex AI Vizier determines optimal discharge rate limiting cell degradation cost to $18/MWh while capturing $167/MWh net margin.",
-            meta: "Engine: Vertex AI Vizier | Net Profit: +$1,720.00 / BESS unit"
+            title: "Step 2: Day-Ahead LMP Price Spike Detection",
+            persona: "Regulatory, Market & Compliance Officer",
+            desc: "Wholesale market agent flags net-load ramp at 18:00 with expected locational marginal price (LMP) of $320/MWh.",
+            meta: "Market: CAISO Day-Ahead Real-Time Market | Peak Hours: 17:00-20:00"
           },
           {
-            title: "Step 3: Grid Dispatcher Congestion Concurrence",
-            persona: "Grid Operations Dispatcher",
-            desc: "Dispatcher approves 2.5 MW localized injection relieving substation transformer loading.",
+            title: "Step 3: Battery Degradation vs Arbitrage Co-Optimization",
+            persona: "Data Scientist / Grid Analytics",
+            desc: "Applies semi-empirical battery aging curve. Limits depth-of-discharge (DoD) to 82% to maximize profit net of cell degradation cost.",
+            meta: "Skill: skill_der_vpp_co_optimizer | Net Profit: $24,800 / cycle"
+          },
+          {
+            title: "Step 4: Automated Dispatch & Settlement Verification",
+            persona: "DER & Flexibility Program Manager",
+            desc: "Dispatches IEEE 2030.5 inverter commands. Confirms 14.2 MW active injection with zero substation transformer loading.",
             meta: "Status: VPP Bids Cleared in ISO Real-Time Market"
           }
         ]
@@ -1784,7 +2486,6 @@
       const wf = workflowsData[wfKey];
       document.getElementById('wfActiveTitle').textContent = wf.title;
       document.getElementById('wfActiveSummary').textContent = wf.summary;
-
       renderWorkflowSteps();
     }
 
@@ -1794,23 +2495,25 @@
       container.innerHTML = '';
 
       wf.steps.forEach((step, idx) => {
-        const stepDiv = document.createElement('div');
-        stepDiv.className = 'wf-diagram-step';
-        if (idx < currentStepIndex) stepDiv.classList.add('completed');
-        if (idx === currentStepIndex) stepDiv.classList.add('active');
+        const node = document.createElement('div');
+        node.className = 'wf-step-node';
+        if (idx < currentStepIndex) node.classList.add('completed');
+        if (idx === currentStepIndex) node.classList.add('active-step');
 
-        stepDiv.innerHTML = `
-          <div class="wf-step-content">
-            <div class="wf-step-header">
-              <span class="wf-step-title">${step.title}</span>
-              <span class="wf-step-persona">${step.persona}</span>
-            </div>
-            <div class="wf-step-desc">${step.desc}</div>
-            <div class="wf-step-meta">${step.meta}</div>
+        const statusIcon = idx < currentStepIndex ? '✅' : (idx === currentStepIndex ? '⏳' : '⚪');
+
+        node.innerHTML = `
+          <div class="step-header">
+            <span class="step-title">${statusIcon} ${step.title}</span>
+            <span class="step-persona">${step.persona}</span>
           </div>
+          <div class="step-desc">${step.desc}</div>
+          <div class="step-meta">${step.meta}</div>
         `;
-        container.appendChild(stepDiv);
+        container.appendChild(node);
       });
+
+      document.getElementById('wfProgressLabel').textContent = `Step ${currentStepIndex + 1} of ${wf.steps.length}`;
     }
 
     function stepWorkflow() {
@@ -1818,6 +2521,8 @@
       if (currentStepIndex < wf.steps.length - 1) {
         currentStepIndex++;
         renderWorkflowSteps();
+      } else {
+        alert("Workflow completed! All multi-persona handoffs and safety verifications succeeded.");
       }
     }
 
@@ -1826,199 +2531,196 @@
       renderWorkflowSteps();
     }
 
-    // WeatherNext Simulation Logic
+    // WeatherNext Dynamic Line Rating Simulator
     function updateWeatherNextSim() {
-      const dni = parseFloat(document.getElementById('sliderDni').value);
-      const wind = parseFloat(document.getElementById('sliderWind').value);
-      const angle = parseFloat(document.getElementById('sliderAngle').value);
-      const temp = parseFloat(document.getElementById('sliderTemp').value);
-      const storm = parseFloat(document.getElementById('sliderStorm').value);
+      const dni = parseFloat(document.getElementById('inputDni').value);
+      const windSpeed = parseFloat(document.getElementById('inputWindSpeed').value);
+      const windAngle = parseFloat(document.getElementById('inputWindAngle').value);
+      const temp = parseFloat(document.getElementById('inputAmbTemp').value);
+      const stormProb = parseFloat(document.getElementById('inputStormProb').value);
 
       document.getElementById('valDni').textContent = `${dni} W/m²`;
-      document.getElementById('valWind').textContent = `${wind.toFixed(1)} m/s`;
-      document.getElementById('valAngle').textContent = `${angle}° (${angle > 60 ? 'Perpendicular' : 'Parallel'})`;
-      document.getElementById('valTemp').textContent = `${temp.toFixed(1)} °C`;
-      document.getElementById('valStorm').textContent = `${storm}% (${storm > 70 ? 'HIGH SEVERE' : storm > 35 ? 'Moderate' : 'Low'})`;
+      document.getElementById('valWindSpeed').textContent = `${windSpeed.toFixed(1)} m/s`;
+      document.getElementById('valWindAngle').textContent = `${windAngle}° (${windAngle > 45 ? 'Crosswind' : 'Parallel'})`;
+      document.getElementById('valAmbTemp').textContent = `${temp}°C`;
+      document.getElementById('valStormProb').textContent = `${stormProb}% (${stormProb > 50 ? 'High' : (stormProb > 25 ? 'Moderate' : 'Low')})`;
 
-      const angleRad = (angle * Math.PI) / 180;
-      const effectiveWind = Math.max(0.2, wind * Math.sin(angleRad));
-      const qc = 12.0 * Math.pow(effectiveWind, 0.52) * Math.max(10, 75 - temp);
-      const qs = 0.02 * dni;
-      const baseAmp = 900.0;
-      const dynamicAmp = Math.round(baseAmp * Math.sqrt(Math.max(0.7, (qc + 15 - qs) / 35.0)));
-      const deltaPercent = (((dynamicAmp - baseAmp) / baseAmp) * 100).toFixed(1);
+      const sinAngle = Math.sin((windAngle * Math.PI) / 180);
+      const effWind = Math.max(0.5, windSpeed * Math.max(0.2, sinAngle));
+      const coolingFactor = Math.sqrt(effWind / 0.6) * Math.max(0.6, (90 - temp) / 60);
+      const solarFactor = 1.0 - (dni / 1100) * 0.12;
+      const baseAmpacity = 900;
+      const dynamicAmpacity = Math.round(baseAmpacity * coolingFactor * solarFactor);
+      const headroomPct = (((dynamicAmpacity - baseAmpacity) / baseAmpacity) * 100).toFixed(1);
 
-      document.getElementById('metricQc').textContent = `${qc.toFixed(1)} W/m`;
-      document.getElementById('metricQs').textContent = `${qs.toFixed(1)} W/m`;
-      document.getElementById('metricHeadroom').textContent = `+${dynamicAmp - baseAmp} A (${deltaPercent > 0 ? '+' : ''}${deltaPercent}%)`;
+      const ampElem = document.getElementById('dlrAmpacityVal');
+      const headElem = document.getElementById('dlrHeadroomVal');
+      if (ampElem) ampElem.textContent = `${dynamicAmpacity.toLocaleString()} A (${Math.round(dynamicAmpacity * 0.398)} MVA)`;
+      if (headElem) {
+        headElem.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% Headroom`;
+        headElem.style.color = headroomPct >= 0 ? 'var(--success)' : 'var(--danger)';
+      }
 
-      const barWidth = Math.min(380, Math.max(100, Math.round((dynamicAmp / 900.0) * 220)));
-      document.getElementById('dlrBar').setAttribute('width', barWidth);
-      document.getElementById('dlrAmpText').setAttribute('x', barWidth + 60);
-      document.getElementById('dlrAmpText').textContent = `${dynamicAmp} A (${deltaPercent > 0 ? '+' : ''}${deltaPercent}%)`;
+      // Conductor sag animation
+      const sagVal = 120 + (temp / 48) * 20 - (effWind / 25) * 15;
+      const condPath = document.getElementById('conductorLine');
+      if (condPath) {
+        condPath.setAttribute('d', `M 70 70 Q 250 ${Math.round(sagVal)} 430 70`);
+      }
     }
 
-    // Vizier Bayesian Simulation Logic
+    // Vertex AI Vizier Bayesian Volt-VAR Simulator
     function updateVizierSim() {
-      const v1 = parseFloat(document.getElementById('sliderV1').value);
-      const v2 = parseFloat(document.getElementById('sliderV2').value);
-      const v3 = parseFloat(document.getElementById('sliderV3').value);
-      const v4 = parseFloat(document.getElementById('sliderV4').value);
+      const v1 = parseFloat(document.getElementById('inputV1').value);
+      const v2 = parseFloat(document.getElementById('inputV2').value);
+      const v3 = parseFloat(document.getElementById('inputV3').value);
+      const v4 = parseFloat(document.getElementById('inputV4').value);
 
       document.getElementById('valV1').textContent = `${v1.toFixed(3)} p.u.`;
       document.getElementById('valV2').textContent = `${v2.toFixed(3)} p.u.`;
       document.getElementById('valV3').textContent = `${v3.toFixed(3)} p.u.`;
       document.getElementById('valV4').textContent = `${v4.toFixed(3)} p.u.`;
 
-      const mapX = (v) => 50 + ((v - 0.85) / 0.30) * 400;
+      function puToX(pu) { return 50 + ((pu - 0.90) / 0.20) * 400; }
 
-      const x1 = mapX(v1);
-      const x2 = mapX(v2);
-      const x3 = mapX(v3);
-      const x4 = mapX(v4);
+      const x1 = Math.round(puToX(v1));
+      const x2 = Math.round(puToX(v2));
+      const x3 = Math.round(puToX(v3));
+      const x4 = Math.round(puToX(v4));
 
-      document.getElementById('voltVarPath').setAttribute('d', `M 50 40 L ${x1} 40 L ${x2} 120 L ${x3} 120 L ${x4} 200 L 450 200`);
-      document.getElementById('dotV1').setAttribute('cx', x1);
-      document.getElementById('dotV2').setAttribute('cx', x2);
-      document.getElementById('dotV3').setAttribute('cx', x3);
-      document.getElementById('dotV4').setAttribute('cx', x4);
+      const poly = document.getElementById('vvoPolyline');
+      if (poly) {
+        poly.setAttribute('points', `50,40 ${x1},40 ${x2},110 ${x3},110 ${x4},180 470,180`);
+      }
 
-      document.getElementById('deadbandBox').setAttribute('x', x2);
-      document.getElementById('deadbandBox').setAttribute('width', Math.max(0, x3 - x2));
+      const p1 = document.getElementById('ptV1');
+      const p2 = document.getElementById('ptV2');
+      const p3 = document.getElementById('ptV3');
+      const p4 = document.getElementById('ptV4');
+      if (p1) p1.setAttribute('cx', x1);
+      if (p2) p2.setAttribute('cx', x2);
+      if (p3) p3.setAttribute('cx', x3);
+      if (p4) p4.setAttribute('cx', x4);
+
+      const deadbandWidth = v3 - v2;
+      const slope = 1.0 / (Math.max(0.01, v2 - v1) + Math.max(0.01, v4 - v3));
+      const activeLoss = (2.2 + (deadbandWidth - 0.06) * 4.5 + Math.abs(slope - 15) * 0.04).toFixed(2);
+      const reduction = (((3.0 - activeLoss) / 3.0) * 100).toFixed(1);
+
+      const lossElem = document.getElementById('vvoLossVal');
+      if (lossElem) lossElem.textContent = `${activeLoss} MW (-${reduction}%)`;
     }
 
-    let trialCount = 14;
+    let vizierTrialCount = 12;
     function runVizierBayesianTrial() {
-      trialCount++;
-      document.getElementById('vizierTrialsCount').textContent = `${trialCount} Trials`;
-      document.getElementById('sliderV1').value = 0.920;
-      document.getElementById('sliderV2').value = 0.970;
-      document.getElementById('sliderV3').value = 1.025;
-      document.getElementById('sliderV4').value = 1.065;
-      updateVizierSim();
-      document.getElementById('vizierLossMetric').textContent = '1.91 MW (-22.0% loss reduction)';
-    }
+      vizierTrialCount++;
+      const bestV1 = (0.915 + Math.random() * 0.01).toFixed(3);
+      const bestV2 = (0.965 + Math.random() * 0.01).toFixed(3);
+      const bestV3 = (1.025 + Math.random() * 0.01).toFixed(3);
+      const bestV4 = (1.075 + Math.random() * 0.01).toFixed(3);
+      const loss = (2.18 + Math.random() * 0.1).toFixed(2);
 
-    // AlphaEvolve Simulation Logic
-    let tieSwitchClosed = false;
-    function toggleTieSwitch() {
-      tieSwitchClosed = !tieSwitchClosed;
-      const tieCircle = document.getElementById('tieSwitchCircle');
-      const tieText = document.getElementById('tieSwitchText');
-      const tieLine = document.getElementById('tieLine');
-      const secCircle = document.getElementById('secSwitchCircle');
-      const stateText = document.getElementById('aeSwitchState');
-      const lossText = document.getElementById('aeLossDelta');
-
-      if (tieSwitchClosed) {
-        tieCircle.setAttribute('fill', '#1e8e3e');
-        tieText.textContent = 'CLOSED';
-        tieLine.setAttribute('stroke', '#1e8e3e');
-        tieLine.removeAttribute('stroke-dasharray');
-        secCircle.setAttribute('fill', '#d93025');
-        stateText.textContent = 'SW-TIE-44 CLOSED, SW-SEC-23 OPEN';
-        lossText.textContent = '3.85 MW → 2.94 MW (-23.5% Loss Reduction)';
-      } else {
-        tieCircle.setAttribute('fill', '#d93025');
-        tieText.textContent = 'OPEN';
-        tieLine.setAttribute('stroke', '#80868b');
-        tieLine.setAttribute('stroke-dasharray', '6');
-        secCircle.setAttribute('fill', '#1e8e3e');
-        stateText.textContent = 'SW-TIE-44 OPEN, SW-SEC-23 CLOSED (Radial)';
-        lossText.textContent = '3.85 MW (Nominal Radial Baseline)';
+      const log = document.getElementById('vizierTrialLog');
+      if (log) {
+        log.innerHTML = `[Trial #${vizierTrialCount} GP-EI]: Proposed V1=${bestV1}, V2=${bestV2}, V3=${bestV3}, V4=${bestV4} &rarr; Loss=${loss} MW (Feasible).<br>` + log.innerHTML;
       }
     }
 
-    function runAlphaEvolveSim() {
-      const progressBar = document.getElementById('aeProgressBar');
-      const genText = document.getElementById('aeGenText');
-      let gen = 1;
-      const interval = setInterval(() => {
-        gen++;
-        genText.textContent = `Gen ${gen} / 12 (Evaluated: ${gen * 40})`;
-        progressBar.style.width = `${(gen / 12) * 100}%`;
-        if (gen >= 12) {
-          clearInterval(interval);
-          if (!tieSwitchClosed) toggleTieSwitch();
-        }
-      }, 80);
-    }
-
-    // PdM Duval Simulation Logic
+    // Predictive Maintenance Duval Triangle Simulator
     function updatePdmSim() {
-      const ch4 = parseFloat(document.getElementById('sliderCh4').value);
-      const c2h4 = parseFloat(document.getElementById('sliderC2h4').value);
-      const c2h2 = parseFloat(document.getElementById('sliderC2h2').value);
-      const cbWear = parseFloat(document.getElementById('sliderCbWear').value);
+      const ch4 = parseFloat(document.getElementById('inputCh4').value);
+      const c2h4 = parseFloat(document.getElementById('inputC2h4').value);
+      const c2h2 = parseFloat(document.getElementById('inputC2h2').value);
+      const wear = parseFloat(document.getElementById('inputBreakerWear').value);
+
+      document.getElementById('valCh4').textContent = `${ch4} ppm`;
+      document.getElementById('valC2h4').textContent = `${c2h4} ppm`;
+      document.getElementById('valC2h2').textContent = `${c2h2} ppm`;
+      document.getElementById('valBreakerWear').textContent = `${wear}% Life Expended`;
 
       const totalGas = ch4 + c2h4 + c2h2;
-      const pctCh4 = ((ch4 / totalGas) * 100).toFixed(1);
-      const pctC2h4 = ((c2h4 / totalGas) * 100).toFixed(1);
-      const pctC2h2 = ((c2h2 / totalGas) * 100).toFixed(1);
+      const pCh4 = (ch4 / totalGas) * 100;
+      const pC2h4 = (c2h4 / totalGas) * 100;
+      const pC2h2 = (c2h2 / totalGas) * 100;
 
-      document.getElementById('valCh4').textContent = `${ch4} ppm (${pctCh4}%)`;
-      document.getElementById('valC2h4').textContent = `${c2h4} ppm (${pctC2h4}%)`;
-      document.getElementById('valC2h2').textContent = `${c2h2} ppm (${pctC2h2}%)`;
-      document.getElementById('valCbWear').textContent = `${cbWear}% of Max Rating`;
+      const topX = 170, topY = 20;
+      const leftX = 30, leftY = 260;
+      const rightX = 310, rightY = 260;
 
-      const dotX = Math.round(160 + (pctC2h2 - pctC2h4) * 1.1);
-      const dotY = Math.round(20 + (100 - pctCh4) * 1.85);
+      const px = (pC2h4 / 100) * topX + (pCh4 / 100) * leftX + (pC2h2 / 100) * rightX;
+      const py = (pC2h4 / 100) * topY + (pCh4 / 100) * leftY + (pC2h2 / 100) * rightY;
 
-      const duvalDot = document.getElementById('duvalPoint');
-      duvalDot.setAttribute('cx', Math.min(270, Math.max(50, dotX)));
-      duvalDot.setAttribute('cy', Math.min(205, Math.max(30, dotY)));
-
-      const classText = document.getElementById('duvalClassText');
-      const rulText = document.getElementById('pdmRulText');
-      const rpnText = document.getElementById('pdmRpnText');
-
-      if (pctC2h4 > 50) {
-        classText.textContent = 'T3 Thermal Fault (>700°C Carbonization)';
-        classText.style.color = 'var(--danger)';
-        rulText.textContent = '180 Days (Prob Fail: 34.0%)';
-        rpnText.textContent = 'RPN 71 / 1000 (Expedited Action)';
-      } else if (pctC2h2 > 15) {
-        classText.textContent = 'D2 High-Energy Arcing Discharge';
-        classText.style.color = 'var(--danger)';
-        rulText.textContent = '45 Days (Prob Fail: 72.0%)';
-        rpnText.textContent = 'RPN 24 / 1000 (Immediate Outage)';
-      } else {
-        classText.textContent = 'Normal Aging / Low Thermal (T1)';
-        classText.style.color = 'var(--success)';
-        rulText.textContent = '1,420 Days (Nominal)';
-        rpnText.textContent = 'RPN 640 / 1000 (Routine)';
+      const pt = document.getElementById('duvalPoint');
+      if (pt) {
+        pt.setAttribute('cx', Math.round(px));
+        pt.setAttribute('cy', Math.round(py));
       }
+
+      let faultName = "NORMAL AGING";
+      let faultClass = "val-safe";
+      if (pC2h2 > 15) {
+        faultName = "FAULT: D2 (High Energy Arcing)";
+        faultClass = "val-danger";
+      } else if (pC2h4 > 50) {
+        faultName = "FAULT: T3 (Thermal Fault > 700°C)";
+        faultClass = "val-danger";
+      } else if (pC2h4 > 25) {
+        faultName = "FAULT: T2 (Thermal Fault 300-700°C)";
+        faultClass = "val-warn";
+      }
+
+      const label = document.getElementById('duvalZoneLabel');
+      if (label) {
+        label.textContent = faultName;
+        label.setAttribute('fill', faultClass === 'val-danger' ? '#d93025' : (faultClass === 'val-warn' ? '#f9ab00' : '#0d904f'));
+      }
+
+      const ahi = Math.max(10, Math.round(100 - (pC2h4 * 0.6 + pC2h2 * 1.2 + (wear * 0.4))));
+      const ahiElem = document.getElementById('ahiScoreVal');
+      if (ahiElem) {
+        ahiElem.textContent = `AHI: ${ahi} / 100 (${ahi < 40 ? 'CRITICAL' : (ahi < 70 ? 'FAIR' : 'GOOD')})`;
+        ahiElem.style.color = ahi < 40 ? 'var(--danger)' : (ahi < 70 ? 'var(--warning)' : 'var(--success)');
+      }
+
+      const rulMonths = (ahi * 0.1).toFixed(1);
+      const rulElem = document.getElementById('rulVal');
+      if (rulElem) rulElem.textContent = `RUL: ${rulMonths} Months`;
+
+      const remainingShots = Math.max(0, Math.round((100 - wear) * 0.8));
+      const bkrElem = document.getElementById('breakerShotsVal');
+      if (bkrElem) bkrElem.textContent = `${remainingShots} Full-Fault Trips`;
     }
 
     function dispatchPdmWorkOrder() {
-      const status = document.getElementById('pdmDispatchStatus');
-      status.innerHTML = `<strong style="color:var(--success);">Work Order WO-XFMR-8812 Dispatched to Field Crew 4 (Substation Metro)</strong>`;
+      alert("Work Order #WO-XFMR-8812 created successfully in SAP PM! Prioritized field crew dispatched for transformer degassing & contact inspection.");
     }
 
-    // HITL Gatekeeper Simulation
+    // HITL Gatekeeper Actions
     function approveHitlAction() {
-      const audit = document.getElementById('hitlAuditStatus');
-      const tierBadge = document.getElementById('ticketTier');
-      
-      tierBadge.textContent = 'APPROVED BY OPERATOR';
-      tierBadge.style.background = 'var(--success-light)';
-      tierBadge.style.color = 'var(--success)';
-
-      audit.innerHTML = `<strong>AUDIT LOGGED (BigQuery):</strong> Ticket TICK-A94E1B02 authorized by Operator <code>OP-7741 (Lead Control Room Officer)</code> at ${new Date().toISOString()}. Interlocked switching command dispatched to SCADA RTU.`;
-      audit.style.borderLeft = '3px solid var(--success)';
+      const msg = document.getElementById('hitlStatusMsg');
+      if (msg) {
+        msg.textContent = "AUTHORIZED: Dual Operator Sign-Off Verified. SCADA Interlock Released.";
+        msg.style.color = "var(--success)";
+      }
+      alert("Command Approved by Lead Operator. Immutable cryptographic audit log committed to BigQuery utilities_compliance.immutable_audit_logs.");
     }
 
     function rejectHitlAction() {
-      const audit = document.getElementById('hitlAuditStatus');
-      const tierBadge = document.getElementById('ticketTier');
-      
-      tierBadge.textContent = 'REJECTED / ABORTED';
-      tierBadge.style.background = 'var(--danger-light)';
-      tierBadge.style.color = 'var(--danger)';
-
-      audit.innerHTML = `<strong>AUDIT LOGGED:</strong> Ticket TICK-A94E1B02 rejected by Operator <code>OP-7741</code>. Command aborted; baseline safe state preserved.`;
-      audit.style.borderLeft = '3px solid var(--danger)';
+      const msg = document.getElementById('hitlStatusMsg');
+      if (msg) {
+        msg.textContent = "REJECTED: Operator Aborted Switching. Safe State Maintained.";
+        msg.style.color = "var(--danger)";
+      }
+      alert("Command Rejected. No physical switching executed.");
     }
+
+    // Initialize Simulators on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadWorkflow('flisr');
+      updateWeatherNextSim();
+      updateVizierSim();
+      updatePdmSim();
+    });
   </script>
 </body>
 </html>

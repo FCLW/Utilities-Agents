@@ -6,7 +6,6 @@ from grid_optimization.tools.multi_dataset_bq_tool import MultiDatasetBigQueryTo
 from grid_optimization.advanced_engines import (
     WeatherNextEngine,
     VizierOptimizer,
-    AlphaEvolveEngine,
     PredictiveMaintenanceEngine
 )
 from grid_optimization.personas import (
@@ -39,7 +38,6 @@ class GridOptimizationOrchestrator:
         # Advanced Technology Engines
         self.weathernext = WeatherNextEngine()
         self.vizier = VizierOptimizer()
-        self.alphaevolve = AlphaEvolveEngine()
         self.pdm = PredictiveMaintenanceEngine()
 
         # 8 Core Personas
@@ -101,7 +99,7 @@ class GridOptimizationOrchestrator:
             "sub_agents_count": total_sub_agents,
             "workflows_count": len(self.workflows),
             "pending_hitl_tickets": len(self.hitl.get_pending_tickets()),
-            "advanced_engines": ["Google DeepMind WeatherNext", "Vertex AI Vizier", "DeepMind AlphaEvolve", "Predictive Maintenance (PdM)"],
+            "advanced_engines": ["Google DeepMind WeatherNext", "Vertex AI Vizier", "Predictive Maintenance (PdM)"],
             "operational_horizons": [
                 "Real-Time Operations (Seconds to Hours)",
                 "Intraday to Day-Ahead",

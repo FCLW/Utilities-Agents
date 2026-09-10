@@ -29,17 +29,6 @@ def test_vizier_optimizer():
     assert bess_res.objective_value > 0.0
     assert bess_res.best_parameters["min_soc_pct"] >= 15.0
 
-def test_alphaevolve_engine():
-    ae = AlphaEvolveEngine()
-    res = ae.reconfigure_distribution_network("Sub-01", ["F-1", "F-2"], ["SW-1", "SW-2", "SW-3"], baseline_loss_mw=4.0)
-    assert res.optimal_loss_mw < 4.0
-    assert res.loss_reduction_pct > 0.0
-    assert len(res.reconfiguration_switching_steps) > 0
-
-    prot = ae.discover_adaptive_protection_curve("RELAY-01", [])
-    assert "symbolic_formula" in prot
-    assert prot["misoperation_risk_reduction_pct"] > 90.0
-
 def test_pdm_engine():
     pdm = PredictiveMaintenanceEngine()
     # DGA with high ethylene -> T3 thermal fault
