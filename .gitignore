@@ -101,5 +101,7 @@ web/nginx.conf
 cloudbuild.yaml
 deploy_progress.json
 *.log
+.adk/
+**/.adk/
 
 

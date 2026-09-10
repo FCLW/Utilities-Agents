@@ -23,6 +23,14 @@ class ValidationResult:
     safety_margins: Dict[str, float] = field(default_factory=dict)
     grounded_evidence: Dict[str, Any] = field(default_factory=dict)
 
+    @property
+    def is_safe(self) -> bool:
+        return self.is_valid
+
+    @property
+    def metrics(self) -> Dict[str, float]:
+        return self.safety_margins
+
 class ValidationHarness:
     """Rigorous pre- and post-execution guardrail validator for all grid actions."""
 
@@ -131,6 +139,40 @@ class ValidationHarness:
             risk_level=risk_level,
             violations=violations,
             warnings=warnings,
+            safety_margins=margins,
+            grounded_evidence={"action_type": action_plan.get("action_type")}
+        )
+
+    def validate_pre_execution(self, action_plan: Dict[str, Any], telemetry: Dict[str, Any]) -> ValidationResult:
+        """Combined pre-execution validation checking physical telemetry and action plan limits."""
+        res_telemetry = self.validate_input_telemetry(telemetry)
+        res_plan = self.validate_proposed_plan(action_plan, telemetry)
+
+        all_violations = list(res_telemetry.violations) + [
+            v for v in res_plan.violations if v not in res_telemetry.violations
+        ]
+        all_warnings = list(res_telemetry.warnings) + [
+            w for w in res_plan.warnings if w not in res_telemetry.warnings
+        ]
+        margins = {**res_telemetry.safety_margins, **res_plan.safety_margins}
+
+        # Check reverse power if provided
+        rev_kw = telemetry.get("reverse_power_kw", 0.0)
+        if rev_kw > 500.0:
+            all_violations.append(f"Reverse power threshold violation: {rev_kw} kW > 500.0 kW limit")
+
+        # Check anti-islanding certification
+        if not telemetry.get("anti_islanding_certified", True):
+            all_violations.append("IEEE 1547 anti-islanding interlock certification not active")
+
+        is_valid = len(all_violations) == 0
+        risk_level = "CRITICAL_VIOLATION" if all_violations else ("WARNING" if all_warnings else "SAFE")
+
+        return ValidationResult(
+            is_valid=is_valid,
+            risk_level=risk_level,
+            violations=all_violations,
+            warnings=all_warnings,
             safety_margins=margins,
             grounded_evidence={"action_type": action_plan.get("action_type")}
         )

@@ -4,7 +4,7 @@ from typing import Dict, List, Any
 class AutomatedSwitchingPlannerSkill:
     """Reusable skill: Generates interlocked, verified switching sequence steps."""
 
-    def execute(self, fault_zone: str, open_tie_switches: List[str] = None, feeder_id: str = "F-102") -> Dict[str, Any]:
+    def execute(self, fault_zone: str = "ZONE-B-FAULT", open_tie_switches: List[str] = None, feeder_id: str = "F-102") -> Dict[str, Any]:
         ties = open_tie_switches or ["SW-TIE-44", "SW-TIE-89"]
         steps = [
             f"Step 1: Open upstream breaker CB-{feeder_id} to de-energize fault corridor",
