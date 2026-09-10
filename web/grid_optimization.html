@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid Optimization MAS | Gemini Enterprise Agents for Utilities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #f8f9fa;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f3f4;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --text-tertiary: #80868b;
+      --border-color: #dadce0;
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --success: #1e8e3e;
+      --success-light: #e6f4ea;
+      --warning: #f9ab00;
+      --warning-light: #fef7e0;
+      --danger: #d93025;
+      --danger-light: #fce8e6;
+      --card-shadow: 0 1px 3px rgba(60,64,67,0.12), 0 1px 2px rgba(60,64,67,0.08);
+      --card-shadow-hover: 0 4px 12px rgba(60,64,67,0.15), 0 1px 3px rgba(60,64,67,0.1);
+      --accent-purple: #9334e8;
+      --accent-purple-light: #f3e8fd;
+      --accent-cyan: #007b83;
+      --accent-cyan-light: #e0f2f1;
+      --accent-orange: #e8710a;
+      --accent-orange-light: #feefe3;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-tertiary: #2d2d2d;
+      --text-primary: #e8eaed;
+      --text-secondary: #9aa0a6;
+      --text-tertiary: #80868b;
+      --border-color: #3c4043;
+      --primary: #8ab4f8;
+      --primary-hover: #aecbfa;
+      --primary-light: rgba(138, 180, 248, 0.15);
+      --success: #81c995;
+      --success-light: rgba(129, 201, 149, 0.15);
+      --warning: #fdd663;
+      --warning-light: rgba(253, 214, 99, 0.15);
+      --danger: #f28b82;
+      --danger-light: rgba(242, 139, 130, 0.15);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      --card-shadow-hover: 0 4px 16px rgba(0,0,0,0.4);
+      --accent-purple: #c58af9;
+      --accent-purple-light: rgba(197, 138, 249, 0.15);
+      --accent-cyan: #4dd0e1;
+      --accent-cyan-light: rgba(77, 208, 225, 0.15);
+      --accent-orange: #fcad70;
+      --accent-orange-light: rgba(252, 173, 112, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 1px 2px rgba(60,64,67,0.06);
+    }
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-icon {
+      font-size: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #1a73e8, #007b83);
+      color: #fff;
+      border-radius: 10px;
+    }
+    .brand-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .brand-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: 'Google Sans', sans-serif;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-header:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--text-tertiary);
+    }
+    .btn-primary-header {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary-header:hover {
+      background: var(--primary-hover);
+      color: #fff;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 40px 20px 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, rgba(26,115,232,0.1), rgba(0,123,131,0.15));
+      border: 1px solid rgba(26,115,232,0.3);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.25;
+      background: linear-gradient(135deg, var(--text-primary), var(--primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.12rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .stat-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .stat-value {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      margin: 40px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+    }
+
+    /* Horizon Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-tab:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .filter-tab.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* Technology Showcase Panels */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .tech-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .tech-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    .tech-panel.weathernext::before { background: linear-gradient(90deg, #1a73e8, #007b83); }
+    .tech-panel.vizier::before { background: linear-gradient(90deg, #9334e8, #e8710a); }
+    .tech-panel.alphaevolve::before { background: linear-gradient(90deg, #1e8e3e, #1a73e8); }
+    .tech-panel.pdm::before { background: linear-gradient(90deg, #d93025, #f9ab00); }
+
+    .tech-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .tech-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-tertiary);
+    }
+    .tech-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .tech-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    .tech-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .tech-data-box {
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      margin-top: auto;
+      border: 1px solid var(--border-color);
+    }
+    .tech-data-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    .tech-data-row:last-child {
+      border-bottom: none;
+    }
+    .tech-data-label {
+      color: var(--text-secondary);
+    }
+    .tech-data-val {
+      font-weight: 600;
+    }
+    .tech-btn {
+      margin-top: 14px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--primary);
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .tech-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    /* Persona Cards */
+    .personas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .persona-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .persona-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+    .persona-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .persona-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .persona-id {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+    .horizon-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    .persona-role {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.55;
+    }
+
+    /* Sub-Agent Tree inside Persona */
+    .subagent-section-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .subagent-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .subagent-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-tertiary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+    .subagent-title {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .agent-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .badge-llm { background: var(--accent-purple-light); color: var(--accent-purple); }
+    .badge-physics { background: var(--primary-light); color: var(--primary); }
+    .badge-ml { background: var(--accent-cyan-light); color: var(--accent-cyan); }
+    .badge-rules { background: var(--warning-light); color: var(--warning); }
+    .badge-reflex { background: var(--danger-light); color: var(--danger); }
+    .badge-opt { background: var(--accent-orange-light); color: var(--accent-orange); }
+
+    /* Metadata pills */
+    .persona-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+    }
+    .meta-title {
+      font-weight: 600;
+      color: var(--text-secondary);
+      min-width: 90px;
+    }
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .meta-pill {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-primary);
+    }
+
+    /* Live HITL & Validation Section */
+    .live-dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 960px) {
+      .live-dashboard { grid-template-columns: 1fr; }
+      .personas-grid { grid-template-columns: 1fr; }
+    }
+    .dash-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+    }
+    .dash-panel-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .gauge-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .gauge-card {
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+    .gauge-val {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .gauge-status {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    .status-pass { background: var(--success-light); color: var(--success); }
+    .status-warn { background: var(--warning-light); color: var(--warning); }
+    .status-fail { background: var(--danger-light); color: var(--danger); }
+
+    /* Interactive HITL Console */
+    .hitl-ticket-box {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+      background: var(--bg-tertiary);
+      margin-bottom: 18px;
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .ticket-id {
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+    .tier-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--danger-light);
+      color: var(--danger);
+      letter-spacing: 0.5px;
+    }
+    .ticket-body {
+      font-size: 0.86rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .safety-checklist {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    .check-icon {
+      color: var(--success);
+      font-weight: bold;
+    }
+    .hitl-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-approve {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--success);
+      color: #fff;
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-approve:hover { background: #137333; }
+    .btn-reject {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--danger);
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-reject:hover { background: var(--danger-light); }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--bg-secondary);
+      border-radius: 14px;
+      max-width: 650px;
+      width: 100%;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border: 1px solid var(--border-color);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    .close-btn {
+      float: right;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    /* Skills Table */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .skill-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .skill-id {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .skill-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .skill-formula {
+      background: var(--bg-tertiary);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.74rem;
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand-logo">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-text">
+          <span class="brand-title">Utilities Multi-Agent System</span>
+          <span class="brand-subtitle">Grid Optimization Enterprise Fleet</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="index.html" class="btn-header">
+          <span>←</span> Main Catalog (113 Agents)
+        </a>
+        <button id="themeToggleBtn" class="btn-header" aria-label="Toggle Theme">
+          <span id="themeIcon">☀️</span> <span id="themeText">Light</span>
+        </button>
+        <a href="https://github.com/FCLW/Utilities-Agents" target="_blank" rel="noopener noreferrer" class="btn-header">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 4px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span>🌐</span> Google DeepMind WeatherNext • Vertex AI Vizier • DeepMind AlphaEvolve • Predictive Maintenance
+      </div>
+      <h1>Grid Optimization Multi-Agent System (MAS)</h1>
+      <p>
+        A collaborative, heterogeneous multi-agent architecture bridging <strong>Real-Time Operations (OT)</strong>, <strong>Long-Term Planning & Asset Management (ET)</strong>, and <strong>Enterprise IT / Data Science</strong>. Programmatically hardened with mathematical validation guardrails and mandatory Human-In-The-Loop (HITL) 3-tier governance.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Core Business Personas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">48</div>
+          <div class="stat-label">Heterogeneous Sub-Agents</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Reusable Analytical Skills</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">4</div>
+          <div class="stat-label">Advanced AI Engines</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">0</div>
+          <div class="stat-label">ANSI C84.1 Violations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">HITL Operator Governance</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced AI Engines Section -->
+    <h2 class="section-title"><span>🚀</span> Advanced Optimization & Intelligence Engines</h2>
+    <p class="section-subtitle">Pioneering Google research and enterprise AI integrations powering autonomous grid reasoning.</p>
+
+    <div class="tech-grid">
+      <!-- 1. WeatherNext -->
+      <div class="tech-panel weathernext">
+        <div class="tech-header">
+          <div class="tech-icon">⛅</div>
+          <div>
+            <div class="tech-title">Google DeepMind WeatherNext</div>
+            <div class="tech-subtitle">High-Resolution AI Weather Forecasting</div>
+          </div>
+        </div>
+        <div class="tech-desc">
+          Ingests sub-hourly global and regional atmospheric fields directly into geospatial grid topologies to forecast solar irradiance (DNI/GHI), wind vector cooling, and convective storm tracks.
+        </div>
+        <div class="tech-data-box">
+          <div class="tech-data-row"><span class="tech-data-label">Solar GHI / DNI:</span><span class="tech-data-val">950 / 880 W/m²</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Wind (10m / 100m):</span><span class="tech-data-val">4.8 / 7.4 m/s (275° WNW)</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Ambient Temp:</span><span class="tech-data-val">30.5°C (Cooling +18%)</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Convective Storm:</span><span class="tech-data-val" style="color: var(--warning);">MODERATE (ETA 34m)</span></div>
+        </div>
+        <button class="tech-btn" onclick="openEngineModal('weathernext')">Explore WeatherNext Radar & DLR →</button>
+      </div>
+
+      <!-- 2. Vertex AI Vizier -->
+      <div class="tech-panel vizier">
+        <div class="tech-header">
+          <div class="tech-icon">📊</div>
+          <div>
+            <div class="tech-title">Google Cloud Vertex AI Vizier</div>
+            <div class="tech-subtitle">Black-Box Bayesian Parameter Optimization</div>
+          </div>
+        </div>
+        <div class="tech-desc">
+          Explores non-convex parameter spaces to tune distributed smart inverter Volt-VAR / Volt-Watt curves and co-optimizes BESS battery cycle degradation against wholesale LMP arbitrage.
+        </div>
+        <div class="tech-data-box">
+          <div class="tech-data-row"><span class="tech-data-label">Acquisition Func:</span><span class="tech-data-val">GP-Expected Improvement</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">V1 / V4 Knee:</span><span class="tech-data-val">0.92 p.u. / 1.065 p.u.</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Loss Reduction:</span><span class="tech-data-val" style="color: var(--success);">-22.0% (2.45 → 1.91 MW)</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">BESS Net Arbitrage:</span><span class="tech-data-val" style="color: var(--success);">+$1,720.00 / day</span></div>
+        </div>
+        <button class="tech-btn" onclick="openEngineModal('vizier')">Explore Vizier Bayesian Studio →</button>
+      </div>
+
+      <!-- 3. DeepMind AlphaEvolve -->
+      <div class="tech-panel alphaevolve">
+        <div class="tech-header">
+          <div class="tech-icon">🧬</div>
+          <div>
+            <div class="tech-title">DeepMind AlphaEvolve</div>
+            <div class="tech-subtitle">Evolutionary Discovery & Topology Reconfig</div>
+          </div>
+        </div>
+        <div class="tech-desc">
+          Discovers optimal Normally Open (NO) tie switch configurations along interconnected feeders to relieve reverse solar backfeed congestion and synthesizes adaptive protective relay curves.
+        </div>
+        <div class="tech-data-box">
+          <div class="tech-data-row"><span class="tech-data-label">Population / Gens:</span><span class="tech-data-val">40 candidates / 12 gens</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Evolved Tie States:</span><span class="tech-data-val">Close SW-TIE-44, Open SW-23</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Feeder Loss Delta:</span><span class="tech-data-val" style="color: var(--success);">-23.5% active power loss</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Relay Misoperation:</span><span class="tech-data-val" style="color: var(--success);">-94.2% risk reduction</span></div>
+        </div>
+        <button class="tech-btn" onclick="openEngineModal('alphaevolve')">Explore AlphaEvolve Topology →</button>
+      </div>
+
+      <!-- 4. Predictive Maintenance -->
+      <div class="tech-panel pdm">
+        <div class="tech-header">
+          <div class="tech-icon">🛡️</div>
+          <div>
+            <div class="tech-title">Predictive Maintenance (PdM)</div>
+            <div class="tech-subtitle">Duval Triangle DGA, Breaker Wear & RUL</div>
+          </div>
+        </div>
+        <div class="tech-desc">
+          Condition-based equipment health monitoring replacing static calendar maintenance with real-time Dissolved Gas Analysis (DGA), breaker contact arc energy wear (∑I²t), and RUL countdowns.
+        </div>
+        <div class="tech-data-box">
+          <div class="tech-data-row"><span class="tech-data-label">XFMR-SUB-44 DGA:</span><span class="tech-data-val" style="color: var(--danger);">T3 Thermal (>700°C)</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Duval (%CH4/%C2H4):</span><span class="tech-data-val">35.5% / 63.3% / 1.2%</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">CB-230-01 Wear:</span><span class="tech-data-val">56.8% (SF6 5.75 bar)</span></div>
+          <div class="tech-data-row"><span class="tech-data-label">Risk Priority (RPN):</span><span class="tech-data-val" style="color: var(--danger);">RPN 71 / 1000 (Expedited)</span></div>
+        </div>
+        <button class="tech-btn" onclick="openEngineModal('pdm')">Explore PdM Duval Diagnostics →</button>
+      </div>
+    </div>
+
+    <!-- Live Validation Harness & HITL Gatekeeper -->
+    <h2 class="section-title"><span>🛡️</span> Validation Harness & Human-In-The-Loop Gatekeeper</h2>
+    <p class="section-subtitle">Statutory physical boundaries and mandatory dual-operator authorization for grid switching.</p>
+
+    <div class="live-dashboard">
+      <!-- Guardrail Telemetry Monitor -->
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <span>⚡</span> Live Physical Feasibility Guardrails
+        </div>
+        <div class="gauge-group">
+          <div class="gauge-card">
+            <div class="gauge-val" style="color: var(--success);">1.002 p.u.</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">ANSI C84.1 Voltage</div>
+            <span class="gauge-status status-pass">0.95 - 1.05 SAFE</span>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge-val" style="color: var(--success);">74.2% MVA</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Line Thermal Ampacity</div>
+            <span class="gauge-status status-pass">25.8% HEADROOM</span>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge-val" style="color: var(--success);">59.99 Hz</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">NERC BAL-001 Freq</div>
+            <span class="gauge-status status-pass">±0.01 Hz NOMINAL</span>
+          </div>
+          <div class="gauge-card">
+            <div class="gauge-val" style="color: var(--success);">100% INTERLOCKED</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">IEEE 1547 Anti-Islanding</div>
+            <span class="gauge-status status-pass">ZERO BACKFEED</span>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-tertiary); border-radius: 8px; padding: 12px; font-size: 0.82rem; border: 1px solid var(--border-color);">
+          <strong>Pre/Post Execution Rule:</strong> Every autonomous agent action is verified against BigQuery historical baselines and physical power flow limits. Actions inducing V &lt; 0.95 p.u. or loading &gt; 100% are programmatically aborted.
+        </div>
+      </div>
+
+      <!-- Interactive HITL Console -->
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <span>👨‍✈️</span> Human-In-The-Loop (HITL) Gatekeeper Console
+        </div>
+        
+        <div class="hitl-ticket-box" id="hitlBox">
+          <div class="ticket-header">
+            <span class="ticket-id" id="ticketId">TICK-A94E1B02</span>
+            <span class="tier-badge" id="ticketTier">TIER 3: PHYSICAL CHANGE</span>
+          </div>
+          <div class="ticket-body" id="ticketDesc">
+            <strong>FLISR Automated Restoration Order:</strong> Request from <code>grid_dispatcher_agent</code> to execute evolved AlphaEvolve switching sequence: <em>CLOSE SW-TIE-44 AND OPEN SW-SEC-23</em> on Feeder F-102 (Substation Metro). Restores 2,270 customers while isolating faulted cable segment.
+          </div>
+          <div class="safety-checklist">
+            <div class="check-item"><span class="check-icon">✓</span> Zero-energy LOTO verified on isolated segment</div>
+            <div class="check-item"><span class="check-icon">✓</span> Projected voltage profile: 0.985 - 1.015 p.u. (Feasible)</div>
+            <div class="check-item"><span class="check-icon">✓</span> Secondary feeder loading: 78.4% (Within 100% MVA ceiling)</div>
+            <div class="check-item"><span class="check-icon">✓</span> IEEE 1547 transfer trip interlock verified</div>
+          </div>
+          <div class="hitl-actions">
+            <button class="btn-approve" onclick="approveHitlAction()">
+              <span>✓</span> Operator Sign-Off & Execute
+            </button>
+            <button class="btn-reject" onclick="rejectHitlAction()">
+              <span>✕</span> Reject / Keep Safe
+            </button>
+          </div>
+        </div>
+
+        <div id="hitlAuditStatus" style="font-family: 'Roboto Mono', monospace; font-size: 0.78rem; color: var(--text-secondary); background: var(--bg-tertiary); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+          Audit Trail: Ticket TICK-A94E1B02 awaiting certified operator digital signature.
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 Persona Deep-Dive Profiles -->
+    <h2 class="section-title"><span>👥</span> 8 Core Personas & 48 Heterogeneous Sub-Agents</h2>
+    <p class="section-subtitle">Filtering across operational horizons: Real-Time OT, Intraday, Long-Term ET, and Regulatory Governance.</p>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterPersonas('all', this)">All Horizons (8)</button>
+      <button class="filter-tab" onclick="filterPersonas('realtime', this)">Real-Time OT (Secs to Hours)</button>
+      <button class="filter-tab" onclick="filterPersonas('intraday', this)">Intraday to Day-Ahead</button>
+      <button class="filter-tab" onclick="filterPersonas('planning', this)">Planning & Asset Health (ET)</button>
+      <button class="filter-tab" onclick="filterPersonas('governance', this)">Regulatory & Governance</button>
+    </div>
+
+    <!-- Personas Grid -->
+    <div class="personas-grid" id="personasGrid">
+
+      <!-- Persona 1 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Grid Operations Dispatcher</div>
+            <div class="persona-id">grid_dispatcher_agent</div>
+          </div>
+          <span class="horizon-tag">Real-Time (Secs to Hours)</span>
+        </div>
+        <div class="persona-role">
+          Monitors high/medium voltage circuits in real-time, coordinates active/reactive power dispatch, manages Volt-VAR optimization (VVO), mitigates voltage sags, and triggers AlphaEvolve-guided FLISR restoration under strict HITL approval.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 7 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚨</span> SCADA Telemetry Monitor</span>
+            <span class="agent-badge badge-reflex">Reflex</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext Severe Storm Tracker</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📐</span> State Estimation WLS Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📊</span> Volt-VAR Dispatch Optimizer (Vizier)</span>
+            <span class="agent-badge badge-opt">Bayesian Opt</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧬</span> AlphaEvolve Switching Coordinator</span>
+            <span class="agent-badge badge-opt">AlphaEvolve</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> N-1 Contingency Screener</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Dispatcher Copilot Reasoner</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">ADMS</span><span class="meta-pill">EMS</span><span class="meta-pill">SCADA</span><span class="meta-pill">OMS</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_grid_balancing</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 2 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">T&D System Planning Engineer</div>
+            <div class="persona-id">planning_engineer_agent</div>
+          </div>
+          <span class="horizon-tag">Near/Long-Term (Months/Years)</span>
+        </div>
+        <div class="persona-role">
+          Conducts seasonal contingency studies (N-1, N-1-1), calculates DER hosting capacity limits, models 10-year spatial EV load growth, and evaluates Non-Wires Alternatives (BESS + solar) against capital substation expansion.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> N-1-1 Contingency Simulator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>☀️</span> Hosting Capacity Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧬</span> AlphaEvolve Feeder Reconfigurator</span>
+            <span class="agent-badge badge-opt">AlphaEvolve</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚗</span> 10-Yr Load Growth Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> Non-Wires Alternatives Evaluator</span>
+            <span class="agent-badge badge-physics">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Interconnection Study Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">PSS/E</span><span class="meta-pill">CYME</span><span class="meta-pill">Synergi</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 3 -->
+      <div class="persona-card" data-horizon="intraday">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">DER & Flexibility Program Manager</div>
+            <div class="persona-id">derms_manager_agent</div>
+          </div>
+          <span class="horizon-tag">Intraday to Day-Ahead</span>
+        </div>
+        <div class="persona-role">
+          Aggregates Virtual Power Plants (VPPs) pooling solar, commercial loads, and battery storage. Uses Vertex AI Vizier to co-optimize battery cycle degradation vs. wholesale LMP arbitrage, and triggers auto-DR events.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> VPP Fleet Aggregator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📊</span> Vizier BESS Arbitrageur</span>
+            <span class="agent-badge badge-opt">Bayesian Opt</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext DER Predictor</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🏢</span> Demand Response Dispatcher</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⚙️</span> Smart Inverter Curve Manager</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Flexibility Program Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">DERMS</span><span class="meta-pill">DRMS</span><span class="meta-pill">Wholesale Market Portals</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_wholesale_trading</span><span class="meta-pill">utilities_grid_balancing</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 4 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Protection & Control (P&C) Engineer</div>
+            <div class="persona-id">protection_control_agent</div>
+          </div>
+          <span class="horizon-tag">Lifecycle & Event Analysis</span>
+        </div>
+        <div class="persona-role">
+          Verifies protective relay coordination, evaluates bidirectional fault currents under high inverter-based resources (IBRs), uses AlphaEvolve to discover adaptive trip curves, and validates IEEE 1547 anti-islanding.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📐</span> Relay Coordination Engine</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧬</span> AlphaEvolve Adaptive Protection</span>
+            <span class="agent-badge badge-opt">AlphaEvolve</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⚡</span> Bidirectional Fault Analyzer</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> Anti-Islanding IEEE 1547 Validator</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> COMTRADE Waveform Diagnostic</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Relay Setting Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">Relay Tools</span><span class="meta-pill">CAPE</span><span class="meta-pill">Aspen OneLiner</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_asset_management</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 5 -->
+      <div class="persona-card" data-horizon="planning">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Asset Performance & Reliability (PdM)</div>
+            <div class="persona-id">asset_reliability_agent</div>
+          </div>
+          <span class="horizon-tag">Medium to Long-Term (PdM)</span>
+        </div>
+        <div class="persona-role">
+          Leads Predictive Maintenance (PdM) across critical assets: diagnoses transformer DGA using Duval Triangle 1, tracks breaker arcing wear (∑I²t), models battery cell degradation, and computes Dynamic Line Rating (DLR).
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧪</span> Transformer DGA PdM Analyzer</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⏱️</span> Circuit Breaker Timing & Arc Wear</span>
+            <span class="agent-badge badge-reflex">Reflex</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🌬️</span> Dynamic Line Rating (DLR) Solver</span>
+            <span class="agent-badge badge-physics">Physics (WeatherNext)</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔋</span> Substation Battery Health Tracker</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📋</span> PdM Risk-Ranked Scheduler</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Asset Strategy Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">APM</span><span class="meta-pill">EAM / CMMS</span><span class="meta-pill">GIS</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_data</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 6 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Data Scientist / Grid Analytics Engineer</div>
+            <div class="persona-id">grid_analytics_data_scientist_agent</div>
+          </div>
+          <span class="horizon-tag">Continuous / MLOps</span>
+        </div>
+        <div class="persona-role">
+          Ingests DeepMind WeatherNext AI predictions into spatial grid electrical models, generates 15-minute ensemble feeder load forecasts, detects sensor drift via Isolation Forests, and models renewable generation curves.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⛅</span> WeatherNext Forecast Consumer</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📈</span> 15-Min Short-Term Load Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>☀️</span> Solar & Wind Generation Forecaster</span>
+            <span class="agent-badge badge-ml">Predictive ML</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🗺️</span> Spatial GIS & AMI Graph Fusion</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔍</span> SCADA / AMI Anomaly Detector</span>
+            <span class="agent-badge badge-ml">Isolation Forest</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Grid Analytics Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">Vertex AI</span><span class="meta-pill">BigQuery ML</span><span class="meta-pill">WeatherNext</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_smart_meter_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 7 -->
+      <div class="persona-card" data-horizon="realtime">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Field Operations & Substation Tech</div>
+            <div class="persona-id">field_operations_tech_agent</div>
+          </div>
+          <span class="horizon-tag">Real-Time Field Execution</span>
+        </div>
+        <div class="persona-role">
+          Executes condition-based PdM work orders, verifies zero-energy lockout/tagout (LOTO) clearances, calibrates RTU analog telemetry, audits smart inverter IEEE 2030.5 cybersecurity firmware, and optimizes crew routing.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 6 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛠️</span> PdM Work Order Receiver</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔒</span> Switching Order Safety LOTO Verifier</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🔌</span> Field Telemetry Calibrator</span>
+            <span class="agent-badge badge-physics">Physics</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🛡️</span> Smart Inverter Firmware Auditor</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🚛</span> Mobile Workforce Dispatcher</span>
+            <span class="agent-badge badge-opt">Optimization</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Field Technician Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">MWM</span><span class="meta-pill">Field GIS</span><span class="meta-pill">Substation SCADA</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_grid_operations</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Persona 8 -->
+      <div class="persona-card" data-horizon="governance">
+        <div class="persona-top">
+          <div>
+            <div class="persona-name">Regulatory, Market & Compliance Officer</div>
+            <div class="persona-id">regulatory_compliance_officer_agent</div>
+          </div>
+          <span class="horizon-tag">Periodic / Audit Cycles</span>
+        </div>
+        <div class="persona-role">
+          Audits operations against NERC PRC-005 and FAC-008 reliability standards, calculates IEEE 1366 reliability benchmarks (SAIDI, SAIFI, CAIDI), tracks state Renewable Portfolio Standards (RPS), and reconciles ISO invoices.
+        </div>
+        <div class="subagent-section-title"><span>⚡</span> 5 Heterogeneous Sub-Agents</div>
+        <div class="subagent-list">
+          <div class="subagent-item">
+            <span class="subagent-title"><span>📜</span> NERC PRC/FAC Compliance Auditor</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>⏱️</span> IEEE 1366 Reliability Calculator</span>
+            <span class="agent-badge badge-physics">Math</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🌱</span> Clean Energy RPS Tracker</span>
+            <span class="agent-badge badge-physics">Math</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>💰</span> Wholesale Settlement Reconciler</span>
+            <span class="agent-badge badge-rules">Rule Expert</span>
+          </div>
+          <div class="subagent-item">
+            <span class="subagent-title"><span>🧠</span> Regulatory Filing Copilot</span>
+            <span class="agent-badge badge-llm">Cognitive LLM</span>
+          </div>
+        </div>
+        <div class="persona-footer">
+          <div class="meta-row">
+            <span class="meta-title">Key Systems:</span>
+            <div class="meta-pills"><span class="meta-pill">NERC Portals</span><span class="meta-pill">ISO Settlements</span><span class="meta-pill">PUC Filing System</span></div>
+          </div>
+          <div class="meta-row">
+            <span class="meta-title">BigQuery Data:</span>
+            <div class="meta-pills"><span class="meta-pill">utilities_regulatory_compliance</span><span class="meta-pill">utilities_wholesale_trading</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 12 Reusable Skills Catalog -->
+    <h2 class="section-title"><span>🧩</span> 12 Abstracted Reusable Skills Layer</h2>
+    <p class="section-subtitle">Common mathematical and physical execution algorithms shared across personas.</p>
+
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-id">skill_weathernext_telemetry_correlator</div>
+        <div class="skill-desc">Spatializes DeepMind WeatherNext AI predictions to feeder coordinates.</div>
+        <div class="skill-formula">GHI, DNI, Wind(10m, 100m) → Generation Capacity %</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_vizier_bayesian_vvo_tuner</div>
+        <div class="skill-desc">Vertex AI Vizier GP-EI optimization for Volt-VAR curves.</div>
+        <div class="skill-formula">min Loss_MW(V1..V4, Q_max) s.t. 0.95 ≤ V ≤ 1.05</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_alphaevolve_reconfigurator</div>
+        <div class="skill-desc">Evolutionary tie-switch search for active loss minimization.</div>
+        <div class="skill-formula">opt DNR(NO_switches) s.t. Radiality & Headroom</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_predictive_maintenance_health_scorer</div>
+        <div class="skill-desc">Duval Triangle DGA and breaker arc energy wear scoring.</div>
+        <div class="skill-formula">RPN = P(Fail) × Crit_Index × SAIDI_Impact (1-1000)</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_power_flow_simulation</div>
+        <div class="skill-desc">AC/DC power flow engine calculating voltages, loadings, and losses.</div>
+        <div class="skill-formula">P_i, Q_i = f(V_i, V_j, Y_bus) [Newton-Raphson]</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_contingency_constraint_checker</div>
+        <div class="skill-desc">Enforces ANSI C84.1 voltage tolerances and N-1 thermal bounds.</div>
+        <div class="skill-formula">0.95 ≤ V_pu ≤ 1.05, S_branch ≤ 100% MVA</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_hosting_capacity_evaluator</div>
+        <div class="skill-desc">Iterative feeder sweep evaluating thermal and overvoltage headroom.</div>
+        <div class="skill-formula">HC_max = min(HC_thermal, HC_voltage, HC_protection)</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_dynamic_line_rating_calculator</div>
+        <div class="skill-desc">IEEE 738 steady-state conductor dynamic ampacity solver.</div>
+        <div class="skill-formula">I_dynamic = sqrt((q_c + q_r - q_s) / R_T) [WeatherNext]</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_automated_switching_planner</div>
+        <div class="skill-desc">Interlocked breaker/switch toggle sequencing with LOTO tags.</div>
+        <div class="skill-formula">Sequenced steps s.t. Zero-Energy & Inrush Limits</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_der_vpp_co_optimizer</div>
+        <div class="skill-desc">Co-optimizes BESS SoC, DR setback, and solar vs wholesale LMP.</div>
+        <div class="skill-formula">max Revenue(P_bess, P_dr, P_pv) - Cost(Degradation)</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_scada_ami_anomaly_detector</div>
+        <div class="skill-desc">Statistical Z-score and Isolation Forest outlier detection.</div>
+        <div class="skill-formula">Z = |X - μ| / σ > 1.90 (p < 0.05 Outlier Flag)</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-id">skill_regulatory_audit_reporter</div>
+        <div class="skill-desc">Calculates IEEE 1366 reliability indices and formats audit filings.</div>
+        <div class="skill-formula">SAIDI = ∑(r_i × N_i) / N_T, SAIFI = ∑(N_i) / N_T</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Interactive Modal for Engine Deep Dives -->
+  <div class="modal-overlay" id="engineModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeEngineModal()">✕</button>
+      <div class="modal-title" id="modalTitle">Engine Title</div>
+      <div class="modal-desc" id="modalDesc">Engine Description</div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Gemini Enterprise Agents for Utilities • Grid Optimization Multi-Agent System (MAS)</p>
+    <p style="margin-top: 6px; font-size: 0.8rem;">Powered by Google ADK v2, Google DeepMind WeatherNext, Vertex AI Vizier, DeepMind AlphaEvolve, and BigQuery Analytics.</p>
+  </footer>
+
+  <script>
+    // Theme toggle logic
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Dark';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Light';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Persona Filtering
+    function filterPersonas(horizon, tabElem) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tabElem.classList.add('active');
+
+      const cards = document.querySelectorAll('.persona-card');
+      cards.forEach(card => {
+        if (horizon === 'all' || card.getAttribute('data-horizon') === horizon) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // HITL Gatekeeper Simulation
+    let ticketApproved = false;
+    function approveHitlAction() {
+      const box = document.getElementById('hitlBox');
+      const audit = document.getElementById('hitlAuditStatus');
+      const tierBadge = document.getElementById('ticketTier');
+      
+      tierBadge.textContent = 'APPROVED BY OPERATOR';
+      tierBadge.style.background = 'var(--success-light)';
+      tierBadge.style.color = 'var(--success)';
+
+      audit.innerHTML = `<strong>AUDIT LOGGED (BigQuery):</strong> Ticket TICK-A94E1B02 authorized by Operator <code>OP-7741 (Lead Control Room Officer)</code> at ${new Date().toISOString()}. Interlocked switching command dispatched to SCADA RTU.`;
+      audit.style.borderLeft = '3px solid var(--success)';
+      ticketApproved = true;
+    }
+
+    function rejectHitlAction() {
+      const audit = document.getElementById('hitlAuditStatus');
+      const tierBadge = document.getElementById('ticketTier');
+      
+      tierBadge.textContent = 'REJECTED / ABORTED';
+      tierBadge.style.background = 'var(--danger-light)';
+      tierBadge.style.color = 'var(--danger)';
+
+      audit.innerHTML = `<strong>AUDIT LOGGED:</strong> Ticket TICK-A94E1B02 rejected by Operator <code>OP-7741</code>. Command aborted; baseline safe state preserved.`;
+      audit.style.borderLeft = '3px solid var(--danger)';
+    }
+
+    // Modal Details
+    const engineData = {
+      weathernext: {
+        title: "Google DeepMind WeatherNext AI Weather Radar & DLR",
+        desc: "High-resolution regional weather predictions feeding dynamic ampacity and solar forecasting.",
+        body: `
+          <div style="background: #0f172a; color: #38bdf8; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-bottom: 16px;">
+            <div>[WeatherNext-GraphCast-v2.1] Model Resolution: 0.1° (~10km)</div>
+            <div>Target Substation: Substation-North (37.77° N, -122.42° W)</div>
+            <div>Atmospheric Pressure: 1013.2 hPa | Relative Humidity: 42.0%</div>
+            <div>Direct Normal Irradiance (DNI): 880 W/m² (Peak Afternoon)</div>
+            <div>10m Wind Vector: 4.8 m/s @ 275° | Incident Crosswind: 4.78 m/s</div>
+            <div>Dynamic Line Rating (DLR) Convective Cooling: +22.4% Headroom</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+            By integrating WeatherNext, the Asset Performance Engineer recalculates conductor thermal balance under IEEE 738 in real-time, unlocking up to 22.4% additional transmission capacity without physical reconductoring.
+          </p>
+        `
+      },
+      vizier: {
+        title: "Vertex AI Vizier Bayesian Grid Tuning Studio",
+        desc: "Black-box parameter exploration over non-differentiable grid setpoints.",
+        body: `
+          <div style="background: #1e1b4b; color: #c084fc; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-bottom: 16px;">
+            <div>[Vertex AI Vizier Study] study-id: vizier-vvo-feeder-401</div>
+            <div>Acquisition Function: GP-Expected Improvement (Gaussian Process)</div>
+            <div>Trials Evaluated: 20 | Best Feeder Loss: 1.91 MW (-22.0% loss reduction)</div>
+            <div>Optimal Setpoints: V1=0.92, V2=0.97, V3=1.025, V4=1.065, Q_max=38.5%</div>
+            <div>Constraint Status: 0 ANSI C84.1 Voltage Violations</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+            Vizier automatically balances autonomous inverter firmware curves across hundreds of rooftop and commercial solar inverters, preventing voltage rise during peak solar feed-in while slashing total active line losses.
+          </p>
+        `
+      },
+      alphaevolve: {
+        title: "DeepMind AlphaEvolve Topology Discovery Visualizer",
+        desc: "Evolutionary graph discovery for distribution network reconfiguration (DNR).",
+        body: `
+          <div style="background: #064e3b; color: #6ee7b7; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-bottom: 16px;">
+            <div>[AlphaEvolve DNR] Generations Evolved: 12 | Evaluated: 480 candidates</div>
+            <div>Baseline Loss: 3.85 MW → Evolved Loss: 2.94 MW (-23.5% Loss)</div>
+            <div>Radial Constraint: 100% Satisfied (No mesh loops or unserved islands)</div>
+            <div>Discovered Reconfiguration: CLOSE SW-TIE-44, OPEN SW-SEC-23, OPEN SW-SEC-77</div>
+            <div>Adaptive Relay Curve: t(I) = (0.14*TMS)/((I/I_p)^0.02 - 1) + 0.04*cosh(I_rev)</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+            AlphaEvolve tests non-obvious combinatorial tie switch operations that transfer loads between substations, eliminating bottlenecks while deriving symbolic equations for relays under bidirectional current.
+          </p>
+        `
+      },
+      pdm: {
+        title: "Predictive Maintenance (PdM) Duval Diagnostics",
+        desc: "Condition-based Dissolved Gas Analysis and circuit breaker health index.",
+        body: `
+          <div style="background: #450a0a; color: #fca5a5; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin-bottom: 16px;">
+            <div>[Transformer DGA] Asset: XFMR-SUB-44 (138kV / 12kV 50MVA)</div>
+            <div>Duval Triangle 1 Coordinates: %CH4=35.5%, %C2H4=63.3%, %C2H2=1.2%</div>
+            <div>Diagnosis: T3 Thermal Fault > 700°C (Heavy Oil Carbonization)</div>
+            <div>Remaining Useful Life (RUL): 180 Days | Failure Probability: 34.0%</div>
+            <div>Risk Priority Number: RPN = 71 / 1000 | Action: Expedited Work Order</div>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+            PdM detects early thermal breakdown inside high-voltage transformers months before an explosive catastrophic failure, automatically issuing a risk-prioritized work order to field crews with pre-reserved replacement parts.
+          </p>
+        `
+      }
+    };
+
+    function openEngineModal(engineKey) {
+      const data = engineData[engineKey];
+      if (!data) return;
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalDesc').textContent = data.desc;
+      document.getElementById('modalBody').innerHTML = data.body;
+      document.getElementById('engineModal').classList.add('active');
+    }
+
+    function closeEngineModal() {
+      document.getElementById('engineModal').classList.remove('active');
+    }
+
+    document.getElementById('engineModal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('engineModal')) {
+        closeEngineModal();
+      }
+    });
+  </script>
+</body>
+</html>
