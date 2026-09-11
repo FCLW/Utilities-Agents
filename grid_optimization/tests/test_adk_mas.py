@@ -241,3 +241,43 @@ class TestADKMasComponents:
         # Verify event stream produced content
         has_content = any(hasattr(e, "content") and e.content for e in events)
         assert has_content
+
+    def test_11_weathernext_malaysia_and_subagents_integration(self):
+        """Verify WeatherNext engine resolves Malaysian locations and executes all 4 integrated subagents."""
+        # 1. Klang Valley TNB Supergrid Hub
+        payload_klang = json.dumps({
+            "substation": "Klang Valley / Selangor (500kV Supergrid Hub)",
+            "horizon_hours": 14,
+            "include_subagents": True
+        })
+        res_klang = run_advanced_optimization_engine("weathernext", payload_klang)
+        assert res_klang["status"] == "SUCCESS"
+        assert res_klang["engine"] == "WeatherNext"
+        output_kl = res_klang["output"]
+        assert "Klang Valley" in output_kl["substation_or_region"]
+        assert output_kl["solar_ghi_wm2"] >= 0.0
+        assert output_kl["relative_humidity_pct"] >= 50.0
+
+        # Verify all 4 integrated WeatherNext subagents executed
+        subagents = res_klang["subagents_telemetry"]
+        assert "storm_tracker" in subagents
+        assert "forecast_consumer" in subagents
+        assert "der_predictor" in subagents
+        assert "dlr_solver" in subagents
+
+        assert subagents["storm_tracker"]["status"] == "SUCCESS"
+        assert subagents["forecast_consumer"]["status"] == "SUCCESS"
+        assert subagents["der_predictor"]["status"] == "SUCCESS"
+        assert subagents["dlr_solver"]["status"] == "SUCCESS"
+
+        # 2. East Malaysia / Sarawak Energy Grid (Bakun Hydro)
+        payload_bakun = json.dumps({
+            "substation": "Bakun Hydro Terminal (500kV Hydro Complex)",
+            "horizon_hours": 6,
+            "include_subagents": True
+        })
+        res_bakun = run_advanced_optimization_engine("weathernext", payload_bakun)
+        assert res_bakun["status"] == "SUCCESS"
+        assert "Bakun" in res_bakun["output"]["substation_or_region"]
+        assert res_bakun["subagents_telemetry"]["dlr_solver"]["data"]["voltage_kv"] == 500
+

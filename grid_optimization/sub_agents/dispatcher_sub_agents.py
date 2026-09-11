@@ -35,18 +35,30 @@ class WeatherNextStormTrackerSubAgent(BaseSubAgent):
         self.wx_engine = wx_engine or WeatherNextEngine()
 
     def execute(self, inputs: Dict[str, Any]) -> SubAgentOutput:
-        sub = inputs.get("substation", "Substation-Metro")
-        fc = self.wx_engine.get_forecast(sub)
+        sub = inputs.get("substation") or inputs.get("substation_or_region") or inputs.get("region") or "Klang Valley / Selangor (500kV Supergrid Hub)"
+        horizon = inputs.get("horizon_hours", 24)
+        fc = self.wx_engine.get_forecast(sub, horizon_hours=horizon)
+        
+        cells_dict = [c.__dict__ for c in fc.storm_cells]
+        max_dbz = max([c.peak_reflectivity_dbz for c in fc.storm_cells], default=0.0)
+        max_lightning = max([c.lightning_strike_rate_per_min for c in fc.storm_cells], default=0)
+        min_eta = min([c.projected_eta_minutes.get(sub, 999.0) for c in fc.storm_cells], default=None)
+
         return SubAgentOutput(
             self.sub_agent_id, self.agent_type, "SUCCESS",
             {
                 "substation": sub,
+                "region_resolved": fc.substation_or_region,
                 "convective_risk": fc.convective_storm_risk,
                 "active_cells_tracked": len(fc.storm_cells),
-                "cells": [c.__dict__ for c in fc.storm_cells],
-                "wind_gust_ms": fc.wind_speed_10m_ms
+                "peak_reflectivity_dbz": max_dbz,
+                "lightning_strike_rate_per_min": max_lightning,
+                "nearest_cell_eta_min": min_eta,
+                "cells": cells_dict,
+                "wind_gust_ms": fc.wind_speed_10m_ms,
+                "cloud_cover_pct": fc.cloud_cover_pct
             },
-            f"WeatherNext AI tracked {len(fc.storm_cells)} convective storm cells approaching {sub} with risk {fc.convective_storm_risk}."
+            f"WeatherNext AI tracked {len(fc.storm_cells)} convective storm cells approaching {fc.substation_or_region} (Peak dBZ: {max_dbz}, Lightning: {max_lightning}/min, Risk: {fc.convective_storm_risk})."
         )
 
 class StateEstimationEngineSubAgent(BaseSubAgent):

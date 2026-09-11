@@ -984,6 +984,208 @@
       letter-spacing: 0.5px;
     }
 
+    /* WeatherNext Forecast Map & Subagents Console Styles */
+    .wx-forecast-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .wx-toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .wx-btn-group {
+      display: inline-flex;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+    .wx-pill-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .wx-pill-btn:hover {
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+    }
+    .wx-pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.35);
+    }
+    .wx-playback-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .wx-scrubber-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 240px;
+    }
+    .wx-time-display {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--primary-light);
+      padding: 5px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(26, 115, 232, 0.25);
+    }
+    .wx-map-stage {
+      background: #090e1a;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+      width: 100%;
+    }
+    .wx-map-svg {
+      width: 100%;
+      height: 450px;
+      display: block;
+    }
+    .wx-pin {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .wx-pin:hover {
+      transform: scale(1.25);
+    }
+    .wx-pin.selected circle {
+      stroke: #ffffff !important;
+      stroke-width: 3.5px !important;
+      filter: drop-shadow(0 0 10px #1a73e8);
+    }
+    .wx-radar-cell {
+      animation: wxPulse 2.4s infinite ease-in-out;
+      transform-origin: center;
+    }
+    @keyframes wxPulse {
+      0% { opacity: 0.72; transform: scale(0.97); }
+      50% { opacity: 0.95; transform: scale(1.03); }
+      100% { opacity: 0.72; transform: scale(0.97); }
+    }
+    .wx-lightning-flash {
+      animation: wxFlash 1.6s infinite ease-in-out;
+    }
+    @keyframes wxFlash {
+      0%, 90%, 100% { opacity: 0.2; }
+      92%, 96% { opacity: 1; filter: drop-shadow(0 0 10px #f9ab00); }
+    }
+    .wx-streamline {
+      stroke-dasharray: 6 6;
+      animation: wxDash 2s linear infinite;
+    }
+    @keyframes wxDash {
+      to { stroke-dashoffset: -24; }
+    }
+    .wx-subagents-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (max-width: 1100px) {
+      .wx-subagents-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 650px) {
+      .wx-subagents-grid { grid-template-columns: 1fr; }
+    }
+    .wx-subagent-card {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .wx-subagent-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+    .wx-subagent-card.running {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px rgba(26, 115, 232, 0.3);
+    }
+    .wx-subagent-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .wx-subagent-name {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .wx-subagent-persona {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: 'Roboto Mono', monospace;
+    }
+    .wx-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      border-bottom: 1px dashed var(--border-color);
+      padding-bottom: 4px;
+    }
+    .wx-stat-label {
+      color: var(--text-secondary);
+    }
+    .wx-stat-val {
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .wx-log-box {
+      background: #070b14;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      color: #93c5fd;
+      max-height: 130px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border-color);
@@ -1066,7 +1268,7 @@
           <span>🔄</span> Multi-Persona Workflows <span class="tab-badge">6</span>
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-weathernext" onclick="switchMainTab('tab-weathernext', this)">
-          <span>⛅</span> WeatherNext Radar &amp; DLR
+          <span>⛅</span> WeatherNext Forecast Map (Malaysia) &amp; DLR
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-vizier" onclick="switchMainTab('tab-vizier', this)">
           <span>📊</span> Vizier Bayesian Studio
@@ -1587,128 +1789,682 @@
       </div>
     </div>
 
-    <!-- TAB 3: WEATHERNEXT RADAR & DLR -->
+    <!-- TAB 3: WEATHERNEXT FORECAST MAP (MALAYSIA) & DLR -->
     <div id="tab-weathernext" class="tab-pane" role="tabpanel">
       <div class="card">
         <div class="card-header">
           <div>
-            <h2 class="card-title"><span>⛅</span> Google DeepMind WeatherNext Radar &amp; Dynamic Line Rating (DLR)</h2>
-            <div class="card-subtitle">Couples sub-kilometer atmospheric forecasts with IEEE 738 steady-state conductor heat balance.</div>
+            <h2 class="card-title"><span>⛅</span> Google DeepMind WeatherNext Forecasted Weather Map (Malaysia) &amp; Dynamic Line Rating (DLR)</h2>
+            <div class="card-subtitle">High-resolution AI Numerical Weather Prediction (0.08° / ~9km ECMWF/WeatherNext resolution) across Peninsular Malaysia &amp; Borneo (Sarawak Energy &amp; SESB corridors). Autonomous ADK multi-subagent orchestration for convective squall tracking, solar LSS capacity modeling, and IEEE 738 dynamic line rating ampacity.</div>
           </div>
-          <span class="horizon-tag">WeatherNext AI Model: Sub-0.1° GFS/ERA5</span>
+          <span class="horizon-tag" id="wxSyncStatusTag">MYT (UTC+8) Synoptic Feed • 9 Malaysian Grid Hubs</span>
         </div>
 
-        <div class="studio-grid">
-          <!-- Interactive Microclimate Sliders -->
-          <div class="slider-group">
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>Direct Normal Irradiance (DNI)</span>
-                <span class="slider-val" id="valDni">850 W/m²</span>
-              </div>
-              <input type="range" id="inputDni" min="0" max="1100" value="850" oninput="updateWeatherNextSim()">
+        <!-- Forecast Timeline & Playback Control Bar -->
+        <div class="wx-toolbar-row">
+          <div class="wx-playback-controls">
+            <button class="btn-sim" id="btnWxPlay" onclick="toggleWxPlayback()" style="padding: 7px 16px; font-size: 0.82rem;">
+              <span id="btnWxPlayIcon">▶</span> <span id="btnWxPlayText">Play Forecast Loop</span>
+            </button>
+            <div class="wx-btn-group" id="wxHorizonPresets">
+              <button class="wx-pill-btn active" onclick="setForecastHorizon(0, this)">Now (T+0h)</button>
+              <button class="wx-pill-btn" onclick="setForecastHorizon(1, this)">+1h (Nowcast)</button>
+              <button class="wx-pill-btn" onclick="setForecastHorizon(3, this)">+3h</button>
+              <button class="wx-pill-btn" onclick="setForecastHorizon(6, this)">+6h (Peak)</button>
+              <button class="wx-pill-btn" onclick="setForecastHorizon(12, this)">+12h (Surge)</button>
+              <button class="wx-pill-btn" onclick="setForecastHorizon(24, this)">+24h (Day-Ahead)</button>
             </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>10m Crosswind Speed</span>
-                <span class="slider-val" id="valWindSpeed">4.8 m/s</span>
-              </div>
-              <input type="range" id="inputWindSpeed" min="0.2" max="25" step="0.2" value="4.8" oninput="updateWeatherNextSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>Wind Incident Angle</span>
-                <span class="slider-val" id="valWindAngle">60° (Crosswind)</span>
-              </div>
-              <input type="range" id="inputWindAngle" min="0" max="90" value="60" oninput="updateWeatherNextSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>Ambient Air Temperature</span>
-                <span class="slider-val" id="valAmbTemp">28°C</span>
-              </div>
-              <input type="range" id="inputAmbTemp" min="-10" max="48" value="28" oninput="updateWeatherNextSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>Convective Storm Cell Probability</span>
-                <span class="slider-val" id="valStormProb">15% (Low Risk)</span>
-              </div>
-              <input type="range" id="inputStormProb" min="0" max="100" value="15" oninput="updateWeatherNextSim()">
-            </div>
-
-            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
-              <strong style="color: var(--accent);">IEEE 738 Heat Balance:</strong><br>
-              <code>q_c(V_w, φ) + q_r = q_s(DNI) + I²·R(T_c)</code><br>
-              Higher crosswind forces turbulent convective cooling, unlocking dynamic transmission headroom without reconductoring.
+            <div class="wx-scrubber-box">
+              <span style="font-size: 0.76rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">T+</span>
+              <input type="range" id="wxTimelineScrubber" min="0" max="24" value="0" step="1" oninput="onWxTimelineScrub(this.value)">
+              <span id="wxScrubberLabel" style="font-family: 'Roboto Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--accent); min-width: 44px;">+0h</span>
             </div>
           </div>
 
-          <!-- Dynamic SVG Conductor & Ampacity Gauge Visualizer -->
-          <div class="visual-stage">
-            <svg id="dlrSvg" width="100%" height="220" viewBox="0 0 500 200" style="overflow: visible;">
-              <defs>
-                <linearGradient id="conductorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#78909c" />
-                  <stop offset="50%" stop-color="#b0bec5" />
-                  <stop offset="100%" stop-color="#78909c" />
-                </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                  <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <select id="selectWxSpeed" onchange="changeWxSpeed(this.value)" style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 5px 10px; color: var(--text-primary); font-size: 0.78rem; font-family: 'Roboto Mono', monospace;">
+              <option value="1000">1x Speed</option>
+              <option value="500" selected>2x Speed</option>
+              <option value="250">4x Speed</option>
+            </select>
+            <div class="wx-time-display" id="wxTimeReadout">
+              2026-09-11 17:00:00 MYT (T+0h) • Inter-Monsoon Convection
+            </div>
+          </div>
+        </div>
 
-              <!-- Transmission Towers -->
-              <path d="M 40 180 L 70 30 L 100 180 M 55 100 L 85 100 M 50 140 L 90 140" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
-              <path d="M 400 180 L 430 30 L 460 180 M 415 100 L 445 100 M 410 140 L 450 140" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
+        <!-- Synoptic Layer & Regional Zoom Toggles -->
+        <div class="wx-toolbar-row" style="padding: 10px 18px; margin-top: -6px;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Forecast Layers:</span>
+            <div class="wx-btn-group">
+              <button class="wx-pill-btn active" id="btnLayerRadar" onclick="toggleWeatherLayer('radar', this)">🌧️ Convective Radar (dBZ)</button>
+              <button class="wx-pill-btn" id="btnLayerSolar" onclick="toggleWeatherLayer('solar', this)">☀️ Solar GHI (W/m²)</button>
+              <button class="wx-pill-btn" id="btnLayerWind" onclick="toggleWeatherLayer('wind', this)">💨 Monsoon Wind &amp; DLR</button>
+              <button class="wx-pill-btn" id="btnLayerLightning" onclick="toggleWeatherLayer('lightning', this)">⚡ Lightning Density</button>
+              <button class="wx-pill-btn" id="btnLayerHydro" onclick="toggleWeatherLayer('hydro', this)">🌊 Hydro Catchment Inflow</button>
+            </div>
+          </div>
 
-              <!-- ACSR Catenary Conductor Line -->
-              <path id="conductorLine" d="M 70 70 Q 250 120 430 70" stroke="url(#conductorGrad)" stroke-width="5" fill="none" filter="url(#glow)" />
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Region Focus:</span>
+            <div class="wx-btn-group">
+              <button class="wx-pill-btn active" id="btnZoomAll" onclick="zoomMalaysiaRegion('all', this)">🇲🇾 All Malaysia</button>
+              <button class="wx-pill-btn" id="btnZoomWest" onclick="zoomMalaysiaRegion('west', this)">⚡ Peninsular (TNB)</button>
+              <button class="wx-pill-btn" id="btnZoomEast" onclick="zoomMalaysiaRegion('east', this)">🏞️ Borneo (Sarawak &amp; SESB)</button>
+            </div>
+          </div>
+        </div>
 
-              <!-- Wind Vectors -->
-              <g id="windVectorsGroup" opacity="0.8">
-                <path d="M 120 140 L 170 140 M 160 135 L 170 140 L 160 145" stroke="#8ab4f8" stroke-width="2" />
-                <path d="M 220 150 L 270 150 M 260 145 L 270 150 L 260 155" stroke="#8ab4f8" stroke-width="2" />
-                <path d="M 320 140 L 370 140 M 360 135 L 370 140 L 360 145" stroke="#8ab4f8" stroke-width="2" />
-              </g>
+        <div class="studio-grid" style="grid-template-columns: 1.25fr 1fr; gap: 20px;">
+          <!-- Interactive Geospatial Forecast Map of Malaysia -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="wx-map-stage" id="wxMapStage">
+              <svg id="malaysiaMapSvg" class="wx-map-svg" viewBox="0 0 950 480" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <!-- Background Gradients -->
+                  <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#0a1220" />
+                    <stop offset="50%" stop-color="#08101a" />
+                    <stop offset="100%" stop-color="#060b13" />
+                  </linearGradient>
 
-              <!-- Solar Radiation Indicator -->
-              <g transform="translate(250, 25)">
-                <circle cx="0" cy="0" r="14" fill="#f9ab00" opacity="0.9" />
-                <line x1="0" y1="-20" x2="0" y2="-26" stroke="#f9ab00" stroke-width="2" />
-                <line x1="14" y1="-14" x2="19" y2="-19" stroke="#f9ab00" stroke-width="2" />
-                <line x1="20" y1="0" x2="26" y2="0" stroke="#f9ab00" stroke-width="2" />
-                <line x1="-14" y1="-14" x2="-19" y2="-19" stroke="#f9ab00" stroke-width="2" />
-                <line x1="-20" y1="0" x2="-26" y2="0" stroke="#f9ab00" stroke-width="2" />
-              </g>
+                  <!-- Landmass Fills -->
+                  <linearGradient id="landWestGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1e2c3f" />
+                    <stop offset="100%" stop-color="#141f2d" />
+                  </linearGradient>
+                  <linearGradient id="landEastGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#1f2d40" />
+                    <stop offset="100%" stop-color="#141f2e" />
+                  </linearGradient>
 
-              <text x="250" y="185" text-anchor="middle" fill="var(--text-secondary)" font-size="12" font-family="'Roboto Mono', monospace">
-                230 kV ACSR "Drake" Corridor #104 (Span: 380m)
-              </text>
-            </svg>
+                  <!-- Convective Radar Storm Gradients (dBZ) -->
+                  <radialGradient id="squall1Grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#e040fb" stop-opacity="0.95" />
+                    <stop offset="30%" stop-color="#f44336" stop-opacity="0.85" />
+                    <stop offset="60%" stop-color="#ff9800" stop-opacity="0.75" />
+                    <stop offset="85%" stop-color="#ffeb3b" stop-opacity="0.55" />
+                    <stop offset="100%" stop-color="#4caf50" stop-opacity="0" />
+                  </radialGradient>
 
-            <!-- Real-Time Metrics Output -->
-            <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px;">
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--text-muted);">STATIC BOOK RATING</div>
-                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--text-secondary);">900 A (358 MVA)</div>
+                  <radialGradient id="squall2Grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f44336" stop-opacity="0.9" />
+                    <stop offset="45%" stop-color="#ff9800" stop-opacity="0.75" />
+                    <stop offset="80%" stop-color="#ffeb3b" stop-opacity="0.5" />
+                    <stop offset="100%" stop-color="#4caf50" stop-opacity="0" />
+                  </radialGradient>
+
+                  <radialGradient id="squall3Grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ff9800" stop-opacity="0.85" />
+                    <stop offset="50%" stop-color="#ffeb3b" stop-opacity="0.6" />
+                    <stop offset="100%" stop-color="#4caf50" stop-opacity="0" />
+                  </radialGradient>
+
+                  <!-- Solar GHI Heat Gradients -->
+                  <radialGradient id="solarGhiGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f9ab00" stop-opacity="0.85" />
+                    <stop offset="40%" stop-color="#ffb300" stop-opacity="0.5" />
+                    <stop offset="80%" stop-color="#ffa000" stop-opacity="0.2" />
+                    <stop offset="100%" stop-color="#ff8f00" stop-opacity="0" />
+                  </radialGradient>
+
+                  <!-- Glow Filters -->
+                  <filter id="gridGlow500" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="pinHoverGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="glow" />
+                    <feMerge>
+                      <feMergeNode in="glow" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Base Sea Background -->
+                <rect width="950" height="480" fill="url(#oceanGrad)" />
+
+                <!-- Geographic Lat/Lon Reference Grid (Tropical Malaysia: 0°N to 8°N, 99°E to 119°E) -->
+                <g opacity="0.18" stroke="#4a5568" stroke-width="0.7" stroke-dasharray="3 4">
+                  <line x1="0" y1="90" x2="950" y2="90" />
+                  <line x1="0" y1="180" x2="950" y2="180" />
+                  <line x1="0" y1="270" x2="950" y2="270" />
+                  <line x1="0" y1="360" x2="950" y2="360" />
+                  <line x1="0" y1="450" x2="950" y2="450" />
+                  <line x1="100" y1="0" x2="100" y2="480" />
+                  <line x1="250" y1="0" x2="250" y2="480" />
+                  <line x1="400" y1="0" x2="400" y2="480" />
+                  <line x1="550" y1="0" x2="550" y2="480" />
+                  <line x1="700" y1="0" x2="700" y2="480" />
+                  <line x1="850" y1="0" x2="850" y2="480" />
+                </g>
+
+                <!-- Lat/Lon Labels -->
+                <g fill="#718096" font-size="9" font-family="'Roboto Mono', monospace" opacity="0.65">
+                  <text x="12" y="94">6°N</text>
+                  <text x="12" y="184">4°N</text>
+                  <text x="12" y="274">2°N</text>
+                  <text x="12" y="364">0° (Equator)</text>
+                  <text x="102" y="472">100°E</text>
+                  <text x="252" y="472">104°E</text>
+                  <text x="552" y="472">110°E</text>
+                  <text x="702" y="472">114°E</text>
+                  <text x="852" y="472">118°E</text>
+                </g>
+
+                <!-- Maritime Water Body Labels -->
+                <g fill="#4a5d78" font-size="11" font-family="'Google Sans', sans-serif" font-weight="700" letter-spacing="2px" opacity="0.5">
+                  <text x="65" y="330" transform="rotate(-35, 65, 330)">STRAIT OF MALACCA</text>
+                  <text x="360" y="220">SOUTH CHINA SEA</text>
+                  <text x="840" y="80">SULU SEA</text>
+                </g>
+
+                <!-- GEOGRAPHIC LANDMASSES: Peninsular Malaysia & Borneo (Sarawak/Sabah) -->
+                <!-- 1. Peninsular Malaysia (West Malaysia) -->
+                <path id="pathWestMalaysia" d="M 98 80 
+                  L 125 72 L 155 85 L 180 110 L 210 135 L 235 155 L 245 190 L 255 240 L 260 280 
+                  L 270 330 L 265 375 L 255 405 L 235 410 L 205 380 L 180 340 L 155 295 L 140 260 
+                  L 125 210 L 105 160 L 92 120 Z" 
+                  fill="url(#landWestGrad)" stroke="#37475a" stroke-width="1.6" filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))" />
+
+                <!-- 2. East Malaysia: Sarawak & Sabah (Borneo) -->
+                <path id="pathEastMalaysia" d="M 525 385 
+                  L 560 355 L 610 320 L 660 290 L 710 240 L 760 190 L 790 145 L 825 125 L 855 120 
+                  L 885 145 L 895 190 L 870 230 L 840 260 L 790 285 L 750 310 L 705 345 L 650 380 
+                  L 590 410 L 540 405 Z" 
+                  fill="url(#landEastGrad)" stroke="#37475a" stroke-width="1.6" filter="drop-shadow(0 4px 10px rgba(0,0,0,0.5))" />
+
+                <!-- Brunei Notch Representation -->
+                <path d="M 725 215 L 745 200 L 755 218 Z" fill="#0c1422" stroke="#2d3748" stroke-width="1" />
+
+                <!-- TRANSMISSION GRID BACKBONE OVERLAYS -->
+                <!-- 500kV TNB Peninsular Supergrid Backbone (Gold Glowing Path) -->
+                <g filter="url(#gridGlow500)">
+                  <path id="tnb500kvBackbone" d="M 105 105 L 130 215 L 165 285 L 245 395" 
+                    fill="none" stroke="#f9ab00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                  <!-- 500kV Sarawak Energy Backbone: Bakun to Samalaju to Sibu to Kuching -->
+                  <path id="sarawak500kvBackbone" d="M 680 320 L 645 270 L 610 320 L 540 395" 
+                    fill="none" stroke="#f9ab00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+
+                <!-- 275kV Regional Grid Corridors (Cyan Lines) -->
+                <g opacity="0.85">
+                  <!-- Bayan Lepas (Penang) to Gurun -->
+                  <path d="M 110 150 L 105 105" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3" />
+                  <!-- Paka/Kenyir to Klang Valley -->
+                  <path d="M 220 180 L 165 285" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3" />
+                  <!-- Paka/Kenyir to Pengerang -->
+                  <path d="M 220 180 L 245 395" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3" />
+                  <!-- Singapore SP Interconnector from Pengerang -->
+                  <path d="M 245 395 L 265 420" fill="none" stroke="#34a853" stroke-width="2.5" />
+                  <!-- Sabah SESB 275kV East-West Interconnector -->
+                  <path d="M 805 140 L 850 160 L 880 200" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="4 3" />
+                </g>
+
+                <!-- WEATHER FORECAST LAYERS -->
+                <!-- LAYER 1: CONVECTIVE RADAR REFLECTIVITY (dBZ) -->
+                <g id="layerRadarGroup">
+                  <!-- Squall Cell 1: Sumatra Squall Line traversing Strait of Malacca towards Klang Valley -->
+                  <g class="wx-radar-cell" id="radarCell1" transform="translate(130, 275)">
+                    <circle cx="0" cy="0" r="65" fill="url(#squall1Grad)" opacity="0.88" />
+                    <circle cx="0" cy="0" r="32" fill="#d500f9" opacity="0.4" />
+                    <!-- Storm Vector Arrow -->
+                    <path d="M 0 0 L 26 8 M 20 2 L 26 8 L 18 13" stroke="#ffffff" stroke-width="2" fill="none" />
+                    <text x="30" y="12" fill="#ffffff" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">SC-01 (58.4 dBZ • 38 km/h →)</text>
+                  </g>
+
+                  <!-- Squall Cell 2: South China Sea Convective Band approaching Terengganu / Paka -->
+                  <g class="wx-radar-cell" id="radarCell2" transform="translate(265, 175)">
+                    <circle cx="0" cy="0" r="50" fill="url(#squall2Grad)" opacity="0.82" />
+                    <path d="M 0 0 L -20 6 M -14 0 L -20 6 L -13 11" stroke="#ffffff" stroke-width="2" fill="none" />
+                    <text x="-105" y="-12" fill="#ffffff" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">SC-02 (49.1 dBZ • ← 24 km/h)</text>
+                  </g>
+
+                  <!-- Squall Cell 3: Interior Borneo Convective Cell near Bakun Hydro Catchment -->
+                  <g class="wx-radar-cell" id="radarCell3" transform="translate(695, 305)">
+                    <circle cx="0" cy="0" r="55" fill="url(#squall3Grad)" opacity="0.8" />
+                    <path d="M 0 0 L -12 -16 M -8 -10 L -12 -16 L -16 -8" stroke="#ffffff" stroke-width="2" fill="none" />
+                    <text x="-90" y="24" fill="#ffffff" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">SC-03 (44.8 dBZ • Inflow Catchment)</text>
+                  </g>
+                </g>
+
+                <!-- LAYER 2: SOLAR IRRADIANCE (GHI/DNI) (Northern Peninsular & Sabah Hubs) -->
+                <g id="layerSolarGroup" style="display: none;">
+                  <!-- Gurun & Chuping Solar Hub GHI Footprint -->
+                  <circle cx="105" cy="105" r="58" fill="url(#solarGhiGrad)" />
+                  <text x="75" y="65" fill="#f9ab00" font-size="10" font-family="'Roboto Mono', monospace" font-weight="700">Gurun LSS 100MW: 985 W/m² GHI</text>
+                  <!-- Sabah West Coast Solar Insolation -->
+                  <circle cx="805" cy="140" r="48" fill="url(#solarGhiGrad)" opacity="0.75" />
+                  <text x="760" y="100" fill="#f9ab00" font-size="10" font-family="'Roboto Mono', monospace" font-weight="700">SESB Solar: 920 W/m² GHI</text>
+                </g>
+
+                <!-- LAYER 3: MONSOON WIND STREAMLINES & DLR HEADROOM GAIN -->
+                <g id="layerWindGroup" style="display: none;">
+                  <g stroke="#64b5f6" stroke-width="2" fill="none" class="wx-streamline">
+                    <!-- Strait of Malacca SW Monsoon Streamlines -->
+                    <path d="M 40 380 Q 80 320 120 260 T 180 180 T 240 120" />
+                    <path d="M 60 410 Q 110 350 150 290 T 210 210 T 270 150" />
+                    <!-- South China Sea Cross-basin Flow -->
+                    <path d="M 280 260 Q 360 230 450 200 T 560 170 T 670 140" />
+                    <path d="M 310 330 Q 400 290 500 260 T 620 220 T 730 180" />
+                    <!-- Borneo Coastal Streamline -->
+                    <path d="M 520 440 Q 580 390 660 340 T 740 270 T 820 200" />
+                  </g>
+                  <g fill="#90caf9" font-size="10" font-family="'Roboto Mono', monospace" font-weight="600">
+                    <text x="60" y="270">SW Monsoon 5.8 m/s (Crosswind Cooling)</text>
+                    <text x="400" y="190">South China Sea Jet: 8.2 m/s</text>
+                  </g>
+                </g>
+
+                <!-- LAYER 4: LIGHTNING FLASH DENSITY -->
+                <g id="layerLightningGroup">
+                  <!-- Flash 1: Klang Valley (High Lightning Flash Density) -->
+                  <g class="wx-lightning-flash" transform="translate(155, 275)">
+                    <polygon points="0,-14 -6,0 0,0 -4,14 8,-2 1,-2" fill="#ffd600" />
+                    <text x="12" y="4" fill="#ffd600" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">28/min</text>
+                  </g>
+                  <!-- Flash 2: Paka Terengganu -->
+                  <g class="wx-lightning-flash" transform="translate(235, 175)" style="animation-delay: 0.5s;">
+                    <polygon points="0,-12 -5,0 0,0 -3,12 6,-2 1,-2" fill="#ffd600" />
+                    <text x="10" y="4" fill="#ffd600" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">14/min</text>
+                  </g>
+                  <!-- Flash 3: Central Sarawak -->
+                  <g class="wx-lightning-flash" transform="translate(670, 310)" style="animation-delay: 0.9s;">
+                    <polygon points="0,-12 -5,0 0,0 -3,12 6,-2 1,-2" fill="#ffd600" />
+                    <text x="10" y="4" fill="#ffd600" font-size="9" font-family="'Roboto Mono', monospace" font-weight="700">19/min</text>
+                  </g>
+                </g>
+
+                <!-- LAYER 5: HYDRO CATCHMENT INFLOW -->
+                <g id="layerHydroGroup" style="display: none;">
+                  <!-- Bakun Hydro Inflow Marker -->
+                  <g transform="translate(680, 320)">
+                    <circle cx="0" cy="0" r="16" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="3 3" />
+                    <text x="22" y="4" fill="#00e5ff" font-size="10" font-family="'Roboto Mono', monospace" font-weight="700">Bakun: +1,240 m³/s Inflow</text>
+                  </g>
+                  <!-- Kenyir Hydro Inflow Marker -->
+                  <g transform="translate(220, 180)">
+                    <circle cx="0" cy="0" r="14" fill="none" stroke="#00e5ff" stroke-width="2" stroke-dasharray="3 3" />
+                    <text x="20" y="4" fill="#00e5ff" font-size="10" font-family="'Roboto Mono', monospace" font-weight="700">Kenyir: +460 m³/s Inflow</text>
+                  </g>
+                </g>
+
+                <!-- CLICKABLE MALAYSIAN GRID SUBSTATION PINS (9 Key Regional Nodes) -->
+                <g id="malaysiaSubstationPins">
+                  <!-- 1. Klang Valley (500kV Supergrid Hub) -->
+                  <g class="wx-pin selected" id="pin-klang_valley" transform="translate(165, 285)" onclick="selectMalaysiaSubstation('klang_valley')">
+                    <circle cx="0" cy="0" r="9" fill="#1a73e8" stroke="#ffffff" stroke-width="2" />
+                    <circle cx="0" cy="0" r="4" fill="#ffffff" />
+                    <text x="14" y="4" fill="#e2e8f0" font-size="10" font-family="'Google Sans', sans-serif" font-weight="700">1. Klang Valley (500kV)</text>
+                  </g>
+
+                  <!-- 2. Penang (Bayan Lepas 275kV High-Tech) -->
+                  <g class="wx-pin" id="pin-penang" transform="translate(110, 150)" onclick="selectMalaysiaSubstation('penang')">
+                    <circle cx="0" cy="0" r="7" fill="#00e5ff" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">2. Penang (275kV)</text>
+                  </g>
+
+                  <!-- 3. Gurun & Chuping (275kV LSS Solar Hub) -->
+                  <g class="wx-pin" id="pin-gurun_kedah" transform="translate(105, 105)" onclick="selectMalaysiaSubstation('gurun_kedah')">
+                    <circle cx="0" cy="0" r="7" fill="#f9ab00" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">3. Gurun Solar Hub (275kV)</text>
+                  </g>
+
+                  <!-- 4. Manjung (500kV Coastal Gen Node) -->
+                  <g class="wx-pin" id="pin-manjung_perak" transform="translate(130, 215)" onclick="selectMalaysiaSubstation('manjung_perak')">
+                    <circle cx="0" cy="0" r="7.5" fill="#f9ab00" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">4. Manjung (500kV)</text>
+                  </g>
+
+                  <!-- 5. Pengerang & Pasir Gudang (500kV Southern Node) -->
+                  <g class="wx-pin" id="pin-pengerang_johor" transform="translate(245, 395)" onclick="selectMalaysiaSubstation('pengerang_johor')">
+                    <circle cx="0" cy="0" r="7.5" fill="#f9ab00" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="-160" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">5. Pengerang / SG Link (500kV)</text>
+                  </g>
+
+                  <!-- 6. Paka & Kenyir (275kV Hydro & CCGT Node) -->
+                  <g class="wx-pin" id="pin-paka_terengganu" transform="translate(220, 180)" onclick="selectMalaysiaSubstation('paka_terengganu')">
+                    <circle cx="0" cy="0" r="7" fill="#00e5ff" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">6. Paka &amp; Kenyir (275kV)</text>
+                  </g>
+
+                  <!-- 7. Bakun Hydro Terminal (500kV Hydro Complex) -->
+                  <g class="wx-pin" id="pin-bakun_sarawak" transform="translate(680, 320)" onclick="selectMalaysiaSubstation('bakun_sarawak')">
+                    <circle cx="0" cy="0" r="8" fill="#f9ab00" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">7. Bakun Hydro (500kV)</text>
+                  </g>
+
+                  <!-- 8. Samalaju Industrial Terminal (275kV SCORE) -->
+                  <g class="wx-pin" id="pin-samalaju_sarawak" transform="translate(645, 270)" onclick="selectMalaysiaSubstation('samalaju_sarawak')">
+                    <circle cx="0" cy="0" r="7" fill="#00e5ff" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">8. Samalaju SCORE (275kV)</text>
+                  </g>
+
+                  <!-- 9. Kota Kinabalu (275kV West Coast Ring) -->
+                  <g class="wx-pin" id="pin-kota_kinabalu_sabah" transform="translate(805, 140)" onclick="selectMalaysiaSubstation('kota_kinabalu_sabah')">
+                    <circle cx="0" cy="0" r="7" fill="#00e5ff" stroke="#1a202c" stroke-width="1.5" />
+                    <circle cx="0" cy="0" r="3" fill="#ffffff" />
+                    <text x="12" y="3" fill="#cbd5e0" font-size="9" font-family="'Google Sans', sans-serif" font-weight="600">9. Kota Kinabalu (275kV)</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Map Footnote & Reflectivity dBZ Legend Bar -->
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Radar Reflectivity (dBZ):</span>
+                <div style="display: flex; align-items: center; height: 12px; width: 140px; border-radius: 4px; overflow: hidden; background: linear-gradient(to right, #4caf50, #ffeb3b, #ff9800, #f44336, #e040fb);"></div>
+                <span style="font-size: 0.72rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted);">15 to 65+ dBZ</span>
               </div>
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--accent);">WEATHERNEXT DLR RATING</div>
-                <div id="dlrAmpacityVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--success);">1,114 A (443 MVA)</div>
+              <div style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted);">
+                <span><span style="display: inline-block; width: 12px; height: 3px; background: #f9ab00; vertical-align: middle; margin-right: 4px;"></span>500kV Backbone</span>
+                <span><span style="display: inline-block; width: 12px; height: 2px; background: #00e5ff; vertical-align: middle; margin-right: 4px;"></span>275kV Corridor</span>
+                <span><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffd600; vertical-align: middle; margin-right: 4px;"></span>Lightning Strike</span>
               </div>
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px; text-align: center;">
-                <div style="font-size: 0.75rem; color: var(--text-muted);">UNLOCKED CAPACITY</div>
-                <div id="dlrHeadroomVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent);">+23.8% Headroom</div>
+            </div>
+          </div>
+
+          <!-- Microclimate Telemetry Controls & Dynamic Line Rating Visualizer -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Selected Node Context Card -->
+            <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                <div>
+                  <div id="wxSelectedName" style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-primary);">
+                    Klang Valley / Selangor (500kV Supergrid Hub)
+                  </div>
+                  <div id="wxSelectedCorridor" style="font-size: 0.78rem; font-family: 'Roboto Mono', monospace; color: var(--accent); margin-top: 2px;">
+                    500kV Bukit Badong - Rawang - Klang West Corridor
+                  </div>
+                </div>
+                <span id="wxSelectedVoltageBadge" style="background: var(--primary-light); color: var(--accent); border-radius: 12px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; font-family: 'Roboto Mono', monospace;">
+                  500 kV
+                </span>
               </div>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 0.78rem; margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
+                <div><span style="color: var(--text-muted);">Conductor Spec:</span> <strong id="wxConductorType">Quad-bundle ACSR Zebra</strong></div>
+                <div><span style="color: var(--text-muted);">Grid System:</span> <strong id="wxGridOperator">TNB Peninsular Grid</strong></div>
+              </div>
+            </div>
+
+            <!-- Microclimate Parameter Sliders -->
+            <div class="slider-group" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px;">
+              <div class="slider-item">
+                <div class="slider-label-row">
+                  <span>Direct Normal / Global Irradiance (GHI)</span>
+                  <span class="slider-val" id="valDni">920 W/m²</span>
+                </div>
+                <input type="range" id="inputDni" min="0" max="1150" value="920" oninput="updateWeatherNextSim()">
+              </div>
+
+              <div class="slider-item">
+                <div class="slider-label-row">
+                  <span>10m Monsoonal Crosswind Speed</span>
+                  <span class="slider-val" id="valWindSpeed">5.2 m/s</span>
+                </div>
+                <input type="range" id="inputWindSpeed" min="0.2" max="28" step="0.2" value="5.2" oninput="updateWeatherNextSim()">
+              </div>
+
+              <div class="slider-item">
+                <div class="slider-label-row">
+                  <span>Wind Incident Angle (φ)</span>
+                  <span class="slider-val" id="valWindAngle">68° (Perpendicular Crosswind)</span>
+                </div>
+                <input type="range" id="inputWindAngle" min="0" max="90" value="68" oninput="updateWeatherNextSim()">
+              </div>
+
+              <div class="slider-item">
+                <div class="slider-label-row">
+                  <span>Equatorial Ambient Temperature</span>
+                  <span class="slider-val" id="valAmbTemp">31.5°C</span>
+                </div>
+                <input type="range" id="inputAmbTemp" min="15" max="45" step="0.5" value="31.5" oninput="updateWeatherNextSim()">
+              </div>
+
+              <div class="slider-item">
+                <div class="slider-label-row">
+                  <span>Convective Squall Probability</span>
+                  <span class="slider-val" id="valStormProb">65% (Sumatra Squall Warning)</span>
+                </div>
+                <input type="range" id="inputStormProb" min="0" max="100" value="65" oninput="updateWeatherNextSim()">
+              </div>
+            </div>
+
+            <!-- Dynamic SVG Conductor Catenary Sag & Tower Visualizer -->
+            <div class="visual-stage" style="min-height: 220px; padding: 16px;">
+              <svg id="dlrSvg" width="100%" height="160" viewBox="0 0 500 160" style="overflow: visible;">
+                <defs>
+                  <linearGradient id="conductorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#90caf9" />
+                    <stop offset="50%" stop-color="#ffffff" />
+                    <stop offset="100%" stop-color="#90caf9" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Ground Clearance Baseline (12.0m statutory minimum) -->
+                <line x1="40" y1="145" x2="460" y2="145" stroke="#4a5568" stroke-width="1.5" stroke-dasharray="4 4" />
+                <text x="250" y="156" text-anchor="middle" fill="#718096" font-size="9" font-family="'Roboto Mono', monospace">Statutory Minimum Ground Clearance: 12.0m</text>
+
+                <!-- 500kV Lattice Transmission Towers -->
+                <path d="M 40 145 L 70 20 L 100 145 M 55 75 L 85 75 M 50 110 L 90 110" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
+                <path d="M 400 145 L 430 20 L 460 145 M 415 75 L 445 75 M 410 110 L 450 110" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
+
+                <!-- Dynamic Catenary Conductor Line -->
+                <path id="conductorLine" d="M 70 50 Q 250 88 430 50" stroke="url(#conductorGrad)" stroke-width="4.5" fill="none" filter="url(#glow)" />
+
+                <!-- Animated Wind Vectors -->
+                <g id="windVectorsGroup" opacity="0.85">
+                  <path d="M 120 105 L 170 105 M 160 100 L 170 105 L 160 110" stroke="#8ab4f8" stroke-width="2" />
+                  <path d="M 220 115 L 270 115 M 260 110 L 270 115 L 260 120" stroke="#8ab4f8" stroke-width="2" />
+                  <path d="M 320 105 L 370 105 M 360 100 L 370 105 L 360 110" stroke="#8ab4f8" stroke-width="2" />
+                </g>
+
+                <!-- Catenary Sag Callout -->
+                <text id="txtCatenaryClearance" x="250" y="76" text-anchor="middle" fill="#4caf50" font-size="11" font-family="'Roboto Mono', monospace" font-weight="700">
+                  Clearance: 14.8m (Safe)
+                </text>
+              </svg>
+
+              <!-- Real-Time Ampacity Metrics Output -->
+              <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">STATIC BOOK RATING</div>
+                  <div id="dlrStaticRatingVal" style="font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);">1,400 A (1,212 MVA)</div>
+                </div>
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--accent);">WEATHERNEXT DLR</div>
+                  <div id="dlrAmpacityVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--success);">1,732 A (1,500 MVA)</div>
+                </div>
+                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">UNLOCKED HEADROOM</div>
+                  <div id="dlrHeadroomVal" style="font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--accent);">+23.7% (+288 MVA)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEATHERNEXT AUTONOMOUS SUBAGENTS FLEET CONSOLE -->
+        <div class="wx-forecast-card" style="margin-top: 24px; margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+            <div>
+              <div style="font-family: 'Google Sans', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+                <span>🤖</span> WeatherNext Autonomous Subagents Swarm Console (ADK Orchestrated)
+              </div>
+              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
+                Directly orchestrates the 4 specialized ADK subagents ingesting Google DeepMind WeatherNext NWP fields, computing IEEE 738 dynamic line rating, and feeding BigQuery GIS telemetry.
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span class="horizon-tag" id="wxSwarmStatusBadge" style="background: rgba(13, 144, 79, 0.15); color: var(--success);">
+                ALL 4 SUBAGENTS SYNCHRONIZED
+              </span>
+              <button class="btn-sim" id="btnRunWxSwarm" onclick="runWeatherNextSubagentSwarm()" style="padding: 8px 18px; font-size: 0.84rem;">
+                <span id="btnRunWxSwarmIcon">⚡</span> Run WeatherNext Subagent Swarm
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 WeatherNext Autonomous Subagents Grid -->
+          <div class="wx-subagents-grid">
+            <!-- Subagent 1: Storm Tracker SubAgent -->
+            <div class="wx-subagent-card" id="cardSubStormTracker">
+              <div class="wx-subagent-top">
+                <div>
+                  <div class="wx-subagent-name">Convective Storm Tracker</div>
+                  <div class="wx-subagent-persona">sub_weathernext_storm_tracker</div>
+                </div>
+                <span class="badge" id="badgeSubStorm" style="background: rgba(224, 64, 251, 0.15); color: #e040fb;">MONITORING</span>
+              </div>
+              <div style="font-size: 0.74rem; color: var(--text-muted);">
+                Persona: <strong>Grid Operations Dispatcher</strong>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Active Cells Tracked:</span>
+                <span class="wx-stat-val" id="subStormCells">3 cells</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Peak Reflectivity:</span>
+                <span class="wx-stat-val" id="subStormDbz" style="color: #f44336;">58.4 dBZ</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Lightning Strike Rate:</span>
+                <span class="wx-stat-val" id="subStormLightning" style="color: #ffd600;">28 /min</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Substation ETA:</span>
+                <span class="wx-stat-val" id="subStormEta">22 mins</span>
+              </div>
+              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
+                Advisory: <span id="subStormAdvisory">Sumatra Squall Line moving eastward across Strait of Malacca</span>
+              </div>
+            </div>
+
+            <!-- Subagent 2: Atmospheric Forecast Consumer SubAgent -->
+            <div class="wx-subagent-card" id="cardSubForecastConsumer">
+              <div class="wx-subagent-top">
+                <div>
+                  <div class="wx-subagent-name">Atmospheric Forecast Consumer</div>
+                  <div class="wx-subagent-persona">sub_weathernext_forecast_consumer</div>
+                </div>
+                <span class="badge" id="badgeSubConsumer" style="background: rgba(13, 144, 79, 0.15); color: var(--success);">COMMITTED</span>
+              </div>
+              <div style="font-size: 0.74rem; color: var(--text-muted);">
+                Persona: <strong>Grid Analytics Data Scientist</strong>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Spatial Resolution:</span>
+                <span class="wx-stat-val" id="subConsumerRes">0.08° (~9km)</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">BigQuery Table:</span>
+                <span class="wx-stat-val" style="font-size: 0.7rem;">weathernext_spatial_telemetry</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Ingested GHI:</span>
+                <span class="wx-stat-val" id="subConsumerGhi">920 W/m²</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Ambient Temp:</span>
+                <span class="wx-stat-val" id="subConsumerTemp">31.5°C</span>
+              </div>
+              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
+                Pipeline: <span id="subConsumerPipeline">9 Malaysian grid nodes committed to BQ GIS streaming table</span>
+              </div>
+            </div>
+
+            <!-- Subagent 3: DER Generation Predictor SubAgent -->
+            <div class="wx-subagent-card" id="cardSubDerPredictor">
+              <div class="wx-subagent-top">
+                <div>
+                  <div class="wx-subagent-name">DER Generation Predictor</div>
+                  <div class="wx-subagent-persona">sub_weathernext_der_predictor</div>
+                </div>
+                <span class="badge" id="badgeSubDer" style="background: rgba(249, 171, 0, 0.15); color: var(--warning);">ACTIVE</span>
+              </div>
+              <div style="font-size: 0.74rem; color: var(--text-muted);">
+                Persona: <strong>DERMS &amp; VPP Manager</strong>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Monitored LSS Hub:</span>
+                <span class="wx-stat-val" id="subDerHub">Gurun LSS 100MW</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Predicted PV Yield:</span>
+                <span class="wx-stat-val" id="subDerOutput" style="color: var(--success);">88.4 MW</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Capacity Factor:</span>
+                <span class="wx-stat-val" id="subDerCapFactor">88.4%</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Curtailment Risk:</span>
+                <span class="wx-stat-val" id="subDerRisk" style="color: var(--success);">LOW (Clean Dispatch)</span>
+              </div>
+              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
+                Thermal Derating: <span id="subDerDerating">-2.6% (Cell Temp 51.5°C)</span>
+              </div>
+            </div>
+
+            <!-- Subagent 4: Dynamic Line Rating Solver SubAgent -->
+            <div class="wx-subagent-card" id="cardSubDlrSolver">
+              <div class="wx-subagent-top">
+                <div>
+                  <div class="wx-subagent-name">Dynamic Line Rating Solver</div>
+                  <div class="wx-subagent-persona">sub_dynamic_line_rating_solver</div>
+                </div>
+                <span class="badge" id="badgeSubDlr" style="background: rgba(26, 115, 232, 0.15); color: var(--accent);">SOLVED</span>
+              </div>
+              <div style="font-size: 0.74rem; color: var(--text-muted);">
+                Persona: <strong>Asset Reliability Engineer</strong>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Monitored Span:</span>
+                <span class="wx-stat-val" id="subDlrSpan">500kV Bukit Badong</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Crosswind Cooling:</span>
+                <span class="wx-stat-val" id="subDlrCrosswind">4.8 m/s (Turbulent)</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Headroom Unlocked:</span>
+                <span class="wx-stat-val" id="subDlrHeadroom" style="color: var(--success);">+23.7% (+288 MVA)</span>
+              </div>
+              <div class="wx-stat-row">
+                <span class="wx-stat-label">Catenary Margin:</span>
+                <span class="wx-stat-val" id="subDlrClearance" style="color: var(--success);">14.8m (Safe &gt; 12.0m)</span>
+              </div>
+              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
+                Physics Engine: <span id="subDlrEngine">IEEE 738 Convective Heat Balance</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Subagent Event Stream Log -->
+          <div style="margin-top: 14px;">
+            <div style="font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between;">
+              <span>ADK SUBAGENT LIVE SYNCHRONIZATION STREAM:</span>
+              <span id="wxLogLiveIndicator" style="color: var(--success);">● LIVE SYNCHRONIZED</span>
+            </div>
+            <div class="wx-log-box" id="wxSubagentLogBox">
+              <div><span style="color: #64748b;">[17:00:01 MYT]</span> <span style="color: #a78bfa;">[sub_weathernext_storm_tracker]</span> Ingested WeatherNext 0.08° radar field: 3 convective storm cells tracked across Malaysia.</div>
+              <div><span style="color: #64748b;">[17:00:02 MYT]</span> <span style="color: #f472b6;">[sub_weathernext_storm_tracker]</span> Convective cell SC-01 (58.4 dBZ, 28 lightning strikes/min) moving 082° at 38 km/h towards Klang Valley (ETA 22 min).</div>
+              <div><span style="color: #64748b;">[17:00:03 MYT]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Committed 9-node Malaysian spatial mesh to BigQuery dataset `utilities_grid_optimization.weathernext_spatial_telemetry`.</div>
+              <div><span style="color: #64748b;">[17:00:04 MYT]</span> <span style="color: #fbbf24;">[sub_weathernext_der_predictor]</span> Gurun LSS 100MW operating at 88.4 MW (solar GHI 920 W/m² at 31.5°C, low curtailment risk).</div>
+              <div><span style="color: #64748b;">[17:00:05 MYT]</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> IEEE 738 steady-state solver converged: 500kV Bukit Badong corridor dynamic ampacity 1,732 A (+23.7% headroom unlocked).</div>
             </div>
           </div>
         </div>
@@ -2531,7 +3287,214 @@
       renderWorkflowSteps();
     }
 
-    // WeatherNext Dynamic Line Rating Simulator
+    // ==========================================
+    // WEATHERNEXT MALAYSIA FORECAST & SUBAGENTS
+    // ==========================================
+    const MALAYSIA_GRID_DATA = {
+      klang_valley: {
+        name: "Klang Valley / Selangor (500kV Supergrid Hub)",
+        corridor: "500kV Bukit Badong - Rawang - Klang West Corridor",
+        voltageKv: 500,
+        voltageBadge: "500 kV",
+        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1400,
+        mvaFactor: 0.866, // sqrt(3) * 500 / 1000 = 0.866
+        dni: 920,
+        windSpeed: 5.2,
+        windAngle: 68,
+        temp: 31.5,
+        stormProb: 65,
+        cellReflectivity: 58.4,
+        lightningRate: 28,
+        etaMin: 22,
+        lssHub: "Kapar Solar Hybrid (50 MWp)",
+        lssCapMw: 50,
+        lssYieldMw: 42.1
+      },
+      penang: {
+        name: "Penang / Bayan Lepas (275kV High-Tech Corridor)",
+        corridor: "275kV Bukit Tengah - Bayan Lepas Submarine Cable Interconnect",
+        voltageKv: 275,
+        voltageBadge: "275 kV",
+        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1100,
+        mvaFactor: 0.476, // sqrt(3) * 275 / 1000 = 0.476
+        dni: 890,
+        windSpeed: 6.4,
+        windAngle: 75,
+        temp: 30.2,
+        stormProb: 35,
+        cellReflectivity: 38.2,
+        lightningRate: 12,
+        etaMin: 45,
+        lssHub: "Batu Kawan Rooftop DER Array (30 MWp)",
+        lssCapMw: 30,
+        lssYieldMw: 25.8
+      },
+      gurun_kedah: {
+        name: "Gurun & Chuping (275kV LSS Solar Hub)",
+        corridor: "275kV Gurun - Alor Setar - Chuping Renewable Corridor",
+        voltageKv: 275,
+        voltageBadge: "275 kV",
+        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1050,
+        mvaFactor: 0.476,
+        dni: 985,
+        windSpeed: 3.8,
+        windAngle: 45,
+        temp: 33.8,
+        stormProb: 20,
+        cellReflectivity: 24.5,
+        lightningRate: 4,
+        etaMin: 90,
+        lssHub: "Gurun LSS Phase 1-3 (100 MWp)",
+        lssCapMw: 100,
+        lssYieldMw: 88.4
+      },
+      manjung_perak: {
+        name: "Manjung / Perak (500kV Coastal Generation Node)",
+        corridor: "500kV Janamanjung - Ayer Tawar Bulk Evacuation Corridor",
+        voltageKv: 500,
+        voltageBadge: "500 kV",
+        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1450,
+        mvaFactor: 0.866,
+        dni: 870,
+        windSpeed: 7.2,
+        windAngle: 82,
+        temp: 29.8,
+        stormProb: 40,
+        cellReflectivity: 41.0,
+        lightningRate: 16,
+        etaMin: 35,
+        lssHub: "Bidor LSS Solar (40 MWp)",
+        lssCapMw: 40,
+        lssYieldMw: 34.2
+      },
+      pengerang_johor: {
+        name: "Pengerang & Pasir Gudang (500kV Southern Node & Singapore Link)",
+        corridor: "500kV Yong Peng - Lenggeng - Singapore SP Interconnector",
+        voltageKv: 500,
+        voltageBadge: "500 kV",
+        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1400,
+        mvaFactor: 0.866,
+        dni: 910,
+        windSpeed: 5.6,
+        windAngle: 62,
+        temp: 31.0,
+        stormProb: 50,
+        cellReflectivity: 46.5,
+        lightningRate: 20,
+        etaMin: 28,
+        lssHub: "Pasir Gudang Industrial Solar (60 MWp)",
+        lssCapMw: 60,
+        lssYieldMw: 51.6
+      },
+      paka_terengganu: {
+        name: "Paka & Kenyir (275kV Hydro & CCGT Node)",
+        corridor: "275kV Kenyir Hydro - Paka CCGT East Coast Transmission Ring",
+        voltageKv: 275,
+        voltageBadge: "275 kV",
+        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
+        operator: "TNB Peninsular Grid",
+        baseAmpacity: 1100,
+        mvaFactor: 0.476,
+        dni: 840,
+        windSpeed: 6.8,
+        windAngle: 70,
+        temp: 29.5,
+        stormProb: 55,
+        cellReflectivity: 49.1,
+        lightningRate: 14,
+        etaMin: 18,
+        lssHub: "Kenyir Floating Solar PV (50 MWp)",
+        lssCapMw: 50,
+        lssYieldMw: 39.8
+      },
+      bakun_sarawak: {
+        name: "Bakun Hydro Terminal (500kV Hydro Complex, Sarawak)",
+        corridor: "500kV Bakun - Murum - Similajau Backbone Trans-Borneo Corridor",
+        voltageKv: 500,
+        voltageBadge: "500 kV",
+        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
+        operator: "Sarawak Energy Berhad (SEB)",
+        baseAmpacity: 1500,
+        mvaFactor: 0.866,
+        dni: 780,
+        windSpeed: 4.5,
+        windAngle: 55,
+        temp: 28.5,
+        stormProb: 60,
+        cellReflectivity: 44.8,
+        lightningRate: 19,
+        etaMin: 25,
+        lssHub: "Batang Ai Floating Solar (50 MWp)",
+        lssCapMw: 50,
+        lssYieldMw: 37.5
+      },
+      samalaju_sarawak: {
+        name: "Samalaju Industrial Terminal (275kV SCORE, Sarawak)",
+        corridor: "275kV Similajau - Samalaju Heavy Industrial Park Feeder",
+        voltageKv: 275,
+        voltageBadge: "275 kV",
+        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
+        operator: "Sarawak Energy Berhad (SEB)",
+        baseAmpacity: 1150,
+        mvaFactor: 0.476,
+        dni: 860,
+        windSpeed: 5.9,
+        windAngle: 72,
+        temp: 30.5,
+        stormProb: 45,
+        cellReflectivity: 39.5,
+        lightningRate: 11,
+        etaMin: 40,
+        lssHub: "SCORE Energy Park Solar (40 MWp)",
+        lssCapMw: 40,
+        lssYieldMw: 33.6
+      },
+      kota_kinabalu_sabah: {
+        name: "Kota Kinabalu (275kV West Coast Ring, SESB Sabah)",
+        corridor: "275kV Kolopis - Ranau - Segaliud East-West Transmission Grid",
+        voltageKv: 275,
+        voltageBadge: "275 kV",
+        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
+        operator: "Sabah Electricity Sdn Bhd (SESB)",
+        baseAmpacity: 1000,
+        mvaFactor: 0.476,
+        dni: 920,
+        windSpeed: 5.1,
+        windAngle: 65,
+        temp: 31.0,
+        stormProb: 38,
+        cellReflectivity: 36.2,
+        lightningRate: 9,
+        etaMin: 50,
+        lssHub: "Kimanis Solar Farm (50 MWp)",
+        lssCapMw: 50,
+        lssYieldMw: 43.5
+      }
+    };
+
+    let currentMalaysiaNodeKey = "klang_valley";
+    let currentForecastHorizon = 0;
+    let wxPlaybackTimer = null;
+    let wxPlaybackSpeedMs = 500;
+    let wxActiveLayers = {
+      radar: true,
+      solar: false,
+      wind: false,
+      lightning: true,
+      hydro: false
+    };
+
+    // WeatherNext Dynamic Line Rating & Microclimate Calculation
     function updateWeatherNextSim() {
       const dni = parseFloat(document.getElementById('inputDni').value);
       const windSpeed = parseFloat(document.getElementById('inputWindSpeed').value);
@@ -2542,31 +3505,341 @@
       document.getElementById('valDni').textContent = `${dni} W/m²`;
       document.getElementById('valWindSpeed').textContent = `${windSpeed.toFixed(1)} m/s`;
       document.getElementById('valWindAngle').textContent = `${windAngle}° (${windAngle > 45 ? 'Crosswind' : 'Parallel'})`;
-      document.getElementById('valAmbTemp').textContent = `${temp}°C`;
+      document.getElementById('valAmbTemp').textContent = `${temp.toFixed(1)}°C`;
       document.getElementById('valStormProb').textContent = `${stormProb}% (${stormProb > 50 ? 'High' : (stormProb > 25 ? 'Moderate' : 'Low')})`;
 
+      // IEEE 738 steady state conductor heat balance
+      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
       const sinAngle = Math.sin((windAngle * Math.PI) / 180);
-      const effWind = Math.max(0.5, windSpeed * Math.max(0.2, sinAngle));
-      const coolingFactor = Math.sqrt(effWind / 0.6) * Math.max(0.6, (90 - temp) / 60);
-      const solarFactor = 1.0 - (dni / 1100) * 0.12;
-      const baseAmpacity = 900;
+      const effWind = Math.max(0.6, windSpeed * Math.max(0.25, sinAngle));
+      const coolingFactor = Math.sqrt(effWind / 0.8) * Math.max(0.55, (95 - temp) / 60);
+      const solarFactor = 1.0 - (dni / 1150) * 0.10;
+      const baseAmpacity = node.baseAmpacity;
       const dynamicAmpacity = Math.round(baseAmpacity * coolingFactor * solarFactor);
       const headroomPct = (((dynamicAmpacity - baseAmpacity) / baseAmpacity) * 100).toFixed(1);
 
+      const staticMva = Math.round(baseAmpacity * node.mvaFactor);
+      const dynamicMva = Math.round(dynamicAmpacity * node.mvaFactor);
+      const deltaMva = dynamicMva - staticMva;
+
+      const staticRatingElem = document.getElementById('dlrStaticRatingVal');
       const ampElem = document.getElementById('dlrAmpacityVal');
       const headElem = document.getElementById('dlrHeadroomVal');
-      if (ampElem) ampElem.textContent = `${dynamicAmpacity.toLocaleString()} A (${Math.round(dynamicAmpacity * 0.398)} MVA)`;
+
+      if (staticRatingElem) staticRatingElem.textContent = `${baseAmpacity.toLocaleString()} A (${staticMva.toLocaleString()} MVA)`;
+      if (ampElem) ampElem.textContent = `${dynamicAmpacity.toLocaleString()} A (${dynamicMva.toLocaleString()} MVA)`;
       if (headElem) {
-        headElem.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% Headroom`;
+        headElem.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% (${deltaMva >= 0 ? '+' : ''}${deltaMva} MVA)`;
         headElem.style.color = headroomPct >= 0 ? 'var(--success)' : 'var(--danger)';
       }
 
-      // Conductor sag animation
-      const sagVal = 120 + (temp / 48) * 20 - (effWind / 25) * 15;
+      // Conductor catenary sag and ground clearance animation
+      const sagVal = 50 + (temp / 45) * 26 - (effWind / 28) * 18;
       const condPath = document.getElementById('conductorLine');
       if (condPath) {
-        condPath.setAttribute('d', `M 70 70 Q 250 ${Math.round(sagVal)} 430 70`);
+        condPath.setAttribute('d', `M 70 50 Q 250 ${Math.round(sagVal)} 430 50`);
       }
+
+      // Clearance margin in meters (Statutory minimum: 12.0m)
+      const clearanceM = (16.2 - ((sagVal - 50) / 26) * 3.8).toFixed(1);
+      const clearanceText = document.getElementById('txtCatenaryClearance');
+      if (clearanceText) {
+        const isSafe = parseFloat(clearanceM) >= 12.0;
+        clearanceText.textContent = `Clearance: ${clearanceM}m (${isSafe ? 'Safe' : 'ALERT: Thermal Sag Violation'})`;
+        clearanceText.setAttribute('fill', isSafe ? '#4caf50' : '#f44336');
+      }
+
+      // Live synchronize WeatherNext Autonomous Subagents Console cards
+      const subDlrCrosswind = document.getElementById('subDlrCrosswind');
+      const subDlrHeadroom = document.getElementById('subDlrHeadroom');
+      const subDlrClearance = document.getElementById('subDlrClearance');
+      const subConsumerGhi = document.getElementById('subConsumerGhi');
+      const subConsumerTemp = document.getElementById('subConsumerTemp');
+      const subDerOutput = document.getElementById('subDerOutput');
+      const subDerCapFactor = document.getElementById('subDerCapFactor');
+      const subDerDerating = document.getElementById('subDerDerating');
+
+      if (subDlrCrosswind) subDlrCrosswind.textContent = `${effWind.toFixed(1)} m/s (${effWind > 3 ? 'Turbulent' : 'Laminar'})`;
+      if (subDlrHeadroom) subDlrHeadroom.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% (${deltaMva >= 0 ? '+' : ''}${deltaMva} MVA)`;
+      if (subDlrClearance) subDlrClearance.textContent = `${clearanceM}m (${parseFloat(clearanceM) >= 12.0 ? 'Safe > 12.0m' : 'Warning < 12.0m'})`;
+      if (subConsumerGhi) subConsumerGhi.textContent = `${dni} W/m²`;
+      if (subConsumerTemp) subConsumerTemp.textContent = `${temp.toFixed(1)}°C`;
+
+      // DER PV Yield calculation with thermal derating
+      if (subDerOutput && subDerCapFactor && subDerDerating) {
+        const cellTemp = temp + (dni / 800) * 28;
+        const tempDeratePct = Math.max(0, (cellTemp - 25) * 0.4);
+        const pvYield = Math.max(0, ((dni / 1000) * (1 - tempDeratePct / 100) * node.lssCapMw)).toFixed(1);
+        const capFactor = ((pvYield / node.lssCapMw) * 100).toFixed(1);
+        subDerOutput.textContent = `${pvYield} MW`;
+        subDerCapFactor.textContent = `${capFactor}%`;
+        subDerDerating.textContent = `-${tempDeratePct.toFixed(1)}% (Cell Temp ${cellTemp.toFixed(1)}°C)`;
+      }
+    }
+
+    // Substation Selection on the Map or Dropdown
+    function selectMalaysiaSubstation(nodeKey) {
+      if (!MALAYSIA_GRID_DATA[nodeKey]) return;
+      currentMalaysiaNodeKey = nodeKey;
+      const node = MALAYSIA_GRID_DATA[nodeKey];
+
+      // Update active pin visual classes
+      document.querySelectorAll('#malaysiaSubstationPins .wx-pin').forEach(pin => {
+        pin.classList.remove('selected');
+      });
+      const activePin = document.getElementById(`pin-${nodeKey}`);
+      if (activePin) activePin.classList.add('selected');
+
+      // Update context box
+      const nameElem = document.getElementById('wxSelectedName');
+      const corrElem = document.getElementById('wxSelectedCorridor');
+      const voltElem = document.getElementById('wxSelectedVoltageBadge');
+      const condElem = document.getElementById('wxConductorType');
+      const opElem = document.getElementById('wxGridOperator');
+
+      if (nameElem) nameElem.textContent = node.name;
+      if (corrElem) corrElem.textContent = node.corridor;
+      if (voltElem) voltElem.textContent = node.voltageBadge;
+      if (condElem) condElem.textContent = node.conductor;
+      if (opElem) opElem.textContent = node.operator;
+
+      // Update Subagents telemetry headers
+      const subDlrSpan = document.getElementById('subDlrSpan');
+      const subDerHub = document.getElementById('subDerHub');
+      const subStormDbz = document.getElementById('subStormDbz');
+      const subStormLightning = document.getElementById('subStormLightning');
+      const subStormEta = document.getElementById('subStormEta');
+
+      if (subDlrSpan) subDlrSpan.textContent = node.corridor.split(" - ")[0];
+      if (subDerHub) subDerHub.textContent = node.lssHub;
+      if (subStormDbz) subStormDbz.textContent = `${node.cellReflectivity.toFixed(1)} dBZ`;
+      if (subStormLightning) subStormLightning.textContent = `${node.lightningRate} /min`;
+      if (subStormEta) subStormEta.textContent = `${node.etaMin} mins`;
+
+      // Update Microclimate sliders to node values
+      document.getElementById('inputDni').value = node.dni;
+      document.getElementById('inputWindSpeed').value = node.windSpeed;
+      document.getElementById('inputWindAngle').value = node.windAngle;
+      document.getElementById('inputAmbTemp').value = node.temp;
+      document.getElementById('inputStormProb').value = node.stormProb;
+
+      updateWeatherNextSim();
+    }
+
+    // Forecast Horizon Scrubber & Timeline Control
+    function setForecastHorizon(h, btnElem) {
+      currentForecastHorizon = parseInt(h, 10);
+      const scrubber = document.getElementById('wxTimelineScrubber');
+      if (scrubber) scrubber.value = currentForecastHorizon;
+      const label = document.getElementById('wxScrubberLabel');
+      if (label) label.textContent = `+${currentForecastHorizon}h`;
+
+      // Update active button state in presets
+      if (btnElem) {
+        document.querySelectorAll('#wxHorizonPresets .wx-pill-btn').forEach(btn => btn.classList.remove('active'));
+        btnElem.classList.add('active');
+      }
+
+      // Compute simulated MYT timestamp (Base: 2026-09-11 17:00:00 MYT)
+      const baseHour = 17;
+      const totalHour = baseHour + currentForecastHorizon;
+      const displayDay = 11 + Math.floor(totalHour / 24);
+      const displayHour = totalHour % 24;
+      const hourStr = String(displayHour).padStart(2, '0');
+      const timeStr = `2026-09-${displayDay} ${hourStr}:00:00 MYT (T+${currentForecastHorizon}h)`;
+
+      let monsoonPhase = "Inter-Monsoon Convection";
+      if (displayHour >= 22 || displayHour <= 6) {
+        monsoonPhase = "Sumatra Nocturnal Squall Surge";
+      } else if (displayHour >= 12 && displayHour <= 17) {
+        monsoonPhase = "Diurnal Solar Thermal Peak";
+      }
+
+      const readout = document.getElementById('wxTimeReadout');
+      if (readout) readout.textContent = `${timeStr} • ${monsoonPhase}`;
+
+      // Move convective squall cells dynamically along their forecast vectors
+      const cell1 = document.getElementById('radarCell1');
+      const cell2 = document.getElementById('radarCell2');
+      const cell3 = document.getElementById('radarCell3');
+
+      if (cell1) {
+        const xOffset = 130 + (currentForecastHorizon * 3.5);
+        const yOffset = 275 + (currentForecastHorizon * 0.8);
+        cell1.setAttribute('transform', `translate(${xOffset}, ${yOffset})`);
+      }
+      if (cell2) {
+        const xOffset = 265 - (currentForecastHorizon * 2.8);
+        const yOffset = 175 + (currentForecastHorizon * 1.2);
+        cell2.setAttribute('transform', `translate(${xOffset}, ${yOffset})`);
+      }
+      if (cell3) {
+        const xOffset = 695 - (currentForecastHorizon * 1.5);
+        const yOffset = 305 - (currentForecastHorizon * 2.2);
+        cell3.setAttribute('transform', `translate(${xOffset}, ${yOffset})`);
+      }
+
+      // Adjust solar GHI & storm probabilities according to forecast horizon
+      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
+      let horizonDni = node.dni;
+      let horizonTemp = node.temp;
+      if (displayHour < 7 || displayHour > 19) {
+        horizonDni = 0; // Night
+        horizonTemp = Math.max(24, node.temp - 4.5);
+      } else {
+        const solarCurve = Math.sin(((displayHour - 7) / 12) * Math.PI);
+        horizonDni = Math.round(node.dni * solarCurve);
+        horizonTemp = node.temp + (solarCurve * 2.5);
+      }
+
+      document.getElementById('inputDni').value = horizonDni;
+      document.getElementById('inputAmbTemp').value = horizonTemp.toFixed(1);
+      updateWeatherNextSim();
+    }
+
+    function onWxTimelineScrub(val) {
+      setForecastHorizon(val);
+      // Sync preset buttons
+      const horizonPresets = [0, 1, 3, 6, 12, 24];
+      const buttons = document.querySelectorAll('#wxHorizonPresets .wx-pill-btn');
+      buttons.forEach((btn, idx) => {
+        if (horizonPresets[idx] === parseInt(val, 10)) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+
+    function toggleWxPlayback() {
+      const playIcon = document.getElementById('btnWxPlayIcon');
+      const playText = document.getElementById('btnWxPlayText');
+
+      if (wxPlaybackTimer) {
+        clearInterval(wxPlaybackTimer);
+        wxPlaybackTimer = null;
+        if (playIcon) playIcon.textContent = "▶";
+        if (playText) playText.textContent = "Play Forecast Loop";
+      } else {
+        if (playIcon) playIcon.textContent = "⏸";
+        if (playText) playText.textContent = "Pause Forecast Loop";
+        wxPlaybackTimer = setInterval(() => {
+          let nextH = (currentForecastHorizon + 1) % 25;
+          setForecastHorizon(nextH);
+        }, wxPlaybackSpeedMs);
+      }
+    }
+
+    function changeWxSpeed(speed) {
+      wxPlaybackSpeedMs = parseInt(speed, 10);
+      if (wxPlaybackTimer) {
+        toggleWxPlayback();
+        toggleWxPlayback();
+      }
+    }
+
+    function toggleWeatherLayer(layerKey, btnElem) {
+      wxActiveLayers[layerKey] = !wxActiveLayers[layerKey];
+      const groupMap = {
+        radar: 'layerRadarGroup',
+        solar: 'layerSolarGroup',
+        wind: 'layerWindGroup',
+        lightning: 'layerLightningGroup',
+        hydro: 'layerHydroGroup'
+      };
+      const groupElem = document.getElementById(groupMap[layerKey]);
+      if (groupElem) {
+        groupElem.style.display = wxActiveLayers[layerKey] ? 'inline' : 'none';
+      }
+      if (btnElem) {
+        btnElem.classList.toggle('active', wxActiveLayers[layerKey]);
+      }
+    }
+
+    function zoomMalaysiaRegion(region, btnElem) {
+      const svg = document.getElementById('malaysiaMapSvg');
+      if (!svg) return;
+
+      document.querySelectorAll('#tab-weathernext .wx-toolbar-row .wx-btn-group:last-child .wx-pill-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      if (btnElem) btnElem.classList.add('active');
+
+      if (region === 'west') {
+        svg.setAttribute('viewBox', '60 50 240 380');
+      } else if (region === 'east') {
+        svg.setAttribute('viewBox', '500 100 420 330');
+      } else {
+        svg.setAttribute('viewBox', '0 0 950 480');
+      }
+    }
+
+    // WeatherNext Autonomous Subagents Swarm Trigger
+    function runWeatherNextSubagentSwarm() {
+      const btn = document.getElementById('btnRunWxSwarm');
+      const badge = document.getElementById('wxSwarmStatusBadge');
+      const logBox = document.getElementById('wxSubagentLogBox');
+      const cards = ['cardSubStormTracker', 'cardSubForecastConsumer', 'cardSubDerPredictor', 'cardSubDlrSolver'];
+
+      if (!btn) return;
+      btn.disabled = true;
+      document.getElementById('btnRunWxSwarmIcon').textContent = '⏳';
+      if (badge) {
+        badge.textContent = 'ORCHESTRATING ADK SUBAGENTS...';
+        badge.style.background = 'rgba(26, 115, 232, 0.2)';
+        badge.style.color = 'var(--accent)';
+      }
+
+      cards.forEach(cId => {
+        const el = document.getElementById(cId);
+        if (el) el.classList.add('running');
+      });
+
+      const now = new Date();
+      const timePrefix = `[${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} MYT]`;
+      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
+
+      setTimeout(() => {
+        if (logBox) {
+          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #a78bfa;">[sub_weathernext_storm_tracker]</span> Radar reflection scan executed for ${node.name}: Peak ${node.cellReflectivity.toFixed(1)} dBZ, ETA ${node.etaMin}m.</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+        }
+      }, 250);
+
+      setTimeout(() => {
+        if (logBox) {
+          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> WeatherNext spatial NWP grid ingested into \`utilities_grid_optimization.weathernext_spatial_telemetry\`.</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+        }
+      }, 550);
+
+      setTimeout(() => {
+        if (logBox) {
+          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #fbbf24;">[sub_weathernext_der_predictor]</span> ${node.lssHub} generation modeled: ${node.lssYieldMw} MW projected under current atmospheric cloud field.</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+        }
+      }, 850);
+
+      setTimeout(() => {
+        if (logBox) {
+          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> IEEE 738 dynamic thermal equation converged for ${node.corridor.split(" - ")[0]}.</div>`;
+          logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        cards.forEach(cId => {
+          const el = document.getElementById(cId);
+          if (el) el.classList.remove('running');
+        });
+
+        btn.disabled = false;
+        document.getElementById('btnRunWxSwarmIcon').textContent = '⚡';
+        if (badge) {
+          badge.textContent = 'ALL 4 SUBAGENTS SYNCHRONIZED';
+          badge.style.background = 'rgba(13, 144, 79, 0.15)';
+          badge.style.color = 'var(--success)';
+        }
+        updateWeatherNextSim();
+      }, 1150);
     }
 
     // Vertex AI Vizier Bayesian Volt-VAR Simulator

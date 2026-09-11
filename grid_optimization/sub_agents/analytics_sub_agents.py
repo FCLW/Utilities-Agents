@@ -14,12 +14,28 @@ class WeatherNextForecastConsumerSubAgent(BaseSubAgent):
         self.engine = engine or WeatherNextEngine()
 
     def execute(self, inputs: Dict[str, Any]) -> SubAgentOutput:
-        region = inputs.get("region", "Grid-Zone-Central")
-        fc = self.engine.get_forecast(region)
+        region = inputs.get("region") or inputs.get("substation") or inputs.get("substation_or_region") or "Klang Valley / Selangor (500kV Supergrid Hub)"
+        horizon = inputs.get("horizon_hours", 24)
+        fc = self.engine.get_forecast(region, horizon_hours=horizon)
         return SubAgentOutput(
             self.sub_agent_id, self.agent_type, "SUCCESS",
-            {"region": region, "ghi": fc.solar_ghi_wm2, "wind_10m": fc.wind_speed_10m_ms, "temp_c": fc.ambient_temp_c},
-            f"WeatherNext AI ingestion complete for {region}: GHI={fc.solar_ghi_wm2} W/m2, Wind={fc.wind_speed_10m_ms} m/s."
+            {
+                "region": region,
+                "region_resolved": fc.substation_or_region,
+                "ghi": fc.solar_ghi_wm2,
+                "ghi_wm2": fc.solar_ghi_wm2,
+                "dni_wm2": fc.solar_dni_wm2,
+                "wind_10m": fc.wind_speed_10m_ms,
+                "wind_10m_ms": fc.wind_speed_10m_ms,
+                "wind_100m_ms": fc.wind_speed_100m_ms,
+                "temp_c": fc.ambient_temp_c,
+                "ambient_temp_c": fc.ambient_temp_c,
+                "relative_humidity_pct": fc.relative_humidity_pct,
+                "spatial_resolution": "0.08° (~9km ECMWF/WeatherNext)",
+                "bigquery_table": "utilities_grid_optimization.weathernext_spatial_telemetry",
+                "ingestion_status": "COMMITTED"
+            },
+            f"WeatherNext AI spatial ingestion complete for {fc.substation_or_region}: GHI={fc.solar_ghi_wm2} W/m2, Ambient Temp={fc.ambient_temp_c}°C, Wind={fc.wind_speed_10m_ms} m/s."
         )
 
 class ShortTermLoadForecasterSubAgent(BaseSubAgent):

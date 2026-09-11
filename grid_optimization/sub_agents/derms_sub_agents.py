@@ -50,12 +50,31 @@ class WeatherNextDerPredictorSubAgent(BaseSubAgent):
         self.engine = engine or WeatherNextEngine()
 
     def execute(self, inputs: Dict[str, Any]) -> SubAgentOutput:
-        sub = inputs.get("substation", "Sub-Metro")
-        fc = self.engine.get_forecast(sub)
+        sub = inputs.get("substation") or inputs.get("substation_or_region") or inputs.get("region") or "Gurun & Chuping (275kV LSS Solar Hub)"
+        horizon = inputs.get("horizon_hours", 24)
+        installed_capacity_mw = inputs.get("installed_capacity_mw", 100.0)
+        fc = self.engine.get_forecast(sub, horizon_hours=horizon)
+        
+        # Solar PV output modeling factoring in GHI, ambient cell temperature degradation, and cloud attenuation
+        temp_derating = max(0.85, 1.0 - (fc.ambient_temp_c - 25.0) * 0.004)
+        irradiance_ratio = min(1.0, fc.solar_ghi_wm2 / 1000.0)
+        pv_output_mw = round(installed_capacity_mw * irradiance_ratio * temp_derating, 2)
+        curtailment_risk = "HIGH" if (pv_output_mw > 85.0 and fc.cloud_cover_pct < 15.0) else "LOW"
+
         return SubAgentOutput(
             self.sub_agent_id, self.agent_type, "SUCCESS",
-            {"substation": sub, "solar_ghi_wm2": fc.solar_ghi_wm2, "pv_output_mw": round(fc.solar_ghi_wm2 * 0.048, 2)},
-            f"WeatherNext irradiance ({fc.solar_ghi_wm2} W/m2) models 48 MW PV capacity at peak noon."
+            {
+                "substation": sub,
+                "region_resolved": fc.substation_or_region,
+                "solar_ghi_wm2": fc.solar_ghi_wm2,
+                "solar_dni_wm2": fc.solar_dni_wm2,
+                "ambient_temp_c": fc.ambient_temp_c,
+                "installed_capacity_mw": installed_capacity_mw,
+                "pv_output_mw": pv_output_mw,
+                "capacity_factor_pct": round((pv_output_mw / installed_capacity_mw) * 100.0, 1),
+                "curtailment_risk": curtailment_risk
+            },
+            f"WeatherNext irradiance ({fc.solar_ghi_wm2} W/m2 at {fc.ambient_temp_c}°C) predicts {pv_output_mw} MW generation from {installed_capacity_mw} MW LSS capacity at {fc.substation_or_region}."
         )
 
 class DemandResponseDispatcherSubAgent(BaseSubAgent):

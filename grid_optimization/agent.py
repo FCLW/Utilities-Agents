@@ -199,14 +199,48 @@ def run_advanced_optimization_engine(engine_name: str, parameters_json: str = "{
     try:
         engine_key = engine_name.lower().strip()
         if "weather" in engine_key:
-            substation = params.get("substation") or params.get("substation_or_region") or params.get("feeder_id") or "Substation-Metro"
+            substation = params.get("substation") or params.get("substation_or_region") or params.get("feeder_id") or "Klang Valley / Selangor (500kV Supergrid Hub)"
+            lat = params.get("lat")
+            lon = params.get("lon")
+            horizon = params.get("horizon_hours", 24)
             res = orchestrator.weathernext.get_forecast(
                 substation_or_region=substation,
-                lat=params.get("lat", 37.77),
-                lon=params.get("lon", -122.42),
-                horizon_hours=params.get("horizon_hours", 24),
+                lat=lat if lat is not None else 3.1390,
+                lon=lon if lon is not None else 101.6869,
+                horizon_hours=horizon,
             )
-            return {"status": "SUCCESS", "engine": "WeatherNext", "output": _to_serializable(res)}
+            subagents_data = {}
+            if params.get("include_subagents", True):
+                disp_persona = orchestrator.personas.get("grid_dispatcher_agent")
+                if disp_persona:
+                    st = disp_persona.sub_agents.get("weathernext_storm") or disp_persona.sub_agents.get("sub_weathernext_storm_tracker")
+                    if st:
+                        subagents_data["storm_tracker"] = _to_serializable(st.execute({"substation": substation, "horizon_hours": horizon}))
+                
+                ana_persona = orchestrator.personas.get("grid_analytics_data_scientist_agent")
+                if ana_persona:
+                    fc_sub = ana_persona.sub_agents.get("weathernext_consumer") or ana_persona.sub_agents.get("sub_weathernext_forecast_consumer")
+                    if fc_sub:
+                        subagents_data["forecast_consumer"] = _to_serializable(fc_sub.execute({"region": substation, "horizon_hours": horizon}))
+                
+                der_persona = orchestrator.personas.get("derms_manager_agent")
+                if der_persona:
+                    der_sub = der_persona.sub_agents.get("weathernext_der") or der_persona.sub_agents.get("sub_weathernext_der_predictor")
+                    if der_sub:
+                        subagents_data["der_predictor"] = _to_serializable(der_sub.execute({"substation": substation, "horizon_hours": horizon}))
+                
+                rel_persona = orchestrator.personas.get("asset_reliability_agent")
+                if rel_persona:
+                    dlr_sub = rel_persona.sub_agents.get("dlr_solver") or rel_persona.sub_agents.get("sub_dynamic_line_rating_solver")
+                    if dlr_sub:
+                        subagents_data["dlr_solver"] = _to_serializable(dlr_sub.execute({"substation": substation}))
+
+            return {
+                "status": "SUCCESS",
+                "engine": "WeatherNext",
+                "output": _to_serializable(res),
+                "subagents_telemetry": subagents_data
+            }
         elif "vizier" in engine_key or "bayesian" in engine_key:
             feeder_id = params.get("feeder_id", "FEEDER-WEST-01")
             res = orchestrator.vizier.optimize_volt_var_curves(feeder_id=feeder_id)
