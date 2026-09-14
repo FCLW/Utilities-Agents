@@ -45,3 +45,55 @@ def test_collaborative_workflows():
     # VPP Market Dispatch Workflow
     w6 = orchestrator.run_workflow("vpp_market_dispatch", vpp_id="VPP-METRO-01")
     assert w6["dispatched_capacity_mw"] > 0
+
+
+def test_fastapi_fleet_and_step_endpoints():
+    from fastapi.testclient import TestClient
+    from grid_optimization.fast_api_app import app
+
+    client = TestClient(app)
+
+    # Health check
+    res_health = client.get("/healthz")
+    assert res_health.status_code == 200
+    assert res_health.json()["status"] == "ok"
+
+    # Fleet endpoint
+    res_fleet = client.get("/api/fleet")
+    assert res_fleet.status_code == 200
+    assert res_fleet.json()["persona_count"] == 8
+
+    # Test all 6 workflows, all 4 steps each
+    workflows = ["flisr", "vvo", "pdm", "dlr", "hosting", "vpp"]
+    for wf in workflows:
+        for step_idx in range(4):
+            res_step = client.post(
+                "/api/workflow/step",
+                json={
+                    "workflow_key": wf,
+                    "step_index": step_idx,
+                    "parameters": {"feeder_id": "FEEDER-TEST-01", "voltage_pu": 0.96},
+                    "custom_prompt": "Verify voltage headroom and thermal rating"
+                }
+            )
+            assert res_step.status_code == 200
+            data = res_step.json()
+            assert data["status"] == "SUCCESS", f"Failed for {wf} step {step_idx}: {data}"
+            assert data["workflow_key"] == wf
+            assert data["step_index"] == step_idx
+            assert "persona_name" in data
+            assert len(data["tools_invoked"]) > 0
+
+    # Persona interaction endpoint
+    res_interact = client.post(
+        "/api/persona/interact",
+        json={
+            "persona_id": "grid_dispatcher_agent",
+            "task_name": "MONITOR_AND_DISPATCH",
+            "prompt": "Evaluate voltage sag on West Feeder",
+            "payload": {"feeder_id": "WEST-01"}
+        }
+    )
+    assert res_interact.status_code == 200
+    assert res_interact.json()["status"] == "SUCCESS"
+

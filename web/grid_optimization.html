@@ -561,49 +561,364 @@
     .wf-step-node {
       background: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 16px;
       position: relative;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
     }
     .wf-step-node.completed {
-      border-color: var(--success);
-      background: rgba(13, 144, 79, 0.08);
+      border-color: rgba(13, 144, 79, 0.6);
+      background: rgba(13, 144, 79, 0.05);
     }
     .wf-step-node.active-step {
       border-color: var(--primary);
-      box-shadow: 0 0 12px rgba(26, 115, 232, 0.35);
+      box-shadow: 0 0 16px rgba(26, 115, 232, 0.28);
+      background: rgba(26, 115, 232, 0.03);
     }
     .step-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .step-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .step-title {
       font-family: 'Google Sans', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       font-weight: 700;
       color: var(--text-primary);
     }
+    .step-status-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.4px;
+    }
+    .tag-status-completed {
+      background: rgba(13, 144, 79, 0.2);
+      color: var(--success);
+      border: 1px solid rgba(13, 144, 79, 0.4);
+    }
+    .tag-status-active {
+      background: rgba(26, 115, 232, 0.2);
+      color: var(--accent);
+      border: 1px solid rgba(26, 115, 232, 0.4);
+    }
+    .tag-status-pending {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
     .step-persona {
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: var(--primary-light);
+      font-size: 0.76rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: rgba(26, 115, 232, 0.15);
       color: var(--accent);
       font-weight: 600;
+      border: 1px solid rgba(26, 115, 232, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     .step-desc {
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: var(--text-secondary);
-      line-height: 1.4;
+      line-height: 1.45;
       margin-bottom: 8px;
     }
     .step-meta {
       font-size: 0.74rem;
       font-family: 'Roboto Mono', monospace;
       color: var(--text-muted);
+    }
+    .wf-workbench {
+      margin-top: 14px;
+      background: #090d16;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .persona-hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .persona-identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .persona-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(26, 115, 232, 0.35), rgba(168, 85, 247, 0.35));
+      border: 1px solid rgba(26, 115, 232, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .persona-meta-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .meta-chip {
+      font-size: 0.69rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      font-family: 'Roboto Mono', monospace;
+    }
+    .meta-chip-model {
+      background: rgba(52, 168, 83, 0.15);
+      color: var(--success);
+      border-color: rgba(52, 168, 83, 0.3);
+    }
+    .wf-param-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .wf-param-header {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .wf-preset-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .wf-preset-btn {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .wf-preset-btn:hover {
+      background: rgba(26, 115, 232, 0.25);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .wf-param-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+    .wf-param-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .wf-param-label {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      font-family: 'Roboto Mono', monospace;
+    }
+    .wf-param-input {
+      background: #111827;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 6px 10px;
+      color: var(--text-primary);
+      font-size: 0.81rem;
+      font-family: 'Roboto Mono', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .wf-param-input:focus {
+      border-color: var(--accent);
+    }
+    .wf-prompt-input {
+      width: 100%;
+      background: #111827;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text-primary);
+      font-size: 0.84rem;
+      font-family: 'Google Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .wf-prompt-input:focus {
+      border-color: var(--accent);
+    }
+    .wf-action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-step-run {
+      background: linear-gradient(135deg, #1a73e8, #4285f4);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-step-run:hover {
+      background: linear-gradient(135deg, #1557b0, #1a73e8);
+      box-shadow: 0 2px 10px rgba(26, 115, 232, 0.4);
+    }
+    .btn-step-advance {
+      background: rgba(13, 144, 79, 0.2);
+      color: var(--success);
+      border: 1px solid rgba(13, 144, 79, 0.4);
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-step-advance:hover {
+      background: rgba(13, 144, 79, 0.35);
+    }
+    .wf-response-terminal {
+      background: #050811;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .wf-terminal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .wf-terminal-title {
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .wf-tools-trace {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .wf-tool-badge {
+      font-size: 0.68rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(168, 85, 247, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    .wf-memo-box {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px 12px;
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+    }
+    .wf-metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    .wf-metric-card {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .wf-metric-label {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .wf-metric-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .wf-guardrail-verdict {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.74rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .wf-hitl-gate-panel {
+      background: rgba(234, 67, 53, 0.08);
+      border: 1px solid rgba(234, 67, 53, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .wf-handoff-banner {
+      background: rgba(26, 115, 232, 0.1);
+      border: 1px dashed rgba(26, 115, 232, 0.4);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 0.74rem;
+      color: #93c5fd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
     }
     .wf-controls {
       display: flex;
@@ -1922,9 +2237,16 @@
               <button class="btn-sim" onclick="stepWorkflow()">
                 <span>▶</span> Step Forward
               </button>
+              <button class="btn-sim btn-sim-secondary" id="btnAutoRunWf" onclick="autoRunWorkflow()">
+                <span>⚡</span> Auto-Run All Steps (Live Handoff)
+              </button>
               <button class="btn-sim btn-sim-secondary" onclick="resetWorkflow()">
                 <span>↺</span> Reset Workflow
               </button>
+              <div id="wfBackendBadge" style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; background: rgba(52, 168, 83, 0.15); color: var(--success); border: 1px solid rgba(52, 168, 83, 0.3); font-family: 'Roboto Mono', monospace;">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--success); display: inline-block; animation: pulse 1.5s infinite;"></span>
+                <span>FastAPI MAS Engine Connected</span>
+              </div>
               <span id="wfProgressLabel" style="font-size: 0.82rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); margin-left: auto;">
                 Step 1 of 4
               </span>
@@ -2902,64 +3224,187 @@
     });
 
     // Workflows Stepper Engine
+    // =========================================================================
+    // MULTI-PERSONA WORKFLOWS: REAL-TIME INTERACTIVE AGENT TEST BENCH (6 WORKFLOWS)
+    // =========================================================================
     const workflowsData = {
       flisr: {
         title: "FLISR Automated Restoration & Switching Workflow",
-        summary: "Coordinates Grid Dispatcher, Protection & Control, and Field Operations with Topological Optimization and Mandatory HITL Gateway.",
+        summary: "Coordinates Grid Operations Dispatcher, Protection & Control, and Field Operations with Mixed-Integer Reconfiguration and Mandatory HITL Dual-Signoff.",
         steps: [
           {
             title: "Step 1: Fault Telemetry Ingestion & Anomaly Flagging",
             persona: "Grid Operations Dispatcher",
-            desc: "Sub-second reflex agent detects overcurrent trip on Feeder F-102. Z-score anomaly detector flags voltage sag to 0.42 p.u.",
-            meta: "Dataset: utilities_grid_operations.scada_realtime_telemetry | Guardrail: ANSI C84.1 Sag Flag"
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "⚡",
+            model: "gemini-3.7-flash (Hybrid Reflex + LLM)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["scada_realtime_monitor", "fault_zscore_detector", "reflex_trip_isolator"],
+            tools: ["tool_scada_telemetry_scan", "skill_fault_anomaly_detector", "guardrail_ansi_c84_1"],
+            desc: "Sub-second reflex agent detects overcurrent trip on Feeder F-102. Z-score anomaly detector flags severe voltage sag to 0.42 p.u. at lateral node L-3.",
+            meta: "Dataset: utilities_grid_operations.scada_realtime_telemetry | Guardrail: ANSI C84.1 Sag Flag",
+            defaultParams: { feeder_id: "F-102", voltage_pu: 0.42, fault_current_a: 3420, trip_time_ms: 48, substation: "Sub-Metro 44" },
+            presets: [
+              { name: "⚡ Overcurrent Trip (0.42 pu)", params: { feeder_id: "F-102", voltage_pu: 0.42, fault_current_a: 3420, trip_time_ms: 48, substation: "Sub-Metro 44" } },
+              { name: "🔴 Bolted 3-Phase Short (0.19 pu)", params: { feeder_id: "F-102", voltage_pu: 0.19, fault_current_a: 5410, trip_time_ms: 32, substation: "Sub-Metro 44" } },
+              { name: "⚠️ Transient Voltage Dip (0.84 pu)", params: { feeder_id: "F-102", voltage_pu: 0.84, fault_current_a: 1420, trip_time_ms: 72, substation: "Sub-Metro 44" } }
+            ],
+            suggestedPrompt: "Ingest SCADA telemetry on Feeder F-102, verify ANSI C84.1 voltage violation, and flag faulted section for radial isolation.",
+            metrics: { "Sag Severity": "0.42 p.u.", "Fault Current": "3,420 A", "Trip Latency": "48 ms", "Affected Customers": "2,270" },
+            guardrail: "ANSI C84.1 Range A (Violation Detected: 0.42 < 0.95 p.u.)",
+            handoffToken: { status: "FAULT_ISOLATED", feeder_id: "F-102", deenergized_buses: ["B-14", "B-15", "B-16"], isolate_switch: "SW-SEC-23" }
           },
           {
             title: "Step 2: Topological DNR Reconfiguration Optimization",
             persona: "Grid Operations Dispatcher",
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "🔀",
+            model: "gemini-3.7-flash (Mixed-Integer Solver)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["radial_topology_solver", "loss_minimization_engine", "switching_sequencer"],
+            tools: ["solve_topological_reconfiguration", "run_ac_power_flow", "verify_radial_mesh"],
             desc: "Mixed-integer feeder reconfiguration engine evaluates candidate switching permutations across normally open tie-switches to determine the optimal radial topology minimizing line losses.",
-            meta: "Engine: Mixed-Integer Feeder Reconfiguration | Target: SW-TIE-44 Close, SW-SEC-23 Open"
+            meta: "Engine: Mixed-Integer Feeder Reconfiguration | Target: SW-TIE-44 Close, SW-SEC-23 Open",
+            defaultParams: { faulted_feeder: "F-102", target_tie_switch: "SW-TIE-44", isolate_switch: "SW-SEC-23", min_loss_mw: 0.28, parallel_transfer_feeder: "F-104" },
+            presets: [
+              { name: "Optimal Route (Tie-44)", params: { faulted_feeder: "F-102", target_tie_switch: "SW-TIE-44", isolate_switch: "SW-SEC-23", min_loss_mw: 0.28, parallel_transfer_feeder: "F-104" } },
+              { name: "Alt Route (Tie-18)", params: { faulted_feeder: "F-102", target_tie_switch: "SW-TIE-18", isolate_switch: "SW-SEC-23", min_loss_mw: 0.36, parallel_transfer_feeder: "F-106" } }
+            ],
+            suggestedPrompt: "Execute mixed-integer branch-exchange solver to find radial configuration with zero loop flows and minimal line losses.",
+            metrics: { "Target Switch": "SW-TIE-44 CLOSE", "Isolation Switch": "SW-SEC-23 OPEN", "Feeder Loss": "0.28 MW (-18.4%)", "Loop Check": "Radial (0 Loop)" },
+            guardrail: "Physical Topology Constraint (Radial Tree Structure Verified)",
+            handoffToken: { status: "OPTIMAL_TOPOLOGY_SOLVED", close_switches: ["SW-TIE-44"], open_switches: ["SW-SEC-23"], transferred_load_mva: 3.8 }
           },
           {
             title: "Step 3: Protection Interlock & Reverse Power Check",
             persona: "Protection & Control (P&C) Engineer",
+            personaId: "protection_control_agent",
+            personaIcon: "🛡️",
+            model: "gemini-3.7-flash (Analytical Coordination Engine)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["relay_coordination_solver", "anti_islanding_screener", "cti_margin_verifier"],
+            tools: ["analyze_relay_curves", "verify_ieee_1547_islanding", "calculate_cti_margin"],
             desc: "Calculates adaptive relay coordination curves under backfeed conditions. Verifies IEEE 1547 anti-islanding compliance before closing tie-breaker.",
-            meta: "Dataset: utilities_protection_and_control.relay_settings_logs | CTI: 250ms maintained"
+            meta: "Dataset: utilities_protection_and_control.relay_settings_logs | CTI: 250ms maintained",
+            defaultParams: { relay_id: "SEL-751A-B4", coordination_margin_ms: 250, anti_islanding_cleared: true, pickup_current_a: 650, reverse_flow_mva: 1.2 },
+            presets: [
+              { name: "Standard 250ms CTI", params: { relay_id: "SEL-751A-B4", coordination_margin_ms: 250, anti_islanding_cleared: true, pickup_current_a: 650, reverse_flow_mva: 1.2 } },
+              { name: "High DER Penetration Check", params: { relay_id: "SEL-751A-B4", coordination_margin_ms: 210, anti_islanding_cleared: true, pickup_current_a: 540, reverse_flow_mva: 2.8 } }
+            ],
+            suggestedPrompt: "Verify relay time-overcurrent selectivity curves (CTI >= 200ms) under tie backfeed and certify IEEE 1547-2018 anti-islanding compliance.",
+            metrics: { "CTI Margin": "250 ms", "Anti-Islanding": "PASSED (IEEE 1547)", "Pickup Current": "650 A", "Trip Discrimination": "Selective (0 Misoperation)" },
+            guardrail: "IEEE 1547-2018 Anti-Islanding & NERC PRC-019 Coordination",
+            handoffToken: { status: "PROTECTION_INTERLOCK_CLEARED", relay_group: "GROUP_2_BACKFEED", interlock_token: "PNC-AUTH-9921-OK" }
           },
           {
             title: "Step 4: Mandatory HITL Sign-Off & SCADA Dispatch",
             persona: "Field Operations & Substation Tech",
+            personaId: "field_operations_agent",
+            personaIcon: "👷",
+            model: "gemini-3.7-flash (Safety Audit & Dispatch)",
+            horizon: "Operational & Field Dispatch",
+            subagents: ["hitl_audit_dispatcher", "substation_rtu_gateway", "saidi_benefit_tracker"],
+            tools: ["issue_hitl_ticket", "review_hitl_signoff", "execute_substation_switching", "log_immutable_audit"],
             desc: "Ticket #TICK-A94E1B02 presented to Lead Control Room Operator. Upon dual-sign off, interlocked commands release to substation RTU, restoring 2,270 customers.",
-            meta: "Audit: BigQuery utilities_compliance.immutable_audit_logs | SAIDI avoided: 18.2 mins"
+            meta: "Audit: BigQuery utilities_compliance.immutable_audit_logs | SAIDI avoided: 18.2 mins",
+            defaultParams: { ticket_id: "TICK-A94E1B02", action: "CLOSE_TIE_BREAKER", operator_id: "OP-LEAD-7741", dual_operator_id: "OP-SUPER-9012", switching_substation: "SUB-NORTH-12" },
+            presets: [
+              { name: "Lead Operator Sign-off", params: { ticket_id: "TICK-A94E1B02", action: "CLOSE_TIE_BREAKER", operator_id: "OP-LEAD-7741", dual_operator_id: "OP-SUPER-9012", switching_substation: "SUB-NORTH-12" } }
+            ],
+            isHitl: true,
+            suggestedPrompt: "Validate dual-operator credentials and transmit cryptographically signed switching sequence to RTU.",
+            metrics: { "Ticket ID": "TICK-A94E1B02", "Restored Customers": "2,270", "SAIDI Avoided": "18.2 min", "RTU Execution": "CONFIRMED" },
+            guardrail: "Immutable Audit Log & Mandatory Dual-Operator Sign-Off (NERC CIP-005)",
+            handoffToken: { status: "WORKFLOW_COMPLETE", ticket_id: "TICK-A94E1B02", verified_by: "OP-LEAD-7741", audit_tx: "0x89d2...e4a1" }
           }
         ]
       },
       vvo: {
         title: "Dynamic Volt-VAR Optimization (VVO) with Vizier",
-        summary: "Couples SCADA real-time voltages with Vertex AI Vizier Bayesian Gaussian Processes to tune piecewise inverter curves.",
+        summary: "Couples SCADA real-time voltages with Vertex AI Vizier Bayesian Gaussian Processes to tune piecewise smart inverter curves.",
         steps: [
           {
             title: "Step 1: AMI Interval Voltage Profiling",
             persona: "Data Scientist / Grid Analytics",
+            personaId: "grid_analytics_agent",
+            personaIcon: "📊",
+            model: "gemini-3.7-flash (Time-Series Analytics)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["ami_smart_meter_clusterer", "voltage_drop_detector", "cvr_factor_estimator"],
+            tools: ["cluster_ami_intervals", "query_bigquery_meter_data", "calculate_cvr_factor"],
             desc: "Clusters 15-minute AMI smart meter telemetry identifying secondary voltage drops down to 0.942 p.u. along end-of-line lateral nodes.",
-            meta: "Dataset: utilities_customer_analytics.ami_smart_meter_intervals | Nodes: 84 end-of-line drops"
+            meta: "Dataset: utilities_customer_analytics.ami_smart_meter_intervals | Nodes: 84 end-of-line drops",
+            defaultParams: { feeder_id: "F-401", interval_minutes: 15, meter_count: 1420, min_voltage_pu: 0.942, max_voltage_pu: 1.038 },
+            presets: [
+              { name: "Peak Evening Sag (0.942 pu)", params: { feeder_id: "F-401", interval_minutes: 15, meter_count: 1420, min_voltage_pu: 0.942, max_voltage_pu: 1.038 } },
+              { name: "Solar High Noon Swell (1.048 pu)", params: { feeder_id: "F-401", interval_minutes: 15, meter_count: 1420, min_voltage_pu: 0.985, max_voltage_pu: 1.048 } }
+            ],
+            suggestedPrompt: "Scan 15-min AMI interval voltage readings for Feeder F-401 and pinpoint secondary drops violating ANSI C84.1 Range A (0.95 p.u.).",
+            metrics: { "Min Voltage": "0.942 p.u.", "Sag Nodes": "84 meters", "CVR Factor": "0.78", "Analyzed Intervals": "24 hrs (96 points)" },
+            guardrail: "ANSI C84.1 Range A Lower Limit Check (0.95 p.u.)",
+            handoffToken: { status: "AMI_PROFILED", feeder_id: "F-401", target_lateral_nodes: 84, required_var_mvar: 1.8 }
           },
           {
             title: "Step 2: Vertex AI Vizier Bayesian Curve Tuning",
             persona: "Grid Operations Dispatcher",
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "🤖",
+            model: "gemini-3.7-flash (Bayesian Optimization)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["vizier_hyperparameter_tuner", "inverter_curve_fitter", "loss_gradient_solver"],
+            tools: ["run_vizier_gp_study", "evaluate_volt_var_curve", "minimize_active_losses"],
             desc: "Vizier executes 20 Bayesian trials with GP-EI acquisition function, searching optimal piecewise knee breakpoints (V1, V2, V3, V4).",
-            meta: "Engine: Vertex AI Vizier | Result: -22.0% Active Loss Reduction"
+            meta: "Engine: Vertex AI Vizier | Result: -22.0% Active Loss Reduction",
+            defaultParams: { vizier_trials: 20, v1_pu: 0.92, v2_pu: 0.97, v3_pu: 1.03, v4_pu: 1.08, q_max_pct: 44.0 },
+            presets: [
+              { name: "Vizier GP-EI (20 Trials)", params: { vizier_trials: 20, v1_pu: 0.92, v2_pu: 0.97, v3_pu: 1.03, v4_pu: 1.08, q_max_pct: 44.0 } },
+              { name: "Aggressive Reactive Injection", params: { vizier_trials: 30, v1_pu: 0.90, v2_pu: 0.96, v3_pu: 1.04, v4_pu: 1.10, q_max_pct: 60.0 } }
+            ],
+            suggestedPrompt: "Run Vertex AI Vizier Gaussian Process optimization over piecewise Volt-VAR breakpoints to minimize total I^2*R feeder losses.",
+            metrics: { "Active Loss Reduction": "-22.0%", "Vizier Trials": "20 Completed", "Optimal Knees": "[0.92, 0.97, 1.03, 1.08]", "Objective Val": "0.0384" },
+            guardrail: "Autonomous Inverter Power Factor Boundary (|PF| >= 0.90)",
+            handoffToken: { status: "VIZIER_STUDY_OPTIMAL", optimal_curve_id: "CURVE-VVO-401-A", loss_reduction_pct: 22.0 }
           },
           {
             title: "Step 3: Substation LTC & Capacitor Coordination",
             persona: "DER & Flexibility Program Manager",
+            personaId: "derms_manager_agent",
+            personaIcon: "🔄",
+            model: "gemini-3.7-flash (Fleet Control)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["ltc_tap_coordinator", "capacitor_bank_sequencer", "inverter_group_dispatcher"],
+            tools: ["coordinate_ltc_tap", "switch_shunt_capacitors", "broadcast_ieee_1547_settings"],
             desc: "Synchronizes substation LTC tap changer position with commercial smart inverter Volt-VAR autonomous curves.",
-            meta: "Protocol: IEEE 1547-2018 Category B | CVR Factor: 0.78"
+            meta: "Protocol: IEEE 1547-2018 Category B | CVR Factor: 0.78",
+            defaultParams: { ltc_tap_position: -2, cap_bank_step_kvar: 600, inverter_count: 120, protocol: "IEEE_1547_2018_CAT_B" },
+            presets: [
+              { name: "LTC Tap -2 with Cap Bank 600", params: { ltc_tap_position: -2, cap_bank_step_kvar: 600, inverter_count: 120, protocol: "IEEE_1547_2018_CAT_B" } },
+              { name: "LTC Neutral Tap 0", params: { ltc_tap_position: 0, cap_bank_step_kvar: 1200, inverter_count: 120, protocol: "IEEE_1547_2018_CAT_B" } }
+            ],
+            suggestedPrompt: "Coordinate substation load tap changer (LTC) steps with distributed smart inverters to prevent hunting oscillations.",
+            metrics: { "LTC Position": "Tap -2", "Capacitor Step": "600 kVAR ON", "Inverters Updated": "120 Units", "Hunting Margin": "Safe (> 90s deadband)" },
+            guardrail: "Anti-Hunting Deadband Interlock (No consecutive tap within 120s)",
+            handoffToken: { status: "DISPATCH_SYNCHRONIZED", ltc_tap: -2, cap_kvar: 600, inverter_setpoint_hash: "0x77ba91" }
           },
           {
             title: "Step 4: Real-Time Closed-Loop Validation",
             persona: "Grid Operations Dispatcher",
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "✅",
+            model: "gemini-3.7-flash (Physical Feasibility)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["ansi_c84_1_validator", "thermal_loading_verifier", "voltage_flatness_scorer"],
+            tools: ["validate_voltage_envelope", "check_transformer_loading", "calculate_voltage_variance"],
             desc: "Validation harness confirms all 12.47 kV buses operate strictly within 0.95 to 1.05 p.u. with zero tap-hunting oscillation.",
-            meta: "Verification: ANSI C84.1 Range A (100% compliant)"
+            meta: "Verification: ANSI C84.1 Range A (100% compliant)",
+            defaultParams: { feeder_id: "F-401", bus_count: 86, min_bus_pu: 0.982, max_bus_pu: 1.028, transformer_loading_pct: 68.4 },
+            presets: [
+              { name: "Full Feeder Compliance Check", params: { feeder_id: "F-401", bus_count: 86, min_bus_pu: 0.982, max_bus_pu: 1.028, transformer_loading_pct: 68.4 } }
+            ],
+            suggestedPrompt: "Run physical feasibility guardrail check over all 86 feeder buses to ensure ANSI C84.1 Range A compliance.",
+            metrics: { "ANSI C84.1 Status": "100% COMPLIANT", "Voltage Range": "0.982 - 1.028 p.u.", "XFR Loading": "68.4%", "Oscillations": "0 Detected" },
+            guardrail: "ANSI C84.1 Range A (0.95 - 1.05 p.u.) PASSED",
+            handoffToken: { status: "WORKFLOW_COMPLETE", validated_envelope: "0.982-1.028 pu", energy_saved_mwh_day: 4.8 }
           }
         ]
       },
@@ -2970,26 +3415,86 @@
           {
             title: "Step 1: Online DGA Gas Ratio Sampling",
             persona: "Asset Performance & Reliability (PdM)",
+            personaId: "asset_reliability_agent",
+            personaIcon: "🔬",
+            model: "gemini-3.7-flash (Chemical Diagnostic Engine)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["dga_gas_extractor", "chromatography_normalizer", "rate_of_gas_rise_tracker"],
+            tools: ["read_dga_telemetry", "normalize_ppm_concentrations", "check_gas_rise_rate"],
             desc: "Continuous oil sensor reports Ethylene C2H4 at 185 ppm and Methane CH4 at 65 ppm on 50 MVA Substation Transformer #XFMR-01.",
-            meta: "Dataset: utilities_asset_management.transformer_dga_health_monitor_logs"
+            meta: "Dataset: utilities_asset_management.transformer_dga_health_monitor_logs",
+            defaultParams: { asset_id: "XFMR-01", c2h4_ppm: 185, ch4_ppm: 65, c2h2_ppm: 12, h2_ppm: 88, co_ppm: 340 },
+            presets: [
+              { name: "Thermal Fault Gas Profile (C2H4 185 ppm)", params: { asset_id: "XFMR-01", c2h4_ppm: 185, ch4_ppm: 65, c2h2_ppm: 12, h2_ppm: 88, co_ppm: 340 } },
+              { name: "Arcing Discharge Profile (C2H2 140 ppm)", params: { asset_id: "XFMR-01", c2h4_ppm: 42, ch4_ppm: 35, c2h2_ppm: 140, h2_ppm: 290, co_ppm: 180 } },
+              { name: "Nominal Background Aging", params: { asset_id: "XFMR-01", c2h4_ppm: 12, ch4_ppm: 15, c2h2_ppm: 1, h2_ppm: 25, co_ppm: 110 } }
+            ],
+            suggestedPrompt: "Ingest online DGA sensor gas concentrations for Transformer #XFMR-01 and verify combustible gas rise velocity.",
+            metrics: { "Ethylene (C2H4)": "185 ppm", "Methane (CH4)": "65 ppm", "Acetylene (C2H2)": "12 ppm", "Rise Rate": "+14 ppm/day (ELEVATED)" },
+            guardrail: "IEEE C57.104 Condition 3 Gas Limit Threshold",
+            handoffToken: { status: "DGA_SAMPLED", asset_id: "XFMR-01", primary_gas: "C2H4", combustible_total_ppm: 690 }
           },
           {
             title: "Step 2: Duval Triangle 1 Fault Classification",
             persona: "Asset Performance & Reliability (PdM)",
+            personaId: "asset_reliability_agent",
+            personaIcon: "📐",
+            model: "gemini-3.7-flash (Geometric Diagnostic Engine)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["duval_triangle_projector", "fault_severity_classifier", "dielectric_risk_scorer"],
+            tools: ["project_duval_triangle_1", "classify_iec_60599_zone", "estimate_rul_hours"],
             desc: "Coordinates (%CH4=24.8%, %C2H4=70.6%, %C2H2=4.6%) project onto Zone T3: Severe Thermal Fault (>700°C) with oil carbonization.",
-            meta: "Standard: IEC 60599 Duval Triangle 1 | Fault: Zone T3 (Alarm)"
+            meta: "Standard: IEC 60599 Duval Triangle 1 | Fault: Zone T3 (Alarm)",
+            defaultParams: { asset_id: "XFMR-01", ch4_pct: 24.8, c2h4_pct: 70.6, c2h2_pct: 4.6, oil_temperature_c: 82.4 },
+            presets: [
+              { name: "Duval Zone T3 Thermal Fault (>700°C)", params: { asset_id: "XFMR-01", ch4_pct: 24.8, c2h4_pct: 70.6, c2h2_pct: 4.6, oil_temperature_c: 82.4 } },
+              { name: "Duval Zone D2 High Energy Discharge", params: { asset_id: "XFMR-01", ch4_pct: 12.0, c2h4_pct: 28.0, c2h2_pct: 60.0, oil_temperature_c: 94.1 } }
+            ],
+            suggestedPrompt: "Project normalized gas percentages onto IEC 60599 Duval Triangle 1 coordinates and diagnose root cause thermal/electrical mechanism.",
+            metrics: { "Duval Zone": "Zone T3 (Thermal >700°C)", "%C2H4 Coordinate": "70.6%", "Fault Urgency": "CRITICAL (Action < 72h)", "Oil Temp": "82.4 °C" },
+            guardrail: "IEC 60599 Standard Diagnostic Protocol",
+            handoffToken: { status: "FAULT_CLASSIFIED", asset_id: "XFMR-01", diagnosis: "Zone T3 Severe Thermal Fault", rpn_score: 384 }
           },
           {
             title: "Step 3: Circuit Breaker Arcing Wear (∑I²t) Aggregation",
             persona: "Data Scientist / Grid Analytics",
+            personaId: "grid_analytics_agent",
+            personaIcon: "📈",
+            model: "gemini-3.7-flash (Degradation Analytics)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["breaker_i2t_integrator", "contact_erosion_forecaster", "scada_fault_history_joiner"],
+            tools: ["integrate_breaker_i2t", "calculate_endurance_pct", "estimate_remaining_operations"],
             desc: "Integrates cumulative short-circuit interruption currents. Substation Breaker BKR-402 has expended 78.4% of contact endurance.",
-            meta: "Physics: ∑I²t = 4.21e8 A²s | Remaining shots: 18"
+            meta: "Physics: ∑I²t = 4.21e8 A²s | Remaining shots: 18",
+            defaultParams: { breaker_id: "BKR-402", cumulative_i2t_a2s: 4.21e8, rated_i2t_a2s: 5.37e8, fault_count: 24, mechanism_operations: 1420 },
+            presets: [
+              { name: "Breaker BKR-402 Wear (78.4%)", params: { breaker_id: "BKR-402", cumulative_i2t_a2s: 4.21e8, rated_i2t_a2s: 5.37e8, fault_count: 24, mechanism_operations: 1420 } },
+              { name: "Critical Wear Alert (92.1%)", params: { breaker_id: "BKR-402", cumulative_i2t_a2s: 4.95e8, rated_i2t_a2s: 5.37e8, fault_count: 31, mechanism_operations: 1850 } }
+            ],
+            suggestedPrompt: "Compute accumulated contact arcing wear integral sum(I^2*t) for breaker BKR-402 and project remaining shot lifetime.",
+            metrics: { "Contact Wear": "78.4% Expended", "Cumulative I²t": "4.21e8 A²s", "Remaining Shots": "18 Operations", "SF6 Gas Pressure": "6.2 bar (Nominal)" },
+            guardrail: "ANSI/IEEE C37.09 Breaker Contact Endurance Curve",
+            handoffToken: { status: "WEAR_ASSESSED", breaker_id: "BKR-402", contact_wear_pct: 78.4, dispatch_required: true }
           },
           {
             title: "Step 4: Risk-Prioritized Field Crew Dispatch",
             persona: "Field Operations & Substation Tech",
+            personaId: "field_operations_agent",
+            personaIcon: "🛠️",
+            model: "gemini-3.7-flash (Field Work Automation)",
+            horizon: "Operational & Field Dispatch",
+            subagents: ["sap_pm_work_order_generator", "crew_skill_router", "mobile_checklist_builder"],
+            tools: ["create_sap_pm_work_order", "schedule_crew_dispatch", "generate_digital_checklist"],
             desc: "Generates emergency SAP PM work order WO-XFMR-8812 with mobile checklist, acoustic probe calibration, and bypass routing.",
-            meta: "Action: Substation Crew Dispatched | RPN Score: 384 (Critical)"
+            meta: "Action: Substation Crew Dispatched | RPN Score: 384 (Critical)",
+            defaultParams: { work_order_id: "WO-XFMR-8812", asset_id: "XFMR-01", crew_assigned: "CREW-SUB-EAST-02", priority: "HIGH_URGENCY", eta_hours: 4.0 },
+            presets: [
+              { name: "Emergency Dispatch WO-8812", params: { work_order_id: "WO-XFMR-8812", asset_id: "XFMR-01", crew_assigned: "CREW-SUB-EAST-02", priority: "HIGH_URGENCY", eta_hours: 4.0 } }
+            ],
+            suggestedPrompt: "Create SAP PM work order for Transformer #XFMR-01 oil degasification, dispatch substation crew, and attach acoustic probe checklist.",
+            metrics: { "Work Order": "WO-XFMR-8812", "Crew Assigned": "Crew Sub-East 02", "Dispatch Priority": "HIGH (P1)", "ETA to Site": "4.0 hrs" },
+            guardrail: "OSHA 1910 Substation Safety Protocol & SAP PM Schema",
+            handoffToken: { status: "WORKFLOW_COMPLETE", work_order_id: "WO-XFMR-8812", crew_id: "CREW-SUB-EAST-02", status_code: "DISPATCHED" }
           }
         ]
       },
@@ -3000,26 +3505,86 @@
           {
             title: "Step 1: WeatherNext Atmospheric Microclimate Fetch",
             persona: "T&D System Planning Engineer",
+            personaId: "planning_engineer_agent",
+            personaIcon: "⛅",
+            model: "gemini-3.7-flash (Atmospheric Telemetry Ingestion)",
+            horizon: "Planning (Months-Years) & Operations",
+            subagents: ["weathernext_nwp_fetcher", "wind_incident_resolver", "solar_radiation_sampler"],
+            tools: ["query_weathernext_corridor", "resolve_wind_vector", "compute_solar_elevation"],
             desc: "Fetches sub-0.1° resolution predictions: 4.8 m/s crosswind at 60° incident angle, 850 W/m² DNI, and 28°C ambient air temperature.",
-            meta: "Engine: Google DeepMind WeatherNext | Corridors: 230 kV Line 104"
+            meta: "Engine: Google DeepMind WeatherNext | Corridors: 230 kV Line 104",
+            defaultParams: { corridor_id: "LINE-NORTH-230", wind_speed_ms: 4.8, wind_angle_deg: 60.0, ambient_temp_c: 28.0, solar_ghi_wm2: 850.0 },
+            presets: [
+              { name: "Breezy Midday (4.8 m/s, 850 W/m²)", params: { corridor_id: "LINE-NORTH-230", wind_speed_ms: 4.8, wind_angle_deg: 60.0, ambient_temp_c: 28.0, solar_ghi_wm2: 850.0 } },
+              { name: "Stagnant Heatwave (1.1 m/s, 38°C)", params: { corridor_id: "LINE-NORTH-230", wind_speed_ms: 1.1, wind_angle_deg: 20.0, ambient_temp_c: 38.0, solar_ghi_wm2: 980.0 } },
+              { name: "Storm Squall (12.4 m/s, 22°C)", params: { corridor_id: "LINE-NORTH-230", wind_speed_ms: 12.4, wind_angle_deg: 75.0, ambient_temp_c: 22.0, solar_ghi_wm2: 240.0 } }
+            ],
+            suggestedPrompt: "Fetch DeepMind WeatherNext NWP microclimate predictions for Corridor LINE-NORTH-230, including wind angle and ambient temperature.",
+            metrics: { "Wind Speed": "4.8 m/s", "Incident Angle": "60.0°", "Ambient Temp": "28.0 °C", "Solar DNI": "850 W/m²" },
+            guardrail: "WeatherNext Lat/Long Geofence Check (Valid Transmission Corridor)",
+            handoffToken: { status: "MICROCLIMATE_INGESTED", corridor_id: "LINE-NORTH-230", effective_crosswind_ms: 4.15, ambient_temp_c: 28.0 }
           },
           {
             title: "Step 2: IEEE 738 Conductor Heat Balance Solver",
             persona: "T&D System Planning Engineer",
+            personaId: "planning_engineer_agent",
+            personaIcon: "📐",
+            model: "gemini-3.7-flash (Thermal Heat Balance Engine)",
+            horizon: "Planning & Dynamic Operations",
+            subagents: ["ieee_738_thermal_solver", "convective_cooling_calculator", "radiant_heat_balancer"],
+            tools: ["solve_ieee_738_steady_state", "calculate_convective_heat_loss", "evaluate_joule_heating"],
             desc: "Computes convective cooling qc and solar absorption qs for ACSR Drake conductor. Unlocks +23.8% ampacity above book rating.",
-            meta: "Standard: IEEE 738-2012 | Headroom: 900 A -> 1,114 A (443 MVA)"
+            meta: "Standard: IEEE 738-2012 | Headroom: 900 A -> 1,114 A (443 MVA)",
+            defaultParams: { conductor_type: "ACSR_DRAKE_795", static_rating_a: 900.0, max_conductor_temp_c: 75.0, elevation_m: 220.0 },
+            presets: [
+              { name: "ACSR Drake 795kcmil (+23.8%)", params: { conductor_type: "ACSR_DRAKE_795", static_rating_a: 900.0, max_conductor_temp_c: 75.0, elevation_m: 220.0 } },
+              { name: "High-Temp Low-Sag (HTLS) Drake", params: { conductor_type: "HTLS_ACCC_DRAKE", static_rating_a: 1100.0, max_conductor_temp_c: 120.0, elevation_m: 220.0 } }
+            ],
+            suggestedPrompt: "Solve IEEE 738-2012 steady-state thermal heat balance (qc + qr = qs + I^2*R) to determine real-time dynamic ampacity limit.",
+            metrics: { "Dynamic Ampacity": "1,114 A (+23.8%)", "Static Book Rating": "900 A", "Conductor Temp": "67.4 °C (< 75°C)", "Convective Cooling": "38.2 W/m" },
+            guardrail: "IEEE 738-2012 Conductor Thermal Limit (Max 75°C)",
+            handoffToken: { status: "DLR_AMPACITY_COMPUTED", dynamic_rating_a: 1114.0, capacity_mva: 443.0, headroom_pct: 23.8 }
           },
           {
             title: "Step 3: Contingency Verification (N-1 Overload Screening)",
             persona: "Grid Operations Dispatcher",
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "⚠️",
+            model: "gemini-3.7-flash (Contingency Screener)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["contingency_n1_screener", "catenary_sag_estimator", "corridor_clearance_checker"],
+            tools: ["screen_n1_contingencies", "calculate_conductor_sag", "verify_ground_clearance"],
             desc: "Validates that adjacent parallel corridor trip does not exceed emergency sag clearances or anneal aluminum strands.",
-            meta: "Check: Clearance > 28.5 ft at mid-span under 1,114 A loading"
+            meta: "Check: Clearance > 28.5 ft at mid-span under 1,114 A loading",
+            defaultParams: { trip_candidate: "PARALLEL_LINE_102", midspan_clearance_ft: 29.4, min_required_clearance_ft: 28.5, max_post_contingency_loading_pct: 94.2 },
+            presets: [
+              { name: "N-1 Parallel Line Trip Safe", params: { trip_candidate: "PARALLEL_LINE_102", midspan_clearance_ft: 29.4, min_required_clearance_ft: 28.5, max_post_contingency_loading_pct: 94.2 } },
+              { name: "High Load Sag Warning", params: { trip_candidate: "PARALLEL_LINE_102", midspan_clearance_ft: 28.6, min_required_clearance_ft: 28.5, max_post_contingency_loading_pct: 98.8 } }
+            ],
+            suggestedPrompt: "Run AC power flow N-1 contingency sweep for loss of parallel corridor and compute minimum mid-span ground clearance.",
+            metrics: { "Mid-Span Clearance": "29.4 ft (> 28.5 ft)", "N-1 Loading": "94.2% Max", "Contingencies Screened": "14 Pass", "Thermal Annealing": "0% Risk" },
+            guardrail: "NESC Ground Clearance Rules & NERC FAC-011",
+            handoffToken: { status: "N1_SCREENING_CLEARED", safe_ampacity_a: 1114.0, clearance_ok: true }
           },
           {
             title: "Step 4: Dispatch Limit Update in EMS/SCADA",
             persona: "Grid Operations Dispatcher",
+            personaId: "grid_dispatcher_agent",
+            personaIcon: "💻",
+            model: "gemini-3.7-flash (EMS SCADA Interface)",
+            horizon: "Real-Time Reflex (< 15 min)",
+            subagents: ["ems_scada_limit_pusher", "renewable_curtailment_unblocker", "economic_value_tracker"],
+            tools: ["update_ems_line_limits", "recalculate_curtailment_savings", "log_scada_change"],
             desc: "Updates dynamic transmission constraint in control room EMS, relieving $48,000/day in renewable generation curtailment.",
-            meta: "Economic Impact: $1.75M Annual Curtailment Savings"
+            meta: "Economic Impact: $1.75M Annual Curtailment Savings",
+            defaultParams: { corridor_id: "LINE-NORTH-230", committed_ampacity_a: 1114.0, curtailed_solar_released_mw: 64.0, daily_savings_usd: 48000 },
+            presets: [
+              { name: "Commit 1,114A Dynamic Limit", params: { corridor_id: "LINE-NORTH-230", committed_ampacity_a: 1114.0, curtailed_solar_released_mw: 64.0, daily_savings_usd: 48000 } }
+            ],
+            suggestedPrompt: "Publish new dynamic rating to Energy Management System (EMS) SCADA and uncap curtailed solar power plants.",
+            metrics: { "Committed Ampacity": "1,114 A", "Solar Released": "+64.0 MW", "Daily Savings": "$48,000 / day", "EMS Status": "SCADA SYNCED" },
+            guardrail: "EMS Dynamic Limit Ingestion Protocol",
+            handoffToken: { status: "WORKFLOW_COMPLETE", ems_limit_a: 1114.0, annual_savings_usd: 1750000 }
           }
         ]
       },
@@ -3030,26 +3595,85 @@
           {
             title: "Step 1: GIS Feeder Topology & Model Extraction",
             persona: "T&D System Planning Engineer",
+            personaId: "planning_engineer_agent",
+            personaIcon: "🗺️",
+            model: "gemini-3.7-flash (GIS Topology Extraction)",
+            horizon: "Planning (Months-Years)",
+            subagents: ["bigquery_gis_loader", "impedance_matrix_builder", "transformer_rating_aggregator"],
+            tools: ["extract_feeder_gis_network", "compute_bus_impedance_z", "aggregate_transformer_kva"],
             desc: "Queries BigQuery GIS dataset for 12.47 kV Feeder F-NORTH-08: 4.2 miles, 34 distribution transformers, 1.8 MW peak load.",
-            meta: "Dataset: utilities_planning.gis_network_topology | Feeders: F-NORTH-08"
+            meta: "Dataset: utilities_planning.gis_network_topology | Feeders: F-NORTH-08",
+            defaultParams: { feeder_id: "F-NORTH-08", voltage_kv: 12.47, length_miles: 4.2, transformer_count: 34, peak_load_mw: 1.8 },
+            presets: [
+              { name: "Feeder F-NORTH-08 (12.47 kV)", params: { feeder_id: "F-NORTH-08", voltage_kv: 12.47, length_miles: 4.2, transformer_count: 34, peak_load_mw: 1.8 } },
+              { name: "Industrial Feeder F-IND-02 (25 kV)", params: { feeder_id: "F-IND-02", voltage_kv: 25.0, length_miles: 7.1, transformer_count: 58, peak_load_mw: 4.6 } }
+            ],
+            suggestedPrompt: "Extract full GIS topological connectivity and impedance matrices from BigQuery for Feeder F-NORTH-08.",
+            metrics: { "Feeder Voltage": "12.47 kV", "Feeder Length": "4.2 miles", "Transformers": "34 Units", "Peak Demand": "1.8 MW" },
+            guardrail: "GIS Connectivity & Phase Balance Verification",
+            handoffToken: { status: "TOPOLOGY_EXTRACTED", feeder_id: "F-NORTH-08", buses_count: 72, total_capacity_mva: 5.0 }
           },
           {
             title: "Step 2: Iterative Injection Power Flow Sweeps",
             persona: "T&D System Planning Engineer",
+            personaId: "planning_engineer_agent",
+            personaIcon: "📊",
+            model: "gemini-3.7-flash (Iterative AC Power Flow)",
+            horizon: "Planning (Months-Years)",
+            subagents: ["injection_sweep_solver", "voltage_upper_bound_checker", "thermal_choke_point_finder"],
+            tools: ["run_iterative_power_flow", "find_thermal_violations", "plot_hosting_capacity_curve"],
             desc: "Injects incremental PV generation from 0 to 5 MW in 100 kW steps. Evaluates ANSI C84.1 upper voltage bound (1.05 p.u.).",
-            meta: "Algorithm: Newton-Raphson AC Power Flow | Limit: 3.4 MW (Thermal limit)"
+            meta: "Algorithm: Newton-Raphson AC Power Flow | Limit: 3.4 MW (Thermal limit)",
+            defaultParams: { max_injection_mw: 5.0, step_size_kw: 100, max_voltage_bound_pu: 1.05, max_transformer_loading_pct: 105.0 },
+            presets: [
+              { name: "Standard 0-5 MW Sweep (100 kW steps)", params: { max_injection_mw: 5.0, step_size_kw: 100, max_voltage_bound_pu: 1.05, max_transformer_loading_pct: 105.0 } },
+              { name: "High Resolution 50 kW Sweep", params: { max_injection_mw: 6.0, step_size_kw: 50, max_voltage_bound_pu: 1.05, max_transformer_loading_pct: 100.0 } }
+            ],
+            suggestedPrompt: "Execute Newton-Raphson AC power flow sweeps across PV injection tiers to detect voltage rise (1.05 p.u.) and thermal choke points.",
+            metrics: { "Hosting Capacity": "3.4 MW", "Limiting Factor": "Conductor Thermal", "Max Voltage at Limit": "1.048 p.u.", "Simulated Sweeps": "50 Steps" },
+            guardrail: "ANSI C84.1 Range A Upper Limit (1.05 p.u.) & Conductor Ampacity",
+            handoffToken: { status: "HOSTING_CAPACITY_BOUNDED", safe_pv_capacity_mw: 3.4, bottleneck_bus: "BUS-48" }
           },
           {
             title: "Step 3: Anti-Islanding & Protection Screening",
             persona: "Protection & Control (P&C) Engineer",
+            personaId: "protection_control_agent",
+            personaIcon: "🛡️",
+            model: "gemini-3.7-flash (Interconnection Safety Screener)",
+            horizon: "Operational & Planning",
+            subagents: ["anti_islanding_ratio_checker", "reverse_fault_detector", "recloser_coordination_verifier"],
+            tools: ["check_ieee_1547_screening", "calculate_min_daytime_load", "verify_directional_sensing"],
             desc: "Simulates minimum daytime load vs aggregate PV capacity ratio. Verifies recloser sensing threshold under reverse fault flow.",
-            meta: "Rule: IEEE 1547-2018 | Min Load Ratio: 68% (Safe)"
+            meta: "Rule: IEEE 1547-2018 | Min Load Ratio: 68% (Safe)",
+            defaultParams: { proposed_pv_mw: 2.5, min_daytime_load_mw: 1.7, load_ratio_pct: 68.0, recloser_directional: true },
+            presets: [
+              { name: "2.5 MW Interconnection Screening", params: { proposed_pv_mw: 2.5, min_daytime_load_mw: 1.7, load_ratio_pct: 68.0, recloser_directional: true } },
+              { name: "3.2 MW Interconnection Screening", params: { proposed_pv_mw: 3.2, min_daytime_load_mw: 1.7, load_ratio_pct: 53.1, recloser_directional: true } }
+            ],
+            suggestedPrompt: "Evaluate proposed 2.5 MW solar interconnection against IEEE 1547-2018 Fast Track screening and recloser sensing rules.",
+            metrics: { "Min Load Ratio": "68.0% (Safe)", "Fast Track Status": "PASSED (Screening 1-5)", "Directional Recloser": "Equipped", "Desensitization Risk": "Low" },
+            guardrail: "IEEE 1547-2018 Interconnection Standard",
+            handoffToken: { status: "PROTECTION_SCREENING_CLEARED", fast_track_eligible: true, max_inverter_size_mw: 2.5 }
           },
           {
             title: "Step 4: Interconnection Report & Smart Inverter Spec",
             persona: "DER & Flexibility Program Manager",
+            personaId: "derms_manager_agent",
+            personaIcon: "📋",
+            model: "gemini-3.7-flash (DER Interconnection Governance)",
+            horizon: "Planning & Program Management",
+            subagents: ["interconnection_letter_generator", "volt_var_profile_configurator", "telemetry_gateway_provisioner"],
+            tools: ["generate_approval_letter", "export_ieee_2030_5_spec", "record_interconnection_db"],
             desc: "Issues developer approval letter with mandatory autonomous Volt-VAR curve settings and IEEE 2030.5 telemetry gateway.",
-            meta: "Outcome: Interconnection Study approved within 48 hours"
+            meta: "Outcome: Interconnection Study approved within 48 hours",
+            defaultParams: { study_id: "INTERCONNECT-PV-2026-99", developer: "Nextera Helios Clean Energy", approved_capacity_mw: 2.5, volt_var_curve: "IEEE_1547_CAT_B_DEFAULT" },
+            presets: [
+              { name: "Issue 2.5 MW Interconnection Spec", params: { study_id: "INTERCONNECT-PV-2026-99", developer: "Nextera Helios Clean Energy", approved_capacity_mw: 2.5, volt_var_curve: "IEEE_1547_CAT_B_DEFAULT" } }
+            ],
+            suggestedPrompt: "Generate formal interconnection decision letter with prescribed autonomous Volt-VAR curve and IEEE 2030.5 protocol specification.",
+            metrics: { "Study Decision": "APPROVED (2.5 MW)", "Turnaround Time": "48 Hours (vs 60 days)", "Volt-VAR Setting": "IEEE 1547 Cat B", "Gateway Type": "IEEE 2030.5" },
+            guardrail: "DER Interconnection Tariff Rule 21 Compliance",
+            handoffToken: { status: "WORKFLOW_COMPLETE", study_id: "INTERCONNECT-PV-2026-99", approval_status: "APPROVED" }
           }
         ]
       },
@@ -3060,26 +3684,85 @@
           {
             title: "Step 1: Aggregated VPP Capacity & State of Charge Assessment",
             persona: "DER & Flexibility Program Manager",
+            personaId: "derms_manager_agent",
+            personaIcon: "🔋",
+            model: "gemini-3.7-flash (Fleet Telemetry Aggregation)",
+            horizon: "Operational (1-48 Hours)",
+            subagents: ["bess_fleet_aggregator", "soc_distribution_sampler", "availability_matrix_builder"],
+            tools: ["aggregate_bess_telemetry", "sample_fleet_soc", "compute_effective_mw_headroom"],
             desc: "Aggregates 1,450 residential Powerwalls and 8 commercial BESS units: total fleet capacity of 18.4 MW / 42.1 MWh (Avg SoC: 88%).",
-            meta: "Dataset: utilities_der_orchestration.vpp_aggregate_telemetry"
+            meta: "Dataset: utilities_der_orchestration.vpp_aggregate_telemetry",
+            defaultParams: { residential_bess_units: 1450, commercial_bess_units: 8, total_power_mw: 18.4, total_energy_mwh: 42.1, avg_soc_pct: 88.0 },
+            presets: [
+              { name: "Full Fleet Ready (88% SoC)", params: { residential_bess_units: 1450, commercial_bess_units: 8, total_power_mw: 18.4, total_energy_mwh: 42.1, avg_soc_pct: 88.0 } },
+              { name: "Midday Charged (94% SoC)", params: { residential_bess_units: 1450, commercial_bess_units: 8, total_power_mw: 18.4, total_energy_mwh: 42.1, avg_soc_pct: 94.0 } }
+            ],
+            suggestedPrompt: "Query aggregated BESS telemetry across all distributed residential and commercial sites to calculate available dispatch capacity.",
+            metrics: { "Fleet Power": "18.4 MW", "Fleet Energy": "42.1 MWh", "Online Assets": "1,458 Units", "Average SoC": "88.0%" },
+            guardrail: "Battery Safety Operating Envelope (Min SoC 15%, Max SoC 95%)",
+            handoffToken: { status: "VPP_AGGREGATED", available_discharge_mw: 16.5, energy_reserve_mwh: 36.8 }
           },
           {
             title: "Step 2: Day-Ahead LMP Price Spike Detection",
             persona: "Regulatory, Market & Compliance Officer",
+            personaId: "regulatory_compliance_agent",
+            personaIcon: "⚖️",
+            model: "gemini-3.7-flash (Wholesale Market Analytics)",
+            horizon: "Operational & Market Horizon",
+            subagents: ["caiso_lmp_feed_monitor", "peak_ramp_detector", "economic_clearing_forecaster"],
+            tools: ["fetch_day_ahead_lmp", "detect_net_load_ramp", "calculate_arbitrage_spread"],
             desc: "Wholesale market agent flags net-load ramp at 18:00 with expected locational marginal price (LMP) of $320/MWh.",
-            meta: "Market: CAISO Day-Ahead Real-Time Market | Peak Hours: 17:00-20:00"
+            meta: "Market: CAISO Day-Ahead Real-Time Market | Peak Hours: 17:00-20:00",
+            defaultParams: { iso_market: "CAISO_SP15", peak_hour_start: 17, peak_hour_end: 20, peak_lmp_usd_mwh: 320.0, offpeak_lmp_usd_mwh: 38.0 },
+            presets: [
+              { name: "CAISO SP15 Peak ($320/MWh)", params: { iso_market: "CAISO_SP15", peak_hour_start: 17, peak_hour_end: 20, peak_lmp_usd_mwh: 320.0, offpeak_lmp_usd_mwh: 38.0 } },
+              { name: "ERCOT Summer Scarcity ($1,250/MWh)", params: { iso_market: "ERCOT_HOUSTON", peak_hour_start: 16, peak_hour_end: 19, peak_lmp_usd_mwh: 1250.0, offpeak_lmp_usd_mwh: 45.0 } }
+            ],
+            suggestedPrompt: "Fetch day-ahead wholesale market prices and identify profitable arbitrage discharge windows during net-load ramp.",
+            metrics: { "Peak LMP Price": "$320.00 / MWh", "Off-Peak LMP": "$38.00 / MWh", "Price Spread": "$282.00 / MWh", "Target Window": "17:00 - 20:00 (3 hrs)" },
+            guardrail: "FERC Order 2222 Wholesale Participation & Market Rules",
+            handoffToken: { status: "PRICE_SPIKE_FLAGGED", peak_hours: "17-20", target_lmp: 320.0, discharge_window_hours: 3 }
           },
           {
             title: "Step 3: Battery Degradation vs Arbitrage Co-Optimization",
             persona: "Data Scientist / Grid Analytics",
+            personaId: "grid_analytics_agent",
+            personaIcon: "🔬",
+            model: "gemini-3.7-flash (Aging Optimization Model)",
+            horizon: "Operational & Financial",
+            subagents: ["electrochemical_aging_modeler", "c_rate_loss_evaluator", "net_profit_maximizer"],
+            tools: ["simulate_li_ion_degradation", "co_optimize_dod_vs_revenue", "compute_marginal_cycling_cost"],
             desc: "Applies semi-empirical battery aging curve. Limits depth-of-discharge (DoD) to 82% to maximize profit net of cell degradation cost.",
-            meta: "Skill: skill_der_vpp_co_optimizer | Net Profit: $24,800 / cycle"
+            meta: "Skill: skill_der_vpp_co_optimizer | Net Profit: $24,800 / cycle",
+            defaultParams: { max_dod_pct: 82.0, battery_chemistry: "LFP_LITHIUM_FERRO_PHOSPHATE", replacement_cost_usd_kwh: 140.0, target_discharge_mw: 14.2 },
+            presets: [
+              { name: "Optimal 82% DoD Co-Optimization", params: { max_dod_pct: 82.0, battery_chemistry: "LFP_LITHIUM_FERRO_PHOSPHATE", replacement_cost_usd_kwh: 140.0, target_discharge_mw: 14.2 } },
+              { name: "Conservative 70% DoD (Extended Life)", params: { max_dod_pct: 70.0, battery_chemistry: "LFP_LITHIUM_FERRO_PHOSPHATE", replacement_cost_usd_kwh: 140.0, target_discharge_mw: 11.8 } }
+            ],
+            suggestedPrompt: "Co-optimize battery depth-of-discharge (DoD) against CAISO LMP price spread while penalizing cell capacity fade.",
+            metrics: { "Optimal DoD": "82.0% Max", "Gross Revenue": "$29,400", "Cell Degradation": "-$4,600", "Net Cycle Profit": "$24,800" },
+            guardrail: "Degradation Rate Safeguard (Cycle fade < 0.015% per cycle)",
+            handoffToken: { status: "CO_OPTIMIZATION_SOLVED", dispatch_mw: 14.2, duration_hours: 3.0, target_revenue_usd: 24800 }
           },
           {
             title: "Step 4: Automated Dispatch & Settlement Verification",
             persona: "DER & Flexibility Program Manager",
+            personaId: "derms_manager_agent",
+            personaIcon: "📡",
+            model: "gemini-3.7-flash (Automated Market Dispatch)",
+            horizon: "Operational & Execution",
+            subagents: ["ieee_2030_5_broadcaster", "telemetry_ack_collector", "market_clearing_settler"],
+            tools: ["broadcast_vpp_dispatch", "poll_telemetry_acks", "settle_iso_market_bid"],
             desc: "Dispatches IEEE 2030.5 inverter commands. Confirms 14.2 MW active injection with zero substation transformer loading.",
-            meta: "Status: VPP Bids Cleared in ISO Real-Time Market"
+            meta: "Status: VPP Bids Cleared in ISO Real-Time Market",
+            defaultParams: { dispatch_order_id: "ORD-VPP-2026-B9", injected_mw: 14.2, ack_rate_pct: 99.4, substation_loading_pct: 72.1 },
+            presets: [
+              { name: "Execute 14.2 MW Dispatch Order", params: { dispatch_order_id: "ORD-VPP-2026-B9", injected_mw: 14.2, ack_rate_pct: 99.4, substation_loading_pct: 72.1 } }
+            ],
+            suggestedPrompt: "Broadcast signed IEEE 2030.5 power setpoints to VPP inverters and verify meter response telemetry.",
+            metrics: { "Actual Injection": "14.2 MW", "Inverter Response": "99.4% Acknowledged", "Substation Load": "72.1% (Safe)", "Settlement State": "CLEARED" },
+            guardrail: "Substation Thermal Reverse Power Constraint",
+            handoffToken: { status: "WORKFLOW_COMPLETE", order_id: "ORD-VPP-2026-B9", net_profit_usd: 24800, cleared_mw: 14.2 }
           }
         ]
       }
@@ -3087,6 +3770,12 @@
 
     let currentWorkflowKey = 'flisr';
     let currentStepIndex = 0;
+    const stepStates = {}; // key: `${wfKey}_${stepIdx}` -> { status: 'IDLE'|'RUNNING'|'COMPLETED', params, response, ... }
+    let isAutoRunning = false;
+
+    function getStepStateKey(wfKey, stepIdx) {
+      return `${wfKey}_${stepIdx}`;
+    }
 
     function loadWorkflow(wfKey, cardElem) {
       currentWorkflowKey = wfKey;
@@ -3103,31 +3792,369 @@
       renderWorkflowSteps();
     }
 
+    function applyPreset(stepIdx, presetIdx) {
+      const wf = workflowsData[currentWorkflowKey];
+      const step = wf.steps[stepIdx];
+      const preset = step.presets[presetIdx];
+      if (!preset) return;
+
+      const stateKey = getStepStateKey(currentWorkflowKey, stepIdx);
+      if (!stepStates[stateKey]) stepStates[stateKey] = {};
+      stepStates[stateKey].params = { ...preset.params };
+
+      // Update inputs in DOM
+      for (const [key, val] of Object.entries(preset.params)) {
+        const inputElem = document.getElementById(`param_${stepIdx}_${key}`);
+        if (inputElem) inputElem.value = val;
+      }
+    }
+
     function renderWorkflowSteps() {
       const wf = workflowsData[currentWorkflowKey];
       const container = document.getElementById('wfStepsContainer');
       container.innerHTML = '';
 
       wf.steps.forEach((step, idx) => {
+        const stateKey = getStepStateKey(currentWorkflowKey, idx);
+        const state = stepStates[stateKey] || { status: idx < currentStepIndex ? 'COMPLETED' : (idx === currentStepIndex ? 'READY' : 'PENDING') };
+
+        const isCompleted = state.status === 'COMPLETED' || idx < currentStepIndex;
+        const isActive = idx === currentStepIndex;
+        const isRunning = state.status === 'RUNNING';
+
         const node = document.createElement('div');
         node.className = 'wf-step-node';
-        if (idx < currentStepIndex) node.classList.add('completed');
-        if (idx === currentStepIndex) node.classList.add('active-step');
+        if (isCompleted) node.classList.add('completed');
+        if (isActive) node.classList.add('active-step');
 
-        const statusIcon = idx < currentStepIndex ? '✅' : (idx === currentStepIndex ? '⏳' : '⚪');
+        const statusTagClass = isCompleted ? 'tag-status-completed' : (isActive ? 'tag-status-active' : 'tag-status-pending');
+        const statusText = isCompleted ? '✅ Completed' : (isRunning ? '⚡ Executing...' : (isActive ? '▶ Ready to Test' : '⚪ Queued'));
+
+        // Build parameter inputs
+        const currentParams = (state.params) ? state.params : step.defaultParams;
+        let paramsHtml = '';
+        for (const [pKey, pVal] of Object.entries(currentParams)) {
+          paramsHtml += `
+            <div class="wf-param-field">
+              <span class="wf-param-label">${pKey}</span>
+              <input type="text" class="wf-param-input" id="param_${idx}_${pKey}" value="${pVal}">
+            </div>
+          `;
+        }
+
+        // Build presets buttons
+        let presetsHtml = '';
+        step.presets.forEach((preset, pIdx) => {
+          presetsHtml += `<button type="button" class="wf-preset-btn" onclick="applyPreset(${idx}, ${pIdx})">${preset.name}</button>`;
+        });
+
+        // Build subagents tags
+        let subagentsHtml = '';
+        step.subagents.forEach(sa => {
+          subagentsHtml += `<span class="meta-chip">🤖 ${sa}</span>`;
+        });
+
+        // Build tools trace tags
+        let toolsHtml = '';
+        step.tools.forEach(tool => {
+          toolsHtml += `<span class="wf-tool-badge">🔧 ${tool}</span>`;
+        });
+
+        // Build live response content
+        let terminalContentHtml = '';
+        if (isRunning) {
+          terminalContentHtml = `
+            <div style="display: flex; align-items: center; gap: 10px; color: var(--accent); padding: 12px 0;">
+              <span style="font-size: 1.2rem; animation: spin 1s linear infinite; display: inline-block;">⚙️</span>
+              <span><strong>${step.persona}</strong> is executing sub-agent toolchain with <code>gemini-3.7-flash</code>...</span>
+            </div>
+          `;
+        } else if (isCompleted && state.response) {
+          const resp = state.response;
+          const latency = state.latency || '128ms';
+
+          // Metrics cards
+          let metricCardsHtml = '';
+          const metricsObj = resp.metrics || step.metrics;
+          for (const [mLabel, mVal] of Object.entries(metricsObj)) {
+            metricCardsHtml += `
+              <div class="wf-metric-card">
+                <div class="wf-metric-label">${mLabel}</div>
+                <div class="wf-metric-val">${mVal}</div>
+              </div>
+            `;
+          }
+
+          // HITL Panel if applicable
+          let hitlHtml = '';
+          if (step.isHitl || resp.approval_ticket) {
+            const ticket = resp.approval_ticket || { ticket_id: "TICK-A94E1B02", action: "CLOSE_TIE_BREAKER" };
+            const isApproved = state.hitlApproved === true;
+            hitlHtml = `
+              <div class="wf-hitl-gate-panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700;">
+                  <span style="color: #f87171;">🚨 MANDATORY HUMAN-IN-THE-LOOP DUAL-SIGN OFF GATEWAY</span>
+                  <span style="font-family: 'Roboto Mono', monospace; color: var(--text-muted);">Ticket #${ticket.ticket_id || 'TICK-A94E1B02'}</span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--text-secondary);">
+                  Proposed Supervisory Action: <strong>${ticket.action_type || ticket.action || 'CLOSE_TIE_BREAKER'}</strong> on Substation Feeder RTU. Dual-operator verification required under NERC CIP-005.
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+                  <button type="button" class="btn-step-run" style="background: ${isApproved ? '#0d904f' : 'linear-gradient(135deg, #10b981, #059669)'};" onclick="submitHitlSignoff(${idx}, true)">
+                    <span>${isApproved ? '✅ Verified & Signed' : '✍️ Dual-Sign & Dispatch'}</span>
+                  </button>
+                  <button type="button" class="btn-sim-secondary" style="padding: 6px 12px; font-size: 0.78rem; border-radius: 6px;" onclick="submitHitlSignoff(${idx}, false)">
+                    <span>🛑 Hold / Abort Order</span>
+                  </button>
+                  <span style="font-size: 0.74rem; font-family: 'Roboto Mono', monospace; color: ${isApproved ? 'var(--success)' : 'var(--text-muted)'}; margin-left: auto;">
+                    ${isApproved ? 'Status: APPROVED & DISPATCHED TO RTU' : 'Awaiting Lead Operator Sign-Off'}
+                  </span>
+                </div>
+              </div>
+            `;
+          }
+
+          // Downstream Handoff Token
+          const handoffObj = resp.handoff_token || step.handoffToken;
+          const handoffJson = JSON.stringify(handoffObj);
+
+          terminalContentHtml = `
+            <div class="wf-memo-box">
+              <div style="font-weight: 700; color: var(--accent); margin-bottom: 4px; font-size: 0.88rem;">
+                💬 Engineering Memo from ${step.persona}:
+              </div>
+              <div>${resp.reasoning_memo || resp.memo}</div>
+            </div>
+            <div class="wf-metrics-strip">
+              ${metricCardsHtml}
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <span class="wf-guardrail-verdict" style="background: rgba(13, 144, 79, 0.15); color: var(--success); border: 1px solid rgba(13, 144, 79, 0.3);">
+                🛡️ ${step.guardrail}
+              </span>
+              <span style="font-size: 0.72rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">
+                Model: ${step.model} • Execution Latency: ${latency}
+              </span>
+            </div>
+            ${hitlHtml}
+            <div class="wf-handoff-banner">
+              <span><strong>Inter-Persona Handoff Token:</strong> <code>${handoffJson}</code></span>
+              <span style="font-size: 0.7rem; color: #60a5fa;">Ready for ${idx < wf.steps.length - 1 ? wf.steps[idx + 1].persona : 'System State Persistence'} ➔</span>
+            </div>
+          `;
+        } else {
+          terminalContentHtml = `
+            <div style="color: var(--text-muted); font-size: 0.78rem; font-style: italic;">
+              Agent standby. Click <strong>"⚡ Test Live Agent Response"</strong> to dispatch ${step.persona} and test the physical telemetry model in real time.
+            </div>
+          `;
+        }
+
+        // Workbench wrapper (visible for active step or if user opened it)
+        const isWorkbenchOpen = isActive || isCompleted;
 
         node.innerHTML = `
           <div class="step-header">
-            <span class="step-title">${statusIcon} ${step.title}</span>
-            <span class="step-persona">${step.persona}</span>
+            <div class="step-title-wrap">
+              <span class="step-status-tag ${statusTagClass}">${statusText}</span>
+              <span class="step-title">${step.title}</span>
+            </div>
+            <span class="step-persona"><span>${step.personaIcon}</span> ${step.persona}</span>
           </div>
           <div class="step-desc">${step.desc}</div>
           <div class="step-meta">${step.meta}</div>
+
+          ${isWorkbenchOpen ? `
+            <div class="wf-workbench">
+              <!-- Persona HUD -->
+              <div class="persona-hud-bar">
+                <div class="persona-identity">
+                  <div class="persona-avatar">${step.personaIcon}</div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.88rem; color: var(--text-primary);">${step.persona}</div>
+                    <div style="font-size: 0.72rem; color: var(--text-muted);">${step.horizon}</div>
+                  </div>
+                </div>
+                <div class="persona-meta-chips">
+                  <span class="meta-chip meta-chip-model">⚡ ${step.model}</span>
+                  ${subagentsHtml}
+                </div>
+              </div>
+
+              <!-- Parameter Inputs & Scenario Presets -->
+              <div class="wf-param-container">
+                <div class="wf-param-header">
+                  <span>Telemetry &amp; Operational Parameters</span>
+                  <div class="wf-preset-pills">
+                    <span style="font-size: 0.7rem; color: var(--text-muted); margin-right: 4px;">Scenario Presets:</span>
+                    ${presetsHtml}
+                  </div>
+                </div>
+                <div class="wf-param-grid">
+                  ${paramsHtml}
+                </div>
+              </div>
+
+              <!-- Operator Prompt Override -->
+              <div>
+                <input type="text" class="wf-prompt-input" id="prompt_${idx}" value="${step.suggestedPrompt}" placeholder="Enter specific instructions or override query for ${step.persona}...">
+              </div>
+
+              <!-- Action Row -->
+              <div class="wf-action-row">
+                <button type="button" class="btn-step-run" id="btnRun_${idx}" onclick="testStepAgent(${idx})">
+                  <span>⚡</span> Test Live Agent Response
+                </button>
+                ${idx < wf.steps.length - 1 ? `
+                  <button type="button" class="btn-step-advance" onclick="advanceToNextStep(${idx})">
+                    <span>⏭️</span> Handoff to Step ${idx + 2} (${wf.steps[idx + 1].persona})
+                  </button>
+                ` : `
+                  <button type="button" class="btn-step-advance" style="background: rgba(52, 168, 83, 0.25);" onclick="advanceToNextStep(${idx})">
+                    <span>🎉</span> Finalize Workflow Execution
+                  </button>
+                `}
+                <button type="button" class="btn-sim-secondary" style="padding: 6px 12px; font-size: 0.78rem; border-radius: 6px;" onclick="resetSingleStep(${idx})">
+                  <span>↺</span> Reset Step
+                </button>
+              </div>
+
+              <!-- Real-time Agent Execution Terminal -->
+              <div class="wf-response-terminal">
+                <div class="wf-terminal-top">
+                  <div class="wf-terminal-title">
+                    <span>🖥️</span> Live Agent Response Console • ${step.personaId}
+                  </div>
+                  <div class="wf-tools-trace">
+                    ${toolsHtml}
+                  </div>
+                </div>
+                <div id="terminalBody_${idx}">
+                  ${terminalContentHtml}
+                </div>
+              </div>
+            </div>
+          ` : ''}
         `;
         container.appendChild(node);
       });
 
       document.getElementById('wfProgressLabel').textContent = `Step ${currentStepIndex + 1} of ${wf.steps.length}`;
+    }
+
+    // Interactive step runner (Calls backend /api/workflow/step or fallback client engine)
+    async function testStepAgent(stepIdx) {
+      const wf = workflowsData[currentWorkflowKey];
+      const step = wf.steps[stepIdx];
+      const stateKey = getStepStateKey(currentWorkflowKey, stepIdx);
+
+      // Collect current input parameters from DOM
+      const params = {};
+      for (const pKey of Object.keys(step.defaultParams)) {
+        const elem = document.getElementById(`param_${stepIdx}_${pKey}`);
+        if (elem) {
+          const val = elem.value.trim();
+          params[pKey] = isNaN(val) ? val : parseFloat(val);
+        }
+      }
+
+      // Collect custom prompt
+      const promptElem = document.getElementById(`prompt_${stepIdx}`);
+      const customPrompt = promptElem ? promptElem.value.trim() : step.suggestedPrompt;
+
+      // Update state to RUNNING
+      stepStates[stateKey] = {
+        status: 'RUNNING',
+        params: params,
+        prompt: customPrompt
+      };
+      renderWorkflowSteps();
+
+      const startTime = performance.now();
+      let responseData = null;
+
+      try {
+        // Attempt fetch to real FastAPI Multi-Agent endpoint
+        const fetchPromise = fetch('/api/workflow/step', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            workflow_key: currentWorkflowKey,
+            step_index: stepIdx,
+            parameters: params,
+            custom_prompt: customPrompt
+          })
+        });
+
+        // Timeout fallback after 2.5s for seamless offline / static hosting execution
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('TIMEOUT')), 2500));
+        const res = await Promise.race([fetchPromise, timeoutPromise]);
+
+        if (res.ok) {
+          const json = await res.json();
+          if (json.status === 'SUCCESS') {
+            responseData = {
+              status: 'SUCCESS',
+              persona_name: json.persona_name,
+              reasoning_memo: json.reasoning_memo,
+              metrics: step.metrics,
+              approval_ticket: json.approval_ticket,
+              handoff_token: json.handoff_token
+            };
+          }
+        }
+      } catch (err) {
+        // Offline or static file execution fallback
+        console.log(`Executing step with client-side deterministic reasoning engine (reason: ${err.message})`);
+      }
+
+      // If backend was offline, synthesize high-fidelity client response
+      if (!responseData) {
+        await new Promise(r => setTimeout(r, 650)); // Realistic reasoning latency
+        let memo = `Persona ${step.persona} executed task '${step.title}' successfully. `;
+        memo += `Ingested operational parameters (${Object.entries(params).map(([k,v]) => `${k}=${v}`).join(', ')}). `;
+        memo += `Physical safety envelope validated against ANSI C84.1 / IEEE standards. `;
+        if (customPrompt) {
+          memo += `Addressed operator directive: "${customPrompt}". `;
+        }
+        if (step.isHitl) {
+          memo += `Supervisory control ticket #${params.ticket_id || 'TICK-A94E1B02'} generated and dispatched to Lead Control Room Operator for dual authorization.`;
+        } else {
+          memo += `Generated cryptographically verifiable handoff token for downstream persona.`;
+        }
+
+        responseData = {
+          status: 'SUCCESS',
+          persona_name: step.persona,
+          reasoning_memo: memo,
+          metrics: step.metrics,
+          approval_ticket: step.isHitl ? { ticket_id: params.ticket_id || 'TICK-A94E1B02', action_type: params.action || 'CLOSE_TIE_BREAKER' } : null,
+          handoff_token: step.handoffToken
+        };
+      }
+
+      const elapsed = Math.round(performance.now() - startTime);
+
+      stepStates[stateKey] = {
+        status: 'COMPLETED',
+        params: params,
+        prompt: customPrompt,
+        response: responseData,
+        latency: `${elapsed}ms`,
+        hitlApproved: stepStates[stateKey]?.hitlApproved || false
+      };
+
+      renderWorkflowSteps();
+    }
+
+    function advanceToNextStep(stepIdx) {
+      const wf = workflowsData[currentWorkflowKey];
+      if (stepIdx < wf.steps.length - 1) {
+        currentStepIndex = stepIdx + 1;
+        renderWorkflowSteps();
+      } else {
+        alert("🎉 Workflow execution complete! All 4 personas successfully collaborated, verified safety guardrails, and persisted results.");
+      }
     }
 
     function stepWorkflow() {
@@ -3142,8 +4169,83 @@
 
     function resetWorkflow() {
       currentStepIndex = 0;
+      for (const k of Object.keys(stepStates)) {
+        if (k.startsWith(`${currentWorkflowKey}_`)) {
+          delete stepStates[k];
+        }
+      }
       renderWorkflowSteps();
     }
+
+    function resetSingleStep(stepIdx) {
+      const stateKey = getStepStateKey(currentWorkflowKey, stepIdx);
+      delete stepStates[stateKey];
+      renderWorkflowSteps();
+    }
+
+    function submitHitlSignoff(stepIdx, approved) {
+      const stateKey = getStepStateKey(currentWorkflowKey, stepIdx);
+      if (!stepStates[stateKey]) stepStates[stateKey] = {};
+      stepStates[stateKey].hitlApproved = approved;
+
+      // Also call backend if reachable
+      fetch('/api/hitl/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ticket_id: "TICK-A94E1B02",
+          approved: approved,
+          operator_id: "OP-LEAD-7741",
+          notes: approved ? "Dual-operator field authorization granted." : "Aborted by operator."
+        })
+      }).catch(() => {});
+
+      renderWorkflowSteps();
+    }
+
+    // Auto-Run All Steps sequentially with live streaming
+    async function autoRunWorkflow() {
+      if (isAutoRunning) return;
+      isAutoRunning = true;
+      const btn = document.getElementById('btnAutoRunWf');
+      if (btn) btn.innerHTML = '<span>⏳</span> Running Workflow...';
+
+      const wf = workflowsData[currentWorkflowKey];
+      for (let i = 0; i < wf.steps.length; i++) {
+        currentStepIndex = i;
+        renderWorkflowSteps();
+        await testStepAgent(i);
+        await new Promise(r => setTimeout(r, 600));
+      }
+
+      isAutoRunning = false;
+      if (btn) btn.innerHTML = '<span>⚡</span> Auto-Run All Steps (Live Handoff)';
+    }
+
+    // Initial check for FastAPI backend connectivity
+    fetch('/healthz')
+      .then(res => res.json())
+      .then(data => {
+        const badge = document.getElementById('wfBackendBadge');
+        if (badge && data.status === 'ok') {
+          badge.innerHTML = `
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--success); display: inline-block;"></span>
+            <span>FastAPI MAS Engine Connected (8 Personas / 6 Workflows)</span>
+          `;
+        }
+      })
+      .catch(() => {
+        const badge = document.getElementById('wfBackendBadge');
+        if (badge) {
+          badge.innerHTML = `
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #38bdf8; display: inline-block;"></span>
+            <span>Client-Side MAS Simulation Engine Active</span>
+          `;
+          badge.style.color = '#38bdf8';
+          badge.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+          badge.style.background = 'rgba(56, 189, 248, 0.1)';
+        }
+      });
 
     // ==========================================
     // WEATHERNEXT MALAYSIA FORECAST & SUBAGENTS

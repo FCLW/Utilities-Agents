@@ -30,16 +30,14 @@ class RegulatoryComplianceOfficerPersona:
 
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         sub_results = {}
-        if task_type == "ANNUAL_COMPLIANCE_AUDIT":
-            sub_results["nerc"] = self.sub_agents["nerc_auditor"].execute(payload).data
-            sub_results["reliability"] = self.sub_agents["reliability_calc"].execute(payload).data
-            sub_results["rps"] = self.sub_agents["rps_tracker"].execute(payload).data
-            sub_results["settlement"] = self.sub_agents["settlement_reconciler"].execute(payload).data
-            sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-        return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}
+        sub_results["nerc"] = self.sub_agents["nerc_auditor"].execute(payload).data
+        sub_results["reliability"] = self.sub_agents["reliability_calc"].execute(payload).data
+        sub_results["rps"] = self.sub_agents["rps_tracker"].execute(payload).data
+        sub_results["settlement"] = self.sub_agents["settlement_reconciler"].execute(payload).data
+        sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
+        return {
+            "persona": self.persona_id,
+            "task_type": task_type,
+            "results": sub_results,
+            "status": "COMPLETED"
+        }

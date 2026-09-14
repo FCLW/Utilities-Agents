@@ -32,7 +32,17 @@ class AssetReliabilityPersona:
 
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         sub_results = {}
-        if task_type == "RUN_PREDICTIVE_MAINTENANCE_ASSESSMENT":
+        task_norm = (task_type or "").upper().strip()
+
+        if task_norm in ("SOLVE_DYNAMIC_LINE_RATING", "DYNAMIC_LINE_RATING", "DLR"):
+            sub_results["dlr"] = self.sub_agents["dlr_solver"].execute(payload).data
+            return {
+                "persona": self.persona_id,
+                "task_type": task_type,
+                "results": sub_results,
+                "status": "COMPLETED"
+            }
+        else:
             sub_results["dga"] = self.sub_agents["dga_pdm"].execute(payload).data
             sub_results["breaker"] = self.sub_agents["breaker_wear"].execute(payload).data
             sub_results["battery"] = self.sub_agents["battery_health"].execute(payload).data
@@ -44,12 +54,3 @@ class AssetReliabilityPersona:
                 "results": sub_results,
                 "status": "COMPLETED"
             }
-        elif task_type == "SOLVE_DYNAMIC_LINE_RATING":
-            sub_results["dlr"] = self.sub_agents["dlr_solver"].execute(payload).data
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-        return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}

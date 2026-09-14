@@ -35,24 +35,9 @@ class GridDispatcherPersona:
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         val = self.harness.validate_input_telemetry(payload)
         sub_results = {}
+        task_norm = (task_type or "").upper().strip()
 
-        if task_type == "MONITOR_AND_DISPATCH":
-            sub_results["scada"] = self.sub_agents["scada_monitor"].execute(payload).data
-            sub_results["weather"] = self.sub_agents["weathernext_storm"].execute(payload).data
-            sub_results["state_est"] = self.sub_agents["state_estimation"].execute(payload).data
-            sub_results["vvo"] = self.sub_agents["vvo_optimizer"].execute(payload).data
-            copilot_out = self.sub_agents["copilot"].execute(payload).data
-            sub_results["briefing"] = copilot_out
-
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "validation": val.__dict__,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-
-        elif task_type == "TRIGGER_FLISR_SWITCHING":
+        if task_norm in ("TRIGGER_FLISR_SWITCHING", "FLISR", "SWITCHING", "FLISR_RESTORATION"):
             sub_results["switching"] = self.sub_agents["topological_switching"].execute(payload).data
             ticket = self.hitl.evaluate_and_ticket(
                 requesting_agent=self.persona_id,
@@ -71,4 +56,17 @@ class GridDispatcherPersona:
                 "status": "AWAITING_OPERATOR_APPROVAL"
             }
         else:
-            return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}
+            sub_results["scada"] = self.sub_agents["scada_monitor"].execute(payload).data
+            sub_results["weather"] = self.sub_agents["weathernext_storm"].execute(payload).data
+            sub_results["state_est"] = self.sub_agents["state_estimation"].execute(payload).data
+            sub_results["vvo"] = self.sub_agents["vvo_optimizer"].execute(payload).data
+            copilot_out = self.sub_agents["copilot"].execute(payload).data
+            sub_results["briefing"] = copilot_out
+
+            return {
+                "persona": self.persona_id,
+                "task_type": task_type,
+                "validation": val.__dict__,
+                "results": sub_results,
+                "status": "COMPLETED"
+            }

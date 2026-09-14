@@ -32,14 +32,12 @@ class FieldOperationsTechPersona:
 
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         sub_results = {}
-        if task_type == "EXECUTE_PDM_FIELD_WORK":
-            sub_results["work_order"] = self.sub_agents["pdm_receiver"].execute(payload).data
-            sub_results["safety_loto"] = self.sub_agents["switching_verifier"].execute(payload).data
-            sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-        return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}
+        sub_results["work_order"] = self.sub_agents["pdm_receiver"].execute(payload).data
+        sub_results["safety_loto"] = self.sub_agents["switching_verifier"].execute(payload).data
+        sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
+        return {
+            "persona": self.persona_id,
+            "task_type": task_type,
+            "results": sub_results,
+            "status": "COMPLETED"
+        }

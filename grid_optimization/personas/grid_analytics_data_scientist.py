@@ -32,16 +32,14 @@ class GridAnalyticsDataScientistPersona:
 
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         sub_results = {}
-        if task_type == "INGEST_WEATHERNEXT_AND_FORECAST":
-            sub_results["weather"] = self.sub_agents["weathernext_consumer"].execute(payload).data
-            sub_results["load"] = self.sub_agents["load_forecaster"].execute(payload).data
-            sub_results["renewables"] = self.sub_agents["renewable_forecaster"].execute(payload).data
-            sub_results["anomalies"] = self.sub_agents["anomaly_detector"].execute(payload).data
-            sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-        return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}
+        sub_results["weather"] = self.sub_agents["weathernext_consumer"].execute(payload).data
+        sub_results["load"] = self.sub_agents["load_forecaster"].execute(payload).data
+        sub_results["renewables"] = self.sub_agents["renewable_forecaster"].execute(payload).data
+        sub_results["anomalies"] = self.sub_agents["anomaly_detector"].execute(payload).data
+        sub_results["copilot"] = self.sub_agents["copilot"].execute(payload).data
+        return {
+            "persona": self.persona_id,
+            "task_type": task_type,
+            "results": sub_results,
+            "status": "COMPLETED"
+        }

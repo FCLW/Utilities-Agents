@@ -32,7 +32,17 @@ class PlanningEngineerPersona:
 
     def execute_task(self, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         sub_results = {}
-        if task_type == "HOSTING_CAPACITY_STUDY":
+        task_norm = (task_type or "").upper().strip()
+
+        if task_norm in ("SEASONAL_TOPOLOGY_OPTIMIZATION", "TOPOLOGY_OPTIMIZATION", "TOPOLOGY"):
+            sub_results["evolved_topology"] = self.sub_agents["topological_feeder"].execute(payload).data
+            return {
+                "persona": self.persona_id,
+                "task_type": task_type,
+                "results": sub_results,
+                "status": "COMPLETED"
+            }
+        else:
             sub_results["hosting"] = self.sub_agents["hosting_capacity"].execute(payload).data
             sub_results["contingency"] = self.sub_agents["contingency"].execute(payload).data
             sub_results["study_copilot"] = self.sub_agents["interconnection"].execute(payload).data
@@ -42,12 +52,3 @@ class PlanningEngineerPersona:
                 "results": sub_results,
                 "status": "COMPLETED"
             }
-        elif task_type == "SEASONAL_TOPOLOGY_OPTIMIZATION":
-            sub_results["evolved_topology"] = self.sub_agents["topological_feeder"].execute(payload).data
-            return {
-                "persona": self.persona_id,
-                "task_type": task_type,
-                "results": sub_results,
-                "status": "COMPLETED"
-            }
-        return {"persona": self.persona_id, "error": f"Unknown task type {task_type}"}
