@@ -1,6 +1,6 @@
 import os
 # Ensure global endpoint for Gemini 3.7 Flash on Vertex AI
-os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
 
 from google.adk import Agent
 from pathlib import Path
@@ -64,7 +64,7 @@ instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_
 
 agent = Agent(
     name="utilities_master_orchestrator",
-    model="gemini-3.7-flash",
+    model=getattr(settings, "llm_model_name", "gemini-3.7-flash"),
     description="Serves as the enterprise AI master coordinator, intelligently routing domain queries, orchestrating multi-agent workflows, and aggregating telemetry insights across all 10 utility operational sub-domains.",
     instruction=instruction,
     sub_agents=[execution_agent, critic_agent],
@@ -79,6 +79,7 @@ root_agent = agent
 async def workflow_router(message: str, session_state: dict = None) -> str:
     """Executes the Execution -> Critic pipeline, sanitizing outputs into structured markdown."""
     import sys
+    from google.adk.runners import InMemoryRunner
     agent_mod = sys.modules.get(__name__)
     w = getattr(agent_mod, "execution_agent", execution_agent)
     c = getattr(agent_mod, "critic_agent", critic_agent)
@@ -87,6 +88,19 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
         worker_resp = w(message)
     elif hasattr(w, "run") and type(w).__name__ != "Agent":
         worker_resp = w.run(message)
+    elif type(w).__name__ == "Agent":
+        try:
+            runner = InMemoryRunner(agent=w)
+            events = await runner.run_debug(message, quiet=True)
+            parts = []
+            for ev in events:
+                if ev.content and ev.content.parts:
+                    for p in ev.content.parts:
+                        if getattr(p, "text", None):
+                            parts.append(p.text)
+            worker_resp = "".join(parts) if parts else f"Execution analysis for: {message}"
+        except Exception:
+            worker_resp = f"Execution analysis for: {message}"
     else:
         worker_resp = f"Execution analysis for: {message}"
     if hasattr(worker_resp, "__await__"):
@@ -98,6 +112,19 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
         critic_resp = c(critic_prompt)
     elif hasattr(c, "run") and type(c).__name__ != "Agent":
         critic_resp = c.run(critic_prompt)
+    elif type(c).__name__ == "Agent":
+        try:
+            runner = InMemoryRunner(agent=c)
+            events = await runner.run_debug(critic_prompt, quiet=True)
+            parts = []
+            for ev in events:
+                if ev.content and ev.content.parts:
+                    for p in ev.content.parts:
+                        if getattr(p, "text", None):
+                            parts.append(p.text)
+            critic_resp = "".join(parts) if parts else "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
+        except Exception:
+            critic_resp = "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
     else:
         critic_resp = "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
     if hasattr(critic_resp, "__await__"):

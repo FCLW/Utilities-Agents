@@ -46,3 +46,4 @@ jobs:
         run: |
           python3 scripts/run_fleet_tests.py --agent capital_replacement_simulator
           python3 scripts/run_fleet_tests.py --agent battery_storage_discharge_optimizer
+
