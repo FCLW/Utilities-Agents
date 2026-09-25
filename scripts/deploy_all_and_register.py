@@ -31,6 +31,9 @@ def get_adk_binary() -> str:
 
 
 def get_auth_token() -> str:
+    token = os.getenv("GOOGLE_OAUTH_ACCESS_TOKEN") or os.getenv("GCLOUD_ACCESS_TOKEN")
+    if token:
+        return token
     return subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True).strip()
 
 def fetch_existing_reasoning_engines(project_id: str, regions: list[str]) -> dict:

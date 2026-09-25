@@ -12,6 +12,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config.settings import settings
 
 def get_auth():
+    token = os.getenv("GOOGLE_OAUTH_ACCESS_TOKEN") or os.getenv("GCLOUD_ACCESS_TOKEN")
+    if token:
+        return token
     try:
         token = subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True).strip()
         if token:
