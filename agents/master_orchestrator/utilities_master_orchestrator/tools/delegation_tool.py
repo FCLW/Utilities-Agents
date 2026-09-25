@@ -18,9 +18,17 @@ class AgentDelegationTool:
         if target_norm in self._cache:
             return self._cache[target_norm]
         
-        repo_root = Path(__file__).resolve().parents[3]
-        agents_dir = repo_root / "agents"
-        if agents_dir.exists():
+        curr_path = Path(__file__).resolve()
+        # Find directory named 'agents' in parents
+        agents_dir = None
+        for p in curr_path.parents:
+            if p.name == "agents":
+                agents_dir = p
+                break
+            if (p / "agents").is_dir():
+                agents_dir = p / "agents"
+                break
+        if agents_dir and agents_dir.exists():
             for domain_dir in agents_dir.iterdir():
                 if not domain_dir.is_dir() or domain_dir.name.startswith("_"):
                     continue

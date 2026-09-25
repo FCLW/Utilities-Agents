@@ -6,7 +6,7 @@ from google.adk import Agent
 from pathlib import Path
 from .sub_agents.execution_agent import execution_agent
 from .sub_agents.critic_agent import critic_agent
-from .tools.bigquery_tool import BigQueryQueryTool
+from .tools.delegation_tool import AgentDelegationTool
 from .tools.search_tool import GoogleSearchTool
 from .tools.visualizer import VisualizerTool
 
@@ -68,7 +68,7 @@ agent = Agent(
     description="Serves as the enterprise AI master coordinator, intelligently routing domain queries, orchestrating multi-agent workflows, and aggregating telemetry insights across all 10 utility operational sub-domains.",
     instruction=instruction,
     sub_agents=[execution_agent, critic_agent],
-    tools=[BigQueryQueryTool(), GoogleSearchTool(), VisualizerTool()],
+    tools=[AgentDelegationTool(), GoogleSearchTool(), VisualizerTool()],
     state_schema=UtilitiesSessionState,
     **callbacks
 )

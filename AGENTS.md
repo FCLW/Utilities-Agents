@@ -6,7 +6,7 @@ This document outlines the portfolio of specialized agents across key sub-domain
 
 | Agent Name & ID | Target Persona / Business Role | Primary Business Problem & Solution | Key Business KPIs | BigQuery Datasets & Tables Used | Reasoning Model |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Utilities Master Orchestrator**<br>`utilities_master_orchestrator` | System Administrator / Global Operator | **Problem:** Lack of centralized AI coordination.<br>**Solution:** Acts as the universal entry point and A2A router. | Routing Accuracy, System Latency | `orchestrator.session_state` | `gemini-3.7-flash` |
+| **Utilities Master Orchestrator**<br>`utilities_master_orchestrator` | System Administrator / Global Operator | **Problem:** Lack of centralized AI coordination.<br>**Solution:** Acts as the universal entry point and A2A router. | Routing Accuracy, System Latency | *None* (No direct BigQuery access; routes to domain agents via A2A router) | `gemini-3.7-flash` |
 
 ## Asset Management
 

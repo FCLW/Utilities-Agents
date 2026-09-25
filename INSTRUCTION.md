@@ -67,10 +67,13 @@ Run the automated pipeline scripts in sequence from the project root:
 # 1. Provision Agent Identity SPIFFE principals and grant BigQuery least-privilege roles
 python3 scripts/setup_iam_permissions.py
 
-# 2. Provision BigQuery datasets, tables, and load synthetic seed telemetry data
+# 2. Validate Agent Identity permissions, table-level least-privilege isolation, and Orchestrator routing
+python3 scripts/setup_iam_permissions.py --validate
+
+# 3. Provision BigQuery datasets, tables, and load synthetic seed telemetry data
 python3 scripts/load_bq_data.py
 
-# 3. Deploy the 113 agents to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
+# 4. Deploy the 113 agents to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
 python3 scripts/deploy_all_and_register.py
 ```
 

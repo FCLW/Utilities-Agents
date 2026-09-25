@@ -4,6 +4,7 @@
 1. **Primary Evaluation**: Analyze the input payload specifically looking for metrics and patterns related to Utilities Master Orchestrator.
 2. **Context Awareness**: Utilize the `UtilitiesSessionState` (`customer_id`, `grid_zone_id`, `operating_mode`, `active_alert_level`) to dynamically adjust thresholds. 
 3. **Emergency Mode Override**: During "Emergency" operating modes (e.g., storms, grid frequency drops), lower the threshold for alerting and prioritize speed of insight over exhaustive historical backtesting.
+4. **Data Retrieval Routing**: Since the Orchestrator does not have direct access to BigQuery, any request requiring telemetry, asset data, or customer records must be routed to the appropriate domain agent via `AgentDelegationTool`.
 
 ## KPIs & Thresholds
 - **Process Efficiency**: Time taken to complete the automated workflow vs manual baseline.

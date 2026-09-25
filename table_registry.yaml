@@ -1523,17 +1523,8 @@ agents:
     sub_domain: support_services
   utilities_master_orchestrator:
     agent_name: Utilities Master Orchestrator
-    datasets:
-    - access_level: roles/bigquery.dataViewer
-      dataset_id: utilities_data
-      location: ${GOOGLE_CLOUD_LOCATION}
-      tables:
-      - description: Stores analytical logs and telemetry for utilities master orchestrator
-        partitioning:
-          field: event_timestamp
-          type: DAY
-        table_id: utilities_master_orchestrator_logs
-    service_account: utilities_master_orchestrator@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+    datasets: [] # Orchestrator has NO direct BigQuery access; strictly routes to domain agents via A2A delegation
+    service_account: None
     sub_domain: master_orchestrator
   utility_vehicle_fleet_maintenance_tracker:
     agent_name: Utility Vehicle Fleet Maintenance Tracker
