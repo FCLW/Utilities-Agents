@@ -1,3 +1,6 @@
+import os
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
+
 from google.adk import Agent
 from pathlib import Path
 import sys
@@ -10,8 +13,8 @@ except ImportError:
         gcp_project_id = os.getenv("GCP_PROJECT_ID", "utilities-agents")
         gcp_region = os.getenv("GCP_REGION", "us-central1")
         gcp_location = os.getenv("GCP_LOCATION", "us-central1")
-        llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-2.5-flash")
-        reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-2.5-pro")
+        llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-3.7-flash")
+        reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-3.7-flash")
         bq_dataset_name = os.getenv("BQ_DATASET_NAME", "utilities-agents")
     settings = Settings()
 from ..app_utils.prompt_loader import load_prompt_layer
@@ -27,7 +30,7 @@ critic_instructions = f"{persona}\n\n{safety_guardrails}\n\n{output_format}\n\n"
     "3) Format the data EXACTLY as specified in output_format.md (e.g., using Markdown tables).\n" + \
     "4) Strip out any internal 'thinking' logs."
 
-flash_model = getattr(settings, 'llm_model_name', 'gemini-2.5-flash')
+flash_model = getattr(settings, 'llm_model_name', 'gemini-3.7-flash')
 
 critic_agent = Agent(
     name="hydro_dam_structural_stress_monitor_critic",
@@ -35,3 +38,5 @@ critic_agent = Agent(
     instruction=critic_instructions,
     tools=[] # NO tools for the critic
 )
+
+evaluator_agent = critic_agent

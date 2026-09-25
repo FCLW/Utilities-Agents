@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Verify Python Compilation Across Fleet
+        run: |
+          python3 -c "import py_compile, glob; [py_compile.compile(f, doraise=True) for f in glob.glob('agents/**/*.py', recursive=True) + glob.glob('grid_optimization/**/*.py', recursive=True) + glob.glob('config/**/*.py', recursive=True) + glob.glob('scripts/**/*.py', recursive=True)]"
+
+      - name: Run Core Tests (Model Armor & Telemetry)
+        run: |
+          pytest tests/ -v
+
+      - name: Run Grid Optimization Tests
+        run: |
+          pytest grid_optimization/tests/ -v
+
+      - name: Run Template Scaffolding Tests
+        run: |
+          pytest agents/_template/tests/ -v
+
+      - name: Run Sample Fleet Agent Tests
+        run: |
+          python3 scripts/run_fleet_tests.py --agent capital_replacement_simulator
+          python3 scripts/run_fleet_tests.py --agent battery_storage_discharge_optimizer

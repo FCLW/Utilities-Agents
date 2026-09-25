@@ -108,7 +108,7 @@ def get_model_armor_credentials():
     try:
         import subprocess
         import google.oauth2.credentials
-        token = subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True).strip()
+        token = subprocess.check_output(['gcloud', 'auth', 'print-access-token'], text=True, timeout=5, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL).strip()
         if token:
             return google.oauth2.credentials.Credentials(token)
     except Exception:

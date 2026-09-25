@@ -36,6 +36,18 @@ enterprise-agents-suite/
 │   ├── _template/                    # Standardized agent scaffolding reference
 │   │
 │   └── <sub_domain>/<agent_name>/    # Standardized Agent Package (All 113 Agents)
+│
+├── grid_optimization/               # Advanced ADK Multi-Agent System (8 Personas, 6 Workflows, WeatherNext/Vizier/PdM)
+│   ├── agent.py                     # Root Orchestrator Agent & Sub-Agent Registry
+│   ├── adk_mas_server.py            # FastAPI & ADK Runner Server
+│   ├── hitl_gateway.py              # Human-in-the-Loop Risk Tier & Approval Engine
+│   ├── validation_harness.py        # Grid Physics, ANSI C84.1, Thermal & Anti-Islanding Validator
+│   ├── advanced_engines.py          # WeatherNext, Vizier Bayesian VVO, PdM Health Engines
+│   ├── collaborative_workflows.py   # Multi-agent collaborative workflows (FLISR, Dynamic VVO, etc.)
+│   ├── personas/                    # 8 Specialized Grid Personas
+│   ├── skills/                      # 12 Abstracted Grid Skills
+│   ├── tools/                       # BigQuery telemetry & HITL management tools
+│   └── tests/                       # Comprehensive test suite (48 tests)
 │       ├── agent.py                  # Declarative ADK root_agent & dynamic prompt assembly
 │       ├── fast_api_app.py           # FastAPI server with telemetry & A2A routing endpoints
 │       ├── manifest.yaml             # Agent metadata, tool bindings, table dependencies, & KPIs
@@ -56,7 +68,7 @@ enterprise-agents-suite/
 │       │   ├── visualizer.py         # Matplotlib dynamic chart generator
 │       │   └── delegation_tool.py    # Agent-to-Agent (A2A) protocol dispatcher
 │       ├── sub_agents/               # Task Lead Pattern Sub-Agents
-│       │   ├── execution_agent.py    # Analytical execution worker
+│       │   ├── worker_agent.py       # Analytical execution worker (aliased as execution_agent)
 │       │   └── critic_agent.py       # Independent evaluator & safety gatekeeper
 │       ├── app_utils/                # Session state management & shared utilities
 │       ├── synthetic_data/           # Data assets for testing and lakehouse seeding

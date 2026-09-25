@@ -32,13 +32,19 @@ from google.adk.agents import Agent
 
 from grid_optimization.orchestrator import GridOptimizationOrchestrator
 
+try:
+    from config.settings import settings
+except ImportError:
+    settings = None
+
 logger = logging.getLogger(__name__)
 
 # Ensure environment settings for Vertex AI
+default_proj = getattr(settings, "gcp_project_id", None) or os.getenv("GCP_PROJECT_ID", "utilities-agents")
 os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
-os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_REGION", "us-central1"))
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", getattr(settings, "gcp_location", None) or os.getenv("GCP_LOCATION", "us-central1"))
 if "GOOGLE_CLOUD_PROJECT" not in os.environ:
-    os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID", "sandbox-ai-506805")
+    os.environ["GOOGLE_CLOUD_PROJECT"] = default_proj
 
 
 # Seamless local credential provider for local testing
@@ -63,28 +69,29 @@ class _DirectTokenCredentials(Credentials):
 
 def _ensure_local_auth():
     """Ensure credentials exist for local Vertex AI calls."""
+    proj = os.environ.get("GOOGLE_CLOUD_PROJECT", default_proj)
     try:
         creds, project = google.auth.default()
         if not hasattr(creds, "token") or not creds.token:
             token = subprocess.check_output(
-                ["gcloud", "auth", "print-access-token"], text=True, stderr=subprocess.DEVNULL
+                ["gcloud", "auth", "print-access-token"], text=True, timeout=5, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             ).strip()
             if token:
                 direct_creds = _DirectTokenCredentials(token)
                 google.auth.default = lambda *args, **kwargs: (
                     direct_creds,
-                    os.getenv("GOOGLE_CLOUD_PROJECT", "sandbox-ai-506805"),
+                    proj,
                 )
     except Exception:
         try:
             token = subprocess.check_output(
-                ["gcloud", "auth", "print-access-token"], text=True, stderr=subprocess.DEVNULL
+                ["gcloud", "auth", "print-access-token"], text=True, timeout=5, stdin=subprocess.DEVNULL, stderr=subprocess.DEVNULL
             ).strip()
             if token:
                 direct_creds = _DirectTokenCredentials(token)
                 google.auth.default = lambda *args, **kwargs: (
                     direct_creds,
-                    os.getenv("GOOGLE_CLOUD_PROJECT", "sandbox-ai-506805"),
+                    proj,
                 )
         except Exception:
             pass
@@ -502,7 +509,7 @@ if instruction_path.exists():
 else:
     instruction = "You are the Grid Optimization Master Orchestrator coordinating modern electric utility operations."
 
-model_name = os.getenv("LLM_MODEL_NAME", "gemini-2.5-flash")
+model_name = getattr(settings, "llm_model_name", None) or os.getenv("LLM_MODEL_NAME", "gemini-3.7-flash")
 
 root_agent = Agent(
     name="grid_optimization_orchestrator",

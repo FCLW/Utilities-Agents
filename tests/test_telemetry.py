@@ -125,6 +125,7 @@ async def test_combine_agent_callbacks():
     # Test clean prompt: both Model Armor and telemetry should execute
     from google.adk.models.llm_request import LlmRequest
     from google.genai import types
+    from unittest.mock import AsyncMock, MagicMock, patch
 
     class MockCallbackContext:
         agent_name = "test_agent"
@@ -139,9 +140,14 @@ async def test_combine_agent_callbacks():
         ]
     )
 
-    res = await combined["before_model_callback"](MockCallbackContext(), req)
-    assert res is None  # Not blocked
-    assert telemetry_called is True
+    with patch("config.model_armor.get_model_armor_plugin") as mock_get_plugin:
+        mock_plugin = MagicMock()
+        mock_plugin.before_model_callback = AsyncMock(return_value=None)
+        mock_get_plugin.return_value = mock_plugin
+
+        res = await combined["before_model_callback"](MockCallbackContext(), req)
+        assert res is None  # Not blocked
+        assert telemetry_called is True
 
 
 def test_agent_and_app_initialization_with_telemetry():
@@ -152,7 +158,7 @@ def test_agent_and_app_initialization_with_telemetry():
 
     agent = Agent(
         name="test_agent",
-        model="gemini-2.5-flash",
+        model="gemini-3.7-flash",
         instruction="Test agent",
         **callbacks
     )

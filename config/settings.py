@@ -1,16 +1,18 @@
 import os
 
 # Ensure global endpoint for Gemini 3.7 Flash on Vertex AI
-os.environ.setdefault("GOOGLE_CLOUD_LOCATION", "global")
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
 
 class Settings:
     def __init__(self):
         self.gcp_project_id = os.getenv("GCP_PROJECT_ID", "utilities-agents")
         self.gcp_region = os.getenv("GCP_REGION", "us-central1")
-        self.gcp_location = os.getenv("GOOGLE_CLOUD_LOCATION", "global")
+        self.gcp_location = os.getenv("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
         self.llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-3.7-flash")
         self.reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-3.7-flash")
         self.bq_dataset_name = os.getenv("BQ_DATASET_NAME", "utilities-agents")
+        self.gcs_demo_bucket = os.getenv("GCS_DEMO_BUCKET", "utilities-agents-demos")
+        self.cloud_run_portal_service = os.getenv("CLOUD_RUN_PORTAL_SERVICE", "utilities-agents-portal")
 
         # Google Cloud Model Armor Guardrails Configuration
         self.model_armor_enabled = os.getenv("MODEL_ARMOR_ENABLED", "true").lower() in ("true", "1", "yes")

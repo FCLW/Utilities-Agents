@@ -1,3 +1,6 @@
+import os
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
+
 from google.adk import Agent
 from pathlib import Path
 import sys
@@ -10,8 +13,8 @@ except ImportError:
         gcp_project_id = os.getenv("GCP_PROJECT_ID", "utilities-agents")
         gcp_region = os.getenv("GCP_REGION", "us-central1")
         gcp_location = os.getenv("GCP_LOCATION", "us-central1")
-        llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-2.5-flash")
-        reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-2.5-pro")
+        llm_model_name = os.getenv("LLM_MODEL_NAME", "gemini-3.7-flash")
+        reasoning_model_name = os.getenv("REASONING_MODEL_NAME", "gemini-3.7-flash")
         bq_dataset_name = os.getenv("BQ_DATASET_NAME", "utilities-agents")
     settings = Settings()
 from ..app_utils.prompt_loader import load_prompt_layer
@@ -25,7 +28,7 @@ safety_guardrails = load_prompt_layer("safety_guardrails")
 worker_instructions = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n" + \
     "You are the execution worker. Use your tools to fetch data and solve the user's query. Return raw, unformatted data and your reasoning steps."
 
-reasoning_model = getattr(settings, 'reasoning_model_name', 'gemini-2.5-pro')
+reasoning_model = getattr(settings, 'reasoning_model_name', 'gemini-3.7-flash')
 
 worker_agent = Agent(
     name="portfolio_value_at_risk_analyzer_worker",
@@ -33,3 +36,5 @@ worker_agent = Agent(
     instruction=worker_instructions,
     tools=[BigQueryQueryTool(), GoogleSearchTool()]
 )
+
+execution_agent = worker_agent

@@ -1,0 +1,46 @@
+from fastapi import FastAPI
+from .agent import agent
+from google.adk.apps.app import App
+from fastapi.responses import StreamingResponse
+
+app = FastAPI(title="{{AGENT_NAME}}")
+adk_app = App(name=agent.name, root_agent=agent, plugins=plugins)
+
+try:
+    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+    FastAPIInstrumentor.instrument_app(app)
+except ImportError:
+    pass
+
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
+
+import json
+import asyncio
+
+@app.post("/chat/stream")
+async def chat_stream(request: dict):
+    """Streams agent responses formatted as Server-Sent Events (SSE)."""
+    message = request.get("message") or request.get("prompt") or request.get("query") or ""
+    session_state = request.get("session_state") or {}
+
+    async def event_generator():
+        try:
+            yield f"event: open\ndata: {json.dumps({'agent': task_lead_agent.name})}\n\n"
+            from .agent import workflow_router
+            result = await workflow_router(message, session_state)
+            
+            chunk_size = 64
+            for i in range(0, len(result), chunk_size):
+                chunk = result[i:i + chunk_size]
+                payload = json.dumps({"delta": chunk, "agent": task_lead_agent.name})
+                yield f"event: message\ndata: {payload}\n\n"
+                await asyncio.sleep(0.01)
+            
+            yield f"event: done\ndata: {json.dumps({'status': 'completed'})}\n\n"
+        except Exception as e:
+            err_payload = json.dumps({"error": str(e)})
+            yield f"event: error\ndata: {err_payload}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")

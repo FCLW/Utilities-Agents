@@ -1,6 +1,6 @@
 import os
 # Ensure global endpoint for Gemini 3.7 Flash on Vertex AI
-os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
 
 from google.adk import Agent
 from .app_utils.prompt_loader import load_prompt_layer
@@ -52,11 +52,34 @@ output_format = load_prompt_layer("output_format")
 
 instruction = f"{persona}\n\n{business_rules}\n\n{safety_guardrails}\n\n{output_format}"
 
+try:
+    from .sub_agents.worker_agent import worker_agent
+    try:
+        from .sub_agents.worker_agent import execution_agent
+    except ImportError:
+        execution_agent = worker_agent
+    from .sub_agents.critic_agent import critic_agent
+except ImportError:
+    try:
+        from sub_agents.worker_agent import worker_agent
+        try:
+            from sub_agents.worker_agent import execution_agent
+        except ImportError:
+            execution_agent = worker_agent
+        from sub_agents.critic_agent import critic_agent
+    except ImportError:
+        worker_agent = None
+        execution_agent = None
+        critic_agent = None
+
+sub_agents = [w for w in [worker_agent, critic_agent] if w is not None]
+
 agent = Agent(
     name="industrial_load_curve_forecaster",
-    model="gemini-3.7-flash",
+    model=getattr(settings, "llm_model_name", "gemini-3.7-flash"),
     description="Forecasts electricity load profiles for heavy industrial manufacturing, arc furnaces, and chemical processing facilities based on production schedules and shift changes.",
     instruction=instruction,
+    sub_agents=sub_agents,
     tools=[BigQueryQueryTool(), VisualizerTool()],
     **callbacks
 )
@@ -64,20 +87,10 @@ agent = Agent(
 task_lead_agent = agent
 root_agent = agent
 
-try:
-    from .sub_agents.worker_agent import worker_agent
-    from .sub_agents.critic_agent import critic_agent
-except ImportError:
-    try:
-        from sub_agents.worker_agent import worker_agent
-        from sub_agents.critic_agent import critic_agent
-    except ImportError:
-        worker_agent = None
-        critic_agent = None
-
 async def workflow_router(message: str, session_state: dict = None) -> str:
     """Executes the Worker -> Critic pipeline, sanitizing outputs into structured markdown."""
     import sys
+    from google.adk.runners import InMemoryRunner
     agent_mod = sys.modules.get(__name__)
     w = getattr(agent_mod, "worker_agent", worker_agent)
     c = getattr(agent_mod, "critic_agent", critic_agent)
@@ -86,6 +99,19 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
         worker_resp = w(message)
     elif hasattr(w, "run") and type(w).__name__ != "Agent":
         worker_resp = w.run(message)
+    elif type(w).__name__ == "Agent":
+        try:
+            runner = InMemoryRunner(agent=w)
+            events = await runner.run_debug(message, quiet=True)
+            parts = []
+            for ev in events:
+                if ev.content and ev.content.parts:
+                    for p in ev.content.parts:
+                        if getattr(p, "text", None):
+                            parts.append(p.text)
+            worker_resp = "".join(parts) if parts else f"Worker analysis for: {message}"
+        except Exception:
+            worker_resp = f"Worker analysis for: {message}"
     else:
         worker_resp = f"Worker analysis for: {message}"
     if hasattr(worker_resp, "__await__"):
@@ -97,8 +123,21 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
         critic_resp = c(critic_prompt)
     elif hasattr(c, "run") and type(c).__name__ != "Agent":
         critic_resp = c.run(critic_prompt)
+    elif type(c).__name__ == "Agent":
+        try:
+            runner = InMemoryRunner(agent=c)
+            events = await runner.run_debug(critic_prompt, quiet=True)
+            parts = []
+            for ev in events:
+                if ev.content and ev.content.parts:
+                    for p in ev.content.parts:
+                        if getattr(p, "text", None):
+                            parts.append(p.text)
+            critic_resp = "".join(parts) if parts else chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
+        except Exception:
+            critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
     else:
-        critic_resp = "| Metric | Status |\n|---|---|\n| Result | " + str(content) + " |"
+        critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
     if hasattr(critic_resp, "__await__"):
         critic_resp = await critic_resp
     return critic_resp.content if hasattr(critic_resp, "content") else str(critic_resp)

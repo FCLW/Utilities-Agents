@@ -62,14 +62,16 @@ EXPOSE 8080
 }
 """
 
-    image_tag = f"{region}-docker.pkg.dev/{project_id}/cloud-run-source-deploy/utilities-agents-portal:latest"
+    portal_service = getattr(settings, "cloud_run_portal_service", "utilities-agents-portal")
+    demo_bucket = getattr(settings, "gcs_demo_bucket", "utilities-agents-demos")
+    image_tag = f"{region}-docker.pkg.dev/{project_id}/cloud-run-source-deploy/{portal_service}:latest"
 
     cloudbuild_content = f"""steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
     entrypoint: 'sh'
     args:
       - '-c'
-      - 'mkdir -p web/demos && gsutil -m cp -r gs://utilities-agents-demos/* web/demos/'
+      - 'mkdir -p web/demos && gsutil -m cp -r gs://{demo_bucket}/* web/demos/'
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -101,7 +103,7 @@ timeout: '1200s'
         
         print("Deploying to Cloud Run...")
         deploy_cmd = [
-            "gcloud", "run", "deploy", "utilities-agents-portal",
+            "gcloud", "run", "deploy", portal_service,
             "--project", project_id,
             "--image", image_tag,
             "--region", region,

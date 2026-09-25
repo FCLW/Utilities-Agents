@@ -33,12 +33,21 @@ class BigQueryQueryTool:
         Args:
             query: SQL SELECT query to retrieve telemetry, asset status, or billing records.
         """
-        forbidden_pattern = re.compile(r'\b(DROP|DELETE|INSERT|ALTER|TRUNCATE)\b', re.IGNORECASE)
+        trimmed = query.strip()
+        if not re.match(r'^\s*(SELECT|WITH)\b', trimmed, re.IGNORECASE):
+            raise ValueError("Query rejected: contains forbidden mutative operations or non-read query structure (must begin with SELECT or WITH).")
+
+        forbidden_pattern = re.compile(
+            r'\b(DROP|DELETE|INSERT|ALTER|TRUNCATE|UPDATE|MERGE|CREATE|GRANT|REVOKE|CALL)\b',
+            re.IGNORECASE
+        )
         if forbidden_pattern.search(query):
-            raise ValueError("Query rejected: contains forbidden mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE).")
+            raise ValueError("Query rejected: contains forbidden mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE, UPDATE, MERGE, CREATE, GRANT, REVOKE, CALL).")
         
         client = self._get_client()
-        if client is not None:
+        mock_mode = os.getenv("MOCK_BIGQUERY", "false").lower() in ("true", "1", "yes")
+
+        if client is not None and not mock_mode:
             try:
                 if hasattr(bigquery, "QueryJobConfig"):
                     dry_run_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=True)
@@ -56,7 +65,7 @@ class BigQueryQueryTool:
                     if rows:
                         return f"Query executed successfully. Result: {rows[:10]}"
                 return "Query executed successfully. No records returned."
-            except Exception:
-                return "Query executed successfully. Sample records: [{'asset_id': 'ASSET-101', 'status': 'Active', 'health_score': 88.5, 'metric_value': 14.2}]"
+            except Exception as e:
+                return f"BigQuery query execution error: {str(e)}"
         
         return "Query executed successfully. Sample records: [{'asset_id': 'ASSET-101', 'status': 'Active', 'health_score': 88.5, 'metric_value': 14.2}]"

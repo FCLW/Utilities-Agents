@@ -52,10 +52,7 @@ async def chat_stream(request: dict):
 
     async def event_generator():
         try:
-            yield f"event: open
-data: {json.dumps({'agent': task_lead_agent.name})}
-
-"
+            yield f"event: open\ndata: {json.dumps({'agent': task_lead_agent.name})}\n\n"
             from .agent import workflow_router
             result = await workflow_router(message, session_state)
             
@@ -63,21 +60,12 @@ data: {json.dumps({'agent': task_lead_agent.name})}
             for i in range(0, len(result), chunk_size):
                 chunk = result[i:i + chunk_size]
                 payload = json.dumps({"delta": chunk, "agent": task_lead_agent.name})
-                yield f"event: message
-data: {payload}
-
-"
+                yield f"event: message\ndata: {payload}\n\n"
                 await asyncio.sleep(0.01)
             
-            yield f"event: done
-data: {json.dumps({'status': 'completed'})}
-
-"
+            yield f"event: done\ndata: {json.dumps({'status': 'completed'})}\n\n"
         except Exception as e:
             err_payload = json.dumps({"error": str(e)})
-            yield f"event: error
-data: {err_payload}
-
-"
+            yield f"event: error\ndata: {err_payload}\n\n"
 
     return StreamingResponse(event_generator(), media_type="text/event-stream")

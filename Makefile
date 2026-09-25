@@ -1,9 +1,11 @@
-.PHONY: help dev test test-live build web deploy-portal deploy-fleet
+.PHONY: help dev test test-live test-fleet test-grid build web deploy-portal deploy-fleet
 
 help:
 	@echo "Available commands:"
 	@echo "  make dev            - Run agents locally with agents-cli dev"
 	@echo "  make test           - Run agent unit and integration tests"
+	@echo "  make test-fleet     - Run unit and integration tests across the agent fleet"
+	@echo "  make test-grid      - Run tests for the Grid Optimization multi-agent system"
 	@echo "  make test-live      - Run live evaluation across deployed Reasoning Engines"
 	@echo "  make build          - Recompile web catalog.json and web portal index.html"
 	@echo "  make web            - Build and launch local web portal at http://localhost:8000"
@@ -24,6 +26,12 @@ dev:
 
 test:
 	$(PYTEST) tests/
+
+test-fleet:
+	$(PYTHON) scripts/run_fleet_tests.py
+
+test-grid:
+	$(PYTEST) grid_optimization/tests/
 
 test-live:
 	$(PYTHON) scripts/live_agent_portfolio_tester.py

@@ -35,7 +35,7 @@ async def test_a2a_workflow_critic_gate(monkeypatch):
             self.content = content
             
     mock_worker = MagicMock(return_value=MockResponse("Customer John Doe at 123 Main St has a bad meter. I think we should replace it."))
-    sanitized_table = "| Metric | Status |\n|---|---|\n| Meter Issue | Bad Meter |"
+    sanitized_table = chr(10).join(["| Metric | Status |", "|---|---|", "| Meter Issue | Bad Meter |"])
     mock_critic = MagicMock(return_value=MockResponse(sanitized_table))
     
     monkeypatch.setattr(agent_mod, "worker_agent", mock_worker)
