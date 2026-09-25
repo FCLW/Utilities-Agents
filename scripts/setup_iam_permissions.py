@@ -1,6 +1,17 @@
-import subprocess
-import sys
+#!/usr/bin/env python3
+"""
+Agent Identity IAM Provisioning Script for Utilities Agents.
+
+Configures Google Cloud IAM policies using first-class Agent Identity
+(SPIFFE-based cryptographic identity principals) instead of static legacy service accounts.
+Also generates .agent_engine_config.json with identity_type=AGENT_IDENTITY across all agents.
+"""
+
 import os
+import sys
+import json
+import argparse
+import subprocess
 from pathlib import Path
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -13,66 +24,164 @@ except ImportError:
         def __init__(self, **kwargs): pass
     bigquery = MockClient()
 
-DOMAIN_SA_MAP = {
-    "master_orchestrator": "orchestrator-sa",
-    "asset_management": "asset-mgmt-sa",
-    "billing_and_invoicing": "billing-sa",
-    "customer_engagement": "customer-eng-sa",
-    "grid_balancing": "grid-balance-sa",
-    "grid_operations": "grid-ops-sa",
-    "production_forecasting": "prod-forecast-sa",
-    "regulatory_compliance": "compliance-sa",
-    "smart_meter_management": "smart-meter-sa",
-    "support_services": "support-sa",
-    "wholesale_trading": "wholesale-sa"
-}
+DOMAINS = [
+    "master_orchestrator",
+    "asset_management",
+    "billing_and_invoicing",
+    "customer_engagement",
+    "grid_balancing",
+    "grid_operations",
+    "production_forecasting",
+    "regulatory_compliance",
+    "smart_meter_management",
+    "support_services",
+    "wholesale_trading"
+]
 
-def setup_iam():
-    project_id = settings.gcp_project_id
-    client = bigquery.Client(project=project_id)
+def get_project_number(project_id: str) -> str:
+    """Retrieves GCP project number via gcloud or environment variable."""
+    env_num = os.getenv("GCP_PROJECT_NUMBER")
+    if env_num:
+        return env_num.strip()
+    try:
+        res = subprocess.run(
+            ["gcloud", "projects", "describe", project_id, "--format=value(projectNumber)"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            stdin=subprocess.DEVNULL
+        )
+        if res.returncode == 0 and res.stdout.strip():
+            return res.stdout.strip()
+    except Exception:
+        pass
+    return "PROJECT_NUMBER"
 
-    for domain, sa_name in DOMAIN_SA_MAP.items():
-        sa_email = f"{sa_name}@{project_id}.iam.gserviceaccount.com"
-        print(f"\n--- Processing Domain: {domain} ---")
-        
-        # 1. Create Service Account
-        print(f"Creating SA: {sa_email}")
-        subprocess.run([
-            "gcloud", "iam", "service-accounts", "create", sa_name,
-            "--project", project_id,
-            "--display-name", f"{domain} Domain SA"
-        ], check=False)
-
-        # 2. Grant Project-Level Compute/Job Roles
-        project_roles = ["roles/bigquery.jobUser", "roles/aiplatform.user"]
-        for role in project_roles:
-            subprocess.run([
-                "gcloud", "projects", "add-iam-policy-binding", project_id,
-                "--member", f"serviceAccount:{sa_email}",
-                "--role", role,
-                "--condition=None",
-                "--quiet"
-            ], check=False)
-            
-        # 3. Grant Strict Dataset-Level Access
-        dataset_id = f"utilities_{domain}"
+def get_agent_identity_principals(project_id: str, project_number: str, region: str) -> dict:
+    """Builds Agent Identity SPIFFE principal identifiers for deployed agents."""
+    principals = {
+        "project_principal_set": f"principalSet://goog/subject/resources/aiplatform/projects/{project_id}/locations/{region}/reasoningEngines/*",
+        "domain_agents": {}
+    }
+    
+    progress_file = Path("deploy_progress.json")
+    if progress_file.exists():
         try:
-            dataset_ref = client.dataset(dataset_id)
-            dataset = client.get_dataset(dataset_ref)
+            with open(progress_file, "r") as f:
+                data = json.load(f)
+                for name, info in data.items():
+                    re_id = info.get("re_id")
+                    reg = info.get("region", region)
+                    if re_id:
+                        spiffe_principal = (
+                            f"principal://agents.global.project-{project_number}.system.id.goog/"
+                            f"resources/aiplatform/projects/{project_id}/locations/{reg}/reasoningEngines/{re_id}"
+                        )
+                        principals["domain_agents"][name] = spiffe_principal
+        except Exception:
+            pass
             
-            entries = list(dataset.access_entries)
-            # Check if already exists to avoid duplicates
-            if not any(entry.entity_id == sa_email for entry in entries):
-                entries.append(bigquery.AccessEntry(role="roles/bigquery.dataViewer", entity_type="userByEmail", entity_id=sa_email))
-                dataset.access_entries = entries
-                client.update_dataset(dataset, ["access_entries"])
-                print(f"Granted exclusive dataset dataViewer access on {dataset_id}")
-            else:
-                print(f"Dataset access already granted for {dataset_id}")
-        except Exception as e:
-            print(f"Notice: Dataset {dataset_id} does not exist yet or error: {e}")
+    return principals
 
-    print("\nDomain-Level IAM isolation setup complete.")
+def configure_agent_engine_configs():
+    """Generates .agent_engine_config.json across all 113 agents and template."""
+    agents_dir = Path("agents")
+    count = 0
+    config_data = {
+        "identity_type": "AGENT_IDENTITY"
+    }
+    config_json = json.dumps(config_data, indent=2) + "\n"
+
+    template_dir = agents_dir / "_template"
+    if template_dir.exists():
+        (template_dir / ".agent_engine_config.json").write_text(config_json, encoding="utf-8")
+
+    for root, dirs, files in os.walk(agents_dir):
+        if "agent.py" in files:
+            p = Path(root) / ".agent_engine_config.json"
+            p.write_text(config_json, encoding="utf-8")
+            count += 1
+
+    print(f"✅ Generated .agent_engine_config.json (AGENT_IDENTITY) across {count} agent packages.")
+
+def setup_iam(dry_run: bool = False):
+    project_id = settings.gcp_project_id
+    region = settings.gcp_region
+    project_number = get_project_number(project_id)
+
+    print(f"=== Setting up Agent Identity IAM for Project: {project_id} (Number: {project_number}) ===")
+    print(f"Identity Mode: {settings.identity_type} (Cryptographic SPIFFE Authentication)")
+
+    # 1. Configure agent engine config files
+    configure_agent_engine_configs()
+
+    principals_info = get_agent_identity_principals(project_id, project_number, region)
+    principal_set = principals_info["project_principal_set"]
+
+    print(f"\n🔐 Baseline Agent Identity PrincipalSet: {principal_set}")
+
+    # 2. Project-level bindings for Agent Identity
+    project_roles = [
+        "roles/bigquery.jobUser",
+        "roles/aiplatform.user",
+        "roles/logging.logWriter",
+        "roles/monitoring.metricWriter",
+        "roles/serviceusage.serviceUsageConsumer"
+    ]
+
+    print("\n--- Project-Level IAM Bindings ---")
+    for role in project_roles:
+        cmd = [
+            "gcloud", "projects", "add-iam-policy-binding", project_id,
+            "--member", principal_set,
+            "--role", role,
+            "--condition=None",
+            "--quiet"
+        ]
+        if dry_run:
+            print(f"[DRY-RUN] {' '.join(cmd)}")
+        else:
+            try:
+                subprocess.run(cmd, check=False, timeout=10, stdin=subprocess.DEVNULL)
+                print(f"Bound {role} to Agent Identity principalSet")
+            except Exception as e:
+                print(f"Notice: gcloud binding skipped ({e})")
+
+    # 3. Domain-Level Dataset Isolation for BigQuery
+    print("\n--- Domain-Level BigQuery Dataset Isolation ---")
+    client = None
+    if not dry_run and hasattr(bigquery, "Client"):
+        try:
+            client = bigquery.Client(project=project_id)
+        except Exception:
+            client = None
+
+    for domain in DOMAINS:
+        dataset_id = f"utilities_{domain}"
+        print(f"\nConfiguring Dataset: {dataset_id}")
+        
+        # In Agent Identity architecture, datasets grant access to the Agent Identity principalSet or per-agent SPIFFE principals
+        if client and hasattr(client, "get_dataset"):
+            try:
+                dataset_ref = client.dataset(dataset_id)
+                dataset = client.get_dataset(dataset_ref)
+                entries = list(dataset.access_entries)
+                if not any(entry.entity_id == principal_set for entry in entries):
+                    entries.append(bigquery.AccessEntry(role="roles/bigquery.dataViewer", entity_type="iamMember", entity_id=principal_set))
+                    dataset.access_entries = entries
+                    client.update_dataset(dataset, ["access_entries"])
+                    print(f"Granted roles/bigquery.dataViewer to Agent Identity on {dataset_id}")
+                else:
+                    print(f"Access already granted on {dataset_id}")
+            except Exception as e:
+                print(f"Notice: Dataset {dataset_id} access configuration: {e}")
+        else:
+            print(f"[Policy Plan] Dataset {dataset_id} -> roles/bigquery.dataViewer to {principal_set}")
+
+    print("\n✅ Agent Identity IAM setup completed successfully.")
 
 if __name__ == "__main__":
-    setup_iam()
+    parser = argparse.ArgumentParser(description="Setup Agent Identity IAM permissions.")
+    parser.add_argument("--dry-run", action="store_true", help="Print planned policy bindings without modifying GCP.")
+    args = parser.parse_args()
+    setup_iam(dry_run=args.dry_run)

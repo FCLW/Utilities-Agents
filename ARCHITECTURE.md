@@ -100,7 +100,7 @@ enterprise-agents-suite/
 │   ├── record_agent_demo.py          # Playwright + FFmpeg headless browser 1080p MP4 recorder
 │   ├── register_to_gemini_enterprise.py # Registers Reasoning Engines in Discovery Engine API
 │   ├── scaffold_agent.py             # Scaffolds new agents from agents/_template
-│   ├── setup_iam_permissions.py      # Creates service accounts & grants BigQuery least-privilege IAM
+│   ├── setup_iam_permissions.py      # Configures Agent Identity SPIFFE principals & least-privilege BigQuery IAM
 │   ├── sync_diverse_prompts_and_eval.py # Synchronizes multi-turn prompts to golden eval sets
 │   └── sync_eval_and_readme.py       # Synchronizes evaluation benchmark metrics into agent READMEs
 │
@@ -181,7 +181,7 @@ The Enterprise Agents Suite relies on a robust, secure, and scalable 4-tier arch
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │               TIER 4: DATA & LAKEHOUSE LAYER (BIGQUERY)               │  │
 │  │  - 113 Partitioned & Clustered Datasets (table_registry.yaml)         │  │
-│  │  - Least-Privilege Per-Agent IAM Service Accounts                     │  │
+│  │  - First-Class Cryptographic Agent Identity Principals (SPIFFE)       │  │
 │  │  - Synthetic Historical Telemetry, SCADA, AMI, & Grid State Tables    │  │
 │  └───────────────────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -206,14 +206,16 @@ The Enterprise Agents Suite relies on a robust, secure, and scalable 4-tier arch
   - **Execution Sub-Agent (`execution_agent.py`)**: Translates user intent into domain calculations, executes read-only BigQuery SQL, and performs simulations.
   - **Critic Sub-Agent (`critic_agent.py`)**: Intercepts execution output, rigorously audits against `safety_guardrails.md`, checks for hallucinated metrics, strips private internal reasoning logs, enforces markdown table formatting, and verifies compliance before responding.
 - **Tools**:
-  - **`BigQueryTool` (`bigquery_tool.py`)**: Parameterized, read-only SQL query execution with strict regex guardrails blocking mutative statements (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`).
+  - **`BigQueryTool` (`bigquery_tool.py`)**: Parameterized, read-only SQL query execution with strict regex guardrails blocking mutative statements (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`). Authenticates transparently via **Agent Identity** and ADC bound tokens.
   - **`SearchTool` (`search_tool.py`)**: Google Search Grounding for live energy regulatory updates (FERC, NERC, PUC), market prices, and weather forecasts.
   - **`VisualizerTool` (`visualizer.py`)**: Matplotlib dynamic chart generator creating data visualizations.
   - **`DelegationTool` (`delegation_tool.py`)**: Dispatches sub-tasks to downstream agents across sub-domains.
 
 ### Tier 4: Data & Enterprise Lakehouse Layer
 - **BigQuery Lakehouse**: Segregated datasets and 113 partitioned analytical tables tracked in `table_registry.yaml`.
-- **Least-Privilege Security**: Dedicated service account per agent (`<agent_id>@<project>.iam.gserviceaccount.com`) granted strictly `roles/bigquery.dataViewer` and `roles/bigquery.jobUser`.
+- **Agent Identity Least-Privilege Security**: Every agent operates under its own unique, first-class **Agent Identity** (`principal://agents.global.project-<PROJECT_NUMBER>.system.id.goog/resources/aiplatform/projects/<PROJECT_ID>/locations/<LOCATION>/reasoningEngines/<RE_ID>`), eliminating static service account keys.
+- **Cryptographically Bound Access Tokens**: Automated short-lived X.509 certificate and token rotation via Application Default Credentials (ADC).
+- **Domain-Isolated Dataset Access**: Each domain's dataset is restricted via `roles/bigquery.dataViewer` scoped strictly to that domain's Agent Identity principals, with project-level `roles/bigquery.jobUser` and `roles/aiplatform.user`.
 - **Synthetic Data Pipeline**: Comprehensive schema DDL (`schema.sql`), mock CSVs (`mock_records.csv`), and automated loading scripts (`load_bq_data.py`).
 
 ---
@@ -236,7 +238,7 @@ sequenceDiagram
     Orchestrator->>Orchestrator: Parse intent & decompose tasks
     Orchestrator->>Specialist: A2A Dispatch (Zone ID, Mode, Request)
     Specialist->>Execution: Execute domain task
-    Execution->>BQ: Run parameterized read-only SQL
+    Execution->>BQ: Run read-only SQL via Agent Identity (ADC Bound Token)
     BQ-->>Execution: Return query dataset
     Execution-->>Critic: Raw computational result & proposed response
     Critic->>Critic: Audit safety guardrails, verify metrics, & format tables

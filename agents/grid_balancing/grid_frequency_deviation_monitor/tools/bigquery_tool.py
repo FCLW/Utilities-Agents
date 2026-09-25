@@ -8,17 +8,33 @@ except ImportError:
     bigquery = None
 
 class BigQueryQueryTool:
-    """Tool for querying enterprise BigQuery telemetry and asset datasets."""
-    def __init__(self, project_id: Optional[str] = None, location: Optional[str] = None):
+    """Tool for querying enterprise BigQuery telemetry and asset datasets using Agent Identity."""
+    def __init__(self, project_id: Optional[str] = None, location: Optional[str] = None, identity_type: Optional[str] = None):
         self.name = "BigQueryQueryTool"
         self.__name__ = self.name
         self.project_id = project_id or os.getenv("GCP_PROJECT_ID", "utilities-agents")
         self.location = location or os.getenv("GCP_LOCATION", "us-central1")
+        self.identity_type = identity_type or os.getenv("IDENTITY_TYPE", "AGENT_IDENTITY")
         self._client = None
+
+    def get_effective_identity(self) -> str:
+        """Returns the active Agent Identity or principal credential type used for resource access."""
+        try:
+            import google.auth
+            credentials, _ = google.auth.default()
+            agent_id = os.getenv("GOOGLE_AGENT_IDENTITY")
+            if agent_id:
+                return f"principal://{agent_id}"
+            if hasattr(credentials, "service_account_email") and credentials.service_account_email:
+                return f"serviceAccount:{credentials.service_account_email}"
+            return f"agentIdentity:{type(credentials).__name__}"
+        except Exception:
+            return f"agentIdentity:default (type={self.identity_type})"
 
     def _get_client(self):
         if self._client is None and bigquery is not None:
             try:
+                # BigQuery Client automatically discovers the Agent Identity via Application Default Credentials (ADC)
                 self._client = bigquery.Client(project=self.project_id, location=self.location)
             except Exception:
                 self._client = None

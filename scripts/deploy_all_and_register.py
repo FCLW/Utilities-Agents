@@ -87,12 +87,18 @@ def deploy_single_agent(agent_info: dict, adk_bin: str, project_id: str) -> dict
     start_time = time.time()
     print(f"[{time.strftime('%X')}] 🚀 Deploying {agent_name} ({region}) [ID: {re_id}]...")
 
+    # Ensure .agent_engine_config.json is configured for Agent Identity
+    cfg_path = Path(agent_path) / ".agent_engine_config.json"
+    if not cfg_path.exists():
+        cfg_path.write_text('{\n  "identity_type": "AGENT_IDENTITY"\n}\n')
+
     cmd = [
         adk_bin, "deploy", "agent_engine", agent_path,
         "--project", project_id,
         "--region", region,
         "--display_name", display_name,
         "--agent_engine_id", re_id,
+        "--agent_engine_config_file", str(cfg_path),
         "--extra_packages", "config",
         "--otel_to_cloud"
     ]

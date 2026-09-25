@@ -31,12 +31,28 @@ class MultiDatasetBigQueryTool:
 
     def __init__(self, project_id: Optional[str] = None):
         self.project_id = project_id or os.environ.get("GOOGLE_CLOUD_PROJECT", "utilities-agents")
+        self.identity_type = os.environ.get("IDENTITY_TYPE", "AGENT_IDENTITY")
         self._client = None
         self._init_client()
+
+    def get_effective_identity(self) -> str:
+        """Returns the active Agent Identity or principal credential type used for resource access."""
+        try:
+            import google.auth
+            credentials, _ = google.auth.default()
+            agent_id = os.getenv("GOOGLE_AGENT_IDENTITY")
+            if agent_id:
+                return f"principal://{agent_id}"
+            if hasattr(credentials, "service_account_email") and credentials.service_account_email:
+                return f"serviceAccount:{credentials.service_account_email}"
+            return f"agentIdentity:{type(credentials).__name__}"
+        except Exception:
+            return f"agentIdentity:default (type={self.identity_type})"
 
     def _init_client(self):
         try:
             from google.cloud import bigquery
+            # BigQuery Client automatically discovers the Agent Identity via Application Default Credentials (ADC)
             self._client = bigquery.Client(project=self.project_id)
         except Exception:
             # Fallback to analytical simulation mode if offline or ADC missing

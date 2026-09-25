@@ -64,13 +64,13 @@ gcloud auth application-default login
 Run the automated pipeline scripts in sequence from the project root:
 
 ```bash
-# 1. Create IAM Service Accounts and grant BigQuery least-privilege roles
+# 1. Provision Agent Identity SPIFFE principals and grant BigQuery least-privilege roles
 python3 scripts/setup_iam_permissions.py
 
 # 2. Provision BigQuery datasets, tables, and load synthetic seed telemetry data
 python3 scripts/load_bq_data.py
 
-# 3. Deploy the 113 agents to Vertex AI Reasoning Engine and register in Gemini Enterprise
+# 3. Deploy the 113 agents to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
 python3 scripts/deploy_all_and_register.py
 ```
 

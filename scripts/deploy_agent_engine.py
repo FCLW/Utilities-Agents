@@ -26,14 +26,20 @@ def deploy_agent(domain_name, agent_name, project_id, region):
     display_name = agent_name.replace("_", " ").title()
     adk_bin = get_adk_binary()
     
-    print(f"Deploying {agent_name} to Agent Engine...")
+    # Ensure .agent_engine_config.json is configured for Agent Identity
+    cfg_path = Path(agent_path) / ".agent_engine_config.json"
+    if not cfg_path.exists():
+        cfg_path.write_text('{\n  "identity_type": "AGENT_IDENTITY"\n}\n')
+    
+    print(f"Deploying {agent_name} to Agent Engine (Agent Identity)...")
     try:
-        # Run adk deploy agent_engine with Google Cloud native OpenTelemetry enabled
+        # Run adk deploy agent_engine with Agent Identity and Google Cloud native OpenTelemetry enabled
         subprocess.run([
             adk_bin, "deploy", "agent_engine", agent_path,
             "--project", project_id,
             "--region", region,
             "--display_name", display_name,
+            "--agent_engine_config_file", str(cfg_path),
             "--extra_packages", "config",
             "--otel_to_cloud"
         ], check=True, capture_output=True)

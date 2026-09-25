@@ -14,6 +14,9 @@ class Settings:
         self.gcs_demo_bucket = os.getenv("GCS_DEMO_BUCKET", "utilities-agents-demos")
         self.cloud_run_portal_service = os.getenv("CLOUD_RUN_PORTAL_SERVICE", "utilities-agents-portal")
 
+        # Agent Identity & Cryptographic Security Configuration
+        self.identity_type = os.getenv("IDENTITY_TYPE", "AGENT_IDENTITY")
+
         # Google Cloud Model Armor Guardrails Configuration
         self.model_armor_enabled = os.getenv("MODEL_ARMOR_ENABLED", "true").lower() in ("true", "1", "yes")
         # Note: GEAP (Gemini Enterprise Agent Platform) assistants in location 'global' require multi-region 'us' (or 'eu')
