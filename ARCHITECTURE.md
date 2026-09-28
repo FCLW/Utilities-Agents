@@ -36,18 +36,6 @@ enterprise-agents-suite/
 │   ├── _template/                    # Standardized agent scaffolding reference
 │   │
 │   └── <sub_domain>/<agent_name>/    # Standardized Agent Package (All 113 Agents)
-│
-├── grid_optimization/               # Advanced ADK Multi-Agent System (8 Personas, 6 Workflows, WeatherNext/Vizier/PdM)
-│   ├── agent.py                     # Root Orchestrator Agent & Sub-Agent Registry
-│   ├── adk_mas_server.py            # FastAPI & ADK Runner Server
-│   ├── hitl_gateway.py              # Human-in-the-Loop Risk Tier & Approval Engine
-│   ├── validation_harness.py        # Grid Physics, ANSI C84.1, Thermal & Anti-Islanding Validator
-│   ├── advanced_engines.py          # WeatherNext, Vizier Bayesian VVO, PdM Health Engines
-│   ├── collaborative_workflows.py   # Multi-agent collaborative workflows (FLISR, Dynamic VVO, etc.)
-│   ├── personas/                    # 8 Specialized Grid Personas
-│   ├── skills/                      # 12 Abstracted Grid Skills
-│   ├── tools/                       # BigQuery telemetry & HITL management tools
-│   └── tests/                       # Comprehensive test suite (48 tests)
 │       ├── agent.py                  # Declarative ADK root_agent & dynamic prompt assembly
 │       ├── fast_api_app.py           # FastAPI server with telemetry & A2A routing endpoints
 │       ├── manifest.yaml             # Agent metadata, tool bindings, table dependencies, & KPIs
@@ -56,34 +44,32 @@ enterprise-agents-suite/
 │       ├── config/                   # Local agent configuration & settings
 │       │   ├── __init__.py
 │       │   └── settings.py
-│       ├── instructions/             # Modular prompt layers
-│       │   ├── persona.md            # Role, domain context, tone, and identity
-│       │   ├── business_rules.md     # Calculation methodologies, thresholds, & domain constraints
-│       │   ├── output_format.md      # Structural output directives (Markdown tables, JSON, etc.)
-│       │   ├── safety_guardrails.md  # Critical safety, PII protection, & guardrails
-│       │   └── sample_prompts.yaml   # Multi-turn enterprise prompts & test scenarios
-│       ├── tools/                    # ADK Python Tool Functions
-│       │   ├── bigquery_tool.py      # Read-only, parameterized BigQuery SQL executor
-│       │   ├── search_tool.py        # Google Search Grounding for live external intelligence
-│       │   ├── visualizer.py         # Matplotlib dynamic chart generator
-│       │   └── delegation_tool.py    # Agent-to-Agent (A2A) protocol dispatcher
-│       ├── sub_agents/               # Task Lead Pattern Sub-Agents
-│       │   ├── worker_agent.py       # Analytical execution worker (aliased as execution_agent)
-│       │   └── critic_agent.py       # Independent evaluator & safety gatekeeper
-│       ├── app_utils/                # Session state management & shared utilities
-│       ├── synthetic_data/           # Data assets for testing and lakehouse seeding
-│       │   ├── schema.sql            # BigQuery DDL table definitions
-│       │   ├── seed_data.sql         # Seed records for BigQuery table loading
-│       │   └── mock_records.csv      # Local CSV fixture data
-│       └── tests/                    # Official Google ADK Test & Evaluation Suite
-│           ├── eval/
-│           │   ├── datasets/
-│           │   │   └── golden-dataset.json  # 4-Tier stratified evaluation dataset
-│           │   └── eval_config.yaml  # Metric thresholds & evaluator configuration
-│           ├── integration/
-│           │   └── test_agent.py     # End-to-end multi-turn integration tests
-│           └── unit/
-│               └── test_tools.py     # Deterministic unit tests for tools & SQL guardrails
+│       ├── instructions/             # Modular prompt layers (persona, business_rules, output_format, safety)
+│       ├── tools/                    # ADK Python Tool Functions (bigquery, search, visualizer, delegation)
+│       ├── sub_agents/               # Worker and Critic sub-agents (Task Lead Pattern)
+│       ├── synthetic_data/           # BigQuery DDL schema.sql, seed_data.sql & mock_records.csv
+│       └── tests/                    # Golden eval datasets & deterministic unit/integration tests
+│
+├── grid_optimization/               # Autonomous ADK Multi-Agent System (8 Personas Swarm)
+│   ├── agent.py                     # Root Orchestrator Agent (ADK Agent Identity & Routing)
+│   ├── orchestrator.py              # Dynamic Orchestration, Workflow Dispatch & State Aggregation
+│   ├── fast_api_app.py              # FastAPI server with telemetry & ADK endpoints
+│   ├── telemetry.py                 # OpenTelemetry Cloud Trace & Structured Logging engine
+│   ├── .agent_engine_config.json    # Agent Engine Agent Identity specification
+│   ├── advanced_engines/            # WeatherNext 3, Vizier Bayesian VVO, PdM Health Engines
+│   │   ├── weathernext_engine.py    # Live NWP & IEEE Std 738 Dynamic Line Rating
+│   │   ├── vizier_optimizer.py      # Vertex AI Vizier Bayesian VVO optimization
+│   │   └── pdm_engine.py            # Predictive Maintenance (Spectrograms, DGA, Vibration)
+│   ├── personas/                    # 8 Specialized Grid Personas
+│   ├── skills/                      # 12 Abstracted Grid Skills
+│   ├── sub_agents/                  # Domain-specific sub-agents (Execution & Evaluation)
+│   ├── workflows/                   # 6 Multi-agent collaborative workflows (FLISR, Dynamic VVO, etc.)
+│   ├── safety/                      # Physics Validation Harness & HITL Approval Gateway
+│   │   ├── validation_harness.py    # ANSI C84.1, Thermal & Anti-Islanding Validator
+│   │   └── hitl_gateway.py          # Tiered Human-in-the-Loop Risk Evaluation
+│   ├── instructions/                # Modular persona system instructions
+│   ├── tools/                       # Multi-dataset BigQuery tools with table-level scoping
+│   └── tests/                       # Comprehensive test suite (50 tests passing)
 │
 ├── scripts/                          # Automated Provisioning, Testing, & Deployment Pipeline
 │   ├── build_catalog_json.py         # Compiles web/catalog.json from all 113 agent manifests
@@ -112,6 +98,13 @@ enterprise-agents-suite/
 └── web/                              # Showcase Web Portal (Deployed to Cloud Run)
     ├── index.html                    # Single-page interactive catalog application
     ├── catalog.json                  # Metadata for all 113 agents consumed by the frontend
+    ├── grid_optimization.html        # Backward-compatible redirect to persona/grid_optimization.html
+    ├── persona/                      # Grid Optimization Multi-Agent System Studio
+    │   ├── index.html                # Standalone Grid Optimization Studio entry point
+    │   ├── grid_optimization.html    # Interactive MAS persona dashboard & simulation UI
+    │   ├── charts.js                 # High-performance grid telemetry & waveform charts
+    │   ├── weathernext_data.js       # Live NWP & DLR for West and East Malaysia fleets
+    │   └── vizier_vvo_engine.js      # Vertex AI Vizier Bayesian Volt-VAR Optimization engine
     ├── readmes/                      # All 113 markdown specification files served inline
     │   └── <sub_domain>/
     │       └── <agent_name>.md       # Native markdown spec served with text/markdown Content-Type
@@ -264,14 +257,19 @@ Every agent in the fleet dynamically compiles its system instructions at runtime
 
 ---
 
-## Grid Optimization Multi-Agent System (Decoupled MAS)
+## Grid Optimization Multi-Agent System (Persona MAS Studio)
 
-In addition to the 113 individual catalog agents, the repository includes `grid_optimization/`, an advanced autonomous multi-agent system (MAS) designed for real-time power grid stabilization:
+In addition to the 113 individual catalog agents, the repository includes `grid_optimization/`, an advanced autonomous multi-agent system (MAS) designed for real-time power grid stabilization and persona-driven operations:
 
-- **Decoupled Architecture:** Operates as an independent, standalone subsystem with its own specialized UI (`adk_mas_server.py`), decoupled from the main showcase web catalog.
-- **8 Domain Personas:** Grid Coordinator, Reliability Engineer, Substation Specialist, Protection Engineer, Power Quality Engineer, Load Dispatcher, Renewables Integration Engineer, and Field Operations Lead.
-- **6 Collaborative Workflows:** Automated Fault Location, Isolation, and Service Restoration (FLISR), Dynamic Volt-VAR Optimization (VVO), Contingency Analysis (N-1), DER Hosting Capacity Management, Black Start Restoration, and Transformer Overload Shedding.
-- **Physics Validation & HITL Gateway:** Enforces strict ANSI C84.1 voltage bands, thermal ampacity limits, and IEEE 1547 anti-islanding constraints with a tiered Human-in-the-Loop (HITL) approval gateway before generating physical switching actions.
+- **Integrated Architecture:** Deployed to Vertex AI Reasoning Engine (`projects/1032317060288/locations/us-east4/reasoningEngines/4768577531618000896`) and seamlessly integrated into the Cloud Run Web Portal under `/persona/` (`web/persona/grid_optimization.html` and `/persona/`), highlighted with an emphasized Electric Amber button and Hero banner in the main catalog.
+- **8 Domain Personas:** Grid Dispatcher, Protection & Control Engineer, Asset Reliability Specialist, DERMS Manager, Planning Engineer, Grid Analytics Data Scientist, Field Operations Tech, and Regulatory Compliance Officer.
+- **6 Collaborative Workflows:** Automated Fault Location, Isolation, and Service Restoration (FLISR), Dynamic Volt-VAR Optimization (VVO), N-1 Contingency Analysis, DER Hosting Capacity Evaluation, Predictive Maintenance Health Scoring, and Virtual Power Plant (VPP) Market Dispatch.
+- **Physics Validation & HITL Gateway:** Enforces strict ANSI C84.1 voltage bands (0.95–1.05 p.u.), thermal ampacity limits, and IEEE 1547 anti-islanding constraints with a tiered Human-in-the-Loop (HITL) approval gateway before generating physical switching actions.
+- **Google DeepMind WeatherNext 3 Integration:** 1-hour temporal resolution numerical weather prediction (NWP) correlating temperature, wind speed, solar DNI, and precipitation with IEEE Std 738 Dynamic Line Rating (DLR) across dedicated West and East Malaysia regional substation fleets.
+- **Vertex AI Vizier Bayesian VVO Engine:** Autonomous Bayesian optimization tuning capacitor bank switching and transformer tap changers to maximize active power loss reduction and power factor correction across high-density load centers.
+- **Predictive Maintenance (PdM) Diagnostics:** Multi-modal diagnostics incorporating high-frequency acoustic spectrograms, Dissolved Gas Analysis (DGA Duval Triangle), and vibration FFT telemetry to predict asset remaining useful life (RUL).
+- **Native Agent Identity:** Operates under Google Cloud Agent Identity (`identity_type: "AGENT_IDENTITY"`) using cryptographic SPIFFE tokens. Static domain service accounts have been eliminated.
+- **Agent Platform Telemetry & Observability:** Fully instrumented with OpenTelemetry Cloud Trace exporters (`--otel_to_cloud`), distributed trace propagation, latency tracking, and Google Cloud structured logging.
 
 ---
 
@@ -281,6 +279,7 @@ In addition to the 113 individual catalog agents, the repository includes `grid_
 | :--- | :--- | :--- | :--- | :--- |
 | **Utilities Master Orchestrator** | Vertex AI Agent Engine (Reasoning Engine) | `AGENT_IDENTITY` | `principal://agents.global.project-1032317060288.system.id.goog/.../reasoningEngines/<id>` | **Zero Direct BigQuery Access** (pure A2A delegation via `AgentDelegationTool`) |
 | **Domain Agents (113 Agents)** | Vertex AI Agent Engine (Reasoning Engine) | `AGENT_IDENTITY` | `principal://agents.global.project-1032317060288.system.id.goog/.../reasoningEngines/<id>` | Granular table-level `roles/bigquery.dataViewer` scoped strictly to designated tables in `utilities_{sub_domain}` |
-| **Reasoning Engine Fleet Baseline** | Vertex AI Agent Engine | `AGENT_IDENTITY` PrincipalSet | `principalSet://goog/subject/resources/aiplatform/projects/utilities-agents/locations/us-central1/reasoningEngines/*` | `roles/bigquery.jobUser`, `roles/aiplatform.user`, `roles/logging.logWriter`, `roles/monitoring.metricWriter`, `roles/serviceusage.serviceUsageConsumer` |
+| **Grid Optimization MAS** | Vertex AI Agent Engine (Reasoning Engine) | `AGENT_IDENTITY` | `principal://agents.global.project-1032317060288.system.id.goog/.../reasoningEngines/4768577531618000896` | Granular table-level `roles/bigquery.dataViewer` scoped to grid operations, asset management, balancing, and forecasting tables |
+| **Reasoning Engine Fleet Baseline** | Vertex AI Agent Engine | `AGENT_IDENTITY` PrincipalSet | `principalSet://goog/subject/resources/aiplatform/projects/utilities-agents/locations/us-central1/reasoningEngines/*` & `locations/us-east4/reasoningEngines/*` | `roles/bigquery.jobUser`, `roles/aiplatform.user`, `roles/logging.logWriter`, `roles/monitoring.metricWriter`, `roles/serviceusage.serviceUsageConsumer` |
 | **Showcase Web Portal** | Google Cloud Run (`utilities-agents-portal`) | Service Account | `1032317060288-compute@developer.gserviceaccount.com` (Compute Engine default SA) | Static web hosting, Cloud Run invocation behind Identity-Aware Proxy (IAP) |
 

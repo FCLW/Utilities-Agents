@@ -177,6 +177,35 @@ This document defines the architectural principles, operational standards, and f
 
 ---
 
+### Autonomous Multi-Agent System: Grid Optimization MAS (8 Personas Swarm)
+
+In addition to the 113 specialized catalog agents, the suite features a dedicated, production-grade **Grid Optimization Multi-Agent System (MAS)** running under native Agent Identity on Vertex AI Reasoning Engine (`projects/1032317060288/locations/us-east4/reasoningEngines/4768577531618000896`) and integrated directly into the web portal at `/persona/`:
+
+1. **8 Specialized Operational Personas:**
+   - **Grid Dispatcher**: Real-time transmission/distribution switching, SCADA alarm response, and active network topology management.
+   - **Protection & Control Engineer**: Relay coordination, trip curves, fault clearing sequences, and anti-islanding compliance.
+   - **Asset Reliability Specialist**: Substation transformer DGA, breaker cycle life, thermography, and vibration acoustic diagnostics.
+   - **DERMS Manager**: Dynamic aggregation, curtailment mitigation, and VPP market dispatch across solar PV and BESS fleets.
+   - **Planning Engineer**: Hosting capacity evaluation, long-term load growth projections, and N-1/N-2 contingency planning.
+   - **Grid Analytics Data Scientist**: Telemetry anomaly detection, sensor drift identification, and state estimation ML modeling.
+   - **Field Operations Tech**: Depot routing, switching clearance execution, PPE safety, and physical work order dispatch.
+   - **Regulatory Compliance Officer**: NERC CIP compliance, IEEE 1547 interconnection rules, and EPA emissions audit trail logging.
+
+2. **6 Multi-Agent Collaborative Workflows:**
+   - **Automated FLISR**: Fault localization, upstream/downstream switch isolation, and back-feed restoration within seconds.
+   - **Dynamic Volt-VAR Optimization (VVO)**: Closed-loop capacitor and LTC tuning for $I^2R$ loss minimization and voltage flattening.
+   - **N-1 Contingency Analysis**: Dynamic constraint checking and overload mitigation under critical asset trip contingencies.
+   - **DER Hosting Capacity Evaluation**: Safe interconnection threshold calculation without violating ANSI C84.1 limits.
+   - **Predictive Maintenance Health Scoring**: Tri-axial vibration FFT, DGA Duval Triangle, and acoustic spectrogram health scoring.
+   - **VPP Market Dispatch**: Aggregated battery and flexible load bidding into day-ahead and ancillary reserve markets.
+
+3. **Advanced AI & Physics Engines:**
+   - **Google DeepMind WeatherNext 3 Live NWP & DLR**: 1-hour temporal numerical weather prediction driving IEEE Std 738 Dynamic Line Rating for **West Malaysia** and **East Malaysia** fleets.
+   - **Vertex AI Vizier Bayesian Optimization**: Multi-objective black-box optimization tuning reactive power injection and LTC tap settings.
+   - **Predictive Maintenance (PdM)**: Multi-modal spectrogram and dissolved gas analysis for predictive asset failure prevention.
+
+---
+
 ### System-Wide Guardrails & The Critic Protocol
 
 1. **The Critic Gate (Mandatory):**

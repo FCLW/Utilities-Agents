@@ -111,19 +111,45 @@ For the complete catalog of individual agent capabilities, datasets, and reasoni
 │           ├── tools/            # BigQuery, Search & Visualizer tools
 │           ├── synthetic_data/   # SQL DDL schemas & mock generator
 │           └── tests/            # Golden eval datasets & tests
+├── grid_optimization/            # Autonomous ADK Multi-Agent System (8 Personas Swarm)
+│   ├── agent.py                  # Root Orchestrator Agent (ADK Agent Identity & Routing)
+│   ├── orchestrator.py           # Dynamic Workflow Dispatch & State Aggregator
+│   ├── fast_api_app.py           # FastAPI service with telemetry endpoints
+│   ├── telemetry.py              # OpenTelemetry Cloud Trace & Structured Logging
+│   ├── .agent_engine_config.json # Native Agent Identity specification
+│   ├── advanced_engines/         # WeatherNext 3, Vizier Bayesian VVO, PdM Health Engines
+│   ├── personas/                 # 8 Specialized Grid Personas
+│   ├── skills/                   # 12 Abstracted Grid Skills
+│   ├── sub_agents/               # Execution & Critic Sub-Agents
+│   ├── workflows/                # 6 Collaborative Multi-Agent Workflows
+│   ├── safety/                   # Physics Validator & Tiered HITL Approval Gateway
+│   ├── instructions/             # Modular system prompt layers
+│   ├── tools/                    # Multi-dataset BigQuery tools with least-privilege scoping
+│   └── tests/                    # Comprehensive pytest test suite (50 tests passing)
 ├── config/                       # Centralized settings & Pydantic models
 ├── data/                         # Verified live agent evaluation responses
-├── scripts/                      # 17 Automated management & deployment scripts
+├── scripts/                      # Automated management & deployment scripts
 │   ├── build_catalog_json.py     # Aggregates metadata into web catalog
+│   ├── deploy_agent_engine.py    # Deploys individual agent to Vertex AI Reasoning Engine
+│   ├── deploy_all_and_register.py # Fleet deploy to Vertex AI Reasoning Engine & GE registration
 │   ├── deploy_web_portal.py      # Cloud Build + Cloud Run deployment
 │   ├── generate_web_portal.py    # Generates interactive web showcase
 │   ├── load_bq_data.py           # BigQuery table initialization
 │   ├── register_to_gemini_enterprise.py # Discovery Engine API registration
+│   ├── setup_iam_permissions.py  # Agent Identity SPIFFE IAM configuration & validation
 │   └── ...                       # Prompts, eval sync, and test tools
-├── web/                          # Containerized web showcase
+├── web/                          # Containerized web showcase (Cloud Run)
 │   ├── catalog.json              # Structured fleet metadata
-│   ├── index.html                # Interactive portal UI
-│   └── readmes/                  # All 113 Agent technical specifications
+│   ├── index.html                # Interactive portal UI with emphasized MAS launch banner
+│   ├── grid_optimization.html    # Backward-compatible redirect to persona/grid_optimization.html
+│   ├── persona/                  # Grid Optimization Multi-Agent System Studio
+│   │   ├── index.html            # Standalone Grid Optimization Studio entry point
+│   │   ├── grid_optimization.html # Interactive MAS persona dashboard & simulation UI
+│   │   ├── charts.js             # High-performance grid telemetry & waveform charts
+│   │   ├── weathernext_data.js   # Live NWP & DLR for West and East Malaysia fleets
+│   │   └── vizier_vvo_engine.js  # Vertex AI Vizier Bayesian Volt-VAR Optimization engine
+│   ├── readmes/                  # All 113 Agent technical specifications
+│   └── demos/                    # High-performance local demo assets bundled in container
 ├── AGENTS.md                     # Comprehensive agent reference catalog
 ├── ARCHITECTURE.md               # 4-Tier ADK architecture & sequence diagram
 ├── CONTRIBUTING.md               # Contribution guidelines & code standards
@@ -187,6 +213,31 @@ make build
 # Launch local preview server (port 8080)
 make web
 ```
+
+---
+
+## ⚡ Grid Optimization Multi-Agent System (Persona MAS Studio)
+
+The repository includes an autonomous, persona-driven **Grid Optimization Multi-Agent System (MAS)** designed for real-time electrical grid stability, automated switching, and predictive asset reliability:
+
+### Key Features & Specialized Personas
+- **8 Collaborative Grid Personas**: Grid Dispatcher, Protection & Control Engineer, Asset Reliability Specialist, DERMS Manager, Planning Engineer, Grid Analytics Data Scientist, Field Operations Tech, and Regulatory Compliance Officer.
+- **6 Autonomous Collaborative Workflows**: Automated FLISR (Fault Location, Isolation, and Service Restoration), Dynamic Volt-VAR Optimization (VVO), N-1 Contingency Analysis, DER Hosting Capacity Evaluation, Predictive Maintenance Health Scoring, and Virtual Power Plant (VPP) Market Dispatch.
+- **Google DeepMind WeatherNext 3 Live NWP & DLR**: Integrates 1-hour temporal resolution numerical weather prediction (temperature, wind speed, solar DNI, precipitation) mapped to IEEE Std 738 Dynamic Line Rating (DLR) across dedicated regional substation fleets in **West Malaysia** and **East Malaysia**.
+- **Vertex AI Vizier Bayesian Volt-VAR Optimization**: Autonomous closed-loop Bayesian optimization adjusting substation transformer load-tap changers (LTC) and capacitor banks to minimize active power losses ($I^2R$) and eliminate reactive power violations along the Pareto frontier.
+- **Multi-Modal Predictive Maintenance (PdM)**: Analyzes high-frequency acoustic emissions, Dissolved Gas Analysis (DGA Duval Triangle / Roger's Ratios), and tri-axial vibration FFT spectrograms to predict Remaining Useful Life (RUL) and prevent catastrophic substation asset failures.
+- **ANSI C84.1 Physics Validation & Tiered HITL Gateway**: Enforces strict operational voltage bands ($0.95 \le V \le 1.05$ p.u.), transformer thermal limits, and IEEE 1547 anti-islanding safety with Human-in-the-Loop approval required for all physical grid mutative actions.
+- **Native Google Cloud Agent Identity**: Executes under cryptographic SPIFFE tokens (`identity_type: "AGENT_IDENTITY"`) with direct least-privilege BigQuery lakehouse access.
+- **Full Agent Platform Telemetry & Observability**: Complete OpenTelemetry Cloud Trace instrumentation (`--otel_to_cloud`), distributed trace context propagation, and Google Cloud structured logging.
+
+### Access & Deployment
+- **Deployed Reasoning Engine**: `projects/1032317060288/locations/us-east4/reasoningEngines/4768577531618000896`
+- **Cloud Console Playground**: [Vertex AI Agent Engine Console](https://console.cloud.google.com/vertex-ai/agents/agent-engines/locations/us-east4/agent-engines/4768577531618000896/playground?project=1032317060288)
+- **Web Portal Persona Studio**: `https://utilities-agents-portal-1032317060288.us-central1.run.app/persona/` (directly accessible via the **⚡ Grid Optimization MAS** button on the portal header).
+- **Run Tests Locally**:
+  ```bash
+  pytest grid_optimization/tests/
+  ```
 
 ---
 

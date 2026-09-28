@@ -72,6 +72,15 @@ python3 scripts/load_bq_data.py
 
 # 4. Deploy the 114 Reasoning Engines (113 specialized domain agents + Master Orchestrator) to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
 python3 scripts/deploy_all_and_register.py
+
+# 5. Deploy the Grid Optimization Multi-Agent System (8 Personas Swarm) with Agent Identity & Cloud Trace Telemetry
+adk deploy agent_engine grid_optimization \
+  --project utilities-agents \
+  --region us-east4 \
+  --display_name "Grid Optimization Multi-Agent System" \
+  --agent_engine_config_file "$(pwd)/grid_optimization/.agent_engine_config.json" \
+  --extra_packages config \
+  --otel_to_cloud
 ```
 
 ### Video Demos & Portal Assets (Optional / Pre-Recorded)
@@ -96,7 +105,7 @@ python3 scripts/generate_demo_html.py
    python3 scripts/generate_web_portal.py
    ```
 
-2. Deploy the containerized Nginx portal to Cloud Run:
+2. Deploy the containerized Nginx portal (including the `/persona/` Grid Optimization Studio) to Cloud Run:
    ```bash
    python3 scripts/deploy_web_portal.py
    ```
@@ -111,17 +120,23 @@ python3 scripts/generate_demo_html.py
    pytest agents/
    ```
 
-2. **Live Agent Portfolio Evaluation**: Test deployed Vertex AI Reasoning Engines across multi-turn prompts:
+2. **Grid Optimization Multi-Agent System Tests**:
+   ```bash
+   pytest grid_optimization/tests/
+   ```
+
+3. **Live Agent Portfolio Evaluation**: Test deployed Vertex AI Reasoning Engines across multi-turn prompts:
    ```bash
    python3 scripts/live_agent_portfolio_tester.py
    ```
 
-3. **Explore the Showcase Portal Locally**:
+4. **Explore the Showcase Portal Locally**:
    ```bash
    make web
    ```
-   Open `http://localhost:8000` in your browser to test filtering, search, and Markdown specification views.
+   Open `http://localhost:8000` in your browser to test filtering, search, and Markdown specification views, or `http://localhost:8000/persona/` to test the Grid Optimization Studio.
 
-4. **Production Web Access**:
+5. **Production Web Access**:
    Access the deployed Cloud Run service URL behind Identity-Aware Proxy (IAP) at:
-   `https://utilities-agents-portal-ilrdua3y3q-uc.a.run.app`
+   - Main Catalog: `https://utilities-agents-portal-1032317060288.us-central1.run.app`
+   - Grid Optimization Persona Studio: `https://utilities-agents-portal-1032317060288.us-central1.run.app/persona/`
