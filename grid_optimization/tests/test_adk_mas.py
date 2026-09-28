@@ -47,7 +47,9 @@ class TestADKMasComponents:
 
         assert loaded_agent is not None
         assert loaded_agent.name == "grid_optimization_orchestrator"
-        assert len(loaded_agent.tools) == 8
+        assert len(loaded_agent.tools) == 9
+        tool_names = [t.__name__ for t in loaded_agent.tools]
+        assert "get_observability_telemetry" in tool_names
         assert "Grid Optimization Master Orchestrator" in loaded_agent.instruction
 
     def test_02_adk_fleet_status_tool(self):
@@ -323,4 +325,59 @@ class TestADKMasComponents:
                 sql_query="DELETE FROM transformer_dga WHERE 1=1"
             )
         assert "Query rejected" in str(exc_dml.value) or "Security violation" in str(exc_dml.value)
+
+    def test_13_telemetry_and_observability(self):
+        """Verify OpenTelemetry tracing, Cloud Logging correlation, metric counters, and audit logs."""
+        from grid_optimization.agent import get_observability_telemetry
+        from grid_optimization.fast_api_app import app
+        from fastapi.testclient import TestClient
+
+        # 1. Direct tool call
+        obs = get_observability_telemetry()
+        assert obs["status"] == "ACTIVE"
+        assert obs["identity_mode"] == "AGENT_IDENTITY"
+        assert "metrics" in obs
+        assert "total_spans" in obs["metrics"]
+        assert obs["cloud_trace_exporter"] == "Google Cloud Trace"
+
+        # 2. Trace span recording
+        initial_spans = orchestrator.telemetry.get_metrics()["total_spans"]
+        with orchestrator.telemetry.trace_span("test.manual_span", {"test_key": "test_val"}):
+            pass
+        assert orchestrator.telemetry.get_metrics()["total_spans"] == initial_spans + 1
+
+        # 3. Audit trail verification: denied query produces audit log
+        audit_count_before = len(orchestrator.telemetry.get_audit_logs())
+        with pytest.raises(PermissionError):
+            orchestrator.bq.query_dataset(dataset="utilities_grid_operations", table="feeder_telemetry")
+        assert len(orchestrator.telemetry.get_audit_logs()) >= audit_count_before + 1
+        latest_audit = orchestrator.telemetry.get_audit_logs()[0]
+        assert latest_audit["status"] == "DENIED"
+        assert latest_audit["action"] == "QUERY"
+
+        # 4. FastAPI Telemetry Endpoints
+        client = TestClient(app)
+        
+        # Test /api/telemetry/metrics
+        res_m = client.get("/api/telemetry/metrics")
+        assert res_m.status_code == 200
+        m_data = res_m.json()
+        assert m_data["identity_mode"] == "AGENT_IDENTITY"
+        assert m_data["telemetry_enabled"] is True
+
+        # Test /api/telemetry/traces
+        res_t = client.get("/api/telemetry/traces")
+        assert res_t.status_code == 200
+        assert isinstance(res_t.json(), list)
+
+        # Test /api/telemetry/audit
+        res_a = client.get("/api/telemetry/audit")
+        assert res_a.status_code == 200
+        assert isinstance(res_a.json(), list)
+
+        # Test headers in HTTP response
+        res_h = client.get("/healthz", headers={"x-trace-id": "0123456789abcdef0123456789abcdef"})
+        assert res_h.headers.get("x-trace-id") == "0123456789abcdef0123456789abcdef"
+        assert res_h.headers.get("x-agent-identity-type") == "AGENT_IDENTITY"
+
 

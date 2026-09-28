@@ -1,5 +1,7 @@
 import inspect
+import time
 from typing import Dict, List, Any, Optional
+from grid_optimization.telemetry import grid_telemetry
 from grid_optimization.safety.validation_harness import ValidationHarness
 from grid_optimization.safety.hitl_gateway import HITLGateway, ApprovalStatus
 from grid_optimization.tools.multi_dataset_bq_tool import MultiDatasetBigQueryTool
@@ -51,6 +53,9 @@ class GridOptimizationOrchestrator:
         # The Master Orchestrator operates under least-privilege Agent Identity (zero direct BQ access)
         # and delegates analytical queries to domain persona agents.
         self.bq = MultiDatasetBigQueryTool(persona_id="grid_optimization_orchestrator")
+
+        # Telemetry & Observability Tracker
+        self.telemetry = grid_telemetry
 
         # Aliases for ADK tool consistency
         self.validation_harness = self.harness
@@ -124,7 +129,23 @@ class GridOptimizationOrchestrator:
             elif p_name == "substation" and "substation_id" in kwargs:
                 valid_kwargs[p_name] = kwargs["substation_id"]
 
-        return wf.run(**valid_kwargs)
+        t0 = time.time()
+        with self.telemetry.trace_span(
+            "grid_optimization.execute_workflow",
+            attributes={
+                "workflow.name": workflow_name,
+                "gen_ai.agent.name": "grid_optimization_orchestrator",
+            },
+        ):
+            try:
+                res = wf.run(**valid_kwargs)
+                duration_ms = round((time.time() - t0) * 1000.0, 2)
+                self.telemetry.record_workflow_execution(workflow_name, duration_ms, "SUCCESS")
+                return res
+            except Exception as e:
+                duration_ms = round((time.time() - t0) * 1000.0, 2)
+                self.telemetry.record_workflow_execution(workflow_name, duration_ms, "ERROR")
+                raise
 
     def execute_workflow(self, workflow_name: str, payload: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Executes a workflow with dictionary payload."""
@@ -132,10 +153,32 @@ class GridOptimizationOrchestrator:
         return self.run_workflow(workflow_name, **payload)
 
     def dispatch_persona(self, persona_id: str, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
-        """Dispatches a task directly to a persona agent."""
+        """Dispatches a task directly to a persona agent with telemetry tracking."""
         if persona_id not in self.personas:
             raise ValueError(f"Persona '{persona_id}' not found. Available: {list(self.personas.keys())}")
-        return self.personas[persona_id].execute_task(task_type, payload)
+
+        persona = self.personas[persona_id]
+        eff_id = persona.bq.get_effective_identity(persona_id)
+
+        t0 = time.time()
+        with self.telemetry.trace_span(
+            "grid_optimization.dispatch_persona",
+            attributes={
+                "persona_id": persona_id,
+                "gen_ai.agent.name": persona_id,
+                "task_type": task_type,
+                "identity.principal": eff_id,
+            },
+        ):
+            try:
+                res = persona.execute_task(task_type, payload)
+                duration_ms = round((time.time() - t0) * 1000.0, 2)
+                self.telemetry.record_persona_dispatch(persona_id, task_type, duration_ms, "SUCCESS")
+                return res
+            except Exception as e:
+                duration_ms = round((time.time() - t0) * 1000.0, 2)
+                self.telemetry.record_persona_dispatch(persona_id, task_type, duration_ms, "ERROR")
+                raise
 
     def dispatch_persona_task(self, persona_id: str, task_type: str, payload: Dict[str, Any]) -> Dict[str, Any]:
         """Alias for dispatch_persona."""
@@ -149,17 +192,30 @@ class GridOptimizationOrchestrator:
         role: str = "Lead Control Room Operator",
         notes: str = "Verified safe voltage and clearance parameters."
     ) -> Dict[str, Any]:
-        """Applies human-in-the-loop sign-off or rejection to a grid action ticket."""
-        if approve:
-            ticket = self.hitl.approve_ticket(ticket_id, operator_id, role, notes)
-            return {"status": "SUCCESS", "message": f"Ticket {ticket_id} approved. Command released to SCADA.", "ticket": ticket.__dict__}
-        else:
-            ticket = self.hitl.reject_ticket(ticket_id, operator_id, notes)
-            return {"status": "SUCCESS", "message": f"Ticket {ticket_id} rejected. Safe state preserved.", "ticket": ticket.__dict__}
+        """Applies human-in-the-loop sign-off or rejection to a grid action ticket with telemetry tracking."""
+        decision = "APPROVED" if approve else "REJECTED"
+        with self.telemetry.trace_span(
+            "grid_optimization.hitl_review",
+            attributes={
+                "hitl.ticket_id": ticket_id,
+                "hitl.operator_id": operator_id,
+                "hitl.decision": decision,
+                "identity.type": "AGENT_IDENTITY",
+            },
+        ):
+            if approve:
+                ticket = self.hitl.approve_ticket(ticket_id, operator_id, role, notes)
+                self.telemetry.record_hitl_action(ticket_id, "APPROVED", operator_id)
+                return {"status": "SUCCESS", "message": f"Ticket {ticket_id} approved. Command released to SCADA.", "ticket": ticket.__dict__}
+            else:
+                ticket = self.hitl.reject_ticket(ticket_id, operator_id, notes)
+                self.telemetry.record_hitl_action(ticket_id, "REJECTED", operator_id)
+                return {"status": "SUCCESS", "message": f"Ticket {ticket_id} rejected. Safe state preserved.", "ticket": ticket.__dict__}
 
     def get_fleet_summary(self) -> Dict[str, Any]:
-        """Returns overview of personas, sub-agents, skills, and pending HITL tickets."""
+        """Returns overview of personas, sub-agents, skills, telemetry metrics, and pending HITL tickets."""
         total_sub_agents = sum(len(p.sub_agents) for p in self.personas.values())
+        metrics_snapshot = self.telemetry.get_metrics()
         return {
             "fleet_name": "Utilities Grid Optimization Multi-Agent System",
             "persona_count": len(self.personas),
@@ -175,6 +231,15 @@ class GridOptimizationOrchestrator:
             "skills": list(self.skills.keys()),
             "pending_hitl_tickets": len(self.hitl.get_pending_tickets()),
             "advanced_engines": ["Google DeepMind WeatherNext", "Vertex AI Vizier", "Predictive Maintenance (PdM)"],
+            "telemetry": metrics_snapshot,
+            "observability": {
+                "status": "ACTIVE",
+                "open_telemetry_exporter": "Google Cloud Trace",
+                "structured_logging": "Google Cloud Logging (JSON + Trace Correlation)",
+                "identity_mode": "AGENT_IDENTITY",
+                "recent_traces_count": metrics_snapshot.get("total_traces", 0),
+                "total_spans_count": metrics_snapshot.get("total_spans", 0),
+            },
             "operational_horizons": [
                 "Real-Time Operations (Seconds to Hours)",
                 "Intraday to Day-Ahead",

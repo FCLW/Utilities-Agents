@@ -12,7 +12,7 @@ import logging
 import os
 import subprocess
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Dict, List
 
 def _to_serializable(obj: Any) -> Any:
     """Recursively converts dataclasses and objects with __dict__ into JSON-serializable structures."""
@@ -36,6 +36,15 @@ try:
     from config.settings import settings
 except ImportError:
     settings = None
+
+try:
+    from config.telemetry import setup_telemetry, get_telemetry_callbacks, combine_agent_callbacks
+    setup_telemetry(agent_name="grid_optimization_orchestrator")
+    telemetry_callbacks = get_telemetry_callbacks(agent_name="grid_optimization_orchestrator")
+    callbacks = combine_agent_callbacks(telemetry_callbacks)
+except Exception as e:
+    telemetry_callbacks = {}
+    callbacks = {}
 
 logger = logging.getLogger(__name__)
 
@@ -530,6 +539,30 @@ def query_grid_telemetry(
     }
 
 
+def get_observability_telemetry() -> Dict[str, Any]:
+    """Retrieves live distributed telemetry, Cloud Trace metrics, latency percentiles, and Agent Identity audit logs."""
+    metrics = orchestrator.telemetry.get_metrics()
+    recent_spans = orchestrator.telemetry.get_recent_spans(limit=10)
+    audit_logs = orchestrator.telemetry.get_audit_logs(limit=10)
+    return {
+        "status": "ACTIVE",
+        "identity_mode": "AGENT_IDENTITY",
+        "cloud_trace_exporter": "Google Cloud Trace",
+        "structured_logging": "Google Cloud Logging (JSON + Trace Correlation)",
+        "metrics": metrics,
+        "recent_spans_summary": [
+            {
+                "name": s["name"],
+                "duration_ms": s["duration_ms"],
+                "status": s["status"],
+                "trace_id": s["trace_id"],
+            }
+            for s in recent_spans
+        ],
+        "recent_audit_events": audit_logs,
+    }
+
+
 # -------------------------------------------------------------------------
 # ADK Agent Definition
 # -------------------------------------------------------------------------
@@ -562,7 +595,9 @@ root_agent = Agent(
         validate_grid_constraints,
         manage_hitl_ticket,
         query_grid_telemetry,
+        get_observability_telemetry,
     ],
+    **callbacks,
 )
 
 agent = root_agent

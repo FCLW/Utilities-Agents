@@ -8,8 +8,18 @@ data retrieval to designated domain personas.
 
 import os
 import re
+import time
+from contextlib import nullcontext
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Set
+
+try:
+    from grid_optimization.telemetry import grid_telemetry
+except ImportError:
+    try:
+        from telemetry import grid_telemetry
+    except ImportError:
+        grid_telemetry = None
 
 try:
     from google.cloud import bigquery
@@ -190,23 +200,56 @@ class MultiDatasetBigQueryTool:
 
         # Master Orchestrator Zero-Direct BigQuery Access Rule
         if active_persona == "grid_optimization_orchestrator":
-            raise PermissionError(
+            reason = (
                 "Access denied: The Master Orchestrator operates under least-privilege Agent Identity "
                 "and does not have direct access to BigQuery. It must delegate analytical workflows and "
                 "data retrieval to domain persona agents (e.g., grid_analytics_data_scientist_agent, "
                 "asset_reliability_agent) via persona delegation."
             )
+            if grid_telemetry:
+                grid_telemetry.record_audit_event(
+                    persona_id=active_persona,
+                    effective_identity=self.get_effective_identity(active_persona),
+                    resource_type="BIGQUERY_TABLE",
+                    resource_name=f"{dataset}.{table}",
+                    action="QUERY",
+                    status="DENIED",
+                    reason=reason,
+                )
+            raise PermissionError(reason)
 
         # Enforce authorized dataset boundary
         if dataset not in self.ALLOWED_DATASETS:
-            raise ValueError(f"Dataset '{dataset}' is not in the allowed grid datasets: {self.ALLOWED_DATASETS}")
+            reason = f"Dataset '{dataset}' is not in the allowed grid datasets: {self.ALLOWED_DATASETS}"
+            if grid_telemetry:
+                grid_telemetry.record_audit_event(
+                    persona_id=active_persona,
+                    effective_identity=self.get_effective_identity(active_persona),
+                    resource_type="BIGQUERY_TABLE",
+                    resource_name=f"{dataset}.{table}",
+                    action="QUERY",
+                    status="DENIED",
+                    reason=reason,
+                )
+            raise ValueError(reason)
 
         query = sql_query or f"SELECT * FROM `{self.project_id}.{dataset}.{table}` LIMIT {limit}"
 
         # Guard against DDL/DML and require SELECT or WITH syntax
         trimmed = query.strip()
         if not re.match(r"^\s*(SELECT|WITH)\b", trimmed, re.IGNORECASE):
-            raise PermissionError("Query rejected: Query must begin with SELECT or WITH. Mutative or administrative statements are prohibited.")
+            reason = "Query rejected: Query must begin with SELECT or WITH. Mutative or administrative statements are prohibited."
+            if grid_telemetry:
+                grid_telemetry.record_audit_event(
+                    persona_id=active_persona,
+                    effective_identity=self.get_effective_identity(active_persona),
+                    resource_type="BIGQUERY_TABLE",
+                    resource_name=f"{dataset}.{table}",
+                    action="QUERY",
+                    status="DENIED",
+                    reason=reason,
+                )
+            raise PermissionError(reason)
 
         forbidden_patterns = [
             r"\bDROP\b", r"\bDELETE\b", r"\bINSERT\b", r"\bALTER\b",
@@ -215,7 +258,18 @@ class MultiDatasetBigQueryTool:
         ]
         for pat in forbidden_patterns:
             if re.search(pat, query, re.IGNORECASE):
-                raise PermissionError(f"Security violation: Query contains disallowed DDL/DML token '{pat}'.")
+                reason = f"Security violation: Query contains disallowed DDL/DML token '{pat}'."
+                if grid_telemetry:
+                    grid_telemetry.record_audit_event(
+                        persona_id=active_persona,
+                        effective_identity=self.get_effective_identity(active_persona),
+                        resource_type="BIGQUERY_TABLE",
+                        resource_name=f"{dataset}.{table}",
+                        action="QUERY",
+                        status="DENIED",
+                        reason=reason,
+                    )
+                raise PermissionError(reason)
 
         # Persona Least-Privilege Table and Dataset Scoping
         if active_persona and active_persona in PERSONA_POLICY:
@@ -224,43 +278,110 @@ class MultiDatasetBigQueryTool:
             allowed_tbls: Set[str] = policy["allowed_tables"]
 
             if dataset not in allowed_ds:
-                raise PermissionError(
+                reason = (
                     f"Access denied: Persona '{active_persona}' is not authorized to query dataset '{dataset}'. "
                     f"Agent Identity least-privilege policy restricts access to: {sorted(list(allowed_ds))}."
                 )
+                if grid_telemetry:
+                    grid_telemetry.record_audit_event(
+                        persona_id=active_persona,
+                        effective_identity=self.get_effective_identity(active_persona),
+                        resource_type="BIGQUERY_TABLE",
+                        resource_name=f"{dataset}.{table}",
+                        action="QUERY",
+                        status="DENIED",
+                        reason=reason,
+                    )
+                raise PermissionError(reason)
 
             # Check table authorization
             table_clean = table.strip("`")
             if table_clean not in allowed_tbls and not any(t in table_clean for t in allowed_tbls):
-                raise PermissionError(
+                reason = (
                     f"Access denied: Persona '{active_persona}' is not authorized to access table '{table}'. "
                     f"Agent Identity least-privilege policy restricts access to authorized tables only: {sorted(list(allowed_tbls))}."
                 )
+                if grid_telemetry:
+                    grid_telemetry.record_audit_event(
+                        persona_id=active_persona,
+                        effective_identity=self.get_effective_identity(active_persona),
+                        resource_type="BIGQUERY_TABLE",
+                        resource_name=f"{dataset}.{table}",
+                        action="QUERY",
+                        status="DENIED",
+                        reason=reason,
+                    )
+                raise PermissionError(reason)
 
         eff_id = self.get_effective_identity(active_persona)
+        start_t = time.time()
 
-        if self._client is not None:
-            try:
-                query_job = self._client.query(query)
-                results = query_job.result()
-                rows = [dict(row.items()) for row in results]
-                bytes_mb = round((query_job.total_bytes_billed or 0) / (1024 * 1024), 2)
-                return QueryResult(
+        trace_ctx = (
+            grid_telemetry.trace_span(
+                "grid_optimization.bigquery_query",
+                attributes={
+                    "db.system": "bigquery",
+                    "db.name": dataset,
+                    "db.sql.table": table,
+                    "db.statement": query[:250],
+                    "persona_id": active_persona,
+                    "identity.principal": eff_id,
+                },
+            )
+            if grid_telemetry
+            else nullcontext()
+        )
+
+        with trace_ctx:
+            if self._client is not None:
+                try:
+                    query_job = self._client.query(query)
+                    results = query_job.result()
+                    rows = [dict(row.items()) for row in results]
+                    bytes_mb = round((query_job.total_bytes_billed or 0) / (1024 * 1024), 2)
+                    exec_ms = round((time.time() - start_t) * 1000.0, 2)
+                    res = QueryResult(
+                        dataset=dataset,
+                        table=table,
+                        query_executed=query,
+                        rows=rows,
+                        total_rows=len(rows),
+                        bytes_scanned_mb=bytes_mb,
+                        execution_time_ms=exec_ms,
+                        is_mock=False,
+                        effective_identity=eff_id,
+                    )
+                    if grid_telemetry:
+                        grid_telemetry.record_query(
+                            persona_id=active_persona,
+                            dataset=dataset,
+                            table=table,
+                            query=query,
+                            total_rows=res.total_rows,
+                            bytes_scanned_mb=res.bytes_scanned_mb,
+                            is_mock=False,
+                            effective_identity=eff_id,
+                            execution_time_ms=res.execution_time_ms,
+                        )
+                    return res
+                except Exception:
+                    pass
+
+            res = self._generate_simulated_rows(dataset, table, query, limit, eff_id)
+            res.execution_time_ms = round((time.time() - start_t) * 1000.0, 2)
+            if grid_telemetry:
+                grid_telemetry.record_query(
+                    persona_id=active_persona,
                     dataset=dataset,
                     table=table,
-                    query_executed=query,
-                    rows=rows,
-                    total_rows=len(rows),
-                    bytes_scanned_mb=bytes_mb,
-                    execution_time_ms=120.0,
-                    is_mock=False,
+                    query=query,
+                    total_rows=res.total_rows,
+                    bytes_scanned_mb=res.bytes_scanned_mb,
+                    is_mock=True,
                     effective_identity=eff_id,
+                    execution_time_ms=res.execution_time_ms,
                 )
-            except Exception:
-                # Fall back to grounded analytical rows if remote ADC/network is unreachable
-                pass
-
-        return self._generate_simulated_rows(dataset, table, query, limit, eff_id)
+            return res
 
     def _generate_simulated_rows(
         self, dataset: str, table: str, query: str, limit: int, effective_identity: str

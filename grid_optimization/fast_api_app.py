@@ -24,7 +24,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-adk_app = App(name="grid_optimization", root_agent=root_agent)
+try:
+    from config.telemetry import get_telemetry_plugins
+    plugins = get_telemetry_plugins("grid_optimization_orchestrator")
+except Exception:
+    plugins = []
+
+adk_app = App(name="grid_optimization", root_agent=root_agent, plugins=plugins)
+
+
+@app.middleware("http")
+async def add_telemetry_headers(request, call_next):
+    """Injects Cloud Trace context and Agent Identity headers into all API responses."""
+    trace_id = (
+        request.headers.get("x-cloud-trace-context")
+        or request.headers.get("x-trace-id")
+        or request.headers.get("traceparent")
+    )
+    response = await call_next(request)
+    if trace_id:
+        clean_id = trace_id.split(";")[0].split("/")[0]
+        response.headers["x-trace-id"] = clean_id
+    response.headers["x-agent-identity-type"] = "AGENT_IDENTITY"
+    response.headers["x-agent-identity-orchestrator"] = "utilities_master_orchestrator"
+    return response
 
 
 @app.get("/healthz")
@@ -34,13 +57,33 @@ def healthz():
         "agent": root_agent.name,
         "fleet_personas": len(orchestrator.personas),
         "fleet_workflows": len(orchestrator.workflows),
+        "identity_mode": "AGENT_IDENTITY",
+        "telemetry_active": True,
     }
 
 
 @app.get("/api/fleet")
 def get_fleet_summary():
-    """Returns overview of personas, sub-agents, skills, and pending HITL tickets."""
+    """Returns overview of personas, sub-agents, skills, telemetry, and pending HITL tickets."""
     return orchestrator.get_fleet_summary()
+
+
+@app.get("/api/telemetry/metrics")
+def get_telemetry_metrics():
+    """Returns aggregated real-time telemetry metrics, latency percentiles, and BQ usage."""
+    return orchestrator.telemetry.get_metrics()
+
+
+@app.get("/api/telemetry/traces")
+def get_recent_traces(limit: int = 50, persona_id: Optional[str] = None):
+    """Returns recent distributed trace spans formatted for timeline visualization."""
+    return orchestrator.telemetry.get_recent_spans(limit=limit, persona_id=persona_id)
+
+
+@app.get("/api/telemetry/audit")
+def get_identity_audit_log(limit: int = 50):
+    """Returns table-level and resource-level Agent Identity authorization audit logs."""
+    return orchestrator.telemetry.get_audit_logs(limit=limit)
 
 
 # Workflow Step Mapping Metadata
@@ -114,11 +157,22 @@ async def execute_workflow_step(payload: dict = Body(...)):
     }
 
     try:
-        # Run validation harness
-        validation = orchestrator.harness.validate_input_telemetry(merged_payload)
+        with orchestrator.telemetry.trace_span(
+            "grid_optimization.workflow_step",
+            attributes={
+                "workflow.key": workflow_key,
+                "step.index": step_index,
+                "step.title": step_info["title"],
+                "persona.id": persona_id,
+                "task.name": task_name,
+            },
+        ):
+            # Run validation harness
+            validation = orchestrator.harness.validate_input_telemetry(merged_payload)
+            orchestrator.telemetry.record_validation(validation.risk_level, validation.violations)
 
-        # Dispatch task to the step's persona
-        persona_output = orchestrator.dispatch_persona(persona_id, task_name, merged_payload)
+            # Dispatch task to the step's persona
+            persona_output = orchestrator.dispatch_persona(persona_id, task_name, merged_payload)
 
         # Build inter-persona handoff payload
         handoff_data = {
