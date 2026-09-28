@@ -1674,6 +1674,7 @@
       max-height: 130px;
       overflow-y: auto;
       line-height: 1.6;
+    }
     /* ========================================================
        WEATHERNEXT 3 PORTFOLIO FORECAST STUDIO (EDP DEMO 1 SPEC)
        ======================================================== */
@@ -3493,63 +3494,48 @@
           </div>
         </div>
 
-        <!-- Human-Friendly Executive Briefing & Guide -->
-        <div class="human-briefing-card">
-          <div class="human-briefing-header">
-            <div>
-              <div class="human-briefing-title">
-                <span>🌐</span> Executive Clean Energy Overview &amp; Operator Guide
-              </div>
-              <div class="human-briefing-desc">
-                Google DeepMind WeatherNext delivers 15-day synoptic weather forecasts at 10× speed. Dispatchers can anticipate renewable surges and use natural wind cooling on high-voltage cables to avoid building costly new power lines.
-              </div>
-            </div>
-            <div class="wn3-topbar-actions" style="margin-left: auto;">
-              <button id="wn3BtnPull" class="wn3-btn-pull" onclick="pullLatestRun()" title="Fetch newest forecast run from BigQuery">
-                <span class="spinner-pull" id="wn3PullSpinner" style="display: none;">🔄</span>
-                <span id="wn3PullLabel">Pull latest run</span>
+        <!-- Interactive Fleet Navigation & Live Operational Advisory -->
+        <div class="human-briefing-card" style="padding: 14px 16px; margin-bottom: 14px;">
+          <!-- Row 1: Fleet Region Selector Pills -->
+          <div class="human-fleet-bar" style="margin-bottom: 10px;">
+            <span class="human-fleet-label">Select Regional Fleet:</span>
+            <div class="human-fleet-pills">
+              <button class="wn3-fleet-pill active" data-country="ALL" onclick="selectWxCountryPill('ALL', this)">
+                <span>🌐 Global Fleet</span> <span class="fleet-pill-mw">6,324 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="MY" onclick="selectWxCountryPill('MY', this)">
+                <span>🇲🇾 Malaysia</span> <span class="fleet-pill-mw">881 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="PT" onclick="selectWxCountryPill('PT', this)">
+                <span>🇵🇹 Portugal</span> <span class="fleet-pill-mw">1,421 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="US" onclick="selectWxCountryPill('US', this)">
+                <span>🇺🇸 United States</span> <span class="fleet-pill-mw">3,102 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="ES" onclick="selectWxCountryPill('ES', this)">
+                <span>🇪🇸 Spain</span> <span class="fleet-pill-mw">404 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="PL" onclick="selectWxCountryPill('PL', this)">
+                <span>🇵🇱 Poland</span> <span class="fleet-pill-mw">711 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="FR" onclick="selectWxCountryPill('FR', this)">
+                <span>🇫🇷 France</span> <span class="fleet-pill-mw">101 MW</span>
               </button>
             </div>
+            <!-- Hidden native select for API sync -->
+            <select id="wn3CountrySelect" style="display: none;" onchange="onWeatherNextCountryChange(this.value)">
+              <option value="ALL">Global Fleet</option>
+              <option value="PT">Portugal</option>
+              <option value="US">United States</option>
+              <option value="ES">Spain</option>
+              <option value="MY">Malaysia / ASEAN</option>
+              <option value="PL">Poland</option>
+              <option value="FR">France</option>
+            </select>
           </div>
 
-          <!-- 3 Plain-Language Guide Cards -->
-          <div class="human-guide-grid">
-            <div class="human-guide-item">
-              <span class="human-guide-icon">☀️</span>
-              <div>
-                <div class="human-guide-title">Solar Rhythms (Diurnal Cycle)</div>
-                <div class="human-guide-text">Predicts daylight sunshine across 126 solar farms so grid batteries charge before evening city demand spikes.</div>
-              </div>
-            </div>
-            <div class="human-guide-item">
-              <span class="human-guide-icon">💨</span>
-              <div>
-                <div class="human-guide-title">Wind Movement (Synoptic Shifts)</div>
-                <div class="human-guide-text">Tracks multi-day ocean and inland wind trends to throttle down expensive fossil fuel gas peakers.</div>
-              </div>
-            </div>
-            <div class="human-guide-item">
-              <span class="human-guide-icon">⚡</span>
-              <div>
-                <div class="human-guide-title">Cable Cooling Headroom (DLR)</div>
-                <div class="human-guide-text">Ambient breezes cool overhead cables in real-time, safely unlocking up to <strong>+23.7% extra power capacity</strong>.</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Human Operational Advisory Banner -->
-          <div class="human-advisory-box">
-            <div class="human-advisory-left">
-              <span class="advisory-pulse-dot"></span>
-              <div class="human-advisory-text" id="humanWxAdvisoryText">
-                <strong>Grid Advisory (25 Sep – 10 Oct):</strong> Peak clean generation of <strong>2,185 MW</strong> arrives on <strong>29 Sep at 11:00 UTC</strong>. Natural line cooling provides <strong>+23.7%</strong> transmission headroom. <em>Recommendation: Safely throttle 3 gas peaker units to avoid 140 tonnes of CO₂.</em>
-              </div>
-            </div>
-            <span style="font-size: 0.72rem; color: #a7f3d0; font-family: 'Roboto Mono', monospace; background: rgba(52, 211, 153, 0.15); padding: 3px 8px; border-radius: 999px;">AI Confidence: 96.4%</span>
-          </div>
-
-          <!-- Interactive Generation Mix Visual Bar (Graph for Humans) -->
-          <div class="human-gen-mix-card">
+          <!-- Row 2: Visual Generation Mix Bar (Wind vs Solar) -->
+          <div class="human-gen-mix-card" style="margin-bottom: 10px; padding: 8px 12px;">
             <div class="gen-mix-header">
               <span>⚡ Clean Energy Generation Capacity Mix</span>
               <span id="humanGenMixTotalLabel" style="font-family: 'Roboto Mono', monospace; color: #38bdf8;">6,324 MW Total Installed</span>
@@ -3562,7 +3548,7 @@
                 <span>☀️ Solar 13.8% (872 MW)</span>
               </div>
             </div>
-            <div class="gen-mix-legend">
+            <div class="gen-mix-legend" style="margin-top: 4px;">
               <div class="gen-mix-legend-item">
                 <span class="gen-mix-dot" style="background: #38bdf8;"></span>
                 <span>Wind Fleet: <strong id="lblMixWind">5,452 MW</strong></span>
@@ -3572,67 +3558,20 @@
                 <span>Solar Fleet: <strong id="lblMixSolar">872 MW</strong></span>
               </div>
               <div class="gen-mix-legend-item" style="margin-left: auto;">
-                <span style="color: #34d399;">⚡ Dynamic Line Headroom Unlocked: <strong>+23.7%</strong></span>
+                <span style="color: #34d399;">⚡ Cable Cooling Headroom: <strong id="lblMixHeadroom">+23.7%</strong></span>
               </div>
             </div>
           </div>
 
-          <!-- Interactive Fleet Filter Pills (Clickable Flags) -->
-          <div class="human-fleet-bar">
-            <span class="human-fleet-label">Select Regional Fleet:</span>
-            <div class="human-fleet-pills">
-              <button class="wn3-fleet-pill active" data-country="ALL" onclick="selectWxCountryPill('ALL', this)">
-                <span>🌐</span> Global Fleet <span class="fleet-pill-mw">6,324 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="MY" onclick="selectWxCountryPill('MY', this)">
-                <span>🇲🇾</span> Malaysia / ASEAN <span class="fleet-pill-mw">881 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="PT" onclick="selectWxCountryPill('PT', this)">
-                <span>🇵🇹</span> Portugal <span class="fleet-pill-mw">1,421 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="US" onclick="selectWxCountryPill('US', this)">
-                <span>🇺🇸</span> United States <span class="fleet-pill-mw">3,102 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="ES" onclick="selectWxCountryPill('ES', this)">
-                <span>🇪🇸</span> Spain <span class="fleet-pill-mw">404 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="PL" onclick="selectWxCountryPill('PL', this)">
-                <span>🇵🇱</span> Poland <span class="fleet-pill-mw">711 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="FR" onclick="selectWxCountryPill('FR', this)">
-                <span>🇫🇷</span> France <span class="fleet-pill-mw">101 MW</span>
-              </button>
+          <!-- Row 3: Live Grid Operational Advisory Banner -->
+          <div class="human-advisory-box" style="margin-bottom: 0;">
+            <div class="human-advisory-left">
+              <span class="advisory-pulse-dot"></span>
+              <div class="human-advisory-text" id="humanWxAdvisoryText">
+                <strong>Grid Advisory (25 Sep – 10 Oct):</strong> Peak clean generation of <strong>2,185 MW</strong> arrives on <strong>29 Sep at 11:00 UTC</strong>. Natural line cooling provides <strong>+23.7%</strong> transmission headroom. <em>Recommendation: Safely throttle 3 gas peaker units to avoid 140 tonnes of CO₂.</em>
+              </div>
             </div>
-            <!-- Hidden native select for backwards compatibility -->
-            <select id="wn3CountrySelect" style="display: none;" onchange="onWeatherNextCountryChange(this.value)">
-              <option value="ALL">Global Fleet</option>
-              <option value="PT">Portugal</option>
-              <option value="US">United States</option>
-              <option value="ES">Spain</option>
-              <option value="MY">Malaysia / ASEAN</option>
-              <option value="PL">Poland</option>
-              <option value="FR">France</option>
-            </select>
-          </div>
-
-          <!-- Meta Information Strip -->
-          <div class="wn3-meta-strip" style="background: transparent; padding: 4px 0; border: none; font-size: 0.73rem;">
-            <div class="wn3-meta-item">
-              <span class="wn3-meta-label">Forecast Run</span>
-              <span class="wn3-meta-val" id="wn3MetaRun">25 Sep 12:00 UTC</span>
-            </div>
-            <div class="wn3-meta-item">
-              <span class="wn3-meta-label">Horizon</span>
-              <span class="wn3-meta-val">25 Sep – 10 Oct (15 Days / 360h)</span>
-            </div>
-            <div class="wn3-meta-item">
-              <span class="wn3-meta-label">Portfolio Size</span>
-              <span class="wn3-meta-val" id="wn3MetaPortfolio">6,324 MW · 126 Assets</span>
-            </div>
-            <div class="wn3-meta-item">
-              <span class="wn3-meta-label">Timezone</span>
-              <span class="wn3-meta-val" id="wn3MetaTz">UTC</span>
-            </div>
+            <span style="font-size: 0.72rem; color: #a7f3d0; font-family: 'Roboto Mono', monospace; background: rgba(52, 211, 153, 0.15); padding: 3px 8px; border-radius: 999px; white-space: nowrap;">AI Confidence: 96.4%</span>
           </div>
         </div>
 
@@ -4151,10 +4090,10 @@ ORDER BY valid_time ASC, site_name ASC;
         </div>
 
         <!-- Real-World Kuala Lumpur Grid Situation Cards (Clickable for Humans) -->
-        <div class="vvo-story-cards-wrap">
-          <div class="vvo-story-cards-header">
+        <div class="vvo-story-cards-wrap" style="margin-bottom: 12px;">
+          <div class="vvo-story-cards-header" style="margin-bottom: 8px;">
             <span class="vvo-story-cards-title"><span>🏙️</span> Choose a Real-World Kuala Lumpur Grid Situation:</span>
-            <span style="font-size: 0.73rem; color: var(--text-muted);">Click any situation to see how Vizier autonomously protects the grid</span>
+            <span style="font-size: 0.73rem; color: var(--text-muted);">Click any scenario to see how Vizier autonomously protects the grid</span>
           </div>
           <div class="vvo-story-grid">
             <!-- Situation 1: Heatwave -->
@@ -4164,8 +4103,8 @@ ORDER BY valid_time ASC, site_name ASC;
                 <span class="vvo-story-tag tag-heatwave">Peak A/C Load</span>
               </div>
               <div class="vvo-story-name">Afternoon Heatwave (38°C)</div>
-              <div class="vvo-story-text">Offices in Bangsar &amp; KL Sentral blast air-con at 2:30 PM, dragging voltage down to 0.938 p.u.</div>
-              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Boosts taps &amp; connects 50 MVAR capacitors.</div>
+              <div class="vvo-story-text">High commercial air-con load sags voltage to <strong>0.938 p.u.</strong> in Bangsar.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Boosts taps (+2) &amp; injects +50 MVAR.</div>
             </div>
 
             <!-- Situation 2: Solar Peak -->
@@ -4175,8 +4114,8 @@ ORDER BY valid_time ASC, site_name ASC;
                 <span class="vvo-story-tag tag-solar">Solar Backfeed</span>
               </div>
               <div class="vvo-story-name">Midday Solar Surge</div>
-              <div class="vvo-story-text">Rooftop solar in Bandar Utama &amp; PJ feeds excess power backward, pushing voltage to 1.058 p.u.</div>
-              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Commands inverters to absorb excess reactive power.</div>
+              <div class="vvo-story-text">Rooftop solar feeds back, pushing voltage to <strong>1.058 p.u.</strong> in Bandar Utama.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Smart inverters absorb -12 MVAR.</div>
             </div>
 
             <!-- Situation 3: Nocturnal -->
@@ -4185,9 +4124,9 @@ ORDER BY valid_time ASC, site_name ASC;
                 <span class="vvo-story-icon">🌙</span>
                 <span class="vvo-story-tag tag-night">Ferranti Cable Surge</span>
               </div>
-              <div class="vvo-story-name">Late Night City Slumber</div>
-              <div class="vvo-story-text">At 3 AM when factories sleep, underground XLPE cables push voltage high in Putrajaya (1.052 p.u.).</div>
-              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Steps down transformer taps to eliminate stress.</div>
+              <div class="vvo-story-name">Late Night Slumber (3 AM)</div>
+              <div class="vvo-story-text">Light load + cable charging spikes voltage to <strong>1.052 p.u.</strong> in Putrajaya.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Steps down transformer taps (-2).</div>
             </div>
 
             <!-- Situation 4: Storm Squall -->
@@ -4197,8 +4136,8 @@ ORDER BY valid_time ASC, site_name ASC;
                 <span class="vvo-story-tag tag-storm">75% Solar Drop</span>
               </div>
               <div class="vvo-story-name">Tropical Monsoon Squall</div>
-              <div class="vvo-story-text">Dark rain squall blankets KL in minutes, dropping solar by 75% and shocking industrial Shah Alam.</div>
-              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Rapid-injects +24 MVAR in 1.4s to prevent brownout.</div>
+              <div class="vvo-story-text">Sudden cloud cover drops solar by 75%, dropping voltage to <strong>0.941 p.u.</strong></div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Injects +24 MVAR dynamically in 1.4s.</div>
             </div>
           </div>
           <!-- Hidden native selector for API sync -->
@@ -4210,8 +4149,8 @@ ORDER BY valid_time ASC, site_name ASC;
           </select>
         </div>
 
-        <!-- Human Operational Advisory Banner -->
-        <div class="vvo-human-advisor-card">
+        <!-- Situation Room AI Co-Pilot Status & Actions -->
+        <div class="vvo-human-advisor-card" style="padding: 12px 16px; margin-bottom: 12px;">
           <div class="vvo-advisor-left">
             <div class="vvo-advisor-avatar">🤖</div>
             <div>
@@ -4238,8 +4177,8 @@ ORDER BY valid_time ASC, site_name ASC;
           </div>
         </div>
 
-        <!-- Human-Readable Visual Health & Impact Meters (Graphs for humans) -->
-        <div class="vvo-human-meters-grid">
+        <!-- 4 Visual Health & Impact Meters -->
+        <div class="vvo-human-meters-grid" style="margin-bottom: 14px;">
           <!-- Meter 1: Voltage Safety Range Target -->
           <div class="vvo-meter-card">
             <div class="vvo-meter-header">
@@ -4251,100 +4190,53 @@ ORDER BY valid_time ASC, site_name ASC;
             </div>
             <div class="vvo-meter-footer">
               <span>Worst Substation:</span>
-              <span class="vvo-meter-bold" id="vvoMeterWorstSub">0.998 p.u. (Bangsar)</span>
+              <span class="vvo-meter-bold" id="vvoMeterWorstSub" style="color: #34d399;">0.998 p.u. (Bangsar)</span>
             </div>
           </div>
 
-          <!-- Meter 2: Power Waste Reduction -->
+          <!-- Meter 2: Transmission Loss Reduction -->
           <div class="vvo-meter-card">
             <div class="vvo-meter-header">
-              <span class="vvo-meter-title">Transmission Energy Waste</span>
+              <span class="vvo-meter-title">Transmission Waste Cut</span>
               <span class="vvo-meter-chip success" id="vvoMeterLossChip">-38.7% Less Waste</span>
             </div>
-            <div class="vvo-meter-track" title="Line losses reduced from 8.42 MW to 5.16 MW">
+            <div class="vvo-meter-track" title="Active line I²R heat losses">
               <div class="vvo-meter-fill" id="vvoMeterLossFill" style="width: 61.3%; background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
             </div>
             <div class="vvo-meter-footer">
-              <span>Current Feeder Loss:</span>
-              <span class="vvo-meter-bold" id="vvoMeterLossVal">5.16 MW (Was 8.42 MW)</span>
+              <span>System Loss:</span>
+              <span class="vvo-meter-bold" id="vvoMeterLossVal" style="color: #38bdf8;">5.16 MW (Saved 3.26 MW)</span>
             </div>
           </div>
 
-          <!-- Meter 3: Community Cost Savings -->
+          <!-- Meter 3: Financial Tariff Savings -->
           <div class="vvo-meter-card">
             <div class="vvo-meter-header">
               <span class="vvo-meter-title">Consumer Energy Savings</span>
-              <span class="vvo-meter-chip success">TNB Bulk Tariff</span>
+              <span class="vvo-meter-chip success">RM 1.48M / yr</span>
             </div>
-            <div class="vvo-meter-track" title="Annual avoided OPEX">
-              <div class="vvo-meter-fill" style="width: 82%; background: linear-gradient(90deg, #059669, #10b981);"></div>
+            <div class="vvo-meter-track" title="Commercial & Industrial bulk tariff savings">
+              <div class="vvo-meter-fill" style="width: 78%; background: linear-gradient(90deg, #059669, #10b981);"></div>
             </div>
             <div class="vvo-meter-footer">
-              <span>OPEX Saved:</span>
-              <span class="vvo-meter-bold" style="color: #34d399;">RM 1.48 Million / yr</span>
+              <span>TNB Commercial Tariff:</span>
+              <span class="vvo-meter-bold" style="color: #34d399;">RM 123,400 / month</span>
             </div>
           </div>
 
           <!-- Meter 4: Transformer Lifespan Extension -->
           <div class="vvo-meter-card">
             <div class="vvo-meter-header">
-              <span class="vvo-meter-title">Transformer Life Protection</span>
-              <span class="vvo-meter-chip success">-58% Mechanical Jolts</span>
+              <span class="vvo-meter-title">Transformer Lifespan</span>
+              <span class="vvo-meter-chip success">+4.2 yrs Extended</span>
             </div>
-            <div class="vvo-meter-track" title="Tap changer mechanical operations reduced from 38 to 16/day">
-              <div class="vvo-meter-fill" style="width: 42%; background: linear-gradient(90deg, #9333ea, #c084fc);"></div>
+            <div class="vvo-meter-track" title="OLTC mechanical tap wear reduction">
+              <div class="vvo-meter-fill" style="width: 82%; background: linear-gradient(90deg, #7c3aed, #a855f7);"></div>
             </div>
             <div class="vvo-meter-footer">
-              <span>Added Equipment Life:</span>
-              <span class="vvo-meter-bold" style="color: #c084fc;">+4.2 Years Lifespan</span>
+              <span>Mechanical Taps:</span>
+              <span class="vvo-meter-bold" style="color: #c084fc;">16 ops/day (-58% wear)</span>
             </div>
-          </div>
-        </div>
-
-        <!-- 5 Executive KPI Summary Tiles (Underlying Details) -->
-        <div class="vvo-tiles-grid" id="vvoKpiTiles">
-          <div class="vvo-tile">
-            <span class="vvo-tile-label">Active System Losses</span>
-            <div class="vvo-tile-val">
-              <span id="vvoValLoss">5.16</span><span class="vvo-tile-unit">MW</span>
-              <span class="vvo-badge-diff" id="vvoBadgeLoss">-38.7%</span>
-            </div>
-            <span class="vvo-tile-sub" id="vvoSubLoss">Baseline: 8.42 MW (Saved 3.26 MW)</span>
-          </div>
-
-          <div class="vvo-tile">
-            <span class="vvo-tile-label">Annual OPEX Energy Savings</span>
-            <div class="vvo-tile-val">
-              <span style="color: #34d399;">RM <span id="vvoValSavings">1.48</span>M</span><span class="vvo-tile-unit">/yr</span>
-            </div>
-            <span class="vvo-tile-sub">Based on TNB Commercial Bulk Tariff</span>
-          </div>
-
-          <div class="vvo-tile">
-            <span class="vvo-tile-label">Worst Bus Voltage Deviation</span>
-            <div class="vvo-tile-val">
-              <span id="vvoValWorstV">0.998</span><span class="vvo-tile-unit">p.u.</span>
-              <span class="vvo-badge-diff" id="vvoBadgeV" style="background: rgba(13, 144, 79, 0.2); color: #34d399;">100% Valid</span>
-            </div>
-            <span class="vvo-tile-sub" id="vvoSubWorstV">Baseline: 0.932 p.u. (TNB violation cleared)</span>
-          </div>
-
-          <div class="vvo-tile">
-            <span class="vvo-tile-label">Reactive Power Sloshing</span>
-            <div class="vvo-tile-val">
-              <span id="vvoValSloshing">5.2</span><span class="vvo-tile-unit">MVAR</span>
-              <span class="vvo-badge-diff" id="vvoBadgeSloshing">-88.9%</span>
-            </div>
-            <span class="vvo-tile-sub" id="vvoSubSloshing">Circulating VARs eliminated between hubs</span>
-          </div>
-
-          <div class="vvo-tile">
-            <span class="vvo-tile-label">Tap Operations / Day</span>
-            <div class="vvo-tile-val">
-              <span id="vvoValTaps">16</span><span class="vvo-tile-unit">ops/d</span>
-              <span class="vvo-badge-diff" id="vvoBadgeTaps">-58%</span>
-            </div>
-            <span class="vvo-tile-sub" id="vvoSubTaps">Baseline: 38 ops (Wear reduced)</span>
           </div>
         </div>
 
