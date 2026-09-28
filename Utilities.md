@@ -6,9 +6,10 @@ This document defines the architectural principles, operational standards, and f
 
 ### Core Architecture & MAS Operating Principles
 
-1. **The Global Orchestrator Pattern:** 
+1. **The Global Orchestrator Pattern (Zero-BigQuery Routing):** 
    - A single, top-level **`utilities_master_orchestrator`** agent resides in `agents/master_orchestrator/`. 
-   - This agent acts as the universal entry point, handling global intent classification, dynamic task decomposition, and dispatching tasks to specialized sub-domain agents via the Agent-to-Agent (A2A) protocol.
+   - This agent acts as the universal entry point, handling global intent classification, dynamic task decomposition, and dispatching tasks to specialized sub-domain agents via the Agent-to-Agent (A2A) protocol (`AgentDelegationTool`).
+   - Under the defense-in-depth security model, the **Master Orchestrator has NO direct BigQuery access** (no BigQuery tool, no dataset access). All data retrieval is delegated to domain specialist agents.
 
 2. **Strict Single-Purpose Scope:**
    - Every agent enforces the Single Responsibility Principle: Atomic, focused tasks (e.g., separating solar generation prediction from wholesale bidding curve optimization).
@@ -25,6 +26,15 @@ This document defines the architectural principles, operational standards, and f
        - **Critic Sub-Agent (`critic_agent.py`)**: Independent evaluator gatekeeper. Intercepts execution output, verifies adherence to `safety_guardrails.md`, checks for hallucinations or PII leaks, and formats final markdown tables before returning control.
      - `synthetic_data/`: BigQuery DDL schema (`schema.sql`), seed data (`seed_data.sql`), and sample CSV fixtures (`mock_records.csv`).
      - `tests/`: Golden evaluation dataset (`golden-dataset.json`), metric thresholds (`eval_config.yaml`), and integration/unit tests.
+
+4. **Cryptographic Agent Identity & Table-Level Least Privilege:**
+   - Every deployed agent reasoning engine runs under first-class Google Cloud **Agent Identity** (`identity_type: "AGENT_IDENTITY"`) using SPIFFE principals. Static domain and per-agent service accounts have been decommissioned.
+   - Domain agents operate with strict, table-level least-privilege scoping on `utilities_{sub_domain}` datasets. Inquiries targeting foreign domains or unauthorized tables within the same domain are denied at runtime.
+   - Cloud Run web portal hosting operates under the Compute Engine default service account behind Google Identity-Aware Proxy (IAP).
+
+5. **Standardized Reasoning Model & Global Routing:**
+   - The fleet standardizes on **`gemini-3.7-flash`** across all 114 Reasoning Engines.
+   - Dynamic global endpoint routing (`GOOGLE_CLOUD_LOCATION="global"`) ensures seamless global capacity allocation without regional 404 endpoint errors.
 
 ---
 

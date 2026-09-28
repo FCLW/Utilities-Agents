@@ -265,15 +265,19 @@ def validate_agent_identity_permissions(verbose: bool = True) -> bool:
         from agents.master_orchestrator.utilities_master_orchestrator.tools.bigquery_tool import BigQueryQueryTool as OrchBQTool
         orch_bq = OrchBQTool()
         blocked = False
+        err_msg = ""
         try:
-            orch_bq.run("SELECT * FROM utilities_asset_management.capital_replacement_simulator_logs")
+            res = orch_bq.run("SELECT * FROM utilities_asset_management.capital_replacement_simulator_logs")
+            if "Access denied" in res or "does not have direct access" in res:
+                blocked = True
+                err_msg = res[:80]
         except PermissionError as pe:
             blocked = True
             err_msg = str(pe)
         record_check(
             "Master Orchestrator BigQuery tool execution strictly blocked",
             blocked,
-            f"PermissionError caught: '{err_msg}'" if blocked else "Error: query did not raise PermissionError"
+            f"Blocked output: '{err_msg}'" if blocked else "Error: query did not raise PermissionError or return access denied"
         )
     except Exception as e:
         record_check("Master Orchestrator BigQuery tool execution check", False, f"Unexpected error: {e}")
@@ -309,30 +313,34 @@ def validate_agent_identity_permissions(verbose: bool = True) -> bool:
             f"Query result: {own_res[:60]}..."
         )
 
-        # Test 4b: Access to foreign agent table is blocked with PermissionError
+        # Test 4b: Access to foreign agent table is blocked
         cross_agent_query = "SELECT * FROM utilities_asset_management.circuit_breaker_wear_analyzer_logs LIMIT 1"
         cross_blocked = False
         try:
-            domain_tool.run(cross_agent_query)
+            res_b = domain_tool.run(cross_agent_query)
+            if "Access denied" in res_b:
+                cross_blocked = True
         except PermissionError:
             cross_blocked = True
         record_check(
             "Domain Agent blocked from accessing other agents' tables within same domain",
             cross_blocked,
-            "PermissionError raised when querying circuit_breaker_wear_analyzer_logs"
+            "Access denied when querying circuit_breaker_wear_analyzer_logs"
         )
 
-        # Test 4c: Access to cross-domain dataset table is blocked with PermissionError
+        # Test 4c: Access to cross-domain dataset table is blocked
         cross_domain_query = "SELECT * FROM utilities_billing_and_invoicing.budget_billing_levelization_calculator_logs LIMIT 1"
         cross_domain_blocked = False
         try:
-            domain_tool.run(cross_domain_query)
+            res_c = domain_tool.run(cross_domain_query)
+            if "Access denied" in res_c:
+                cross_domain_blocked = True
         except PermissionError:
             cross_domain_blocked = True
         record_check(
             "Domain Agent blocked from querying foreign domain datasets",
             cross_domain_blocked,
-            "PermissionError raised when querying utilities_billing_and_invoicing"
+            "Access denied when querying utilities_billing_and_invoicing"
         )
     except Exception as e:
         record_check("Domain Agent table-level isolation check", False, f"Unexpected error: {e}")

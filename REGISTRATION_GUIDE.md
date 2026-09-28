@@ -1,6 +1,6 @@
 # Gemini Enterprise App Registration Guide
 
-This guide explains how to make the **113 Utility Agents** (1 Master Orchestrator + 112 Specialized Domain Agents across 10 industry sub-domains) available in the Gemini Enterprise App within Google Workspace.
+This guide explains how to make the **114 Utility Agents** (1 Master Orchestrator + 113 Specialized Domain Agents across 10 industry sub-domains) available in the Gemini Enterprise App within Google Workspace.
 
 ---
 

@@ -30,14 +30,11 @@ Ensure you have the following installed on your local machine or development env
    # Google Cloud Configuration
    GCP_PROJECT_ID=utilities-agents
    GCP_REGION=us-central1
-   GCP_LOCATION=us-central1
+   GCP_LOCATION=global
 
    # Model Configuration
    LLM_MODEL_NAME=gemini-3.7-flash
-   REASONING_MODEL_NAME=gemini-3.1-pro
-
-   # BigQuery Configuration
-   BQ_DATASET_NAME=utilities-data
+   REASONING_MODEL_NAME=gemini-3.7-flash
    ```
 
 ---
@@ -73,7 +70,7 @@ python3 scripts/setup_iam_permissions.py --validate
 # 3. Provision BigQuery datasets, tables, and load synthetic seed telemetry data
 python3 scripts/load_bq_data.py
 
-# 4. Deploy the 113 agents to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
+# 4. Deploy the 114 Reasoning Engines (113 specialized domain agents + Master Orchestrator) to Vertex AI Reasoning Engine with Agent Identity and register in Gemini Enterprise
 python3 scripts/deploy_all_and_register.py
 ```
 
@@ -103,7 +100,7 @@ python3 scripts/generate_demo_html.py
    ```bash
    python3 scripts/deploy_web_portal.py
    ```
-   *Note: The deployment script utilizes Cloud Build to pull the 1.9 GiB MP4 video fleet directly from `gs://utilities-agents-demos` over Google's internal datacenter network and bundles them into the container with HTTP 206 byte-range streaming enabled.*
+   *Note: The Cloud Run showcase portal executes under the Compute Engine default service account (`1032317060288-compute@developer.gserviceaccount.com`), secured behind Google Identity-Aware Proxy (IAP). The deployment script utilizes Cloud Build to bundle the 1.9 GiB MP4 video fleet directly into the container with HTTP 206 byte-range streaming enabled.*
 
 ---
 

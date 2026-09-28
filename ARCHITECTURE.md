@@ -196,8 +196,9 @@ The Enterprise Agents Suite relies on a robust, secure, and scalable 4-tier arch
 - **Native Markdown Specification Viewer (`/readmes/`)**: All 113 agent READMEs are hosted on Cloud Run under `web/readmes/<subdomain>/<agent>.md` with explicit `Content-Type: text/markdown; charset=utf-8` headers, rendering cleanly inline without triggering binary downloads.
 
 ### Tier 2: Agent Orchestration Layer
-- **Google ADK `root_agent`**: Autonomous multi-turn reasoning engine powered by `gemini-3.7-flash` (with `gemini-3.1-pro` available for complex reasoning) deployed on **Vertex AI Agent Engine (Reasoning Engine)** in `us-central1`.
+- **Google ADK `root_agent`**: Autonomous multi-turn reasoning engine powered by **`gemini-3.7-flash`** with dynamic global endpoint routing (`GOOGLE_CLOUD_LOCATION="global"`), avoiding regional 404s while executing on **Vertex AI Agent Engine (Reasoning Engine)** deployed in `us-central1`.
 - **Master Orchestrator Pattern (`utilities_master_orchestrator`)**: Single pane of glass handling universal intent classification, multi-domain task decomposition, and dynamic routing to specialized domain agents via the Agent-to-Agent (A2A) protocol.
+- **Zero-Direct BigQuery Access Policy**: The Master Orchestrator operates strictly without direct BigQuery access. Its active tools are `AgentDelegationTool`, `GoogleSearchTool`, and `VisualizerTool`. Under defense-in-depth rules, `BigQueryQueryTool` is disabled/denied on the Master Orchestrator; any query requiring data telemetry or SQL synthesis is dispatched to specialized domain agents.
 - **Shared Session State Machine (`UtilitiesSessionState`)**: Passes contextual state across the A2A chain, including `customer_id`, `grid_zone_id`, `operating_mode` (Normal/Emergency), and `alert_level`.
 - **Observability & Telemetry**: Cloud Trace distributed tracing, OpenTelemetry spans, and structured audit logs tracking query execution, token usage, and latency.
 
@@ -206,16 +207,18 @@ The Enterprise Agents Suite relies on a robust, secure, and scalable 4-tier arch
   - **Execution Sub-Agent (`execution_agent.py`)**: Translates user intent into domain calculations, executes read-only BigQuery SQL, and performs simulations.
   - **Critic Sub-Agent (`critic_agent.py`)**: Intercepts execution output, rigorously audits against `safety_guardrails.md`, checks for hallucinated metrics, strips private internal reasoning logs, enforces markdown table formatting, and verifies compliance before responding.
 - **Tools**:
-  - **`BigQueryTool` (`bigquery_tool.py`)**: Parameterized, read-only SQL query execution with strict regex guardrails blocking mutative statements (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`). Authenticates transparently via **Agent Identity** and ADC bound tokens.
+  - **`BigQueryTool` (`bigquery_tool.py`)**: Parameterized, read-only SQL query execution with granular table-level authorization and strict regex guardrails blocking mutative statements (`DROP`, `DELETE`, `INSERT`, `ALTER`, `TRUNCATE`). Authenticates transparently via **Agent Identity** and ADC bound tokens.
   - **`SearchTool` (`search_tool.py`)**: Google Search Grounding for live energy regulatory updates (FERC, NERC, PUC), market prices, and weather forecasts.
   - **`VisualizerTool` (`visualizer.py`)**: Matplotlib dynamic chart generator creating data visualizations.
   - **`DelegationTool` (`delegation_tool.py`)**: Dispatches sub-tasks to downstream agents across sub-domains.
 
 ### Tier 4: Data & Enterprise Lakehouse Layer
-- **BigQuery Lakehouse**: Segregated datasets and 113 partitioned analytical tables tracked in `table_registry.yaml`.
-- **Agent Identity Least-Privilege Security**: Every agent operates under its own unique, first-class **Agent Identity** (`principal://agents.global.project-<PROJECT_NUMBER>.system.id.goog/resources/aiplatform/projects/<PROJECT_ID>/locations/<LOCATION>/reasoningEngines/<RE_ID>`), eliminating static service account keys.
-- **Cryptographically Bound Access Tokens**: Automated short-lived X.509 certificate and token rotation via Application Default Credentials (ADC).
-- **Domain-Isolated Dataset Access**: Each domain's dataset is restricted via `roles/bigquery.dataViewer` scoped strictly to that domain's Agent Identity principals, with project-level `roles/bigquery.jobUser` and `roles/aiplatform.user`.
+- **10 Domain-Isolated BigQuery Datasets**: Data is partitioned and clustered across 10 domain datasets (`utilities_asset_management`, `utilities_billing_and_invoicing`, `utilities_customer_engagement`, `utilities_grid_balancing`, `utilities_grid_operations`, `utilities_production_forecasting`, `utilities_regulatory_compliance`, `utilities_smart_meter_management`, `utilities_support_services`, `utilities_wholesale_trading`), with all 113 tables centrally mapped in `table_registry.yaml`.
+- **Native Cryptographic Agent Identity (SPIFFE)**: Every agent reasoning engine runs under its own unique, first-class **Agent Identity** (`principal://agents.global.project-<PROJECT_NUMBER>.system.id.goog/resources/aiplatform/projects/<PROJECT_ID>/locations/<LOCATION>/reasoningEngines/<RE_ID>`).
+- **Complete Elimination of Static Service Accounts**: All legacy per-agent and per-domain service accounts have been decommissioned. Baseline permissions are governed via project-level principalSet bindings (`principalSet://goog/subject/resources/aiplatform/projects/<PROJECT_ID>/locations/<LOCATION>/reasoningEngines/*`) for `roles/bigquery.jobUser`, `roles/aiplatform.user`, `roles/logging.logWriter`, `roles/monitoring.metricWriter`, and `roles/serviceusage.serviceUsageConsumer`.
+- **Compute Engine Default Service Account**: The sole service account in the GCP project is `1032317060288-compute@developer.gserviceaccount.com`, used exclusively for Cloud Run web frontend hosting (`utilities-agents-portal`) and Cloud Build compilation.
+- **Granular Table-Level Least Privilege**: Domain agents are authorized strictly to their designated analytical tables. Inquiries attempting to access other agents' tables within the same domain or foreign domain datasets are intercepted and denied by `BigQueryQueryTool`.
+- **Cryptographically Bound Access Tokens**: Automated short-lived X.509 certificate and token rotation via Application Default Credentials (ADC) without static credentials.
 - **Synthetic Data Pipeline**: Comprehensive schema DDL (`schema.sql`), mock CSVs (`mock_records.csv`), and automated loading scripts (`load_bq_data.py`).
 
 ---
@@ -258,3 +261,26 @@ Every agent in the fleet dynamically compiles its system instructions at runtime
 2. **`business_rules.md`**: Enforces industry-standard formulas, operating limits, and calculation methodologies (e.g., IEEE standards, NERC reliability criteria, LMP settlement rules).
 3. **`output_format.md`**: Standardizes visual presentation, requiring structured Markdown tables, executive summaries, and actionable recommendations.
 4. **`safety_guardrails.md`**: Strict security guardrails preventing prompt injection, PII disclosure, unauthorized grid state modification, and non-read-only SQL operations.
+
+---
+
+## Grid Optimization Multi-Agent System (Decoupled MAS)
+
+In addition to the 113 individual catalog agents, the repository includes `grid_optimization/`, an advanced autonomous multi-agent system (MAS) designed for real-time power grid stabilization:
+
+- **Decoupled Architecture:** Operates as an independent, standalone subsystem with its own specialized UI (`adk_mas_server.py`), decoupled from the main showcase web catalog.
+- **8 Domain Personas:** Grid Coordinator, Reliability Engineer, Substation Specialist, Protection Engineer, Power Quality Engineer, Load Dispatcher, Renewables Integration Engineer, and Field Operations Lead.
+- **6 Collaborative Workflows:** Automated Fault Location, Isolation, and Service Restoration (FLISR), Dynamic Volt-VAR Optimization (VVO), Contingency Analysis (N-1), DER Hosting Capacity Management, Black Start Restoration, and Transformer Overload Shedding.
+- **Physics Validation & HITL Gateway:** Enforces strict ANSI C84.1 voltage bands, thermal ampacity limits, and IEEE 1547 anti-islanding constraints with a tiered Human-in-the-Loop (HITL) approval gateway before generating physical switching actions.
+
+---
+
+## Production Identity & Access Governance Summary
+
+| Component | Runtime Platform | Identity Type | Principal / Identity | Data Access Permissions |
+| :--- | :--- | :--- | :--- | :--- |
+| **Utilities Master Orchestrator** | Vertex AI Agent Engine (Reasoning Engine) | `AGENT_IDENTITY` | `principal://agents.global.project-1032317060288.system.id.goog/.../reasoningEngines/<id>` | **Zero Direct BigQuery Access** (pure A2A delegation via `AgentDelegationTool`) |
+| **Domain Agents (113 Agents)** | Vertex AI Agent Engine (Reasoning Engine) | `AGENT_IDENTITY` | `principal://agents.global.project-1032317060288.system.id.goog/.../reasoningEngines/<id>` | Granular table-level `roles/bigquery.dataViewer` scoped strictly to designated tables in `utilities_{sub_domain}` |
+| **Reasoning Engine Fleet Baseline** | Vertex AI Agent Engine | `AGENT_IDENTITY` PrincipalSet | `principalSet://goog/subject/resources/aiplatform/projects/utilities-agents/locations/us-central1/reasoningEngines/*` | `roles/bigquery.jobUser`, `roles/aiplatform.user`, `roles/logging.logWriter`, `roles/monitoring.metricWriter`, `roles/serviceusage.serviceUsageConsumer` |
+| **Showcase Web Portal** | Google Cloud Run (`utilities-agents-portal`) | Service Account | `1032317060288-compute@developer.gserviceaccount.com` (Compute Engine default SA) | Static web hosting, Cloud Run invocation behind Identity-Aware Proxy (IAP) |
+

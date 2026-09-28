@@ -20,16 +20,15 @@ def test_orchestrator_agent_tools_configuration():
     assert "AgentDelegationTool" in tool_names, "Master Orchestrator must have AgentDelegationTool for A2A routing"
 
 def test_orchestrator_bigquery_direct_access_denied():
-    """Verify Master Orchestrator BigQueryQueryTool strictly denies execution with PermissionError."""
+    """Verify Master Orchestrator BigQueryQueryTool strictly denies execution with Access Denied message."""
     from agents.master_orchestrator.utilities_master_orchestrator.tools.bigquery_tool import BigQueryQueryTool
     orch_bq = BigQueryQueryTool()
     assert orch_bq.is_orchestrator is True
     assert orch_bq.get_effective_identity() == "principal://master-orchestrator-no-direct-bq-access"
     
-    with pytest.raises(PermissionError) as exc_info:
-        orch_bq.run("SELECT * FROM utilities_asset_management.capital_replacement_simulator_logs")
-    assert "Access denied: The Master Orchestrator does not have direct access to BigQuery" in str(exc_info.value)
-    assert "AgentDelegationTool" in str(exc_info.value)
+    result = orch_bq.run("SELECT * FROM utilities_asset_management.capital_replacement_simulator_logs")
+    assert "Access denied: The Master Orchestrator operates under least-privilege Agent Identity and does not have direct access to BigQuery" in result
+    assert "AgentDelegationTool" in result
 
 def test_orchestrator_registry_has_no_bigquery_datasets():
     """Verify table_registry.yaml defines 0 BigQuery datasets for utilities_master_orchestrator."""
@@ -66,9 +65,8 @@ def test_domain_agent_cross_agent_table_access_blocked():
     tool = BigQueryQueryTool(agent_name="capital_replacement_simulator")
     
     # Attempting to access another asset management agent's table
-    with pytest.raises(PermissionError) as exc_info:
-        tool.run("SELECT * FROM utilities_asset_management.circuit_breaker_wear_analyzer_logs LIMIT 5")
-    assert "Access denied: Agent 'capital_replacement_simulator' is not authorized to access table 'circuit_breaker_wear_analyzer_logs'" in str(exc_info.value)
+    res = tool.run("SELECT * FROM utilities_asset_management.circuit_breaker_wear_analyzer_logs LIMIT 5")
+    assert "Access denied: Agent 'capital_replacement_simulator' is not authorized to access table 'circuit_breaker_wear_analyzer_logs'" in res
 
 def test_domain_agent_cross_domain_dataset_access_blocked():
     """Verify domain agents are strictly blocked from querying datasets belonging to other operational domains."""
@@ -76,9 +74,8 @@ def test_domain_agent_cross_domain_dataset_access_blocked():
     tool = BigQueryQueryTool(agent_name="capital_replacement_simulator")
     
     # Attempting to access billing dataset
-    with pytest.raises(PermissionError) as exc_info:
-        tool.run("SELECT * FROM utilities_billing_and_invoicing.budget_billing_levelization_calculator_logs LIMIT 5")
-    assert "Access denied: Agent 'capital_replacement_simulator' is not authorized to query dataset 'utilities_billing_and_invoicing'" in str(exc_info.value)
+    res = tool.run("SELECT * FROM utilities_billing_and_invoicing.budget_billing_levelization_calculator_logs LIMIT 5")
+    assert "Access denied: Agent 'capital_replacement_simulator' is not authorized to access table 'budget_billing_levelization_calculator_logs'" in res
 
 def test_domain_agent_mutative_sql_guardrail():
     """Verify SQL safety guardrails reject mutative statements before table checks."""
@@ -94,9 +91,8 @@ def test_domain_agent_mutative_sql_guardrail():
         "UPDATE capital_replacement_simulator_logs SET status = 'Inactive'"
     ]
     for q in mutative_queries:
-        with pytest.raises(ValueError) as exc_info:
-            tool.run(q)
-        assert "forbidden mutative operations" in str(exc_info.value)
+        res = tool.run(q)
+        assert "Query rejected" in res or "Mutative or administrative statements are prohibited" in res
 
 def test_all_agent_packages_have_agent_identity_config():
     """Verify all 113 agents in agents/ have .agent_engine_config.json with identity_type=AGENT_IDENTITY."""

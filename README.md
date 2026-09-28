@@ -2,8 +2,9 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Google ADK](https://img.shields.io/badge/Google%20ADK-v2.0-orange.svg)](https://cloud.google.com/vertex-ai)
-[![Gemini](https://img.shields.io/badge/Model-Gemini%203.7%20Flash%20%7C%203.1%20Pro-8E7CC3.svg)](https://ai.google.dev/)
-[![Cloud Run](https://img.shields.io/badge/Deployed-Cloud%20Run-4285F4.svg)](https://cloud.google.com/run)
+[![Gemini](https://img.shields.io/badge/Model-Gemini%203.7%20Flash-8E7CC3.svg)](https://ai.google.dev/)
+[![Vertex AI](https://img.shields.io/badge/Agent%20Engine-Reasoning%20Engines-4285F4.svg)](https://cloud.google.com/vertex-ai)
+[![Cloud Run](https://img.shields.io/badge/Web%20Portal-Cloud%20Run-4285F4.svg)](https://cloud.google.com/run)
 [![BigQuery](https://img.shields.io/badge/Lakehouse-BigQuery-669DF6.svg)](https://cloud.google.com/bigquery)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
@@ -28,8 +29,8 @@ The architecture enforces strict separation of concerns, defense-in-depth safety
 ┌────────────────────────────────────────────────────────────────────────┐
 │             TIER 2: Agent Orchestration & Master Router                │
 │  • Utilities Master Orchestrator (`utilities_master_orchestrator`)     │
-│  • Agent-to-Agent (A2A) Routing Protocol                               │
-│  • Dual Model Fleet: `gemini-3.7-flash` (triage) & `gemini-3.1-pro`    │
+│  • Zero-Direct-BigQuery Architecture: Pure A2A Intent Delegation       │
+│  • Reasoning Model Fleet: `gemini-3.7-flash` (Global Vertex AI Routing)│
 │  • Shared `UtilitiesSessionState` & OpenTelemetry / Cloud Trace Spans  │
 └───────────────────────────────────┬────────────────────────────────────┘
                                     │
@@ -40,7 +41,7 @@ The architecture enforces strict separation of concerns, defense-in-depth safety
 │  │ Execution Sub-Agent (Worker) │ ──► │ Critic Sub-Agent (Safety)   │  │
 │  │ Specialized logic & SQL      │     │ Audits guardrails & formats │  │
 │  └──────────────────────────────┘     └─────────────────────────────┘  │
-│  • BigQueryTool: Parameterized read-only SQL with regex DDL/DML guards │
+│  • BigQueryTool: Parameterized read-only SQL with table-level scoping  │
 │  • SearchTool: Google Search Grounding for live LMP, weather & rules   │
 │  • VisualizerTool: Dynamic Matplotlib charts & heat rate curves        │
 │  • DelegationTool: Synchronous and asynchronous A2A handoffs           │
@@ -49,8 +50,10 @@ The architecture enforces strict separation of concerns, defense-in-depth safety
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │              TIER 4: Enterprise BigQuery Lakehouse                     │
-│  • 113 Partitioned & Clustered Tables (`table_registry.yaml`)          │
-│  • Dedicated Least-Privilege IAM Service Accounts per Agent            │
+│  • 113 Partitioned & Clustered Tables across 10 Domain Datasets        │
+│  • Cryptographic Agent Identity Principals (SPIFFE Authentication)     │
+│  • Zero Static Service Account Keys (Compute Engine SA for Portal only)│
+│  • Granular Table-Level Least-Privilege Access Controls                │
 │  • Synthetic Data & DDL Schemas (`schema.sql`, `mock_records.csv`)     │
 │  • Tiered Authorization: Autonomous Read/Simulate + HITL Action Gates   │
 └────────────────────────────────────────────────────────────────────────┘
@@ -152,10 +155,9 @@ Configure your GCP project and BigQuery parameters:
 ```ini
 GCP_PROJECT_ID=your-project-id
 GCP_REGION=us-central1
-GCP_LOCATION=us-central1
+GCP_LOCATION=global
 LLM_MODEL_NAME=gemini-3.7-flash
-REASONING_MODEL_NAME=gemini-3.1-pro
-BQ_DATASET_NAME=utilities_data
+REASONING_MODEL_NAME=gemini-3.7-flash
 ```
 
 ### 3. Install Dependencies
@@ -165,10 +167,13 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-### 4. Seed BigQuery Lakehouse
+### 4. Seed BigQuery Lakehouse & Provision Agent Identity
 ```bash
-# Provision IAM service accounts with least privilege
+# Provision Agent Identity SPIFFE principals and domain-level dataset permissions
 python3 scripts/setup_iam_permissions.py
+
+# Audit Agent Identity security boundaries and table-level least privilege
+python3 scripts/setup_iam_permissions.py --validate
 
 # Initialize datasets, tables, and seed synthetic data
 python3 scripts/load_bq_data.py
@@ -187,8 +192,14 @@ make web
 
 ## 🚢 Deployment & Production Operations
 
+### Deploy Reasoning Engines (Vertex AI Agent Engine)
+Deploy the 114 Reasoning Engines (113 specialized agents + Master Orchestrator) under native Agent Identity:
+```bash
+python3 scripts/deploy_all_and_register.py
+```
+
 ### Deploy Web Portal to Cloud Run
-The web portal packages Nginx with Identity-Aware Proxy (IAP) integration:
+The showcase web portal runs on Cloud Run, authenticated via Google Identity-Aware Proxy (IAP) and operating under the Compute Engine default service account:
 ```bash
 make deploy-portal
 # Or directly:
@@ -196,7 +207,7 @@ python3 scripts/deploy_web_portal.py
 ```
 
 ### Register Fleet with Gemini Enterprise
-Register all 113 agents with the Discovery Engine Agent Registry:
+Register all deployed agents with the Discovery Engine Agent Registry:
 ```bash
 python3 scripts/register_to_gemini_enterprise.py
 ```
@@ -206,10 +217,13 @@ For manual Workspace Admin Console binding, consult the [REGISTRATION_GUIDE.md](
 
 ## 🔒 Security, Safety & Governance
 
-- **Zero-Trust BigQuery Tool:** Uses parameterized read-only queries. Regex guards immediately reject any destructive SQL (`DROP`, `DELETE`, `INSERT`, `UPDATE`, `ALTER`, `TRUNCATE`).
+- **Native Cryptographic Agent Identity:** Every agent reasoning engine runs under first-class Google Cloud **Agent Identity** (`identity_type: "AGENT_IDENTITY"`), using SPIFFE-verifiable tokens (`principal://agents.global.project-...`) with dynamic workload identity federation. All legacy static per-agent and domain service account keys have been completely decommissioned.
+- **Compute Engine Default Service Account:** The single remaining service account in the GCP project is `1032317060288-compute@developer.gserviceaccount.com`, used exclusively for Cloud Run web hosting and Cloud Build execution.
+- **Zero-Direct BigQuery Access for Master Orchestrator:** Under defense-in-depth rules, the `utilities_master_orchestrator` has no direct BigQuery tools or dataset permissions. It purely performs intent classification and delegates queries to domain specialists via `AgentDelegationTool`.
+- **Granular Table-Level Least Privilege:** Domain agents have access restricted strictly to their designated analytical tables within their domain dataset (`utilities_{domain}`). Cross-domain and unauthorized table queries are strictly blocked.
+- **Defense-in-Depth SQL Safety:** BigQuery tools enforce parameterized read-only queries. Regex guards immediately reject any destructive SQL (`DROP`, `DELETE`, `INSERT`, `UPDATE`, `ALTER`, `TRUNCATE`).
 - **The Critic Protocol:** Every agent contains a dedicated `CriticSubAgent` that intercepts model outputs and verifies compliance against `safety_guardrails.md` before returning responses to callers.
 - **Identity-Aware Proxy (IAP):** Web portal access is gated to authenticated corporate identity domains (`@google.com`).
-- **Least-Privilege IAM:** Dedicated per-agent service accounts with minimal `roles/bigquery.dataViewer` and `roles/bigquery.jobUser` roles.
 
 ---
 
