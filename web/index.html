@@ -210,6 +210,36 @@
       border-color: var(--accent-blue-hover);
     }
 
+    /* Emphasized Grid Optimization Button */
+    .btn-grid-optimization {
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid #fbbf24 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 0 14px rgba(245, 158, 11, 0.45) !important;
+      position: relative;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease !important;
+      animation: pulse-glow-amber 3s infinite ease-in-out;
+    }
+
+    .btn-grid-optimization:hover {
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+      color: #ffffff !important;
+      border-color: #fef08a !important;
+      box-shadow: 0 0 22px rgba(245, 158, 11, 0.75) !important;
+      transform: translateY(-1px);
+    }
+
+    @keyframes pulse-glow-amber {
+      0%, 100% {
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(245, 158, 11, 0.75);
+      }
+    }
+
     /* Hero Section */
     .hero {
       padding: 44px 24px 32px;
@@ -1113,7 +1143,7 @@
         </div>
       </a>
       <div class="header-actions">
-        <a href="grid_optimization.html" class="btn-header" style="background: rgba(26, 115, 232, 0.12); border-color: rgba(26, 115, 232, 0.4); color: var(--primary); font-weight: 700;" aria-label="Explore Grid Optimization MAS">
+        <a href="persona/grid_optimization.html" class="btn-header btn-grid-optimization" aria-label="Explore Grid Optimization MAS">
           <span>⚡</span> Grid Optimization MAS
         </a>
         <button id="archBtn" class="btn-header" aria-label="View Architecture Blueprint">
@@ -1164,6 +1194,20 @@
         <div class="stat-number">100%</div>
         <div class="stat-label">Production Ready (ADK v2)</div>
       </div>
+    </div>
+
+    <!-- Grid Optimization MAS Highlight Banner -->
+    <div style="margin: 22px auto 0; max-width: 960px; padding: 14px 22px; background: linear-gradient(90deg, rgba(245, 158, 11, 0.14) 0%, rgba(234, 88, 12, 0.18) 100%); border: 1px solid rgba(245, 158, 11, 0.45); border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);">
+      <div style="display: flex; align-items: center; gap: 14px; text-align: left;">
+        <span style="font-size: 2rem;">⚡</span>
+        <div>
+          <div style="font-weight: 700; font-size: 1rem; color: #fbbf24; letter-spacing: -0.01em;">Autonomous MAS: Grid Optimization Studio</div>
+          <div style="font-size: 0.83rem; color: var(--text-secondary); line-height: 1.4;">8 Personas Swarm • WeatherNext 3 Live NWP & DLR (Malaysia) • Vertex AI Vizier Bayesian VVO • PdM Diagnostics</div>
+        </div>
+      </div>
+      <a href="persona/grid_optimization.html" class="btn-header btn-grid-optimization" style="padding: 10px 20px; font-size: 0.92rem; text-decoration: none;" aria-label="Launch Grid Optimization Studio">
+        <span>⚡</span> Launch Grid Optimization Studio <span>→</span>
+      </a>
     </div>
   </section>
 
