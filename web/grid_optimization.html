@@ -12,6 +12,10 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
+  <!-- WeatherNext 3 Charting & Data Bundle -->
+  <script src="charts.js"></script>
+  <script src="weathernext_data.js"></script>
+  
   <style>
     :root {
       --bg-primary: #0f131a;
@@ -33,6 +37,18 @@
       --accent: #8ab4f8;
       --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
       --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.45);
+      /* WeatherNext 3 Theme Tokens */
+      --surface-1: #181d28;
+      --page: #0f131a;
+      --grid: #2a3449;
+      --axis: #3d4a63;
+      --muted: #8292af;
+      --land: #1f2736;
+      --land-line: #303d54;
+      --wash: rgba(255, 255, 255, 0.05);
+      --series-wind: #38bdf8;
+      --series-solar: #fbbf24;
+      --font: 'Google Sans', 'Roboto', sans-serif;
     }
 
     [data-theme="light"] {
@@ -55,6 +71,18 @@
       --accent: #1967d2;
       --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       --card-shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.12);
+      /* WeatherNext 3 Theme Tokens Light */
+      --surface-1: #ffffff;
+      --page: #f8fafd;
+      --grid: #e2e8f0;
+      --axis: #cbd5e1;
+      --muted: #64748b;
+      --land: #f1f5f9;
+      --land-line: #cbd5e1;
+      --wash: rgba(15, 23, 42, 0.04);
+      --series-wind: #2a78d6;
+      --series-solar: #eb6834;
+      --font: 'Google Sans', 'Roboto', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1644,7 +1672,516 @@
       max-height: 130px;
       overflow-y: auto;
       line-height: 1.6;
+    /* ========================================================
+       WEATHERNEXT 3 PORTFOLIO FORECAST STUDIO (EDP DEMO 1 SPEC)
+       ======================================================== */
+    .wn3-shell {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-top: 14px;
     }
+    .wn3-main {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .wn3-ai-panel {
+      flex: 0 0 340px;
+      width: 340px;
+      position: sticky;
+      top: 86px;
+      max-height: calc(100vh - 100px);
+      display: flex;
+      flex-direction: column;
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--series-wind);
+      border-radius: 12px;
+      padding: 14px 16px 12px;
+      box-shadow: var(--card-shadow);
+      transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), flex 0.22s cubic-bezier(0.4, 0, 0.2, 1), padding 0.22s;
+      z-index: 20;
+    }
+    .wn3-ai-panel.is-collapsed {
+      flex: 0 0 46px;
+      width: 46px;
+      padding: 10px 5px;
+      align-items: center;
+      border-left-width: 1px;
+    }
+    .wn3-ai-panel.is-collapsed .ai-title-text,
+    .wn3-ai-panel.is-collapsed .ai-body,
+    .wn3-ai-panel.is-collapsed .ai-foot {
+      display: none;
+    }
+    .wn3-ai-panel.is-collapsed .ai-head {
+      flex-direction: column-reverse;
+      gap: 11px;
+      margin: 0;
+    }
+    .ai-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+    }
+    .ai-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .ai-spark {
+      width: 14px;
+      height: 14px;
+      flex: none;
+      color: var(--series-wind);
+    }
+    .ai-body {
+      overflow-y: auto;
+      flex: 1 1 auto;
+      padding-right: 2px;
+    }
+    .ai-body p {
+      margin: 0 0 10px;
+      font-size: 12.8px;
+      line-height: 1.58;
+      color: var(--text-primary);
+    }
+    .ai-body p:last-child {
+      margin-bottom: 0;
+    }
+    .ai-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border-color);
+    }
+    .ai-model {
+      font-size: 10.5px;
+      color: var(--muted);
+      font-family: 'Roboto Mono', monospace;
+    }
+    .ai-regen {
+      font-size: 11px;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      cursor: pointer;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s;
+    }
+    .ai-regen:hover {
+      background: var(--wash);
+      border-color: var(--series-wind);
+      color: var(--text-primary);
+    }
+    .ai-skeleton span {
+      display: block;
+      height: 10px;
+      border-radius: 5px;
+      background: var(--wash);
+      margin-bottom: 9px;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    .ai-skeleton span:nth-child(2) { width: 92%; animation-delay: 0.1s; }
+    .ai-skeleton span:nth-child(3) { width: 78%; animation-delay: 0.2s; }
+    .ai-skeleton span:nth-child(4) { width: 88%; animation-delay: 0.3s; }
+    @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.85; } }
+
+    .btn-square {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: 7px;
+      background: var(--wash);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-square:hover {
+      color: var(--text-primary);
+      border-color: var(--series-wind);
+    }
+    .btn-square[aria-pressed="true"] {
+      border-color: var(--series-wind);
+      color: var(--series-wind);
+    }
+    .btn-square .icon-panel {
+      width: 16px;
+      height: 16px;
+      display: none;
+    }
+    .btn-square[aria-pressed="true"] .icon-close { display: block; }
+    .btn-square[aria-pressed="false"] .icon-open { display: block; }
+
+    @media (max-width: 1180px) {
+      .wn3-shell { flex-direction: column; }
+      .wn3-ai-panel {
+        position: static;
+        width: 100%;
+        flex: none;
+        max-height: none;
+      }
+      .wn3-ai-panel.is-collapsed {
+        width: 100%;
+        flex: none;
+        align-items: stretch;
+        padding: 10px 14px;
+      }
+      .wn3-ai-panel.is-collapsed .ai-head {
+        flex-direction: row;
+        gap: 9px;
+      }
+      .wn3-ai-panel.is-collapsed .ai-title-text {
+        display: inline;
+      }
+    }
+
+    /* Top Control Bar */
+    .wn3-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 18px;
+    }
+    .wn3-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .wn3-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .wn3-meta-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .wn3-meta-val {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .wn3-topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .wn3-picker {
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--wash);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      outline: none;
+    }
+    .wn3-btn-pull {
+      font-family: var(--font);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #ffffff;
+      background: var(--primary);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 6px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .wn3-btn-pull:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.4);
+    }
+    .wn3-btn-pull.is-loading .spinner-pull {
+      display: inline-block;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* Tiles Grid */
+    .wn3-tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .wn3-tile {
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 13px 15px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wn3-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow);
+    }
+    .wn3-tile-label {
+      font-size: 0.69rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .wn3-tile-val {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 3px 0 1px;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+    }
+    .wn3-tile-unit {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .wn3-tile-sub {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    /* Cards & Chart/Table Twin Views */
+    .wn3-card {
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+    }
+    .wn3-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .wn3-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wn3-card-sub {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      max-width: 78ch;
+      margin: 0;
+      line-height: 1.45;
+    }
+    .wn3-card-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .wn3-toggle {
+      display: inline-flex;
+      border: 1px solid var(--axis);
+      border-radius: 7px;
+      overflow: hidden;
+      background: var(--surface-1);
+    }
+    .wn3-toggle button {
+      font-family: var(--font);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      padding: 4px 10px;
+      transition: all 0.15s;
+    }
+    .wn3-toggle button[aria-pressed="true"] {
+      background: var(--wash);
+      color: var(--text-primary);
+    }
+    .wn3-tool-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 27px;
+      padding: 0 8px;
+      font-size: 11.5px;
+      font-weight: 600;
+      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--axis);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .wn3-tool-btn:hover {
+      background: var(--wash);
+      color: var(--text-primary);
+    }
+    .wn3-legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 6px 0 2px;
+    }
+    .wn3-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .wn3-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2.5px;
+      flex: none;
+    }
+
+    /* Maximize Card */
+    .wn3-card.is-max {
+      position: fixed;
+      top: 76px;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      z-index: 1000;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
+      background: var(--surface-1);
+    }
+
+    /* Callout & Provenance */
+    .wn3-callout {
+      border-left: 3px solid var(--warning);
+      background: var(--wash);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .wn3-callout strong {
+      color: var(--text-primary);
+    }
+    .wn3-bq-box {
+      background: #080c14;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.76rem;
+      color: #93c5fd;
+      overflow-x: auto;
+    }
+
+    /* Tables */
+    .wn3-table-wrap {
+      overflow-x: auto;
+      max-height: 380px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+    .wn3-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .wn3-table th {
+      background: var(--bg-tertiary);
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 8px 12px;
+      text-align: right;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .wn3-table th:first-child, .wn3-table td:first-child {
+      text-align: left;
+    }
+    .wn3-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: right;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 12px;
+    }
+    .wn3-table tr:hover td {
+      background: var(--wash);
+    }
+
+    /* Tooltip */
+    .tooltip {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      background: var(--surface-1);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      padding: 9px 12px;
+      font-size: 12px;
+      min-width: 155px;
+    }
+    .tooltip[hidden] { display: none; }
+    .tt-title { font-weight: 650; margin-bottom: 6px; font-size: 12px; }
+    .tt-row { display: flex; align-items: center; gap: 8px; justify-content: space-between; margin-top: 3px; }
+    .tt-key { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); }
+    .tt-val { font-variant-numeric: tabular-nums; font-weight: 600; font-family: 'Roboto Mono', monospace; }
+    .legend-swatch { width: 10px; height: 10px; border-radius: 2.5px; display: inline-block; }
 
     /* Footer */
     footer {
@@ -1728,7 +2265,7 @@
           <span>🔄</span> Multi-Persona Workflows <span class="tab-badge">6</span>
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-weathernext" onclick="switchMainTab('tab-weathernext', this)">
-          <span>⛅</span> WeatherNext Forecast Map (Malaysia) &amp; DLR
+          <span>⛅</span> WeatherNext 3 Forecast &amp; DLR <span class="tab-badge" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35);">Live</span>
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-vizier" onclick="switchMainTab('tab-vizier', this)">
           <span>📊</span> Vizier Bayesian Studio
@@ -2256,386 +2793,553 @@
       </div>
     </div>
 
-    <!-- TAB 3: WEATHERNEXT FORECAST MAP (MALAYSIA) & DLR -->
+        <!-- TAB 3: WEATHERNEXT 3 PORTFOLIO FORECAST & DLR -->
     <div id="tab-weathernext" class="tab-pane" role="tabpanel">
-      <div class="card">
-        <div class="card-header">
+      <div class="card" style="padding: 16px 20px;">
+        <div class="card-header" style="margin-bottom: 12px;">
           <div>
-            <h2 class="card-title"><span>⛅</span> Google DeepMind WeatherNext Forecasted Weather Map (Malaysia) &amp; Dynamic Line Rating (DLR)</h2>
-            <div class="card-subtitle">High-resolution AI Numerical Weather Prediction (0.08° / ~9km ECMWF/WeatherNext resolution) across Peninsular Malaysia &amp; Borneo (Sarawak Energy &amp; SESB corridors). Autonomous ADK multi-subagent orchestration for convective squall tracking, solar LSS capacity modeling, and IEEE 738 dynamic line rating ampacity.</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Roboto Mono', monospace;">Google DeepMind · WeatherNext 3</span>
+              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">0.1° (~10km) Synoptic ECMWF-AI Mesh</span>
+            </div>
+            <h2 class="card-title"><span>⛅</span> Renewable Production Forecasting &amp; Dynamic Grid Optimization</h2>
+            <div class="card-subtitle">Hourly wind &amp; solar generation forecasts, 15-day synoptic horizons on BigQuery, paired with Autonomous IEEE 738 Dynamic Line Rating (DLR) subagent swarm.</div>
           </div>
-          <span class="horizon-tag" id="wxSyncStatusTag">MYT (UTC+8) Synoptic Feed • 9 Malaysian Grid Hubs</span>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <span class="horizon-tag" id="wxSyncStatusTag">ECMWF Run: 25 Sep 12:00 UTC · 360h Horizon</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="wx-pill-btn active" id="btnSubmodeForecast" onclick="switchWxSubmode('forecast', this)">📊 Portfolio Forecast</button>
+              <button class="wx-pill-btn" id="btnSubmodeDlr" onclick="switchWxSubmode('dlr', this)">⚡ Dynamic Line Rating (IEEE 738)</button>
+              <button class="wx-pill-btn" id="btnSubmodeFullMap" onclick="switchWxSubmode('fullmap', this)">🗺️ Synoptic Map</button>
+            </div>
+          </div>
         </div>
 
-        <div class="studio-grid" style="grid-template-columns: 1.25fr 1fr; gap: 20px; margin-top: 14px;">
-          <!-- Interactive Geospatial Forecast Map of Malaysia -->
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div class="wx-map-stage" id="wxMapStage">
-              <!-- Leaflet GIS Map Canvas Container -->
-              <div id="wxLeafletMap"></div>
-
-              <!-- Floating Top Glass HUD: Forecast Layers & Region Quick-Jumps -->
-              <div class="wx-floating-hud-top">
-                <div class="wx-glass-panel">
-                  <span style="font-size: 0.72rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px;">Layers:</span>
-                  <div class="wx-btn-group">
-                    <button class="wx-pill-btn active" id="btnLayerRadar" onclick="toggleWeatherLayer('radar', this)">🌧️ Radar dBZ</button>
-                    <button class="wx-pill-btn" id="btnLayerWind" onclick="toggleWeatherLayer('wind', this)">💨 Wind Flow</button>
-                    <button class="wx-pill-btn" id="btnLayerSolar" onclick="toggleWeatherLayer('solar', this)">☀️ Solar GHI</button>
-                    <button class="wx-pill-btn" id="btnLayerLightning" onclick="toggleWeatherLayer('lightning', this)">⚡ Lightning</button>
-                    <button class="wx-pill-btn" id="btnLayerHydro" onclick="toggleWeatherLayer('hydro', this)">🌊 Hydro</button>
-                  </div>
-                </div>
-
-                <div class="wx-glass-panel">
-                  <div class="wx-btn-group">
-                    <button class="wx-pill-btn active" id="btnZoomAll" onclick="zoomMalaysiaRegion('all', this)">🇲🇾 National</button>
-                    <button class="wx-pill-btn" id="btnZoomWest" onclick="zoomMalaysiaRegion('west', this)">⚡ Peninsular</button>
-                    <button class="wx-pill-btn" id="btnZoomEast" onclick="zoomMalaysiaRegion('east', this)">🏞️ Borneo</button>
-                    <button class="wx-pill-btn" id="btnToggleBasemap" onclick="toggleBasemap(this)" title="Toggle Satellite vs Dark Matter GIS Base">🛰️ Satellite</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Floating Bottom Glass HUD: Scrubber, Playback Loop & Clock -->
-              <div class="wx-floating-hud-bottom">
-                <div class="wx-glass-panel" style="flex-wrap: wrap;">
-                  <button class="btn-sim" id="btnWxPlay" onclick="toggleWxPlayback()" style="padding: 5px 12px; font-size: 0.78rem;">
-                    <span id="btnWxPlayIcon">▶</span> <span id="btnWxPlayText">Play</span>
-                  </button>
-                  <div class="wx-btn-group" id="wxHorizonPresets">
-                    <button class="wx-pill-btn active" onclick="setForecastHorizon(0, this)">Now</button>
-                    <button class="wx-pill-btn" onclick="setForecastHorizon(1, this)">+1h</button>
-                    <button class="wx-pill-btn" onclick="setForecastHorizon(3, this)">+3h</button>
-                    <button class="wx-pill-btn" onclick="setForecastHorizon(6, this)">+6h</button>
-                    <button class="wx-pill-btn" onclick="setForecastHorizon(12, this)">+12h</button>
-                    <button class="wx-pill-btn" onclick="setForecastHorizon(24, this)">+24h</button>
-                  </div>
-                  <div class="wx-scrubber-box" style="min-width: 120px;">
-                    <span style="font-size: 0.72rem; color: #94a3b8; font-family: 'Roboto Mono', monospace;">T+</span>
-                    <input type="range" id="wxTimelineScrubber" min="0" max="24" value="0" step="1" oninput="onWxTimelineScrub(this.value)" style="width: 80px;">
-                    <span id="wxScrubberLabel" style="font-family: 'Roboto Mono', monospace; font-size: 0.76rem; font-weight: 700; color: var(--accent); min-width: 32px;">+0h</span>
-                  </div>
-                  <select id="selectWxSpeed" onchange="changeWxSpeed(this.value)" style="background: rgba(15,23,42,0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 3px 6px; color: #f1f5f9; font-size: 0.72rem; font-family: 'Roboto Mono', monospace;">
-                    <option value="1000">1x</option>
-                    <option value="500" selected>2x</option>
-                    <option value="250">4x</option>
-                  </select>
-                </div>
-
-                <div class="wx-glass-panel">
-                  <div class="wx-time-display" id="wxTimeReadout" style="padding: 4px 8px; font-size: 0.74rem;">
-                    2026-09-11 17:00:00 MYT (T+0h) • Inter-Monsoon Convection
-                  </div>
-                </div>
-              </div>
+        <!-- Top Metadata & Control Bar -->
+        <div class="wn3-topbar">
+          <div class="wn3-meta-strip">
+            <div class="wn3-meta-item">
+              <span class="wn3-meta-label">Forecast Run</span>
+              <span class="wn3-meta-val" id="wn3MetaRun">25 Sep 12:00 UTC</span>
             </div>
-
-            <!-- Map Footnote & Reflectivity dBZ Legend Bar -->
-            <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Radar Reflectivity (dBZ):</span>
-                <div style="display: flex; align-items: center; height: 12px; width: 140px; border-radius: 4px; overflow: hidden; background: linear-gradient(to right, #4caf50, #ffeb3b, #ff9800, #f44336, #e040fb);"></div>
-                <span style="font-size: 0.72rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted);">15 to 65+ dBZ</span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted);">
-                <span><span style="display: inline-block; width: 12px; height: 3px; background: #f9ab00; vertical-align: middle; margin-right: 4px;"></span>500kV Backbone</span>
-                <span><span style="display: inline-block; width: 12px; height: 2px; background: #00e5ff; vertical-align: middle; margin-right: 4px;"></span>275kV Corridor</span>
-                <span><span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #ffd600; vertical-align: middle; margin-right: 4px;"></span>Lightning Strike</span>
-              </div>
+            <div class="wn3-meta-item">
+              <span class="wn3-meta-label">Horizon</span>
+              <span class="wn3-meta-val">25 Sep – 10 Oct (15 Days / 360h)</span>
+            </div>
+            <div class="wn3-meta-item">
+              <span class="wn3-meta-label">Portfolio Size</span>
+              <span class="wn3-meta-val" id="wn3MetaPortfolio">6,324 MW · 126 Assets</span>
+            </div>
+            <div class="wn3-meta-item">
+              <span class="wn3-meta-label">Active Timezone</span>
+              <span class="wn3-meta-val" id="wn3MetaTz">UTC (Coordinated Universal Time)</span>
             </div>
           </div>
+          <div class="wn3-topbar-actions">
+            <label for="wn3CountrySelect" style="font-size: 0.74rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Fleet Filter:</label>
+            <select id="wn3CountrySelect" class="wn3-picker" onchange="onWeatherNextCountryChange(this.value)">
+              <option value="ALL">🌐 Global Fleet (6,324 MW · 126 Assets)</option>
+              <option value="PT">🇵🇹 Portugal (1,421 MW · 62 Assets)</option>
+              <option value="US">🇺🇸 United States (3,102 MW · 17 Assets)</option>
+              <option value="ES">🇪🇸 Spain (404 MW · 13 Assets)</option>
+              <option value="MY">🇲🇾 Malaysia / ASEAN (881 MW · 9 Assets)</option>
+              <option value="PL">🇵🇱 Poland (711 MW · 10 Assets)</option>
+              <option value="FR">🇫🇷 France (101 MW · 9 Assets)</option>
+            </select>
+            <button id="wn3BtnPull" class="wn3-btn-pull" onclick="pullLatestRun()" title="Fetch newest forecast run from BigQuery">
+              <span class="spinner-pull" id="wn3PullSpinner" style="display: none;">🔄</span>
+              <span id="wn3PullLabel">Pull latest run</span>
+            </button>
+          </div>
+        </div>
 
-          <!-- Microclimate Telemetry Controls & Dynamic Line Rating Visualizer -->
-          <div style="display: flex; flex-direction: column; gap: 16px;">
-            <!-- Selected Node Context Card -->
-            <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+        <!-- Two-Column Studio Shell -->
+        <div class="wn3-shell">
+          <!-- Main Left Column -->
+          <div class="wn3-main" id="wn3MainCol">
+            <!-- 5 KPI Summary Tiles -->
+            <div class="wn3-tiles" id="wn3TilesContainer">
+              <div class="wn3-tile">
+                <span class="wn3-tile-label">Installed Capacity</span>
+                <div class="wn3-tile-val"><span id="tileValCap">6,324</span><span class="wn3-tile-unit">MW</span></div>
+                <span class="wn3-tile-sub" id="tileSubCap">5,452 MW wind · 872 MW solar</span>
+              </div>
+              <div class="wn3-tile">
+                <span class="wn3-tile-label">Forecast Energy</span>
+                <div class="wn3-tile-val"><span id="tileValEnergy">377,029</span><span class="wn3-tile-unit">MWh</span></div>
+                <span class="wn3-tile-sub">Across full 15-day / 360h horizon</span>
+              </div>
+              <div class="wn3-tile">
+                <span class="wn3-tile-label">Peak Output</span>
+                <div class="wn3-tile-val"><span id="tileValPeak">2,185</span><span class="wn3-tile-unit">MW</span></div>
+                <span class="wn3-tile-sub" id="tileSubPeak">29 Sep 11:00 UTC</span>
+              </div>
+              <div class="wn3-tile">
+                <span class="wn3-tile-label">Mean Capacity Factor</span>
+                <div class="wn3-tile-val"><span id="tileValCf">16.5</span><span class="wn3-tile-unit">%</span></div>
+                <span class="wn3-tile-sub">Portfolio, horizon average</span>
+              </div>
+              <div class="wn3-tile">
+                <span class="wn3-tile-label">DLR Headroom Unlocked</span>
+                <div class="wn3-tile-val" style="color: #34d399;"><span id="tileValDlr">+23.7</span><span class="wn3-tile-unit">%</span></div>
+                <span class="wn3-tile-sub">IEEE 738 dynamic line rating ampacity</span>
+              </div>
+            </div>
+
+            <!-- CARD 1: Hourly Stacked Area Chart -->
+            <div class="wn3-card" id="cardHourly">
+              <div class="wn3-card-head">
                 <div>
-                  <div id="wxSelectedName" style="font-family: 'Google Sans', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text-primary);">
-                    Klang Valley / Selangor (500kV Supergrid Hub)
-                  </div>
-                  <div id="wxSelectedCorridor" style="font-size: 0.78rem; font-family: 'Roboto Mono', monospace; color: var(--accent); margin-top: 2px;">
-                    500kV Bukit Badong - Rawang - Klang West Corridor
+                  <h3 class="wn3-card-title">
+                    <span>📈</span> Portfolio output, hour by hour
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Wind and solar stacked to portfolio total. The solar band’s daily rhythm is the diurnal cycle; wind is what moves between days.
+                  </p>
+                  <div class="wn3-legend">
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-wind);"></span> Wind</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-solar);"></span> Solar</span>
                   </div>
                 </div>
-                <span id="wxSelectedVoltageBadge" style="background: var(--primary-light); color: var(--accent); border-radius: 12px; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; font-family: 'Roboto Mono', monospace;">
-                  500 kV
-                </span>
+                <div class="wn3-card-tools">
+                  <div class="wn3-toggle" role="group" aria-label="Hourly view mode">
+                    <button id="btnViewHourlyChart" aria-pressed="true" onclick="toggleCardView('cardHourly', 'chart')">Chart</button>
+                    <button id="btnViewHourlyTable" aria-pressed="false" onclick="toggleCardView('cardHourly', 'table')">Table</button>
+                  </div>
+                  <button class="wn3-tool-btn" onclick="exportHourlyCsv()" title="Download CSV">⬇ CSV</button>
+                  <button class="wn3-tool-btn" onclick="toggleMaximizeCard('cardHourly')" title="Maximize view">⛶</button>
+                </div>
               </div>
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 0.78rem; margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 8px;">
-                <div><span style="color: var(--text-muted);">Conductor Spec:</span> <strong id="wxConductorType">Quad-bundle ACSR Zebra</strong></div>
-                <div><span style="color: var(--text-muted);">Grid System:</span> <strong id="wxGridOperator">TNB Peninsular Grid</strong></div>
+              <div id="hourlyChartView" style="min-height: 270px;">
+                <div id="chartHostHourly"></div>
+              </div>
+              <div id="hourlyTableView" class="wn3-table-wrap" style="display: none;">
+                <table class="wn3-table" id="tableHourly">
+                  <thead>
+                    <tr>
+                      <th>Valid Time (UTC)</th>
+                      <th>Wind (MW)</th>
+                      <th>Solar (MW)</th>
+                      <th>Total Output (MW)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyHourly"></tbody>
+                </table>
               </div>
             </div>
 
-            <!-- Microclimate Parameter Sliders -->
-            <div class="slider-group" style="background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px;">
-              <div class="slider-item">
-                <div class="slider-label-row">
-                  <span>Direct Normal / Global Irradiance (GHI)</span>
-                  <span class="slider-val" id="valDni">920 W/m²</span>
+            <!-- CARD 2: Daily Stacked Bar Chart -->
+            <div class="wn3-card" id="cardDaily">
+              <div class="wn3-card-head">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>📊</span> Daily energy by technology
+                  </h3>
+                  <p class="wn3-card-sub">
+                    The same forecast as day-ahead volumes. Faded bars are partial days — the run starts at 01:00 and ends at 00:00 UTC.
+                  </p>
+                  <div class="wn3-legend">
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-wind);"></span> Wind</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-solar);"></span> Solar</span>
+                  </div>
                 </div>
-                <input type="range" id="inputDni" min="0" max="1150" value="920" oninput="updateWeatherNextSim()">
+                <div class="wn3-card-tools">
+                  <div class="wn3-toggle" role="group" aria-label="Daily view mode">
+                    <button id="btnViewDailyChart" aria-pressed="true" onclick="toggleCardView('cardDaily', 'chart')">Chart</button>
+                    <button id="btnViewDailyTable" aria-pressed="false" onclick="toggleCardView('cardDaily', 'table')">Table</button>
+                  </div>
+                  <button class="wn3-tool-btn" onclick="exportDailyCsv()" title="Download CSV">⬇ CSV</button>
+                  <button class="wn3-tool-btn" onclick="toggleMaximizeCard('cardDaily')" title="Maximize view">⛶</button>
+                </div>
               </div>
-
-              <div class="slider-item">
-                <div class="slider-label-row">
-                  <span>10m Monsoonal Crosswind Speed</span>
-                  <span class="slider-val" id="valWindSpeed">5.2 m/s</span>
-                </div>
-                <input type="range" id="inputWindSpeed" min="0.2" max="28" step="0.2" value="5.2" oninput="updateWeatherNextSim()">
+              <div id="dailyChartView" style="min-height: 270px;">
+                <div id="chartHostDaily"></div>
               </div>
-
-              <div class="slider-item">
-                <div class="slider-label-row">
-                  <span>Wind Incident Angle (φ)</span>
-                  <span class="slider-val" id="valWindAngle">68° (Perpendicular Crosswind)</span>
-                </div>
-                <input type="range" id="inputWindAngle" min="0" max="90" value="68" oninput="updateWeatherNextSim()">
-              </div>
-
-              <div class="slider-item">
-                <div class="slider-label-row">
-                  <span>Equatorial Ambient Temperature</span>
-                  <span class="slider-val" id="valAmbTemp">31.5°C</span>
-                </div>
-                <input type="range" id="inputAmbTemp" min="15" max="45" step="0.5" value="31.5" oninput="updateWeatherNextSim()">
-              </div>
-
-              <div class="slider-item">
-                <div class="slider-label-row">
-                  <span>Convective Squall Probability</span>
-                  <span class="slider-val" id="valStormProb">65% (Sumatra Squall Warning)</span>
-                </div>
-                <input type="range" id="inputStormProb" min="0" max="100" value="65" oninput="updateWeatherNextSim()">
+              <div id="dailyTableView" class="wn3-table-wrap" style="display: none;">
+                <table class="wn3-table" id="tableDaily">
+                  <thead>
+                    <tr>
+                      <th>Day (UTC)</th>
+                      <th>Wind (MWh)</th>
+                      <th>Solar (MWh)</th>
+                      <th>Total (MWh)</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyDaily"></tbody>
+                </table>
               </div>
             </div>
 
-            <!-- Dynamic SVG Conductor Catenary Sag & Tower Visualizer -->
-            <div class="visual-stage" style="min-height: 220px; padding: 16px;">
-              <svg id="dlrSvg" width="100%" height="160" viewBox="0 0 500 160" style="overflow: visible;">
-                <defs>
-                  <linearGradient id="conductorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#90caf9" />
-                    <stop offset="50%" stop-color="#ffffff" />
-                    <stop offset="100%" stop-color="#90caf9" />
-                  </linearGradient>
-                </defs>
-
-                <!-- Ground Clearance Baseline (12.0m statutory minimum) -->
-                <line x1="40" y1="145" x2="460" y2="145" stroke="#4a5568" stroke-width="1.5" stroke-dasharray="4 4" />
-                <text x="250" y="156" text-anchor="middle" fill="#718096" font-size="9" font-family="'Roboto Mono', monospace">Statutory Minimum Ground Clearance: 12.0m</text>
-
-                <!-- 500kV Lattice Transmission Towers -->
-                <path d="M 40 145 L 70 20 L 100 145 M 55 75 L 85 75 M 50 110 L 90 110" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
-                <path d="M 400 145 L 430 20 L 460 145 M 415 75 L 445 75 M 410 110 L 450 110" stroke="var(--border-color)" stroke-width="2.5" fill="none" />
-
-                <!-- Dynamic Catenary Conductor Line -->
-                <path id="conductorLine" d="M 70 50 Q 250 88 430 50" stroke="url(#conductorGrad)" stroke-width="4.5" fill="none" filter="url(#glow)" />
-
-                <!-- Animated Wind Vectors -->
-                <g id="windVectorsGroup" opacity="0.85">
-                  <path d="M 120 105 L 170 105 M 160 100 L 170 105 L 160 110" stroke="#8ab4f8" stroke-width="2" />
-                  <path d="M 220 115 L 270 115 M 260 110 L 270 115 L 260 120" stroke="#8ab4f8" stroke-width="2" />
-                  <path d="M 320 105 L 370 105 M 360 100 L 370 105 L 360 110" stroke="#8ab4f8" stroke-width="2" />
-                </g>
-
-                <!-- Catenary Sag Callout -->
-                <text id="txtCatenaryClearance" x="250" y="76" text-anchor="middle" fill="#4caf50" font-size="11" font-family="'Roboto Mono', monospace" font-weight="700">
-                  Clearance: 14.8m (Safe)
-                </text>
-              </svg>
-
-              <!-- Real-Time Ampacity Metrics Output -->
-              <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;">
-                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                  <div style="font-size: 0.72rem; color: var(--text-muted);">STATIC BOOK RATING</div>
-                  <div id="dlrStaticRatingVal" style="font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--text-secondary);">1,400 A (1,212 MVA)</div>
+            <!-- CARD 3: Geospatial Fleet Map -->
+            <div class="wn3-card" id="cardFleetMap">
+              <div class="wn3-card-head">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>🗺️</span> Where the fleet sits
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Every site at its real OpenStreetMap/GIS coordinates, sized by installed capacity. Each one is matched to the 0.1° WeatherNext cell it falls inside.
+                  </p>
+                  <div class="wn3-legend">
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-wind);"></span> Wind Turbines</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-solar);"></span> Solar PV Farms</span>
+                  </div>
                 </div>
-                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                  <div style="font-size: 0.72rem; color: var(--accent);">WEATHERNEXT DLR</div>
-                  <div id="dlrAmpacityVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--success);">1,732 A (1,500 MVA)</div>
+                <div class="wn3-card-tools">
+                  <div class="wn3-toggle" role="group" aria-label="Map style">
+                    <button id="btnMapStyleDark" aria-pressed="true" onclick="setFleetMapStyle('dark')">Dark</button>
+                    <button id="btnMapStyleSat" aria-pressed="false" onclick="setFleetMapStyle('sat')">Satellite</button>
+                  </div>
+                  <div class="wn3-toggle" role="group" aria-label="Fleet view mode">
+                    <button id="btnViewMapCanvas" aria-pressed="true" onclick="toggleCardView('cardFleetMap', 'chart')">Map</button>
+                    <button id="btnViewMapTable" aria-pressed="false" onclick="toggleCardView('cardFleetMap', 'table')">Table</button>
+                  </div>
+                  <button class="wn3-tool-btn" onclick="exportFleetCsv()" title="Download CSV">⬇ CSV</button>
+                  <button class="wn3-tool-btn" onclick="toggleMaximizeCard('cardFleetMap')" title="Maximize view">⛶</button>
                 </div>
-                <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                  <div style="font-size: 0.72rem; color: var(--text-muted);">UNLOCKED HEADROOM</div>
-                  <div id="dlrHeadroomVal" style="font-family: 'Roboto Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--accent);">+23.7% (+288 MVA)</div>
+              </div>
+
+              <!-- Quick Zoom Region Strip -->
+              <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <span style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; align-self: center; margin-right: 4px;">Quick Zoom:</span>
+                <button class="wx-pill-btn active" onclick="zoomFleetRegion('ALL', this)">🌐 Global</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('PT', this)">🇵🇹 Portugal</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('US', this)">🇺🇸 United States</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('ES', this)">🇪🇸 Spain</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('MY', this)">🇲🇾 Malaysia / ASEAN</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('PL', this)">🇵🇱 Poland</button>
+                <button class="wx-pill-btn" onclick="zoomFleetRegion('FR', this)">🇫🇷 France</button>
+              </div>
+
+              <div id="fleetMapCanvasView" style="height: 440px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); position: relative;">
+                <div id="wn3LeafletFleetMap" style="width: 100%; height: 100%;"></div>
+              </div>
+
+              <div id="fleetMapTableView" class="wn3-table-wrap" style="display: none;">
+                <table class="wn3-table" id="tableFleet">
+                  <thead>
+                    <tr>
+                      <th>Asset Name</th>
+                      <th>Country</th>
+                      <th>Tech</th>
+                      <th>Capacity (MW)</th>
+                      <th>Forecast (MWh)</th>
+                      <th>Mean CF (%)</th>
+                      <th>Latitude</th>
+                      <th>Longitude</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyFleet"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CARD 4: Per-asset Contribution -->
+            <div class="wn3-card" id="cardAssets">
+              <div class="wn3-card-head">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>⚡</span> Per-asset contribution
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Forecast energy and capacity factor for each site over the horizon. Sites with the highest yield anchor portfolio volume.
+                  </p>
+                  <div class="wn3-legend">
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-wind);"></span> Wind</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: var(--series-solar);"></span> Solar</span>
+                  </div>
+                </div>
+                <div class="wn3-card-tools">
+                  <div class="wn3-toggle" role="group" aria-label="Asset view mode">
+                    <button id="btnViewAssetChart" aria-pressed="true" onclick="toggleCardView('cardAssets', 'chart')">Chart</button>
+                    <button id="btnViewAssetTable" aria-pressed="false" onclick="toggleCardView('cardAssets', 'table')">Table</button>
+                  </div>
+                  <button class="wn3-tool-btn" onclick="exportAssetsCsv()" title="Download CSV">⬇ CSV</button>
+                  <button class="wn3-tool-btn" onclick="toggleMaximizeCard('cardAssets')" title="Maximize view">⛶</button>
+                </div>
+              </div>
+              <div id="assetChartView" style="min-height: 280px; overflow-x: auto;">
+                <div id="chartHostAssets"></div>
+              </div>
+              <div id="assetTableView" class="wn3-table-wrap" style="display: none;">
+                <table class="wn3-table" id="tableAssets">
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th>Asset Name</th>
+                      <th>Country</th>
+                      <th>Technology</th>
+                      <th>Capacity (MW)</th>
+                      <th>Forecast Energy (MWh)</th>
+                      <th>Capacity Factor (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbodyAssets"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Physical & Meteorological Guidance Callout -->
+            <div class="wn3-callout">
+              <strong>Raw grid-cell output, not a bias-corrected forecast.</strong> Coordinates and capacities are the real mapped sites from OpenStreetMap, but a 0.1° (~10 km) cell averages over terrain and understates ridge-top hub-height wind — exactly where wind farms get built. The spread across the fleet is wide for that reason: coastal and plains sites produce, sites behind ridgelines read low. Rank and compare these numbers; bias-correct per site against SCADA history before treating any of them as expected production. Solar is GHI-driven and needs no such correction.
+            </div>
+
+            <!-- BigQuery SQL Provenance Card -->
+            <div class="wn3-card" style="padding: 14px 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.04em;">BigQuery SQL Telemetry Provenance</span>
+                  <span style="background: rgba(13, 144, 79, 0.15); color: var(--success); font-size: 0.7rem; font-weight: 600; padding: 2px 6px; border-radius: 4px; font-family: 'Roboto Mono', monospace;">Table: utilities_grid_optimization.weathernext_spatial_telemetry</span>
+                </div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">Latency: 42ms · Bytes Billed: 0 B (In-memory cached)</span>
+              </div>
+              <div class="wn3-bq-box">
+SELECT 
+  forecast_hour,
+  TIMESTAMP_ADD(TIMESTAMP '2026-09-25 12:00:00 UTC', INTERVAL forecast_hour HOUR) AS valid_time,
+  site_id, site_name, country_iso, latitude, longitude, technology, installed_capacity_mw,
+  wind_speed_100m_ms, solar_ghi_wm2, ambient_temp_c,
+  ROUND(predicted_generation_mw, 2) AS predicted_mw,
+  ROUND(predicted_generation_mw / installed_capacity_mw * 100, 1) AS capacity_factor_pct
+FROM `utilities_grid_optimization.weathernext_spatial_telemetry`
+WHERE forecast_run_id = 'WN3-GLOBAL-20260925-12Z'
+ORDER BY valid_time ASC, site_name ASC;
+              </div>
+            </div>
+
+            <!-- INTEGRATED DYNAMIC LINE RATING & SUBAGENTS SWARM -->
+            <div class="wn3-card" id="sectionDlrSwarm">
+              <div class="wn3-card-head">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>⚡</span> IEEE 738 Dynamic Line Rating &amp; Autonomous ADK Subagents Swarm
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Direct integration between WeatherNext 3 microclimate inputs (ambient temperature, solar radiation, crosswind cooling) and conductor ampacity. When wind farms peak, local crosswinds cool transmission spans, unlocking +20% to +35% dynamic thermal rating.
+                  </p>
+                </div>
+                <div class="wn3-card-tools">
+                  <span class="horizon-tag" id="wxSubagentStateBadge" style="background: rgba(13, 144, 79, 0.15); color: var(--success); border: 1px solid rgba(13, 144, 79, 0.3);">All 4 Subagents Synchronized</span>
+                  <button class="wn3-btn-pull" style="padding: 4px 10px; font-size: 0.76rem;" onclick="triggerWeatherNextSwarm()" id="btnRunWxSwarm">
+                    <span id="btnRunWxSwarmIcon">⚡</span> Dispatch Subagents
+                  </button>
+                </div>
+              </div>
+
+              <!-- DLR Visualizer & Sliders Grid -->
+              <div class="studio-grid" style="grid-template-columns: 1.1fr 1fr; gap: 16px; margin-top: 8px;">
+                <!-- Catenary Sag Simulator -->
+                <div style="background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Conductor Catenary Sag &amp; Ground Clearance</span>
+                    <span id="sagReadout" style="font-family: 'Roboto Mono', monospace; font-size: 0.8rem; font-weight: 700; color: #38bdf8;">Sag: 4.82m · Ground Clear: 11.18m</span>
+                  </div>
+                  <div class="catenary-stage" style="height: 140px; position: relative;">
+                    <svg class="catenary-svg" id="catenarySvg" viewBox="0 0 500 140" style="width: 100%; height: 100%;">
+                      <!-- Ground Reference Line -->
+                      <line x1="20" y1="125" x2="480" y2="125" stroke="#334155" stroke-width="2" stroke-dasharray="4 4" />
+                      <text x="25" y="136" fill="#64748b" font-size="9" font-family="'Roboto Mono', monospace">Minimum Legal Ground Clearance = 8.0 m</text>
+                      
+                      <!-- Left Transmission Tower -->
+                      <path d="M40,125 L60,25 L80,125 M48,95 L72,95 M52,65 L68,65 M40,40 L80,40" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+                      <!-- Right Transmission Tower -->
+                      <path d="M420,125 L440,25 L460,125 M428,95 L452,95 M432,65 L448,65 M420,40 L460,40" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+                      
+                      <!-- Transmission Conductor Span -->
+                      <path id="sagWire" d="M60,40 Q250,75 440,40" stroke="#38bdf8" stroke-width="3" fill="none" />
+                      
+                      <!-- Sag Dimension Indicator -->
+                      <line id="sagDimLine" x1="250" y1="40" x2="250" y2="75" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="2 2"/>
+                      <circle id="sagApex" cx="250" cy="75" r="4" fill="#f43f5e" />
+                    </svg>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.72rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">
+                    <span>Bukit Badong 500kV ACSR Span</span>
+                    <span id="ampacityHeader">Dynamic Rating: 1,732 A (+23.7% headroom)</span>
+                  </div>
+                </div>
+
+                <!-- Sliders -->
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                  <div class="calc-row">
+                    <span class="calc-label">Effective Crosswind (m/s)</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                      <input type="range" id="inputWindSpeed" min="0.2" max="18.0" step="0.2" value="7.4" class="slider-field" oninput="updateWeatherNextSim()">
+                      <span class="calc-val" id="valWindSpeed">7.4 m/s</span>
+                    </div>
+                  </div>
+                  <div class="calc-row">
+                    <span class="calc-label">Wind Attack Angle (°)</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                      <input type="range" id="inputWindAngle" min="0" max="90" step="5" value="75" class="slider-field" oninput="updateWeatherNextSim()">
+                      <span class="calc-val" id="valWindAngle">75°</span>
+                    </div>
+                  </div>
+                  <div class="calc-row">
+                    <span class="calc-label">Solar GHI (W/m²)</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                      <input type="range" id="inputSolarGhi" min="0" max="1100" step="25" value="640" class="slider-field" oninput="updateWeatherNextSim()">
+                      <span class="calc-val" id="valSolarGhi">640 W/m²</span>
+                    </div>
+                  </div>
+                  <div class="calc-row">
+                    <span class="calc-label">Ambient Temperature (°C)</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                      <input type="range" id="inputAmbTemp" min="15" max="45" step="0.5" value="28.5" class="slider-field" oninput="updateWeatherNextSim()">
+                      <span class="calc-val" id="valAmbTemp">28.5 °C</span>
+                    </div>
+                  </div>
+                  <div class="calc-row">
+                    <span class="calc-label">Convective Squall Probability</span>
+                    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+                      <input type="range" id="inputSquallProb" min="0" max="100" step="5" value="65" class="slider-field" oninput="updateWeatherNextSim()">
+                      <span class="calc-val" id="valSquallProb">65%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4 ADK Subagents Cards -->
+              <div style="margin-top: 14px;">
+                <span style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">Autonomous ADK WeatherNext Subagent Swarm</span>
+                <div class="subagents-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px;">
+                  <div class="wx-subagent-card" id="cardSubStorm">
+                    <div class="wx-subagent-header">
+                      <span class="wx-subagent-icon">🌩️</span>
+                      <div class="wx-subagent-meta">
+                        <div class="wx-subagent-name">sub_weathernext_storm_tracker</div>
+                        <div class="wx-subagent-persona">ADK Convective Cell Radar Agent</div>
+                      </div>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Active Cells</span>
+                      <span class="wx-stat-val" id="subStormCells">3 tracked</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Max Reflectivity</span>
+                      <span class="wx-stat-val" id="subStormDbz">58.4 dBZ</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Corridor Trajectory</span>
+                      <span class="wx-stat-val" id="subStormTraj">082° @ 38 km/h</span>
+                    </div>
+                  </div>
+
+                  <div class="wx-subagent-card" id="cardSubConsumer">
+                    <div class="wx-subagent-header">
+                      <span class="wx-subagent-icon">🛰️</span>
+                      <div class="wx-subagent-meta">
+                        <div class="wx-subagent-name">sub_weathernext_forecast_consumer</div>
+                        <div class="wx-subagent-persona">ADK Numerical Ingestion Engine</div>
+                      </div>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Spatial Resolution</span>
+                      <span class="wx-stat-val">0.10° (~10 km)</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Horizon Steps</span>
+                      <span class="wx-stat-val">360 hourly (15d)</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">BigQuery Target</span>
+                      <span class="wx-stat-val">spatial_telemetry</span>
+                    </div>
+                  </div>
+
+                  <div class="wx-subagent-card" id="cardSubDer">
+                    <div class="wx-subagent-header">
+                      <span class="wx-subagent-icon">☀️</span>
+                      <div class="wx-subagent-meta">
+                        <div class="wx-subagent-name">sub_weathernext_der_predictor</div>
+                        <div class="wx-subagent-persona">ADK Renewable Generation Predictor</div>
+                      </div>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Fleet Yield</span>
+                      <span class="wx-stat-val" id="subDerYield">377,029 MWh</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Peak Diurnal</span>
+                      <span class="wx-stat-val" id="subDerPeak">2,185 MW</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Mean CF</span>
+                      <span class="wx-stat-val" id="subDerCf">16.5%</span>
+                    </div>
+                  </div>
+
+                  <div class="wx-subagent-card" id="cardSubDlr">
+                    <div class="wx-subagent-header">
+                      <span class="wx-subagent-icon">⚡</span>
+                      <div class="wx-subagent-meta">
+                        <div class="wx-subagent-name">sub_dynamic_line_rating_solver</div>
+                        <div class="wx-subagent-persona">ADK IEEE 738 Ampacity Solver</div>
+                      </div>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Conductor Temp</span>
+                      <span class="wx-stat-val" id="subDlrTemp">64.2 °C</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Dynamic Rating</span>
+                      <span class="wx-stat-val" id="subDlrAmp">1,732 A</span>
+                    </div>
+                    <div class="wx-stat-row">
+                      <span class="wx-stat-label">Clearance Headroom</span>
+                      <span class="wx-stat-val" id="subDlrHeadroom">+23.7%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Swarm Streaming Log Box -->
+              <div style="margin-top: 10px;">
+                <div class="wx-log-box" id="wxSubagentLogBox" style="max-height: 100px;">
+                  <div><span style="color: #64748b;">[12:00:01 UTC]</span> <span style="color: #a78bfa;">[sub_weathernext_storm_tracker]</span> WeatherNext 0.1° synoptic field ingested across 126 renewable generation assets.</div>
+                  <div><span style="color: #64748b;">[12:00:02 UTC]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Committed 360h hourly timeseries to BigQuery dataset `utilities_grid_optimization.weathernext_spatial_telemetry`.</div>
+                  <div><span style="color: #64748b;">[12:00:03 UTC]</span> <span style="color: #fbbf24;">[sub_weathernext_der_predictor]</span> Portfolio production computed: 377,029 MWh aggregate horizon yield across 5,452 MW wind and 872 MW solar assets.</div>
+                  <div><span style="color: #64748b;">[12:00:04 UTC]</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> IEEE 738 steady-state solver converged: +23.7% thermal transmission headroom unlocked on transmission corridors.</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- WEATHERNEXT AUTONOMOUS SUBAGENTS FLEET CONSOLE -->
-        <div class="wx-forecast-card" style="margin-top: 24px; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
-            <div>
-              <div style="font-family: 'Google Sans', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-                <span>🤖</span> WeatherNext Autonomous Subagents Swarm Console (ADK Orchestrated)
-              </div>
-              <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">
-                Directly orchestrates the 4 specialized ADK subagents ingesting Google DeepMind WeatherNext NWP fields, computing IEEE 738 dynamic line rating, and feeding BigQuery GIS telemetry.
+          <!-- Sticky AI Explanation Side Panel ("What you're looking at") -->
+          <aside class="wn3-ai-panel" id="wn3AiPanel" aria-label="AI summary">
+            <div class="ai-head">
+              <button class="btn-square" id="btnToggleAiPanel" onclick="toggleAiSidePanel()" title="Collapse AI panel" aria-pressed="false" aria-label="Collapse panel">
+                <svg class="icon-panel icon-close" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M6 3.5l4.5 4.5L6 12.5"/>
+                </svg>
+                <svg class="icon-panel icon-open" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M10 3.5L5.5 8l4.5 4.5"/>
+                </svg>
+              </button>
+              <div class="ai-title">
+                <svg class="ai-spark" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 0L9.8 5.6 15.4 7.4 9.8 9.2 8 14.8 6.2 9.2 0.6 7.4 6.2 5.6z"/>
+                </svg>
+                <span class="ai-title-text">What you're looking at</span>
               </div>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span class="horizon-tag" id="wxSwarmStatusBadge" style="background: rgba(13, 144, 79, 0.15); color: var(--success);">
-                ALL 4 SUBAGENTS SYNCHRONIZED
-              </span>
-              <button class="btn-sim" id="btnRunWxSwarm" onclick="runWeatherNextSubagentSwarm()" style="padding: 8px 18px; font-size: 0.84rem;">
-                <span id="btnRunWxSwarmIcon">⚡</span> Run WeatherNext Subagent Swarm
+            
+            <div class="ai-body" id="wn3AiNarrative">
+              <p>Across the next 15 days, this portfolio will generate an estimated <strong>377,029 MWh</strong> against an installed base of <strong>6,324 MW</strong> (86% wind, 14% solar).</p>
+              <p>Production peaks at <strong>2,185 MW</strong> on 29 Sep at 11:00 UTC, driven by concurrent Iberian and North American frontal passages aligning with peak midday solar insolation.</p>
+              <p>Wind provides the foundational bulk of energy across the run, with three distinct frontal passages driving multi-day generation surges. Solar supplies a highly reliable diurnal pulse that peaks between 11:00 and 14:00 UTC daily.</p>
+              <p><strong>Meteorological Bias Correction:</strong> The raw WeatherNext 0.1° cell outputs represent spatial cell averages. Because wind farms are intentionally sited on high ridges and coastal bluffs, raw speeds understate hub-height velocities. For trading and scheduling, apply local SCADA bias-correction models to wind assets; solar GHI requires no calibration.</p>
+              <p><strong>Grid Transmission Synergy:</strong> Wind output surges correlate strongly with transmission corridor ambient crosswinds, allowing our IEEE 738 Dynamic Line Rating solver to unlock <strong>+20% to +35% ampacity headroom</strong> on key evacuation lines precisely when wind generation peaks.</p>
+            </div>
+
+            <div class="ai-foot">
+              <span class="ai-model">Model: gemini-3.7-flash</span>
+              <button class="ai-regen" onclick="regenerateAiNarrative()" title="Recompute analysis with Gemini">
+                <span>✨</span> Regenerate
               </button>
             </div>
-          </div>
-
-          <!-- 4 WeatherNext Autonomous Subagents Grid -->
-          <div class="wx-subagents-grid">
-            <!-- Subagent 1: Storm Tracker SubAgent -->
-            <div class="wx-subagent-card" id="cardSubStormTracker">
-              <div class="wx-subagent-top">
-                <div>
-                  <div class="wx-subagent-name">Convective Storm Tracker</div>
-                  <div class="wx-subagent-persona">sub_weathernext_storm_tracker</div>
-                </div>
-                <span class="badge" id="badgeSubStorm" style="background: rgba(224, 64, 251, 0.15); color: #e040fb;">MONITORING</span>
-              </div>
-              <div style="font-size: 0.74rem; color: var(--text-muted);">
-                Persona: <strong>Grid Operations Dispatcher</strong>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Active Cells Tracked:</span>
-                <span class="wx-stat-val" id="subStormCells">3 cells</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Peak Reflectivity:</span>
-                <span class="wx-stat-val" id="subStormDbz" style="color: #f44336;">58.4 dBZ</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Lightning Strike Rate:</span>
-                <span class="wx-stat-val" id="subStormLightning" style="color: #ffd600;">28 /min</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Substation ETA:</span>
-                <span class="wx-stat-val" id="subStormEta">22 mins</span>
-              </div>
-              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
-                Advisory: <span id="subStormAdvisory">Sumatra Squall Line moving eastward across Strait of Malacca</span>
-              </div>
-            </div>
-
-            <!-- Subagent 2: Atmospheric Forecast Consumer SubAgent -->
-            <div class="wx-subagent-card" id="cardSubForecastConsumer">
-              <div class="wx-subagent-top">
-                <div>
-                  <div class="wx-subagent-name">Atmospheric Forecast Consumer</div>
-                  <div class="wx-subagent-persona">sub_weathernext_forecast_consumer</div>
-                </div>
-                <span class="badge" id="badgeSubConsumer" style="background: rgba(13, 144, 79, 0.15); color: var(--success);">COMMITTED</span>
-              </div>
-              <div style="font-size: 0.74rem; color: var(--text-muted);">
-                Persona: <strong>Grid Analytics Data Scientist</strong>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Spatial Resolution:</span>
-                <span class="wx-stat-val" id="subConsumerRes">0.08° (~9km)</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">BigQuery Table:</span>
-                <span class="wx-stat-val" style="font-size: 0.7rem;">weathernext_spatial_telemetry</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Ingested GHI:</span>
-                <span class="wx-stat-val" id="subConsumerGhi">920 W/m²</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Ambient Temp:</span>
-                <span class="wx-stat-val" id="subConsumerTemp">31.5°C</span>
-              </div>
-              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
-                Pipeline: <span id="subConsumerPipeline">9 Malaysian grid nodes committed to BQ GIS streaming table</span>
-              </div>
-            </div>
-
-            <!-- Subagent 3: DER Generation Predictor SubAgent -->
-            <div class="wx-subagent-card" id="cardSubDerPredictor">
-              <div class="wx-subagent-top">
-                <div>
-                  <div class="wx-subagent-name">DER Generation Predictor</div>
-                  <div class="wx-subagent-persona">sub_weathernext_der_predictor</div>
-                </div>
-                <span class="badge" id="badgeSubDer" style="background: rgba(249, 171, 0, 0.15); color: var(--warning);">ACTIVE</span>
-              </div>
-              <div style="font-size: 0.74rem; color: var(--text-muted);">
-                Persona: <strong>DERMS &amp; VPP Manager</strong>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Monitored LSS Hub:</span>
-                <span class="wx-stat-val" id="subDerHub">Gurun LSS 100MW</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Predicted PV Yield:</span>
-                <span class="wx-stat-val" id="subDerOutput" style="color: var(--success);">88.4 MW</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Capacity Factor:</span>
-                <span class="wx-stat-val" id="subDerCapFactor">88.4%</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Curtailment Risk:</span>
-                <span class="wx-stat-val" id="subDerRisk" style="color: var(--success);">LOW (Clean Dispatch)</span>
-              </div>
-              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
-                Thermal Derating: <span id="subDerDerating">-2.6% (Cell Temp 51.5°C)</span>
-              </div>
-            </div>
-
-            <!-- Subagent 4: Dynamic Line Rating Solver SubAgent -->
-            <div class="wx-subagent-card" id="cardSubDlrSolver">
-              <div class="wx-subagent-top">
-                <div>
-                  <div class="wx-subagent-name">Dynamic Line Rating Solver</div>
-                  <div class="wx-subagent-persona">sub_dynamic_line_rating_solver</div>
-                </div>
-                <span class="badge" id="badgeSubDlr" style="background: rgba(26, 115, 232, 0.15); color: var(--accent);">SOLVED</span>
-              </div>
-              <div style="font-size: 0.74rem; color: var(--text-muted);">
-                Persona: <strong>Asset Reliability Engineer</strong>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Monitored Span:</span>
-                <span class="wx-stat-val" id="subDlrSpan">500kV Bukit Badong</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Crosswind Cooling:</span>
-                <span class="wx-stat-val" id="subDlrCrosswind">4.8 m/s (Turbulent)</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Headroom Unlocked:</span>
-                <span class="wx-stat-val" id="subDlrHeadroom" style="color: var(--success);">+23.7% (+288 MVA)</span>
-              </div>
-              <div class="wx-stat-row">
-                <span class="wx-stat-label">Catenary Margin:</span>
-                <span class="wx-stat-val" id="subDlrClearance" style="color: var(--success);">14.8m (Safe &gt; 12.0m)</span>
-              </div>
-              <div style="font-size: 0.73rem; color: var(--text-secondary); background: var(--bg-secondary); padding: 6px 8px; border-radius: 6px;">
-                Physics Engine: <span id="subDlrEngine">IEEE 738 Convective Heat Balance</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Subagent Event Stream Log -->
-          <div style="margin-top: 14px;">
-            <div style="font-size: 0.75rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); margin-bottom: 6px; display: flex; justify-content: space-between;">
-              <span>ADK SUBAGENT LIVE SYNCHRONIZATION STREAM:</span>
-              <span id="wxLogLiveIndicator" style="color: var(--success);">● LIVE SYNCHRONIZED</span>
-            </div>
-            <div class="wx-log-box" id="wxSubagentLogBox">
-              <div><span style="color: #64748b;">[17:00:01 MYT]</span> <span style="color: #a78bfa;">[sub_weathernext_storm_tracker]</span> Ingested WeatherNext 0.08° radar field: 3 convective storm cells tracked across Malaysia.</div>
-              <div><span style="color: #64748b;">[17:00:02 MYT]</span> <span style="color: #f472b6;">[sub_weathernext_storm_tracker]</span> Convective cell SC-01 (58.4 dBZ, 28 lightning strikes/min) moving 082° at 38 km/h towards Klang Valley (ETA 22 min).</div>
-              <div><span style="color: #64748b;">[17:00:03 MYT]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Committed 9-node Malaysian spatial mesh to BigQuery dataset `utilities_grid_optimization.weathernext_spatial_telemetry`.</div>
-              <div><span style="color: #64748b;">[17:00:04 MYT]</span> <span style="color: #fbbf24;">[sub_weathernext_der_predictor]</span> Gurun LSS 100MW operating at 88.4 MW (solar GHI 920 W/m² at 31.5°C, low curtailment risk).</div>
-              <div><span style="color: #64748b;">[17:00:05 MYT]</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> IEEE 738 steady-state solver converged: 500kV Bukit Badong corridor dynamic ampacity 1,732 A (+23.7% headroom unlocked).</div>
-            </div>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
@@ -3181,13 +3885,14 @@
         btnElem.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
       }
 
-      // Initialize or invalidate Leaflet GIS map size on tab activation
+      // Initialize or invalidate Leaflet GIS map and SVG charts on tab activation
       if (tabId === 'tab-weathernext') {
         setTimeout(() => {
-          if (!window.wxLeafletMap) {
-            initWeatherNextMap();
-          } else {
-            window.wxLeafletMap.invalidateSize();
+          if (window.initWeatherNext3Studio) {
+            initWeatherNext3Studio();
+          }
+          if (window.renderAllWeatherNext3Charts) {
+            renderAllWeatherNext3Charts();
           }
         }, 150);
       }
@@ -4247,1015 +4952,897 @@
         }
       });
 
-    // ==========================================
-    // WEATHERNEXT MALAYSIA FORECAST & SUBAGENTS
-    // ==========================================
-    const MALAYSIA_GRID_DATA = {
-      klang_valley: {
-        name: "Klang Valley / Selangor (500kV Supergrid Hub)",
-        corridor: "500kV Bukit Badong - Rawang - Klang West Corridor",
-        voltageKv: 500,
-        voltageBadge: "500 kV",
-        lat: 3.1408,
-        lng: 101.6932,
-        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1400,
-        mvaFactor: 0.866, // sqrt(3) * 500 / 1000 = 0.866
-        dni: 920,
-        windSpeed: 5.2,
-        windAngle: 68,
-        temp: 31.5,
-        stormProb: 65,
-        cellReflectivity: 58.4,
-        lightningRate: 28,
-        etaMin: 22,
-        lssHub: "Kapar Solar Hybrid (50 MWp)",
-        lssCapMw: 50,
-        lssYieldMw: 42.1
-      },
-      penang: {
-        name: "Penang / Bayan Lepas (275kV High-Tech Corridor)",
-        corridor: "275kV Bukit Tengah - Bayan Lepas Submarine Cable Interconnect",
-        voltageKv: 275,
-        voltageBadge: "275 kV",
-        lat: 5.3500,
-        lng: 100.2900,
-        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1100,
-        mvaFactor: 0.476, // sqrt(3) * 275 / 1000 = 0.476
-        dni: 890,
-        windSpeed: 6.4,
-        windAngle: 75,
-        temp: 30.2,
-        stormProb: 35,
-        cellReflectivity: 38.2,
-        lightningRate: 12,
-        etaMin: 45,
-        lssHub: "Batu Kawan Rooftop DER Array (30 MWp)",
-        lssCapMw: 30,
-        lssYieldMw: 25.8
-      },
-      gurun_kedah: {
-        name: "Gurun & Chuping (275kV LSS Solar Hub)",
-        corridor: "275kV Gurun - Alor Setar - Chuping Renewable Corridor",
-        voltageKv: 275,
-        voltageBadge: "275 kV",
-        lat: 5.8167,
-        lng: 100.4833,
-        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1050,
-        mvaFactor: 0.476,
-        dni: 985,
-        windSpeed: 3.8,
-        windAngle: 45,
-        temp: 33.8,
-        stormProb: 20,
-        cellReflectivity: 24.5,
-        lightningRate: 4,
-        etaMin: 90,
-        lssHub: "Gurun LSS Phase 1-3 (100 MWp)",
-        lssCapMw: 100,
-        lssYieldMw: 88.4
-      },
-      manjung_perak: {
-        name: "Manjung / Perak (500kV Coastal Generation Node)",
-        corridor: "500kV Janamanjung - Ayer Tawar Bulk Evacuation Corridor",
-        voltageKv: 500,
-        voltageBadge: "500 kV",
-        lat: 4.1600,
-        lng: 100.6400,
-        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1450,
-        mvaFactor: 0.866,
-        dni: 870,
-        windSpeed: 7.2,
-        windAngle: 82,
-        temp: 29.8,
-        stormProb: 40,
-        cellReflectivity: 41.0,
-        lightningRate: 16,
-        etaMin: 35,
-        lssHub: "Bidor LSS Solar (40 MWp)",
-        lssCapMw: 40,
-        lssYieldMw: 34.2
-      },
-      pengerang_johor: {
-        name: "Pengerang & Pasir Gudang (500kV Southern Node & Singapore Link)",
-        corridor: "500kV Yong Peng - Lenggeng - Singapore SP Interconnector",
-        voltageKv: 500,
-        voltageBadge: "500 kV",
-        lat: 1.3600,
-        lng: 104.2200,
-        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1400,
-        mvaFactor: 0.866,
-        dni: 910,
-        windSpeed: 5.6,
-        windAngle: 62,
-        temp: 31.0,
-        stormProb: 50,
-        cellReflectivity: 46.5,
-        lightningRate: 20,
-        etaMin: 28,
-        lssHub: "Pasir Gudang Industrial Solar (60 MWp)",
-        lssCapMw: 60,
-        lssYieldMw: 51.6
-      },
-      paka_terengganu: {
-        name: "Paka & Kenyir (275kV Hydro & CCGT Node)",
-        corridor: "275kV Kenyir Hydro - Paka CCGT East Coast Transmission Ring",
-        voltageKv: 275,
-        voltageBadge: "275 kV",
-        lat: 4.6375,
-        lng: 103.4367,
-        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
-        operator: "TNB Peninsular Grid",
-        baseAmpacity: 1100,
-        mvaFactor: 0.476,
-        dni: 840,
-        windSpeed: 6.8,
-        windAngle: 70,
-        temp: 29.5,
-        stormProb: 55,
-        cellReflectivity: 49.1,
-        lightningRate: 14,
-        etaMin: 18,
-        lssHub: "Kenyir Floating Solar PV (50 MWp)",
-        lssCapMw: 50,
-        lssYieldMw: 39.8
-      },
-      bakun_sarawak: {
-        name: "Bakun Hydro Terminal (500kV Hydro Complex, Sarawak)",
-        corridor: "500kV Bakun - Murum - Similajau Backbone Trans-Borneo Corridor",
-        voltageKv: 500,
-        voltageBadge: "500 kV",
-        lat: 2.7562,
-        lng: 114.0578,
-        conductor: "Quad-bundle ACSR Zebra (4 x 400 mm²)",
-        operator: "Sarawak Energy Berhad (SEB)",
-        baseAmpacity: 1500,
-        mvaFactor: 0.866,
-        dni: 780,
-        windSpeed: 4.5,
-        windAngle: 55,
-        temp: 28.5,
-        stormProb: 60,
-        cellReflectivity: 44.8,
-        lightningRate: 19,
-        etaMin: 25,
-        lssHub: "Batang Ai Floating Solar (50 MWp)",
-        lssCapMw: 50,
-        lssYieldMw: 37.5
-      },
-      samalaju_sarawak: {
-        name: "Samalaju Industrial Terminal (275kV SCORE, Sarawak)",
-        corridor: "275kV Similajau - Samalaju Heavy Industrial Park Feeder",
-        voltageKv: 275,
-        voltageBadge: "275 kV",
-        lat: 3.5878,
-        lng: 113.3639,
-        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
-        operator: "Sarawak Energy Berhad (SEB)",
-        baseAmpacity: 1150,
-        mvaFactor: 0.476,
-        dni: 860,
-        windSpeed: 5.9,
-        windAngle: 72,
-        temp: 30.5,
-        stormProb: 45,
-        cellReflectivity: 39.5,
-        lightningRate: 11,
-        etaMin: 40,
-        lssHub: "SCORE Energy Park Solar (40 MWp)",
-        lssCapMw: 40,
-        lssYieldMw: 33.6
-      },
-      kota_kinabalu_sabah: {
-        name: "Kota Kinabalu (275kV West Coast Ring, SESB Sabah)",
-        corridor: "275kV Kolopis - Ranau - Segaliud East-West Transmission Grid",
-        voltageKv: 275,
-        voltageBadge: "275 kV",
-        lat: 5.9804,
-        lng: 116.0735,
-        conductor: "Twin-bundle ACSR Drake (2 x 400 mm²)",
-        operator: "Sabah Electricity Sdn Bhd (SESB)",
-        baseAmpacity: 1000,
-        mvaFactor: 0.476,
-        dni: 920,
-        windSpeed: 5.1,
-        windAngle: 65,
-        temp: 31.0,
-        stormProb: 38,
-        cellReflectivity: 36.2,
-        lightningRate: 9,
-        etaMin: 50,
-        lssHub: "Kimanis Solar Farm (50 MWp)",
-        lssCapMw: 50,
-        lssYieldMw: 43.5
+        // =========================================================================
+// GOOGLE DEEPMIND WEATHERNEXT 3 & IEEE 738 DLR MULTI-AGENT ENGINE
+// =========================================================================
+
+(function(window) {
+  'use strict';
+
+  // State
+  let wn3CurrentCountry = 'ALL';
+  let wn3CurrentMapStyle = 'dark';
+  let wn3FleetMap = null;
+  let wn3MarkersLayer = null;
+  let wn3TileLayer = null;
+  let wn3SatLayer = null;
+  const wn3ViewModes = {
+    cardHourly: 'chart',
+    cardDaily: 'chart',
+    cardFleetMap: 'chart',
+    cardAssets: 'chart'
+  };
+
+  // Country geographic coordinates & zoom presets
+  const COUNTRY_BOUNDS = {
+    ALL: { center: [28.0, 10.0], zoom: 2.2 },
+    PT:  { center: [39.6, -8.2], zoom: 7.2 },
+    US:  { center: [37.8, -98.0], zoom: 4.4 },
+    ES:  { center: [40.4, -3.7], zoom: 6.2 },
+    MY:  { center: [4.2, 108.5], zoom: 5.8 },
+    PL:  { center: [52.1, 19.4], zoom: 6.4 },
+    FR:  { center: [46.8, 2.5], zoom: 6.0 }
+  };
+
+  // Helper: Format numbers with commas
+  function fmtNum(n, decimals = 0) {
+    if (n === null || n === undefined || isNaN(n)) return '0';
+    if (window.Charts && window.Charts.fmtNum) {
+      return window.Charts.fmtNum(n, decimals);
+    }
+    return Number(n).toLocaleString('en-US', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
+  }
+
+  // Helper: Export CSV
+  function exportCsvFile(filename, headers, rows) {
+    const csvContent = [
+      headers.map(h => `"${String(h).replace(/"/g, '""')}"`).join(','),
+      ...rows.map(row => row.map(cell => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+
+  // Get data bundle
+  function getData() {
+    return window.WeatherNextData || {
+      hourly: [],
+      daily: [],
+      assets: []
+    };
+  }
+
+  // Filter assets
+  function getFilteredAssets(country) {
+    const all = getData().assets;
+    if (!country || country === 'ALL') return all;
+    return all.filter(a => a.country === country);
+  }
+
+  // Calculate fleet capacity metrics
+  function getFleetMetrics(country) {
+    const allAssets = getData().assets;
+    const filtered = getFilteredAssets(country);
+
+    const globalWindCap = allAssets.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0) || 5452;
+    const globalSolarCap = allAssets.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0) || 872;
+    const globalTotCap = globalWindCap + globalSolarCap;
+
+    const windCap = filtered.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0);
+    const solarCap = filtered.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0);
+    const totCap = windCap + solarCap;
+
+    const windRatio = country === 'ALL' ? 1.0 : (windCap / globalWindCap || 0.05);
+    const solarRatio = country === 'ALL' ? 1.0 : (solarCap / globalSolarCap || 0.05);
+
+    return {
+      filteredAssets: filtered,
+      totCap,
+      windCap,
+      solarCap,
+      windRatio,
+      solarRatio,
+      count: filtered.length
+    };
+  }
+
+  // Compute scaled hourly rows
+  function getScaledHourlyRows(country) {
+    const data = getData();
+    const metrics = getFleetMetrics(country);
+    return data.hourly.map(r => {
+      const windMw = Math.round(r.wind_mw * metrics.windRatio * 10) / 10;
+      const solarMw = Math.round(r.solar_mw * metrics.solarRatio * 10) / 10;
+      return {
+        valid_time: r.valid_time,
+        t: new Date(r.valid_time).getTime(),
+        a: windMw,
+        b: solarMw,
+        total: Math.round((windMw + solarMw) * 10) / 10
+      };
+    });
+  }
+
+  // Compute scaled daily rows
+  function getScaledDailyRows(country) {
+    const data = getData();
+    const metrics = getFleetMetrics(country);
+    return data.daily.map(d => {
+      const windMwh = Math.round(d.wind_mwh * metrics.windRatio);
+      const solarMwh = Math.round(d.solar_mwh * metrics.solarRatio);
+      return {
+        day: d.day,
+        weekday: d.weekday,
+        sub: d.day.slice(5),
+        full: `${d.weekday}, ${d.day} UTC`,
+        a: windMwh,
+        b: solarMwh,
+        total: windMwh + solarMwh,
+        partial: d.hours < 20,
+        hours: d.hours
+      };
+    });
+  }
+
+  // Update KPI Tiles
+  function updateKpiTiles(country) {
+    const metrics = getFleetMetrics(country);
+    const hourly = getScaledHourlyRows(country);
+    const daily = getScaledDailyRows(country);
+
+    const totEnergy = daily.reduce((s, d) => s + d.total, 0);
+
+    let peakMw = 0;
+    let peakTime = '29 Sep 11:00 UTC';
+    hourly.forEach(h => {
+      if (h.total > peakMw) {
+        peakMw = h.total;
+        const d = new Date(h.valid_time);
+        const dayStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+        const hrStr = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false });
+        peakTime = `${dayStr} ${hrStr} UTC`;
       }
-    };
+    });
 
-    let currentMalaysiaNodeKey = "klang_valley";
-    let currentForecastHorizon = 0;
-    let wxPlaybackTimer = null;
-    let wxPlaybackSpeedMs = 500;
-    let wxActiveLayers = {
-      radar: true,
-      solar: false,
-      wind: true,
-      lightning: true,
-      hydro: false
-    };
+    const hours = hourly.length || 360;
+    const meanCf = metrics.totCap > 0 ? ((totEnergy / (metrics.totCap * hours)) * 100).toFixed(1) : '0.0';
 
-    // Leaflet GIS Map Engine Globals
-    window.wxLeafletMap = null;
-    window.wxBaseTileDark = null;
-    window.wxBaseTileSat = null;
-    window.isSatelliteBasemap = false;
-    window.wxSubstationMarkers = {};
-    window.wxHydroMarkers = [];
-    window.wxCanvasOverlay = null;
-    window.wxWindParticles = [];
+    // Set DOM elements
+    const elTileCap = document.getElementById('tileValCap');
+    const elTileSubCap = document.getElementById('tileSubCap');
+    const elTileEnergy = document.getElementById('tileValEnergy');
+    const elTilePeak = document.getElementById('tileValPeak');
+    const elTileSubPeak = document.getElementById('tileSubPeak');
+    const elTileCf = document.getElementById('tileValCf');
+    const elMetaPortfolio = document.getElementById('wn3MetaPortfolio');
 
-    // Initialize GIS Leaflet Command Center Map for Malaysia
-    function initWeatherNextMap() {
-      const container = document.getElementById('wxLeafletMap');
-      if (!container || window.wxLeafletMap) return;
+    if (elTileCap) elTileCap.textContent = fmtNum(metrics.totCap);
+    if (elTileSubCap) elTileSubCap.textContent = `${fmtNum(metrics.windCap)} MW wind · ${fmtNum(metrics.solarCap)} MW solar`;
+    if (elTileEnergy) elTileEnergy.textContent = fmtNum(totEnergy);
+    if (elTilePeak) elTilePeak.textContent = fmtNum(Math.round(peakMw));
+    if (elTileSubPeak) elTileSubPeak.textContent = peakTime;
+    if (elTileCf) elTileCf.textContent = meanCf;
+    if (elMetaPortfolio) elMetaPortfolio.textContent = `${fmtNum(metrics.totCap)} MW · ${metrics.count} Assets`;
 
-      // Create Leaflet Map Instance
-      const map = L.map('wxLeafletMap', {
-        center: [4.2, 108.8],
-        zoom: 6,
-        minZoom: 5,
-        maxZoom: 14,
-        zoomControl: true,
-        attributionControl: true
+    // Dynamic line rating headroom simulation
+    const elDlr = document.getElementById('tileValDlr');
+    if (elDlr) {
+      // Windier portfolios unlock higher dynamic line rating headroom due to span cooling
+      const windFrac = metrics.totCap > 0 ? (metrics.windCap / metrics.totCap) : 0.8;
+      const headroom = (18.5 + windFrac * 8.2).toFixed(1);
+      elDlr.textContent = `+${headroom}`;
+    }
+  }
+
+  // Render Card 1: Hourly Stacked Area Chart
+  function renderHourlyView(country) {
+    const rows = getScaledHourlyRows(country);
+    const host = document.getElementById('chartHostHourly');
+    if (host && window.Charts && window.Charts.stackedArea) {
+      host.innerHTML = '';
+      const colorWind = window.Charts.css('--series-wind') || '#38bdf8';
+      const colorSolar = window.Charts.css('--series-solar') || '#fbbf24';
+      window.Charts.stackedArea(host, rows, {
+        colorA: colorWind,
+        colorB: colorSolar,
+        labelA: 'Wind',
+        labelB: 'Solar',
+        height: 270,
+        everyDays: 2
       });
-      window.wxLeafletMap = map;
+    }
 
-      // Base Layers: CartoDB Dark Matter (default) and ESRI World Imagery (Satellite)
-      window.wxBaseTileDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }).addTo(map);
+    // Populate Table
+    const tbody = document.getElementById('tbodyHourly');
+    if (tbody) {
+      // Render sampling or all rows
+      const html = rows.map(r => `
+        <tr>
+          <td>${r.valid_time.replace('T', ' ').slice(0, 16)}</td>
+          <td style="color: var(--series-wind); font-weight: 600;">${fmtNum(r.a, 1)}</td>
+          <td style="color: var(--series-solar); font-weight: 600;">${fmtNum(r.b, 1)}</td>
+          <td style="color: var(--text-primary); font-weight: 700;">${fmtNum(r.total, 1)}</td>
+        </tr>
+      `).join('');
+      tbody.innerHTML = html;
+    }
+  }
 
-      window.wxBaseTileSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP',
-        maxZoom: 19
+  // Render Card 2: Daily Stacked Bars Chart
+  function renderDailyView(country) {
+    const rows = getScaledDailyRows(country);
+    const host = document.getElementById('chartHostDaily');
+    if (host && window.Charts && window.Charts.stackedBars) {
+      host.innerHTML = '';
+      const colorWind = window.Charts.css('--series-wind') || '#38bdf8';
+      const colorSolar = window.Charts.css('--series-solar') || '#fbbf24';
+      window.Charts.stackedBars(host, rows, {
+        colorA: colorWind,
+        colorB: colorSolar,
+        labelA: 'Wind',
+        labelB: 'Solar',
+        height: 270
+      });
+    }
+
+    // Populate Table
+    const tbody = document.getElementById('tbodyDaily');
+    if (tbody) {
+      const html = rows.map(r => `
+        <tr>
+          <td><strong>${r.full}</strong></td>
+          <td style="color: var(--series-wind); font-weight: 600;">${fmtNum(r.a)}</td>
+          <td style="color: var(--series-solar); font-weight: 600;">${fmtNum(r.b)}</td>
+          <td style="color: var(--text-primary); font-weight: 700;">${fmtNum(r.total)}</td>
+          <td>${r.partial ? '<span style="color: var(--warning); font-size: 11px;">⚠️ Partial (' + r.hours + 'h)</span>' : '<span style="color: var(--success); font-size: 11px;">✓ Complete (24h)</span>'}</td>
+        </tr>
+      `).join('');
+      tbody.innerHTML = html;
+    }
+  }
+
+  // Render Card 3: Leaflet Fleet Map
+  function initFleetMap() {
+    const mapContainer = document.getElementById('wn3LeafletFleetMap');
+    if (!mapContainer || wn3FleetMap) return;
+
+    wn3FleetMap = L.map('wn3LeafletFleetMap', {
+      center: [28.0, 10.0],
+      zoom: 2.2,
+      minZoom: 1.8,
+      maxZoom: 17,
+      zoomControl: true,
+      attributionControl: false
+    });
+
+    // Dark Matter tile layer
+    wn3TileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(wn3FleetMap);
+
+    // Satellite layer
+    wn3SatLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 18
+    });
+
+    wn3MarkersLayer = L.layerGroup().addTo(wn3FleetMap);
+    renderFleetMapMarkers(wn3CurrentCountry);
+  }
+
+  function setFleetMapStyle(style) {
+    wn3CurrentMapStyle = style;
+    const btnDark = document.getElementById('btnMapStyleDark');
+    const btnSat = document.getElementById('btnMapStyleSat');
+
+    if (style === 'dark') {
+      if (btnDark) btnDark.setAttribute('aria-pressed', 'true');
+      if (btnSat) btnSat.setAttribute('aria-pressed', 'false');
+      if (wn3FleetMap && wn3SatLayer) wn3FleetMap.removeLayer(wn3SatLayer);
+      if (wn3FleetMap && wn3TileLayer) wn3FleetMap.addLayer(wn3TileLayer);
+    } else {
+      if (btnDark) btnDark.setAttribute('aria-pressed', 'false');
+      if (btnSat) btnSat.setAttribute('aria-pressed', 'true');
+      if (wn3FleetMap && wn3TileLayer) wn3FleetMap.removeLayer(wn3TileLayer);
+      if (wn3FleetMap && wn3SatLayer) wn3FleetMap.addLayer(wn3SatLayer);
+    }
+  }
+
+  function renderFleetMapMarkers(country) {
+    if (!wn3FleetMap || !wn3MarkersLayer) return;
+    wn3MarkersLayer.clearLayers();
+
+    const assets = getFilteredAssets(country);
+
+    assets.forEach(a => {
+      const isWind = a.tech === 'wind';
+      const color = isWind ? '#38bdf8' : '#fbbf24';
+      const fillColor = isWind ? '#0284c7' : '#d97706';
+      const radius = Math.max(4, Math.min(18, Math.sqrt(a.capacity_mw) * 1.5 + 3));
+
+      const marker = L.circleMarker([a.lat, a.lon], {
+        radius: radius,
+        color: color,
+        weight: 1.5,
+        fillColor: fillColor,
+        fillOpacity: 0.75
       });
 
-      // 1. Render Transmission Corridors (500kV Supergrid Backbone & 275kV Links)
-      const tnb500Path = [
-        [5.8167, 100.4833], // Gurun
-        [4.1600, 100.6400], // Manjung
-        [3.1408, 101.6932], // Klang Valley
-        [1.3600, 104.2200]  // Pengerang
-      ];
-      L.polyline(tnb500Path, {
-        color: '#f59e0b',
-        weight: 3.8,
-        opacity: 0.95,
-        className: 'wx-transmission-500kv'
-      }).addTo(map).bindTooltip("500kV Peninsular Supergrid Backbone (Gurun - Manjung - Klang Valley - Pengerang)", { sticky: true });
-
-      const sarawak500Path = [
-        [2.7562, 114.0578], // Bakun
-        [3.5878, 113.3639], // Samalaju
-        [2.2878, 111.8300], // Sibu
-        [1.5533, 110.3592]  // Kuching / Matang
-      ];
-      L.polyline(sarawak500Path, {
-        color: '#f59e0b',
-        weight: 3.8,
-        opacity: 0.95,
-        className: 'wx-transmission-500kv'
-      }).addTo(map).bindTooltip("500kV Sarawak Energy Trans-Borneo Backbone (Bakun - Samalaju - Sibu - Kuching)", { sticky: true });
-
-      // 275kV Regional Intertie Corridors
-      const regional275Corridors = [
-        { name: "275kV Gurun - Penang Intertie", coords: [[5.8167, 100.4833], [5.3500, 100.2900]] },
-        { name: "275kV Klang Valley - Paka East Coast Link", coords: [[3.1408, 101.6932], [4.6375, 103.4367]] },
-        { name: "275kV Paka - Pengerang Coastal Intertie", coords: [[4.6375, 103.4367], [1.3600, 104.2200]] },
-        { name: "230kV/275kV Malaysia-Singapore SP Interconnector", coords: [[1.3600, 104.2200], [1.3521, 103.8198]] },
-        { name: "275kV SESB Sabah East-West Grid (KK - Ranau - Sandakan)", coords: [[5.9804, 116.0735], [5.9535, 116.6644], [5.8394, 118.1172]] }
-      ];
-
-      regional275Corridors.forEach(corridor => {
-        L.polyline(corridor.coords, {
-          color: '#00e5ff',
-          weight: 2.4,
-          opacity: 0.85,
-          dashArray: '5, 5',
-          className: 'wx-transmission-275kv'
-        }).addTo(map).bindTooltip(corridor.name, { sticky: true });
-      });
-
-      // 2. Render 9 Malaysian Utility Hubs as Interactive DivIcon Markers
-      Object.keys(MALAYSIA_GRID_DATA).forEach(nodeKey => {
-        const node = MALAYSIA_GRID_DATA[nodeKey];
-        const is500kv = node.voltageKv === 500;
-        const color = is500kv ? '#f59e0b' : '#00e5ff';
-        const isSelected = nodeKey === currentMalaysiaNodeKey;
-
-        const customIcon = L.divIcon({
-          className: `wx-substation-marker ${isSelected ? 'selected' : ''}`,
-          html: `
-            <div class="wx-node-pulse" style="color: ${color};"></div>
-            <div class="wx-node-dot" style="background: ${color}; box-shadow: 0 0 12px ${color};"></div>
-            <div class="wx-node-label" style="border-left: 3px solid ${color};">
-              <span>${node.name.split(' (')[0]}</span>
-              <span style="font-size: 0.65rem; color: ${color}; font-weight: 700;">${node.voltageBadge}</span>
-            </div>
-          `,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
-        });
-
-        const marker = L.marker([node.lat, node.lng], { icon: customIcon }).addTo(map);
-        window.wxSubstationMarkers[nodeKey] = marker;
-
-        // Custom Leaflet Popup with real-time station metrics
-        const popupContent = `
-          <div style="font-family: 'Google Sans', sans-serif;">
-            <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; margin-bottom: 8px;">
-              <strong style="font-size: 0.88rem; color: #fff;">${node.name}</strong>
-              <span style="font-size: 0.7rem; font-weight: 700; background: ${color}25; color: ${color}; padding: 2px 6px; border-radius: 4px;">${node.voltageBadge}</span>
-            </div>
-            <div style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;"><strong>Corridor:</strong> ${node.corridor}</div>
-            <div style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;"><strong>Operator:</strong> ${node.operator}</div>
-            <div style="font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;"><strong>Conductor:</strong> ${node.conductor}</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; font-size: 0.72rem;">
-              <div>⚡ Base Amp: <strong>${node.baseAmpacity} A</strong></div>
-              <div>☀️ Solar GHI: <strong>${node.dni} W/m²</strong></div>
-              <div>💨 Wind: <strong>${node.windSpeed} m/s</strong></div>
-              <div>🌡️ Ambient: <strong>${node.temp}°C</strong></div>
-            </div>
+      const popupHtml = `
+        <div style="font-family: var(--font); color: #f0f4fc; min-width: 200px;">
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 3px;">${a.name}</div>
+          <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">${a.region}, ${a.country} · ${isWind ? '💨 Wind Farm' : '☀️ Solar PV Farm'}</div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; margin-top: 4px;">
+            <span>Capacity:</span> <strong style="color: #38bdf8;">${a.capacity_mw} MW</strong>
           </div>
-        `;
-        marker.bindPopup(popupContent, { className: 'wx-leaflet-popup' });
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+            <span>15-Day Yield:</span> <strong>${fmtNum(a.forecast_mwh)} MWh</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
+            <span>Capacity Factor:</span> <strong>${a.mean_cf_pct}%</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 10px; color: #64748b; margin-top: 4px;">
+            <span>Cell ID:</span> <span>[${a.lat.toFixed(2)}°, ${a.lon.toFixed(2)}°]</span>
+          </div>
+        </div>
+      `;
 
-        marker.on('click', () => {
-          selectMalaysiaSubstation(nodeKey, true);
-        });
+      marker.bindPopup(popupHtml, {
+        className: 'wn3-custom-popup',
+        closeButton: true
       });
 
-      // 3. Render Hydro Dam Catchment Markers (Toggled via Hydro Layer)
-      const hydroDams = [
-        { name: "Bakun Hydro Complex (2,400 MW)", lat: 2.7562, lng: 114.0578, inflow: "+1,240 m³/s" },
-        { name: "Kenyir Hydro Complex (400 MW)", lat: 4.9500, lng: 102.8200, inflow: "+460 m³/s" },
-        { name: "Murum Hydro Complex (944 MW)", lat: 2.7100, lng: 114.3000, inflow: "+680 m³/s" },
-        { name: "Batang Ai Hydro Complex (108 MW)", lat: 1.1500, lng: 111.9000, inflow: "+180 m³/s" }
-      ];
+      wn3MarkersLayer.addLayer(marker);
+    });
 
-      hydroDams.forEach(dam => {
-        const hydroIcon = L.divIcon({
-          className: 'wx-hydro-marker',
-          html: `
-            <div style="display: flex; align-items: center; gap: 6px; background: rgba(14, 165, 233, 0.2); border: 1px solid #00e5ff; border-radius: 6px; padding: 2px 7px; color: #38bdf8; font-size: 0.7rem; font-family: 'Roboto Mono', monospace; box-shadow: 0 0 10px rgba(0,229,255,0.4); pointer-events: auto;">
-              <span>🌊</span> <strong>${dam.name.split(' (')[0]}:</strong> ${dam.inflow}
-            </div>
-          `,
-          iconSize: [160, 24],
-          iconAnchor: [80, 12]
-        });
-        const m = L.marker([dam.lat, dam.lng], { icon: hydroIcon });
-        window.wxHydroMarkers.push(m);
-      });
+    // Populate Fleet Table
+    const tbody = document.getElementById('tbodyFleet');
+    if (tbody) {
+      const html = assets.map(a => `
+        <tr>
+          <td><strong>${a.name}</strong></td>
+          <td>${a.country}</td>
+          <td><span style="background: ${a.tech === 'wind' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)'}; color: ${a.tech === 'wind' ? '#38bdf8' : '#fbbf24'}; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${a.tech.toUpperCase()}</span></td>
+          <td>${a.capacity_mw} MW</td>
+          <td>${fmtNum(a.forecast_mwh)} MWh</td>
+          <td>${a.mean_cf_pct}%</td>
+          <td style="color: var(--text-muted);">${a.lat.toFixed(3)}</td>
+          <td style="color: var(--text-muted);">${a.lon.toFixed(3)}</td>
+        </tr>
+      `).join('');
+      tbody.innerHTML = html;
+    }
+  }
 
-      // 4. Setup Dynamic Weather Overlay Canvas (Doppler Radar, Wind Particles, Solar Insolation, Lightning)
-      setupWeatherCanvasOverlay(map);
+  function zoomFleetRegion(country, btnElem) {
+    if (btnElem) {
+      document.querySelectorAll('#cardFleetMap .wx-pill-btn').forEach(b => b.classList.remove('active'));
+      btnElem.classList.add('active');
     }
 
-    // Dynamic Weather Canvas Overlay attached to Leaflet
-    function setupWeatherCanvasOverlay(map) {
-      const overlayPane = map.getPanes().overlayPane;
-      const canvas = document.createElement('canvas');
-      canvas.id = 'wxWeatherCanvas';
-      canvas.style.position = 'absolute';
-      canvas.style.top = '0';
-      canvas.style.left = '0';
-      canvas.style.pointerEvents = 'none';
-      canvas.style.zIndex = '400';
-      overlayPane.appendChild(canvas);
-      window.wxCanvasOverlay = canvas;
-
-      // Initialize 90 tropical monsoon wind streamline particles
-      window.wxWindParticles = [];
-      for (let i = 0; i < 90; i++) {
-        window.wxWindParticles.push({
-          lat: 1.0 + Math.random() * 6.5,
-          lng: 99.5 + Math.random() * 19.5,
-          speed: 0.015 + Math.random() * 0.025,
-          angle: 45 + (Math.random() - 0.5) * 30, // SW Monsoon direction (~45 deg)
-          life: Math.random() * 80,
-          maxLife: 60 + Math.random() * 50
-        });
-      }
-
-      function resizeCanvas() {
-        const size = map.getSize();
-        const topLeft = map.containerPointToLayerPoint([0, 0]);
-        L.DomUtil.setPosition(canvas, topLeft);
-        canvas.width = size.x;
-        canvas.height = size.y;
-      }
-
-      map.on('move', resizeCanvas);
-      map.on('zoom', resizeCanvas);
-      map.on('resize', resizeCanvas);
-      resizeCanvas();
-
-      // Start continuous animation loop
-      let lastTime = 0;
-      function animateWeather(time) {
-        drawWeatherScene(map, canvas);
-        window.wxAnimFrame = requestAnimationFrame(animateWeather);
-      }
-      window.wxAnimFrame = requestAnimationFrame(animateWeather);
+    const select = document.getElementById('wn3CountrySelect');
+    if (select && select.value !== country) {
+      select.value = country;
+      onWeatherNextCountryChange(country, false);
     }
 
-    // Render Canvas Weather Elements: Radar dBZ, Wind Particles, Solar Insolation, Lightning Bursts
-    function drawWeatherScene(map, canvas) {
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const horizon = currentForecastHorizon;
-      const now = Date.now();
-
-      // A. CONVECTIVE DOPPLER RADAR REFLECTIVITY (dBZ)
-      if (wxActiveLayers.radar) {
-        // Convective Cells with georeferenced coordinates & forecast trajectory vectors
-        const cells = [
-          {
-            id: "SC-01",
-            name: "Sumatra Squall Line",
-            // Moves eastward across Malacca Strait towards Klang Valley
-            lat: 2.8 + (horizon * 0.025),
-            lng: 100.2 + (horizon * 0.075),
-            dbz: 58.4,
-            speedKm: 38,
-            radiusKm: 75,
-            vectorDx: 28,
-            vectorDy: 6
-          },
-          {
-            id: "SC-02",
-            name: "South China Sea Rainband",
-            // Approaching Terengganu / Paka from northeast
-            lat: 5.3 - (horizon * 0.02),
-            lng: 105.0 - (horizon * 0.05),
-            dbz: 49.1,
-            speedKm: 24,
-            radiusKm: 65,
-            vectorDx: -24,
-            vectorDy: 8
-          },
-          {
-            id: "SC-03",
-            name: "Borneo Interior Convection",
-            // Orographic convection over central Sarawak near Bakun
-            lat: 2.85 - (horizon * 0.008),
-            lng: 114.15 - (horizon * 0.012),
-            dbz: 44.8,
-            speedKm: 18,
-            radiusKm: 60,
-            vectorDx: -16,
-            vectorDy: -12
-          },
-          {
-            id: "SC-04",
-            name: "Crocker Range Convective Cell",
-            // Sabah western coastal range
-            lat: 5.75 + (horizon * 0.005),
-            lng: 116.3 + (horizon * 0.008),
-            dbz: 41.5,
-            speedKm: 15,
-            radiusKm: 50,
-            vectorDx: 12,
-            vectorDy: -14
-          }
-        ];
-
-        cells.forEach((cell, idx) => {
-          const pt = map.latLngToContainerPoint([cell.lat, cell.lng]);
-          // Approximate pixel radius using latitude distance
-          const edgePt = map.latLngToContainerPoint([cell.lat + 0.55, cell.lng]);
-          const screenRadius = Math.max(30, Math.abs(pt.y - edgePt.y));
-
-          // Draw radar multi-stop radial gradient
-          const pulse = 1.0 + Math.sin(now / 400 + idx) * 0.05;
-          const r = screenRadius * pulse;
-          const radGrad = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, r);
-          radGrad.addColorStop(0.0, 'rgba(224, 64, 251, 0.95)'); // 65 dBZ (Magenta core)
-          radGrad.addColorStop(0.25, 'rgba(244, 67, 54, 0.85)');  // 55 dBZ (Red)
-          radGrad.addColorStop(0.50, 'rgba(255, 152, 0, 0.70)');  // 45 dBZ (Orange)
-          radGrad.addColorStop(0.75, 'rgba(255, 235, 59, 0.45)'); // 35 dBZ (Yellow)
-          radGrad.addColorStop(1.0, 'rgba(76, 175, 80, 0.0)');   // 20 dBZ (Fade edge)
-
-          ctx.fillStyle = radGrad;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Storm Vector & Label
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 2;
-          ctx.beginPath();
-          ctx.moveTo(pt.x, pt.y);
-          ctx.lineTo(pt.x + cell.vectorDx, pt.y + cell.vectorDy);
-          ctx.stroke();
-
-          // Arrowhead
-          const headAngle = Math.atan2(cell.vectorDy, cell.vectorDx);
-          ctx.fillStyle = '#ffffff';
-          ctx.beginPath();
-          ctx.moveTo(pt.x + cell.vectorDx, pt.y + cell.vectorDy);
-          ctx.lineTo(pt.x + cell.vectorDx - 8 * Math.cos(headAngle - Math.PI / 6), pt.y + cell.vectorDy - 8 * Math.sin(headAngle - Math.PI / 6));
-          ctx.lineTo(pt.x + cell.vectorDx - 8 * Math.cos(headAngle + Math.PI / 6), pt.y + cell.vectorDy - 8 * Math.sin(headAngle + Math.PI / 6));
-          ctx.fill();
-
-          // Storm Cell Telemetry Tag
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-          ctx.lineWidth = 1;
-          const tagW = 145, tagH = 20;
-          ctx.beginPath();
-          ctx.roundRect(pt.x + cell.vectorDx + 4, pt.y - 10, tagW, tagH, 4);
-          ctx.fill();
-          ctx.stroke();
-
-          ctx.fillStyle = '#f8fafc';
-          ctx.font = 'bold 9px "Roboto Mono", monospace';
-          ctx.fillText(`${cell.id} (${cell.dbz} dBZ • ${cell.speedKm} km/h)`, pt.x + cell.vectorDx + 8, pt.y + 4);
-        });
-      }
-
-      // B. MONSOON WIND STREAMLINE PARTICLES
-      if (wxActiveLayers.wind) {
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.8)';
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
-
-        window.wxWindParticles.forEach(p => {
-          // Advance particle position
-          const rad = (p.angle * Math.PI) / 180;
-          p.lat += Math.sin(rad) * p.speed;
-          p.lng += Math.cos(rad) * p.speed;
-          p.life++;
-
-          // Reset when exceeding life or bounds
-          if (p.life > p.maxLife || p.lat > 8.0 || p.lat < 0.5 || p.lng > 120.0 || p.lng < 99.0) {
-            p.lat = 0.8 + Math.random() * 6.5;
-            p.lng = 99.5 + Math.random() * 19.5;
-            p.life = 0;
-          }
-
-          const pt = map.latLngToContainerPoint([p.lat, p.lng]);
-          const alpha = Math.sin((p.life / p.maxLife) * Math.PI) * 0.75;
-
-          ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-          ctx.lineWidth = 1.6;
-          ctx.beginPath();
-          ctx.moveTo(pt.x, pt.y);
-          ctx.lineTo(pt.x - Math.cos(rad) * 12, pt.y - Math.sin(rad) * 12);
-          ctx.stroke();
-        });
-      }
-
-      // C. SOLAR IRRADIANCE (GHI) HEATPRINT
-      if (wxActiveLayers.solar) {
-        const baseHour = 17;
-        const currentHour = (baseHour + horizon) % 24;
-        let solarIntensity = 0;
-        if (currentHour >= 7 && currentHour <= 19) {
-          solarIntensity = Math.sin(((currentHour - 7) / 12) * Math.PI);
-        }
-
-        if (solarIntensity > 0.05) {
-          const solarHubs = [
-            { name: "Gurun LSS 100MW", lat: 5.8167, lng: 100.4833, ghi: Math.round(985 * solarIntensity) },
-            { name: "Kapar Solar Hybrid 50MW", lat: 3.1408, lng: 101.3500, ghi: Math.round(920 * solarIntensity) },
-            { name: "SESB Kimanis Solar 50MW", lat: 5.9804, lng: 116.0735, ghi: Math.round(910 * solarIntensity) }
-          ];
-
-          solarHubs.forEach(hub => {
-            const pt = map.latLngToContainerPoint([hub.lat, hub.lng]);
-            const r = 48 * solarIntensity;
-            const grad = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, r);
-            grad.addColorStop(0.0, `rgba(249, 171, 0, ${0.8 * solarIntensity})`);
-            grad.addColorStop(0.5, `rgba(255, 179, 0, ${0.4 * solarIntensity})`);
-            grad.addColorStop(1.0, 'rgba(255, 143, 0, 0.0)');
-
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#f9ab00';
-            ctx.font = 'bold 9px "Roboto Mono", monospace';
-            ctx.fillText(`☀️ ${hub.ghi} W/m²`, pt.x - 30, pt.y - r - 4);
-          });
-        }
-      }
-
-      // D. LIGHTNING FLASH STRIKES & SHOCKWAVES
-      if (wxActiveLayers.lightning) {
-        const lightningLocations = [
-          { lat: 3.1408, lng: 101.6932, rate: "28/min", phase: 0 },
-          { lat: 4.6375, lng: 103.4367, rate: "14/min", phase: 1.2 },
-          { lat: 2.7562, lng: 114.0578, rate: "19/min", phase: 2.4 }
-        ];
-
-        lightningLocations.forEach(loc => {
-          const pt = map.latLngToContainerPoint([loc.lat, loc.lng]);
-          const cycle = ((now / 1200) + loc.phase) % 1.0;
-          const shockR = 12 + cycle * 28;
-          const alpha = Math.max(0, 1.0 - cycle);
-
-          ctx.strokeStyle = `rgba(255, 214, 0, ${alpha})`;
-          ctx.lineWidth = 1.8;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, shockR, 0, Math.PI * 2);
-          ctx.stroke();
-
-          // Flash center bolt
-          if (cycle < 0.25) {
-            ctx.fillStyle = '#ffd600';
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-      }
+    if (wn3FleetMap && COUNTRY_BOUNDS[country]) {
+      const cfg = COUNTRY_BOUNDS[country];
+      wn3FleetMap.flyTo(cfg.center, cfg.zoom, { duration: 1.1 });
     }
+  }
 
-    // Toggle Dark Matter vs ESRI World Imagery Satellite Basemap
-    function toggleBasemap(btnElem) {
-      if (!window.wxLeafletMap || !window.wxBaseTileDark || !window.wxBaseTileSat) return;
-      window.isSatelliteBasemap = !window.isSatelliteBasemap;
+  // Render Card 4: Per-asset Contribution Horizontal Bars
+  function renderAssetsView(country) {
+    const assets = getFilteredAssets(country);
+    // Sort descending by forecast_mwh
+    const sorted = [...assets].sort((a, b) => b.forecast_mwh - a.forecast_mwh);
+    const topAssets = sorted.slice(0, 12);
 
-      if (window.isSatelliteBasemap) {
-        window.wxLeafletMap.removeLayer(window.wxBaseTileDark);
-        window.wxBaseTileSat.addTo(window.wxLeafletMap);
-        if (btnElem) {
-          btnElem.textContent = "🗺️ Dark GIS";
-          btnElem.classList.add('active');
-        }
-      } else {
-        window.wxLeafletMap.removeLayer(window.wxBaseTileSat);
-        window.wxBaseTileDark.addTo(window.wxLeafletMap);
-        if (btnElem) {
-          btnElem.textContent = "🛰️ Satellite";
-          btnElem.classList.remove('active');
-        }
-      }
-    }
+    const rows = topAssets.map(a => ({
+      label: a.name.length > 20 ? a.name.slice(0, 19) + '…' : a.name,
+      value: a.forecast_mwh,
+      color: a.tech === 'wind' ? (window.Charts.css('--series-wind') || '#38bdf8') : (window.Charts.css('--series-solar') || '#fbbf24'),
+      tip: [
+        { label: 'Asset Name', value: a.name },
+        { label: 'Technology', color: a.tech === 'wind' ? '#38bdf8' : '#fbbf24', value: a.tech.toUpperCase() },
+        { label: 'Capacity', value: `${a.capacity_mw} MW` },
+        { label: '15-Day Yield', value: `${fmtNum(a.forecast_mwh)} MWh` },
+        { label: 'Capacity Factor', value: `${a.mean_cf_pct}%` }
+      ]
+    }));
 
-    // Regional Quick-Zoom Controls
-    function zoomMalaysiaRegion(region, btnElem) {
-      if (!window.wxLeafletMap) return;
-
-      document.querySelectorAll('#tab-weathernext .wx-glass-panel .wx-btn-group .wx-pill-btn').forEach(btn => {
-        if (btn.id && btn.id.startsWith('btnZoom')) btn.classList.remove('active');
-      });
-      if (btnElem) btnElem.classList.add('active');
-
-      if (region === 'west') {
-        window.wxLeafletMap.flyTo([4.2, 101.9], 7.5, { duration: 1.0 });
-      } else if (region === 'east') {
-        window.wxLeafletMap.flyTo([3.8, 114.5], 7.5, { duration: 1.0 });
-      } else {
-        window.wxLeafletMap.flyTo([4.2, 108.8], 6, { duration: 1.0 });
-      }
-    }
-
-    // Weather Forecast Layer Switcher
-    function toggleWeatherLayer(layerKey, btnElem) {
-      wxActiveLayers[layerKey] = !wxActiveLayers[layerKey];
-      if (btnElem) {
-        btnElem.classList.toggle('active', wxActiveLayers[layerKey]);
-      }
-
-      // Special handling for Hydro markers on Leaflet
-      if (layerKey === 'hydro') {
-        window.wxHydroMarkers.forEach(m => {
-          if (wxActiveLayers.hydro) {
-            m.addTo(window.wxLeafletMap);
-          } else {
-            window.wxLeafletMap.removeLayer(m);
-          }
-        });
-      }
-    }
-
-    // Substation Selection on Map or Dropdown
-    function selectMalaysiaSubstation(nodeKey, fromMarker = false) {
-      if (!MALAYSIA_GRID_DATA[nodeKey]) return;
-      currentMalaysiaNodeKey = nodeKey;
-      const node = MALAYSIA_GRID_DATA[nodeKey];
-
-      // Update active marker styling
-      Object.keys(window.wxSubstationMarkers || {}).forEach(k => {
-        const m = window.wxSubstationMarkers[k];
-        const el = m.getElement();
-        if (el) {
-          if (k === nodeKey) {
-            el.classList.add('selected');
-          } else {
-            el.classList.remove('selected');
-          }
-        }
-      });
-
-      // Smooth pan to selected substation if triggered from outside
-      if (window.wxLeafletMap && !fromMarker) {
-        window.wxLeafletMap.flyTo([node.lat, node.lng], Math.max(window.wxLeafletMap.getZoom(), 8), { duration: 0.8 });
-      }
-
-      // Update right-hand HUD & Context Box
-      const nameElem = document.getElementById('wxSelectedName');
-      const corrElem = document.getElementById('wxSelectedCorridor');
-      const voltElem = document.getElementById('wxSelectedVoltageBadge');
-      const condElem = document.getElementById('wxConductorType');
-      const opElem = document.getElementById('wxGridOperator');
-
-      if (nameElem) nameElem.textContent = node.name;
-      if (corrElem) corrElem.textContent = node.corridor;
-      if (voltElem) voltElem.textContent = node.voltageBadge;
-      if (condElem) condElem.textContent = node.conductor;
-      if (opElem) opElem.textContent = node.operator;
-
-      // Update Subagents telemetry headers
-      const subDlrSpan = document.getElementById('subDlrSpan');
-      const subDerHub = document.getElementById('subDerHub');
-      const subStormDbz = document.getElementById('subStormDbz');
-      const subStormLightning = document.getElementById('subStormLightning');
-      const subStormEta = document.getElementById('subStormEta');
-
-      if (subDlrSpan) subDlrSpan.textContent = node.corridor.split(" - ")[0];
-      if (subDerHub) subDerHub.textContent = node.lssHub;
-      if (subStormDbz) subStormDbz.textContent = `${node.cellReflectivity.toFixed(1)} dBZ`;
-      if (subStormLightning) subStormLightning.textContent = `${node.lightningRate} /min`;
-      if (subStormEta) subStormEta.textContent = `${node.etaMin} mins`;
-
-      // Update Microclimate sliders to node values
-      document.getElementById('inputDni').value = node.dni;
-      document.getElementById('inputWindSpeed').value = node.windSpeed;
-      document.getElementById('inputWindAngle').value = node.windAngle;
-      document.getElementById('inputAmbTemp').value = node.temp;
-      document.getElementById('inputStormProb').value = node.stormProb;
-
-      updateWeatherNextSim();
-    }
-
-    // WeatherNext Dynamic Line Rating & Microclimate Calculation
-    function updateWeatherNextSim() {
-      const dni = parseFloat(document.getElementById('inputDni').value);
-      const windSpeed = parseFloat(document.getElementById('inputWindSpeed').value);
-      const windAngle = parseFloat(document.getElementById('inputWindAngle').value);
-      const temp = parseFloat(document.getElementById('inputAmbTemp').value);
-      const stormProb = parseFloat(document.getElementById('inputStormProb').value);
-
-      document.getElementById('valDni').textContent = `${dni} W/m²`;
-      document.getElementById('valWindSpeed').textContent = `${windSpeed.toFixed(1)} m/s`;
-      document.getElementById('valWindAngle').textContent = `${windAngle}° (${windAngle > 45 ? 'Crosswind' : 'Parallel'})`;
-      document.getElementById('valAmbTemp').textContent = `${temp.toFixed(1)}°C`;
-      document.getElementById('valStormProb').textContent = `${stormProb}% (${stormProb > 50 ? 'High' : (stormProb > 25 ? 'Moderate' : 'Low')})`;
-
-      // IEEE 738 steady state conductor heat balance
-      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
-      const sinAngle = Math.sin((windAngle * Math.PI) / 180);
-      const effWind = Math.max(0.6, windSpeed * Math.max(0.25, sinAngle));
-      const coolingFactor = Math.sqrt(effWind / 0.8) * Math.max(0.55, (95 - temp) / 60);
-      const solarFactor = 1.0 - (dni / 1150) * 0.10;
-      const baseAmpacity = node.baseAmpacity;
-      const dynamicAmpacity = Math.round(baseAmpacity * coolingFactor * solarFactor);
-      const headroomPct = (((dynamicAmpacity - baseAmpacity) / baseAmpacity) * 100).toFixed(1);
-
-      const staticMva = Math.round(baseAmpacity * node.mvaFactor);
-      const dynamicMva = Math.round(dynamicAmpacity * node.mvaFactor);
-      const deltaMva = dynamicMva - staticMva;
-
-      const staticRatingElem = document.getElementById('dlrStaticRatingVal');
-      const ampElem = document.getElementById('dlrAmpacityVal');
-      const headElem = document.getElementById('dlrHeadroomVal');
-
-      if (staticRatingElem) staticRatingElem.textContent = `${baseAmpacity.toLocaleString()} A (${staticMva.toLocaleString()} MVA)`;
-      if (ampElem) ampElem.textContent = `${dynamicAmpacity.toLocaleString()} A (${dynamicMva.toLocaleString()} MVA)`;
-      if (headElem) {
-        headElem.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% (${deltaMva >= 0 ? '+' : ''}${deltaMva} MVA)`;
-        headElem.style.color = headroomPct >= 0 ? 'var(--success)' : 'var(--danger)';
-      }
-
-      // Conductor catenary sag and ground clearance animation
-      const sagVal = 50 + (temp / 45) * 26 - (effWind / 28) * 18;
-      const condPath = document.getElementById('conductorLine');
-      if (condPath) {
-        condPath.setAttribute('d', `M 70 50 Q 250 ${Math.round(sagVal)} 430 50`);
-      }
-
-      // Clearance margin in meters (Statutory minimum: 12.0m)
-      const clearanceM = (16.2 - ((sagVal - 50) / 26) * 3.8).toFixed(1);
-      const clearanceText = document.getElementById('txtCatenaryClearance');
-      if (clearanceText) {
-        const isSafe = parseFloat(clearanceM) >= 12.0;
-        clearanceText.textContent = `Clearance: ${clearanceM}m (${isSafe ? 'Safe' : 'ALERT: Thermal Sag Violation'})`;
-        clearanceText.setAttribute('fill', isSafe ? '#4caf50' : '#f44336');
-      }
-
-      // Live synchronize WeatherNext Autonomous Subagents Console cards
-      const subDlrCrosswind = document.getElementById('subDlrCrosswind');
-      const subDlrHeadroom = document.getElementById('subDlrHeadroom');
-      const subDlrClearance = document.getElementById('subDlrClearance');
-      const subConsumerGhi = document.getElementById('subConsumerGhi');
-      const subConsumerTemp = document.getElementById('subConsumerTemp');
-      const subDerOutput = document.getElementById('subDerOutput');
-      const subDerCapFactor = document.getElementById('subDerCapFactor');
-      const subDerDerating = document.getElementById('subDerDerating');
-
-      if (subDlrCrosswind) subDlrCrosswind.textContent = `${effWind.toFixed(1)} m/s (${effWind > 3 ? 'Turbulent' : 'Laminar'})`;
-      if (subDlrHeadroom) subDlrHeadroom.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}% (${deltaMva >= 0 ? '+' : ''}${deltaMva} MVA)`;
-      if (subDlrClearance) subDlrClearance.textContent = `${clearanceM}m (${parseFloat(clearanceM) >= 12.0 ? 'Safe > 12.0m' : 'Warning < 12.0m'})`;
-      if (subConsumerGhi) subConsumerGhi.textContent = `${dni} W/m²`;
-      if (subConsumerTemp) subConsumerTemp.textContent = `${temp.toFixed(1)}°C`;
-
-      // DER PV Yield calculation with thermal derating
-      if (subDerOutput && subDerCapFactor && subDerDerating) {
-        const cellTemp = temp + (dni / 800) * 28;
-        const tempDeratePct = Math.max(0, (cellTemp - 25) * 0.4);
-        const pvYield = Math.max(0, ((dni / 1000) * (1 - tempDeratePct / 100) * node.lssCapMw)).toFixed(1);
-        const capFactor = ((pvYield / node.lssCapMw) * 100).toFixed(1);
-        subDerOutput.textContent = `${pvYield} MW`;
-        subDerCapFactor.textContent = `${capFactor}%`;
-        subDerDerating.textContent = `-${tempDeratePct.toFixed(1)}% (Cell Temp ${cellTemp.toFixed(1)}°C)`;
-      }
-    }
-
-    // Forecast Horizon Scrubber & Timeline Control
-    function setForecastHorizon(h, btnElem) {
-      currentForecastHorizon = parseInt(h, 10);
-      const scrubber = document.getElementById('wxTimelineScrubber');
-      if (scrubber) scrubber.value = currentForecastHorizon;
-      const label = document.getElementById('wxScrubberLabel');
-      if (label) label.textContent = `+${currentForecastHorizon}h`;
-
-      // Update active button state in presets
-      if (btnElem) {
-        document.querySelectorAll('#wxHorizonPresets .wx-pill-btn').forEach(btn => btn.classList.remove('active'));
-        btnElem.classList.add('active');
-      }
-
-      // Compute simulated MYT timestamp (Base: 2026-09-11 17:00:00 MYT)
-      const baseHour = 17;
-      const totalHour = baseHour + currentForecastHorizon;
-      const displayDay = 11 + Math.floor(totalHour / 24);
-      const displayHour = totalHour % 24;
-      const hourStr = String(displayHour).padStart(2, '0');
-      const timeStr = `2026-09-${displayDay} ${hourStr}:00:00 MYT (T+${currentForecastHorizon}h)`;
-
-      let monsoonPhase = "Inter-Monsoon Convection";
-      if (displayHour >= 22 || displayHour <= 6) {
-        monsoonPhase = "Sumatra Nocturnal Squall Surge";
-      } else if (displayHour >= 12 && displayHour <= 17) {
-        monsoonPhase = "Diurnal Solar Thermal Peak";
-      }
-
-      const readout = document.getElementById('wxTimeReadout');
-      if (readout) readout.textContent = `${timeStr} • ${monsoonPhase}`;
-
-      // Adjust solar GHI & storm probabilities according to forecast horizon
-      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
-      let horizonDni = node.dni;
-      let horizonTemp = node.temp;
-      if (displayHour < 7 || displayHour > 19) {
-        horizonDni = 0; // Night
-        horizonTemp = Math.max(24, node.temp - 4.5);
-      } else {
-        const solarCurve = Math.sin(((displayHour - 7) / 12) * Math.PI);
-        horizonDni = Math.round(node.dni * solarCurve);
-        horizonTemp = node.temp + (solarCurve * 2.5);
-      }
-
-      document.getElementById('inputDni').value = horizonDni;
-      document.getElementById('inputAmbTemp').value = horizonTemp.toFixed(1);
-      updateWeatherNextSim();
-    }
-
-    function onWxTimelineScrub(val) {
-      setForecastHorizon(val);
-      // Sync preset buttons
-      const horizonPresets = [0, 1, 3, 6, 12, 24];
-      const buttons = document.querySelectorAll('#wxHorizonPresets .wx-pill-btn');
-      buttons.forEach((btn, idx) => {
-        if (horizonPresets[idx] === parseInt(val, 10)) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
+    const host = document.getElementById('chartHostAssets');
+    if (host && window.Charts && window.Charts.barsH) {
+      host.innerHTML = '';
+      window.Charts.barsH(host, rows, {
+        fmt: (v) => fmtNum(v) + ' MWh',
+        height: Math.max(240, rows.length * 28),
+        labelWidth: 165
       });
     }
 
-    function toggleWxPlayback() {
-      const playIcon = document.getElementById('btnWxPlayIcon');
-      const playText = document.getElementById('btnWxPlayText');
-
-      if (wxPlaybackTimer) {
-        clearInterval(wxPlaybackTimer);
-        wxPlaybackTimer = null;
-        if (playIcon) playIcon.textContent = "▶";
-        if (playText) playText.textContent = "Play";
-      } else {
-        if (playIcon) playIcon.textContent = "⏸";
-        if (playText) playText.textContent = "Pause";
-        wxPlaybackTimer = setInterval(() => {
-          let nextH = (currentForecastHorizon + 1) % 25;
-          setForecastHorizon(nextH);
-        }, wxPlaybackSpeedMs);
-      }
+    // Populate Table
+    const tbody = document.getElementById('tbodyAssets');
+    if (tbody) {
+      const html = sorted.map((a, idx) => `
+        <tr>
+          <td style="color: var(--muted); font-weight: 700;">#${idx + 1}</td>
+          <td><strong>${a.name}</strong></td>
+          <td>${a.country}</td>
+          <td><span style="background: ${a.tech === 'wind' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)'}; color: ${a.tech === 'wind' ? '#38bdf8' : '#fbbf24'}; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${a.tech.toUpperCase()}</span></td>
+          <td>${a.capacity_mw} MW</td>
+          <td style="color: var(--text-primary); font-weight: 700;">${fmtNum(a.forecast_mwh)} MWh</td>
+          <td style="color: ${a.mean_cf_pct > 25 ? 'var(--success)' : 'var(--text-secondary)'}; font-weight: 600;">${a.mean_cf_pct}%</td>
+        </tr>
+      `).join('');
+      tbody.innerHTML = html;
     }
+  }
 
-    function changeWxSpeed(speed) {
-      wxPlaybackSpeedMs = parseInt(speed, 10);
-      if (wxPlaybackTimer) {
-        toggleWxPlayback();
-        toggleWxPlayback();
+  // Toggle Card View (Chart vs Table)
+  function toggleCardView(cardId, mode) {
+    wn3ViewModes[cardId] = mode;
+    const card = document.getElementById(cardId);
+    if (!card) return;
+
+    const btnChart = card.querySelector('.wn3-toggle button:first-child');
+    const btnTable = card.querySelector('.wn3-toggle button:last-child');
+
+    const chartView = card.querySelector('[id$="ChartView"], [id$="CanvasView"]');
+    const tableView = card.querySelector('[id$="TableView"]');
+
+    if (mode === 'chart') {
+      if (btnChart) btnChart.setAttribute('aria-pressed', 'true');
+      if (btnTable) btnTable.setAttribute('aria-pressed', 'false');
+      if (chartView) chartView.style.display = 'block';
+      if (tableView) tableView.style.display = 'none';
+
+      // Redraw chart or map
+      if (cardId === 'cardHourly') renderHourlyView(wn3CurrentCountry);
+      if (cardId === 'cardDaily') renderDailyView(wn3CurrentCountry);
+      if (cardId === 'cardAssets') renderAssetsView(wn3CurrentCountry);
+      if (cardId === 'cardFleetMap' && wn3FleetMap) {
+        setTimeout(() => wn3FleetMap.invalidateSize(), 50);
       }
+    } else {
+      if (btnChart) btnChart.setAttribute('aria-pressed', 'false');
+      if (btnTable) btnTable.setAttribute('aria-pressed', 'true');
+      if (chartView) chartView.style.display = 'none';
+      if (tableView) tableView.style.display = 'block';
     }
+  }
 
-    // WeatherNext Autonomous Subagents Swarm Trigger
-    function runWeatherNextSubagentSwarm() {
-      const btn = document.getElementById('btnRunWxSwarm');
-      const badge = document.getElementById('wxSwarmStatusBadge');
-      const logBox = document.getElementById('wxSubagentLogBox');
-      const cards = ['cardSubStormTracker', 'cardSubForecastConsumer', 'cardSubDerPredictor', 'cardSubDlrSolver'];
+  // Maximize Card
+  function toggleMaximizeCard(cardId) {
+    const card = document.getElementById(cardId);
+    if (!card) return;
 
-      if (!btn) return;
-      btn.disabled = true;
-      document.getElementById('btnRunWxSwarmIcon').textContent = '⏳';
-      if (badge) {
-        badge.textContent = 'ORCHESTRATING ADK SUBAGENTS...';
-        badge.style.background = 'rgba(26, 115, 232, 0.2)';
-        badge.style.color = 'var(--accent)';
-      }
+    const isMax = card.classList.toggle('is-max');
+    setTimeout(() => {
+      if (cardId === 'cardHourly') renderHourlyView(wn3CurrentCountry);
+      if (cardId === 'cardDaily') renderDailyView(wn3CurrentCountry);
+      if (cardId === 'cardAssets') renderAssetsView(wn3CurrentCountry);
+      if (cardId === 'cardFleetMap' && wn3FleetMap) wn3FleetMap.invalidateSize();
+    }, 120);
+  }
 
-      cards.forEach(cId => {
-        const el = document.getElementById(cId);
-        if (el) el.classList.add('running');
+  // Escape key handler to unmaximize
+  window.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') {
+      document.querySelectorAll('.wn3-card.is-max').forEach(c => {
+        c.classList.remove('is-max');
       });
+      renderAllWeatherNext3Charts();
+    }
+  });
+
+  // AI Narrative Generator
+  const COUNTRY_NARRATIVES = {
+    ALL: `
+      <p>Across the next 15 days, this global portfolio is forecast to generate an estimated <strong>377,029 MWh</strong> against an installed base of <strong>6,324 MW</strong> (86% wind, 14% solar).</p>
+      <p>Production reaches a diurnal peak of <strong>2,185 MW</strong> on 29 Sep at 11:00 UTC, driven by synchronized Iberian and Atlantic frontal winds overlapping with peak midday solar irradiance.</p>
+      <p>Wind provides baseline bulk energy across the run, featuring three multi-day frontal surges. Solar delivers a dependable diurnal pulse peaking between 11:00 and 14:00 UTC daily.</p>
+      <p><strong>Meteorological Bias Correction:</strong> The raw WeatherNext 0.1° cell outputs represent spatial cell averages. Because wind farms are intentionally sited on high ridges and coastal bluffs, raw speeds understate hub-height velocities. For trading and scheduling, apply local SCADA bias-correction models to wind assets; solar GHI requires no calibration.</p>
+      <p><strong>Grid Transmission Synergy:</strong> Wind output surges correlate strongly with transmission corridor ambient crosswinds, allowing our IEEE 738 Dynamic Line Rating solver to unlock <strong>+20% to +35% ampacity headroom</strong> on key evacuation lines precisely when wind generation peaks.</p>
+    `,
+    PT: `
+      <p>Portugal represents EDP's flagship fleet, with <strong>1,421 MW</strong> across 62 assets (1,326 MW wind, 95 MW solar) forecast to generate <strong>91,480 MWh</strong> over the 15-day synoptic window.</p>
+      <p>Generation exhibits sharp Atlantic frontal spikes, peaking at <strong>684 MW</strong> on 28 Sep 14:00 UTC. Northern Serra da Padrela and Alto Minho ridgeline wind clusters sustain capacity factors exceeding 32% during oceanic gale events.</p>
+      <p><strong>Trading & Dispatch:</strong> Strong night-time wind energy creates opportunities for pumped-storage hydro pumping arbitrage in the Douro basin, capturing low off-peak spot prices.</p>
+      <p><strong>DLR Corridor Status:</strong> The 400kV Douro Internacional evacuation corridor benefits from 8.2 m/s perpendicular wind cooling, unlocking +24.8% thermal headroom.</p>
+    `,
+    US: `
+      <p>The North American portfolio comprises <strong>3,102 MW</strong> across 17 utility-scale assets (2,820 MW wind, 282 MW solar) generating an estimated <strong>188,400 MWh</strong>.</p>
+      <p>Large ERCOT and SPP wind farms (e.g., Timber Road, Meadow Lake, Wildcat) dominate production, with peak output hitting <strong>1,240 MW</strong> during continental high-pressure gradients.</p>
+      <p><strong>Congestion & Curtailment:</strong> Significant wind surges in western Texas and Indiana during nocturnal hours suggest hedging against locational marginal price (LMP) dips.</p>
+      <p><strong>IEEE 738 Headroom:</strong> Conductor temperatures remain well below 65°C under sustained 7.5 m/s crosswinds, enabling transmission operators to clear +26.2% additional wind energy without curtailment.</p>
+    `,
+    ES: `
+      <p>The Spanish fleet totals <strong>404 MW</strong> across 13 installations in Galicia, Castile and León, and Andalusia, delivering an estimated <strong>24,800 MWh</strong>.</p>
+      <p>Solar PV plants in Extremadura and Andalusia provide a robust 12:00–15:00 UTC injection of up to 72 MW peak, complementing coastal Galician wind generation.</p>
+      <p><strong>Meteorological Nuance:</strong> Meseta Central temperature inversions require SCADA calibration to adjust for boundary-layer stability during dawn hours.</p>
+    `,
+    MY: `
+      <p>The Malaysian ASEAN Grid portfolio spans <strong>881 MW</strong> across 9 strategic nodes including Gurun LSS (100MW), Cameron Highlands Hydro (120MW), Sepang Solar (50MW), and Bakun Hybrid (140MW), yielding <strong>48,200 MWh</strong>.</p>
+      <p>Solar generation peaks at <strong>410 MW</strong> during clear morning windows (10:00–13:30 MYT / 02:00–05:30 UTC), followed by afternoon convective cloud attenuation.</p>
+      <p><strong>IEEE 738 DLR Impact:</strong> Tropical squall crosswinds along the 500kV Bukit Badong - Klang Valley corridor provide aggressive conductor cooling, unlocking <strong>+23.7% ampacity headroom (1,732 A vs 1,400 A SLR)</strong> while keeping conductor sag safely above the 8.0m statutory clearance.</p>
+    `,
+    PL: `
+      <p>The Polish portfolio encompasses <strong>711 MW</strong> across 10 wind and solar assets, delivering an estimated <strong>43,500 MWh</strong> across the Baltic coastal and central lowlands.</p>
+      <p>Baltic maritime low-pressure systems provide steady, predictable wind output peaking at <strong>315 MW</strong> on 1 Oct 08:00 UTC.</p>
+    `,
+    FR: `
+      <p>The French portfolio totals <strong>101 MW</strong> across 9 wind farms in Brittany and Occitanie, producing an estimated <strong>6,200 MWh</strong>.</p>
+      <p>Mistral and Tramontane winds drive robust capacity factors on Mediterranean-adjacent sites, offering predictable intraday dispatch.</p>
+    `
+  };
+
+  function updateAiNarrative(country) {
+    const el = document.getElementById('wn3AiNarrative');
+    if (!el) return;
+    const text = COUNTRY_NARRATIVES[country] || COUNTRY_NARRATIVES.ALL;
+    el.innerHTML = text;
+  }
+
+  function regenerateAiNarrative() {
+    const el = document.getElementById('wn3AiNarrative');
+    if (!el) return;
+
+    // Show skeleton
+    el.innerHTML = `
+      <div class="ai-skeleton">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    `;
+
+    setTimeout(() => {
+      updateAiNarrative(wn3CurrentCountry);
+    }, 600);
+  }
+
+  function toggleAiSidePanel() {
+    const panel = document.getElementById('wn3AiPanel');
+    const btn = document.getElementById('btnToggleAiPanel');
+    if (!panel || !btn) return;
+
+    const isCollapsed = panel.classList.toggle('is-collapsed');
+    btn.setAttribute('aria-pressed', isCollapsed ? 'true' : 'false');
+    btn.title = isCollapsed ? 'Expand AI panel' : 'Collapse AI panel';
+
+    // Rerender charts to fill expanded space
+    setTimeout(() => {
+      renderAllWeatherNext3Charts();
+    }, 240);
+  }
+
+  // Country change handler
+  function onWeatherNextCountryChange(country, updateZoom = true) {
+    wn3CurrentCountry = country;
+    updateKpiTiles(country);
+    renderHourlyView(country);
+    renderDailyView(country);
+    renderAssetsView(country);
+    renderFleetMapMarkers(country);
+    updateAiNarrative(country);
+
+    if (updateZoom && wn3FleetMap && COUNTRY_BOUNDS[country]) {
+      const cfg = COUNTRY_BOUNDS[country];
+      wn3FleetMap.flyTo(cfg.center, cfg.zoom, { duration: 1.1 });
+    }
+  }
+
+  // Simulate "Pull latest run" from BigQuery
+  function pullLatestRun() {
+    const btn = document.getElementById('wn3BtnPull');
+    const spinner = document.getElementById('wn3PullSpinner');
+    const label = document.getElementById('wn3PullLabel');
+
+    if (btn) btn.classList.add('is-loading');
+    if (spinner) spinner.style.display = 'inline-block';
+    if (label) label.textContent = 'Querying BigQuery…';
+
+    setTimeout(() => {
+      if (btn) btn.classList.remove('is-loading');
+      if (spinner) spinner.style.display = 'none';
+      if (label) label.textContent = 'Pull latest run';
 
       const now = new Date();
-      const timePrefix = `[${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')} MYT]`;
-      const node = MALAYSIA_GRID_DATA[currentMalaysiaNodeKey] || MALAYSIA_GRID_DATA.klang_valley;
+      const runStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' ' + 
+                     now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC', hour12: false }) + ' UTC';
+      
+      const metaRun = document.getElementById('wn3MetaRun');
+      if (metaRun) metaRun.textContent = runStr;
 
-      setTimeout(() => {
-        if (logBox) {
-          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #a78bfa;">[sub_weathernext_storm_tracker]</span> Radar reflection scan executed for ${node.name}: Peak ${node.cellReflectivity.toFixed(1)} dBZ, ETA ${node.etaMin}m.</div>`;
-          logBox.scrollTop = logBox.scrollHeight;
-        }
-      }, 250);
+      const tag = document.getElementById('wxSyncStatusTag');
+      if (tag) tag.textContent = `ECMWF Run: ${runStr} · 360h Horizon (Refreshed)`;
 
-      setTimeout(() => {
-        if (logBox) {
-          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> WeatherNext spatial NWP grid ingested into \`utilities_grid_optimization.weathernext_spatial_telemetry\`.</div>`;
-          logBox.scrollTop = logBox.scrollHeight;
-        }
-      }, 550);
+      // Flash tiles
+      const container = document.getElementById('wn3TilesContainer');
+      if (container) {
+        container.style.opacity = '0.5';
+        setTimeout(() => { container.style.opacity = '1'; }, 200);
+      }
 
-      setTimeout(() => {
-        if (logBox) {
-          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #fbbf24;">[sub_weathernext_der_predictor]</span> ${node.lssHub} generation modeled: ${node.lssYieldMw} MW projected under current atmospheric cloud field.</div>`;
-          logBox.scrollTop = logBox.scrollHeight;
-        }
-      }, 850);
+      // Log event
+      const logBox = document.getElementById('wxSubagentLogBox');
+      if (logBox) {
+        const item = document.createElement('div');
+        item.innerHTML = `<span style="color: #64748b;">[${new Date().toISOString().slice(11, 19)} UTC]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Fresh synoptic run ingested from BigQuery table \`utilities_grid_optimization.weathernext_spatial_telemetry\`. 126 assets synchronized.`;
+        logBox.prepend(item);
+      }
 
-      setTimeout(() => {
-        if (logBox) {
-          logBox.innerHTML += `<div><span style="color: #64748b;">${timePrefix}</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> IEEE 738 dynamic thermal equation converged for ${node.corridor.split(" - ")[0]}.</div>`;
-          logBox.scrollTop = logBox.scrollHeight;
-        }
+      onWeatherNextCountryChange(wn3CurrentCountry, false);
+    }, 750);
+  }
 
-        cards.forEach(cId => {
-          const el = document.getElementById(cId);
-          if (el) el.classList.remove('running');
-        });
-
-        btn.disabled = false;
-        document.getElementById('btnRunWxSwarmIcon').textContent = '⚡';
-        if (badge) {
-          badge.textContent = 'ALL 4 SUBAGENTS SYNCHRONIZED';
-          badge.style.background = 'rgba(13, 144, 79, 0.15)';
-          badge.style.color = 'var(--success)';
-        }
-        updateWeatherNextSim();
-      }, 1150);
+  // Submode Switcher
+  function switchWxSubmode(mode, btnElem) {
+    if (btnElem) {
+      document.querySelectorAll('#tab-weathernext .card-header .wx-pill-btn').forEach(b => b.classList.remove('active'));
+      btnElem.classList.add('active');
     }
+
+    const cardHourly = document.getElementById('cardHourly');
+    const cardDaily = document.getElementById('cardDaily');
+    const cardFleetMap = document.getElementById('cardFleetMap');
+    const cardAssets = document.getElementById('cardAssets');
+    const sectionDlr = document.getElementById('sectionDlrSwarm');
+    const aiPanel = document.getElementById('wn3AiPanel');
+
+    if (mode === 'forecast') {
+      if (cardHourly) cardHourly.style.display = 'block';
+      if (cardDaily) cardDaily.style.display = 'block';
+      if (cardFleetMap) { cardFleetMap.style.display = 'block'; cardFleetMap.classList.remove('is-max'); }
+      if (cardAssets) cardAssets.style.display = 'block';
+      if (sectionDlr) sectionDlr.style.display = 'block';
+      if (aiPanel) aiPanel.style.display = 'flex';
+      renderAllWeatherNext3Charts();
+    } else if (mode === 'dlr') {
+      if (sectionDlr) {
+        sectionDlr.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        sectionDlr.style.boxShadow = '0 0 24px rgba(56, 189, 248, 0.4)';
+        setTimeout(() => { sectionDlr.style.boxShadow = 'none'; }, 1500);
+      }
+    } else if (mode === 'fullmap') {
+      if (cardFleetMap) {
+        toggleMaximizeCard('cardFleetMap');
+      }
+    }
+  }
+
+  // Render All Charts
+  function renderAllWeatherNext3Charts() {
+    renderHourlyView(wn3CurrentCountry);
+    renderDailyView(wn3CurrentCountry);
+    renderAssetsView(wn3CurrentCountry);
+    if (wn3FleetMap) {
+      wn3FleetMap.invalidateSize();
+    }
+  }
+
+  // Export CSV functions
+  function exportHourlyCsv() {
+    const rows = getScaledHourlyRows(wn3CurrentCountry);
+    const headers = ['Valid Time (UTC)', 'Wind Generation (MW)', 'Solar Generation (MW)', 'Total Output (MW)'];
+    const data = rows.map(r => [r.valid_time, r.a, r.b, r.total]);
+    exportCsvFile(`weathernext_hourly_${wn3CurrentCountry.toLowerCase()}.csv`, headers, data);
+  }
+
+  function exportDailyCsv() {
+    const rows = getScaledDailyRows(wn3CurrentCountry);
+    const headers = ['Day (UTC)', 'Weekday', 'Wind (MWh)', 'Solar (MWh)', 'Total (MWh)', 'Partial'];
+    const data = rows.map(r => [r.day, r.weekday, r.a, r.b, r.total, r.partial ? 'YES' : 'NO']);
+    exportCsvFile(`weathernext_daily_${wn3CurrentCountry.toLowerCase()}.csv`, headers, data);
+  }
+
+  function exportFleetCsv() {
+    const assets = getFilteredAssets(wn3CurrentCountry);
+    const headers = ['Asset ID', 'Asset Name', 'Country', 'Region', 'Technology', 'Capacity (MW)', 'Latitude', 'Longitude', 'Forecast Yield (MWh)', 'Mean Capacity Factor (%)'];
+    const data = assets.map(a => [a.id, a.name, a.country, a.region, a.tech, a.capacity_mw, a.lat, a.lon, a.forecast_mwh, a.mean_cf_pct]);
+    exportCsvFile(`weathernext_fleet_${wn3CurrentCountry.toLowerCase()}.csv`, headers, data);
+  }
+
+  function exportAssetsCsv() {
+    const assets = getFilteredAssets(wn3CurrentCountry);
+    const sorted = [...assets].sort((a, b) => b.forecast_mwh - a.forecast_mwh);
+    const headers = ['Rank', 'Asset Name', 'Country', 'Technology', 'Capacity (MW)', 'Forecast Yield (MWh)', 'Mean Capacity Factor (%)'];
+    const data = sorted.map((a, i) => [i + 1, a.name, a.country, a.tech, a.capacity_mw, a.forecast_mwh, a.mean_cf_pct]);
+    exportCsvFile(`weathernext_per_asset_${wn3CurrentCountry.toLowerCase()}.csv`, headers, data);
+  }
+
+  // ==========================================
+  // IEEE 738 DLR PHYSICS SOLVER & ADK SUBAGENTS
+  // ==========================================
+  function updateWeatherNextSim() {
+    const windSpeedInput = document.getElementById('inputWindSpeed');
+    const windAngleInput = document.getElementById('inputWindAngle');
+    const solarGhiInput = document.getElementById('inputSolarGhi');
+    const ambTempInput = document.getElementById('inputAmbTemp');
+    const squallProbInput = document.getElementById('inputSquallProb');
+
+    if (!windSpeedInput) return;
+
+    const windSpeed = parseFloat(windSpeedInput.value);
+    const windAngle = parseFloat(windAngleInput.value);
+    const solarGhi = parseFloat(solarGhiInput.value);
+    const ambTemp = parseFloat(ambTempInput.value);
+    const squallProb = parseFloat(squallProbInput.value);
+
+    // Update readout labels
+    const elValWindSpeed = document.getElementById('valWindSpeed');
+    const elValWindAngle = document.getElementById('valWindAngle');
+    const elValSolarGhi = document.getElementById('valSolarGhi');
+    const elValAmbTemp = document.getElementById('valAmbTemp');
+    const elValSquallProb = document.getElementById('valSquallProb');
+
+    if (elValWindSpeed) elValWindSpeed.textContent = `${windSpeed.toFixed(1)} m/s`;
+    if (elValWindAngle) elValWindAngle.textContent = `${windAngle}°`;
+    if (elValSolarGhi) elValSolarGhi.textContent = `${solarGhi} W/m²`;
+    if (elValAmbTemp) elValAmbTemp.textContent = `${ambTemp.toFixed(1)} °C`;
+    if (elValSquallProb) elValSquallProb.textContent = `${squallProb}%`;
+
+    // IEEE 738 Convective Heat Loss Balance
+    const radAngle = (windAngle * Math.PI) / 180;
+    const sinAngle = Math.max(0.2, Math.sin(radAngle));
+    const effectiveWind = windSpeed * sinAngle;
+
+    // Convective heat transfer coefficient
+    const qc = 1.01 + 0.371 * Math.pow(effectiveWind, 0.52);
+    // Solar heat gain
+    const qs = 0.0085 * solarGhi;
+    // Base static limit (SLR = 1400 A)
+    const baseAmp = 1400;
+
+    // Dynamic Line Rating Ampacity
+    const ampRatio = Math.sqrt(Math.max(0.6, (qc * 45 - qs) / (1.2 * 45)));
+    const dynamicAmp = Math.round(baseAmp * Math.min(1.48, Math.max(0.85, ampRatio * (1 + (25 - ambTemp) * 0.008))));
+    const headroomPct = (((dynamicAmp - baseAmp) / baseAmp) * 100).toFixed(1);
+
+    // Conductor Core Temperature
+    const conductorTemp = (ambTemp + (baseAmp / dynamicAmp) * 35.7).toFixed(1);
+
+    // Catenary Sag (thermal expansion causes sag)
+    // Nominal sag at 25°C = 4.2m. Coefficient of thermal expansion alpha = 2.3e-5 / °C
+    const sag = (4.2 + (conductorTemp - 25) * 0.042).toFixed(2);
+    const clearance = (16.0 - sag).toFixed(2);
+
+    // Update Catenary SVG
+    const sagWire = document.getElementById('sagWire');
+    const sagApex = document.getElementById('sagApex');
+    const sagDimLine = document.getElementById('sagDimLine');
+    const sagReadout = document.getElementById('sagReadout');
+    const ampHeader = document.getElementById('ampacityHeader');
+
+    // Wire curve in SVG: y drops from 40 down to 40 + sagPx
+    const sagPx = 35 + (conductorTemp - 25) * 0.8;
+    const apexY = 40 + sagPx;
+
+    if (sagWire) sagWire.setAttribute('d', `M60,40 Q250,${apexY} 440,40`);
+    if (sagApex) sagApex.setAttribute('cy', apexY);
+    if (sagDimLine) {
+      sagDimLine.setAttribute('y1', 40);
+      sagDimLine.setAttribute('y2', apexY);
+    }
+
+    if (sagReadout) {
+      sagReadout.textContent = `Sag: ${sag}m · Ground Clear: ${clearance}m (${clearance > 8.0 ? 'SAFE' : 'VIOLATION'})`;
+      sagReadout.style.color = clearance > 8.0 ? '#38bdf8' : 'var(--danger)';
+    }
+
+    if (ampHeader) {
+      ampHeader.textContent = `Dynamic Rating: ${fmtNum(dynamicAmp)} A (${headroomPct > 0 ? '+' : ''}${headroomPct}% headroom)`;
+    }
+
+    // Update Subagent metrics
+    const subDlrAmp = document.getElementById('subDlrAmp');
+    const subDlrTemp = document.getElementById('subDlrTemp');
+    const subDlrHeadroom = document.getElementById('subDlrHeadroom');
+    if (subDlrAmp) subDlrAmp.textContent = `${fmtNum(dynamicAmp)} A`;
+    if (subDlrTemp) subDlrTemp.textContent = `${conductorTemp} °C`;
+    if (subDlrHeadroom) subDlrHeadroom.textContent = `${headroomPct > 0 ? '+' : ''}${headroomPct}%`;
+
+    const subStormCells = document.getElementById('subStormCells');
+    const subStormDbz = document.getElementById('subStormDbz');
+    if (subStormCells) subStormCells.textContent = `${squallProb > 50 ? '3 tracked' : '1 tracked'}`;
+    if (subStormDbz) subStormDbz.textContent = `${(35 + squallProb * 0.35).toFixed(1)} dBZ`;
+  }
+
+  function triggerWeatherNextSwarm() {
+    const btn = document.getElementById('btnRunWxSwarm');
+    const icon = document.getElementById('btnRunWxSwarmIcon');
+    const badge = document.getElementById('wxSubagentStateBadge');
+
+    if (icon) icon.textContent = '⏳';
+    if (badge) {
+      badge.textContent = 'SWARM DISPATCHING…';
+      badge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+      badge.style.color = '#38bdf8';
+    }
+
+    // Pulse subagent cards
+    document.querySelectorAll('.wx-subagent-card').forEach(c => {
+      c.style.borderColor = 'var(--series-wind)';
+      c.style.transform = 'scale(1.02)';
+      setTimeout(() => {
+        c.style.borderColor = 'var(--border-color)';
+        c.style.transform = 'none';
+      }, 700);
+    });
+
+    setTimeout(() => {
+      if (icon) icon.textContent = '⚡';
+      if (badge) {
+        badge.textContent = 'ALL 4 SUBAGENTS SYNCHRONIZED';
+        badge.style.color = 'var(--success)';
+        badge.style.borderColor = 'rgba(13, 144, 79, 0.4)';
+      }
+
+      // Add streaming log
+      const logBox = document.getElementById('wxSubagentLogBox');
+      if (logBox) {
+        const timeStr = new Date().toISOString().slice(11, 19) + ' UTC';
+        const entry = document.createElement('div');
+        entry.innerHTML = `<span style="color: #64748b;">[${timeStr}]</span> <span style="color: #34d399;">[sub_dynamic_line_rating_solver]</span> Autonomous dispatch cycle completed. Microclimate telemetry reconciled with IEEE 738 rating.`;
+        logBox.prepend(entry);
+      }
+
+      updateWeatherNextSim();
+    }, 850);
+  }
+
+  // Initialize WeatherNext 3 Studio
+  function initWeatherNext3Studio() {
+    updateKpiTiles(wn3CurrentCountry);
+    renderHourlyView(wn3CurrentCountry);
+    renderDailyView(wn3CurrentCountry);
+    renderAssetsView(wn3CurrentCountry);
+    initFleetMap();
+    updateAiNarrative(wn3CurrentCountry);
+    updateWeatherNextSim();
+  }
+
+  // Window resize handler for responsive SVG recalculation
+  window.addEventListener('resize', () => {
+    const tabPane = document.getElementById('tab-weathernext');
+    if (tabPane && tabPane.classList.contains('active')) {
+      renderAllWeatherNext3Charts();
+    }
+  });
+
+  // Expose global methods
+  window.initWeatherNext3Studio = initWeatherNext3Studio;
+  window.initWeatherNextMap = initWeatherNext3Studio;
+  window.renderAllWeatherNext3Charts = renderAllWeatherNext3Charts;
+  window.onWeatherNextCountryChange = onWeatherNextCountryChange;
+  window.pullLatestRun = pullLatestRun;
+  window.switchWxSubmode = switchWxSubmode;
+  window.toggleCardView = toggleCardView;
+  window.toggleMaximizeCard = toggleMaximizeCard;
+  window.setFleetMapStyle = setFleetMapStyle;
+  window.zoomFleetRegion = zoomFleetRegion;
+  window.regenerateAiNarrative = regenerateAiNarrative;
+  window.toggleAiSidePanel = toggleAiSidePanel;
+  window.exportHourlyCsv = exportHourlyCsv;
+  window.exportDailyCsv = exportDailyCsv;
+  window.exportFleetCsv = exportFleetCsv;
+  window.exportAssetsCsv = exportAssetsCsv;
+  window.updateWeatherNextSim = updateWeatherNextSim;
+  window.triggerWeatherNextSwarm = triggerWeatherNextSwarm;
+
+})(window);
+
 
     // Vertex AI Vizier Bayesian Volt-VAR Simulator
     function updateVizierSim() {
@@ -5411,5 +5998,8 @@
       updatePdmSim();
     });
   </script>
+  <!-- Global Tooltip for WeatherNext & Charts -->
+  <div id="tooltip" class="tooltip" role="status" aria-live="polite" hidden></div>
+
 </body>
 </html>
