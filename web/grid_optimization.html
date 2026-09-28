@@ -2395,6 +2395,472 @@
       color: var(--text-muted);
     }
 
+    /* ========================================================
+       HUMAN-FRIENDLY ACCESSIBLE DASHBOARD STYLES
+       ======================================================== */
+    .human-briefing-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.65), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .human-briefing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .human-briefing-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .human-briefing-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-top: 4px;
+      max-width: 820px;
+    }
+    .human-guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .human-guide-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 9px;
+      padding: 10px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+    .human-guide-item:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(15, 23, 42, 0.8);
+      transform: translateY(-1px);
+    }
+    .human-guide-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+    }
+    .human-guide-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+    .human-guide-text {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    /* Human Operational Advisory Banner */
+    .human-advisory-box {
+      background: rgba(13, 144, 79, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-radius: 9px;
+      padding: 9px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .human-advisory-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 500px;
+    }
+    .advisory-pulse-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+      animation: pulse-dot 2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .human-advisory-text {
+      font-size: 0.79rem;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    /* Interactive Generation Mix Visual Bar */
+    .human-gen-mix-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+    }
+    .gen-mix-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 0.77rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+    }
+    .gen-mix-bar-wrap {
+      height: 22px;
+      background: #0f172a;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    .gen-mix-segment {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #fff;
+      transition: width 0.4s ease;
+      white-space: nowrap;
+      padding: 0 8px;
+    }
+    .gen-mix-segment.wind {
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      color: #082f49;
+    }
+    .gen-mix-segment.solar {
+      background: linear-gradient(90deg, #d97706, #fbbf24);
+      color: #451a03;
+    }
+    .gen-mix-legend {
+      display: flex;
+      gap: 16px;
+      margin-top: 6px;
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+    }
+    .gen-mix-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .gen-mix-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+    }
+
+    /* Human Fleet Selector Pills */
+    .human-fleet-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .human-fleet-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .human-fleet-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .wn3-fleet-pill {
+      background: var(--surface-1);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .wn3-fleet-pill:hover {
+      background: var(--surface-2);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      transform: translateY(-1px);
+    }
+    .wn3-fleet-pill.active {
+      background: rgba(56, 189, 248, 0.16);
+      border-color: #38bdf8;
+      color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+    }
+    .fleet-pill-mw {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-family: 'Roboto Mono', monospace;
+    }
+    .wn3-fleet-pill.active .fleet-pill-mw {
+      color: #93c5fd;
+    }
+
+    /* ========================================================
+       VIZIER TAB: HUMAN-FRIENDLY REAL-WORLD STORY CARDS
+       ======================================================== */
+    .vvo-story-cards-wrap {
+      margin-bottom: 16px;
+    }
+    .vvo-story-cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .vvo-story-cards-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #f8fafc;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vvo-story-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+    }
+    .vvo-story-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 11px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .vvo-story-card:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(168, 85, 247, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    .vvo-story-card.active {
+      background: linear-gradient(135deg, rgba(88, 28, 135, 0.25), rgba(30, 41, 59, 0.85));
+      border: 1.5px solid #c084fc;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+    }
+    .vvo-story-card.active::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #a855f7, #38bdf8);
+    }
+    .vvo-story-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .vvo-story-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+    .vvo-story-tag {
+      font-size: 0.67rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .tag-heatwave { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
+    .tag-solar { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
+    .tag-night { background: rgba(99, 102, 241, 0.2); color: #818cf8; border: 1px solid rgba(99, 102, 241, 0.35); }
+    .tag-storm { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); }
+
+    .vvo-story-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 4px;
+    }
+    .vvo-story-text {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .vvo-story-ai-fix {
+      font-size: 0.72rem;
+      color: #34d399;
+      background: rgba(13, 144, 79, 0.15);
+      border-radius: 6px;
+      padding: 4px 8px;
+      border: 1px solid rgba(52, 211, 153, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Dynamic Situation Room Insight Box */
+    .vvo-human-advisor-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .vvo-advisor-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 500px;
+    }
+    .vvo-advisor-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+      flex-shrink: 0;
+    }
+    .vvo-advisor-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+    .vvo-advisor-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      text-transform: uppercase;
+      font-family: 'Roboto Mono', monospace;
+    }
+    .vvo-advisor-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .vvo-advisor-narrative {
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      line-height: 1.45;
+    }
+
+    /* Human-Readable Visual Meters Grid */
+    .vvo-human-meters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .vvo-meter-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .vvo-meter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .vvo-meter-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .vvo-meter-chip {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .vvo-meter-chip.success {
+      background: rgba(13, 144, 79, 0.2);
+      color: #34d399;
+    }
+    .vvo-meter-chip.warn {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+    .vvo-meter-track {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 6px;
+      position: relative;
+    }
+    .vvo-meter-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease, background 0.5s ease;
+    }
+    .vvo-meter-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .vvo-meter-bold {
+      font-weight: 700;
+      color: #f8fafc;
+      font-family: 'Roboto Mono', monospace;
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border-color);
@@ -3008,14 +3474,14 @@
         <!-- TAB 3: WEATHERNEXT 3 PORTFOLIO FORECAST & DLR -->
     <div id="tab-weathernext" class="tab-pane" role="tabpanel">
       <div class="card" style="padding: 16px 20px;">
-        <div class="card-header" style="margin-bottom: 12px;">
+<div class="card-header" style="margin-bottom: 12px;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
               <span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Roboto Mono', monospace;">Google DeepMind · WeatherNext 3</span>
-              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">0.1° (~10km) Synoptic ECMWF-AI Mesh</span>
+              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">AI Weather &amp; Power Forecast</span>
             </div>
-            <h2 class="card-title"><span>⛅</span> Renewable Production Forecasting &amp; Dynamic Grid Optimization</h2>
-            <div class="card-subtitle">Hourly wind &amp; solar generation forecasts, 15-day synoptic horizons on BigQuery, paired with Autonomous IEEE 738 Dynamic Line Rating (DLR) subagent swarm.</div>
+            <h2 class="card-title"><span>⛅</span> Clean Energy Forecast &amp; Transmission Line Headroom</h2>
+            <div class="card-subtitle">Predicting wind &amp; solar generation up to 15 days ahead with AI, while using ambient wind and temperature to safely unlock extra grid transmission capacity.</div>
           </div>
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <span class="horizon-tag" id="wxSyncStatusTag">ECMWF Run: 25 Sep 12:00 UTC · 360h Horizon</span>
@@ -3027,9 +3493,130 @@
           </div>
         </div>
 
-        <!-- Top Metadata & Control Bar -->
-        <div class="wn3-topbar">
-          <div class="wn3-meta-strip">
+        <!-- Human-Friendly Executive Briefing & Guide -->
+        <div class="human-briefing-card">
+          <div class="human-briefing-header">
+            <div>
+              <div class="human-briefing-title">
+                <span>🌐</span> Executive Clean Energy Overview &amp; Operator Guide
+              </div>
+              <div class="human-briefing-desc">
+                Google DeepMind WeatherNext delivers 15-day synoptic weather forecasts at 10× speed. Dispatchers can anticipate renewable surges and use natural wind cooling on high-voltage cables to avoid building costly new power lines.
+              </div>
+            </div>
+            <div class="wn3-topbar-actions" style="margin-left: auto;">
+              <button id="wn3BtnPull" class="wn3-btn-pull" onclick="pullLatestRun()" title="Fetch newest forecast run from BigQuery">
+                <span class="spinner-pull" id="wn3PullSpinner" style="display: none;">🔄</span>
+                <span id="wn3PullLabel">Pull latest run</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3 Plain-Language Guide Cards -->
+          <div class="human-guide-grid">
+            <div class="human-guide-item">
+              <span class="human-guide-icon">☀️</span>
+              <div>
+                <div class="human-guide-title">Solar Rhythms (Diurnal Cycle)</div>
+                <div class="human-guide-text">Predicts daylight sunshine across 126 solar farms so grid batteries charge before evening city demand spikes.</div>
+              </div>
+            </div>
+            <div class="human-guide-item">
+              <span class="human-guide-icon">💨</span>
+              <div>
+                <div class="human-guide-title">Wind Movement (Synoptic Shifts)</div>
+                <div class="human-guide-text">Tracks multi-day ocean and inland wind trends to throttle down expensive fossil fuel gas peakers.</div>
+              </div>
+            </div>
+            <div class="human-guide-item">
+              <span class="human-guide-icon">⚡</span>
+              <div>
+                <div class="human-guide-title">Cable Cooling Headroom (DLR)</div>
+                <div class="human-guide-text">Ambient breezes cool overhead cables in real-time, safely unlocking up to <strong>+23.7% extra power capacity</strong>.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Human Operational Advisory Banner -->
+          <div class="human-advisory-box">
+            <div class="human-advisory-left">
+              <span class="advisory-pulse-dot"></span>
+              <div class="human-advisory-text" id="humanWxAdvisoryText">
+                <strong>Grid Advisory (25 Sep – 10 Oct):</strong> Peak clean generation of <strong>2,185 MW</strong> arrives on <strong>29 Sep at 11:00 UTC</strong>. Natural line cooling provides <strong>+23.7%</strong> transmission headroom. <em>Recommendation: Safely throttle 3 gas peaker units to avoid 140 tonnes of CO₂.</em>
+              </div>
+            </div>
+            <span style="font-size: 0.72rem; color: #a7f3d0; font-family: 'Roboto Mono', monospace; background: rgba(52, 211, 153, 0.15); padding: 3px 8px; border-radius: 999px;">AI Confidence: 96.4%</span>
+          </div>
+
+          <!-- Interactive Generation Mix Visual Bar (Graph for Humans) -->
+          <div class="human-gen-mix-card">
+            <div class="gen-mix-header">
+              <span>⚡ Clean Energy Generation Capacity Mix</span>
+              <span id="humanGenMixTotalLabel" style="font-family: 'Roboto Mono', monospace; color: #38bdf8;">6,324 MW Total Installed</span>
+            </div>
+            <div class="gen-mix-bar-wrap" title="Generation capacity breakdown">
+              <div class="gen-mix-segment wind" id="barMixWind" style="width: 86.2%;" title="Wind: 5,452 MW (86.2%)">
+                <span>💨 Wind 86.2% (5,452 MW)</span>
+              </div>
+              <div class="gen-mix-segment solar" id="barMixSolar" style="width: 13.8%;" title="Solar: 872 MW (13.8%)">
+                <span>☀️ Solar 13.8% (872 MW)</span>
+              </div>
+            </div>
+            <div class="gen-mix-legend">
+              <div class="gen-mix-legend-item">
+                <span class="gen-mix-dot" style="background: #38bdf8;"></span>
+                <span>Wind Fleet: <strong id="lblMixWind">5,452 MW</strong></span>
+              </div>
+              <div class="gen-mix-legend-item">
+                <span class="gen-mix-dot" style="background: #fbbf24;"></span>
+                <span>Solar Fleet: <strong id="lblMixSolar">872 MW</strong></span>
+              </div>
+              <div class="gen-mix-legend-item" style="margin-left: auto;">
+                <span style="color: #34d399;">⚡ Dynamic Line Headroom Unlocked: <strong>+23.7%</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Fleet Filter Pills (Clickable Flags) -->
+          <div class="human-fleet-bar">
+            <span class="human-fleet-label">Select Regional Fleet:</span>
+            <div class="human-fleet-pills">
+              <button class="wn3-fleet-pill active" data-country="ALL" onclick="selectWxCountryPill('ALL', this)">
+                <span>🌐</span> Global Fleet <span class="fleet-pill-mw">6,324 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="MY" onclick="selectWxCountryPill('MY', this)">
+                <span>🇲🇾</span> Malaysia / ASEAN <span class="fleet-pill-mw">881 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="PT" onclick="selectWxCountryPill('PT', this)">
+                <span>🇵🇹</span> Portugal <span class="fleet-pill-mw">1,421 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="US" onclick="selectWxCountryPill('US', this)">
+                <span>🇺🇸</span> United States <span class="fleet-pill-mw">3,102 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="ES" onclick="selectWxCountryPill('ES', this)">
+                <span>🇪🇸</span> Spain <span class="fleet-pill-mw">404 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="PL" onclick="selectWxCountryPill('PL', this)">
+                <span>🇵🇱</span> Poland <span class="fleet-pill-mw">711 MW</span>
+              </button>
+              <button class="wn3-fleet-pill" data-country="FR" onclick="selectWxCountryPill('FR', this)">
+                <span>🇫🇷</span> France <span class="fleet-pill-mw">101 MW</span>
+              </button>
+            </div>
+            <!-- Hidden native select for backwards compatibility -->
+            <select id="wn3CountrySelect" style="display: none;" onchange="onWeatherNextCountryChange(this.value)">
+              <option value="ALL">Global Fleet</option>
+              <option value="PT">Portugal</option>
+              <option value="US">United States</option>
+              <option value="ES">Spain</option>
+              <option value="MY">Malaysia / ASEAN</option>
+              <option value="PL">Poland</option>
+              <option value="FR">France</option>
+            </select>
+          </div>
+
+          <!-- Meta Information Strip -->
+          <div class="wn3-meta-strip" style="background: transparent; padding: 4px 0; border: none; font-size: 0.73rem;">
             <div class="wn3-meta-item">
               <span class="wn3-meta-label">Forecast Run</span>
               <span class="wn3-meta-val" id="wn3MetaRun">25 Sep 12:00 UTC</span>
@@ -3043,29 +3630,13 @@
               <span class="wn3-meta-val" id="wn3MetaPortfolio">6,324 MW · 126 Assets</span>
             </div>
             <div class="wn3-meta-item">
-              <span class="wn3-meta-label">Active Timezone</span>
-              <span class="wn3-meta-val" id="wn3MetaTz">UTC (Coordinated Universal Time)</span>
+              <span class="wn3-meta-label">Timezone</span>
+              <span class="wn3-meta-val" id="wn3MetaTz">UTC</span>
             </div>
-          </div>
-          <div class="wn3-topbar-actions">
-            <label for="wn3CountrySelect" style="font-size: 0.74rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Fleet Filter:</label>
-            <select id="wn3CountrySelect" class="wn3-picker" onchange="onWeatherNextCountryChange(this.value)">
-              <option value="ALL">🌐 Global Fleet (6,324 MW · 126 Assets)</option>
-              <option value="PT">🇵🇹 Portugal (1,421 MW · 62 Assets)</option>
-              <option value="US">🇺🇸 United States (3,102 MW · 17 Assets)</option>
-              <option value="ES">🇪🇸 Spain (404 MW · 13 Assets)</option>
-              <option value="MY">🇲🇾 Malaysia / ASEAN (881 MW · 9 Assets)</option>
-              <option value="PL">🇵🇱 Poland (711 MW · 10 Assets)</option>
-              <option value="FR">🇫🇷 France (101 MW · 9 Assets)</option>
-            </select>
-            <button id="wn3BtnPull" class="wn3-btn-pull" onclick="pullLatestRun()" title="Fetch newest forecast run from BigQuery">
-              <span class="spinner-pull" id="wn3PullSpinner" style="display: none;">🔄</span>
-              <span id="wn3PullLabel">Pull latest run</span>
-            </button>
           </div>
         </div>
 
-        <!-- Two-Column Studio Shell -->
+                <!-- Two-Column Studio Shell -->
         <div class="wn3-shell">
           <!-- Main Left Column -->
           <div class="wn3-main" id="wn3MainCol">
@@ -3559,36 +4130,99 @@ ORDER BY valid_time ASC, site_name ASC;
 <!-- TAB 4: VIZIER BAYESIAN VOLT-VAR STUDIO (KLANG VALLEY MULTI-SUBSTATION) -->
     <div id="tab-vizier" class="tab-pane" role="tabpanel">
       <div class="card" style="padding: 18px 22px;">
-        <!-- Header -->
+<!-- Header -->
         <div class="card-header" style="margin-bottom: 14px;">
           <div>
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-              <span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Roboto Mono', monospace;">Vertex AI Vizier · Bayesian AC-OPF</span>
-              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">Klang Valley 500kV/275kV/132kV Substation Mesh</span>
+              <span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Roboto Mono', monospace;">Google Cloud Vertex AI Vizier · Autonomous Grid Co-Pilot</span>
+              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">🇲🇾 Kuala Lumpur / Klang Valley Power Ring (TNB Network)</span>
             </div>
-            <h2 class="card-title"><span>📊</span> Live Multi-Substation Volt-VAR Optimization Studio (Kuala Lumpur Ring)</h2>
-            <div class="card-subtitle">Autonomous Gaussian Process Expected Improvement (GP-EI) searches joint non-convex inverter setpoints, transformer taps, and capacitor steps to minimize technical losses and maintain strict voltage compliance.</div>
+            <h2 class="card-title"><span>📊</span> Autonomous Substation Co-Pilot: Live Voltage &amp; Energy Optimization</h2>
+            <div class="card-subtitle">How Vertex AI Vizier balances electricity flow, prevents blackouts, and cuts power losses across 6 major substations in Greater Kuala Lumpur.</div>
           </div>
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <span class="horizon-tag" id="vvoStudyStatusTag">Study: kv-vvo-opt-2026 · 6 Substations Live</span>
             <div style="display: flex; gap: 6px;">
-              <button class="wx-pill-btn active" id="btnVvoSubmodeGrid" onclick="switchVvoSubmode('grid', this)">🗺️ Grid Topology</button>
-              <button class="wx-pill-btn" id="btnVvoSubmodeBayesian" onclick="switchVvoSubmode('bayesian', this)">📈 Bayesian GP-EI Convergence</button>
-              <button class="wx-pill-btn" id="btnVvoSubmodeVoltages" onclick="switchVvoSubmode('voltages', this)">⚡ Voltage Profile</button>
+              <button class="wx-pill-btn active" id="btnVvoSubmodeGrid" onclick="switchVvoSubmode('grid', this)">🗺️ Substation Map</button>
+              <button class="wx-pill-btn" id="btnVvoSubmodeBayesian" onclick="switchVvoSubmode('bayesian', this)">📈 AI Optimization Progress</button>
+              <button class="wx-pill-btn" id="btnVvoSubmodeVoltages" onclick="switchVvoSubmode('voltages', this)">⚡ Voltage Comparison</button>
             </div>
           </div>
         </div>
 
-        <!-- Top Controls & Scenario Bar -->
-        <div class="vvo-topbar">
-          <div class="vvo-scenario-group">
-            <label for="vvoScenarioSelect" class="vvo-label">Grid Operating Scenario:</label>
-            <select id="vvoScenarioSelect" class="wn3-picker" onchange="onVvoScenarioChange(this.value)">
-              <option value="heatwave">🏢 Afternoon Air-Con Peak (38°C Tropical Heatwave) · Severe Voltage Sag & High Losses</option>
-              <option value="solar_peak">☀️ Midday Solar Peak (High DER Backfeed) · Overvoltage at Bandar Utama & Shah Alam</option>
-              <option value="nocturnal">🌙 Nocturnal Light Load (Cable Ferranti Effect) · High Cable Capacitance Voltage Rise</option>
-              <option value="storm_squall">⛈️ Monsoon Cloud Squall · Sudden 75% Solar Drop & Dynamic VAR Deficit</option>
-            </select>
+        <!-- Real-World Kuala Lumpur Grid Situation Cards (Clickable for Humans) -->
+        <div class="vvo-story-cards-wrap">
+          <div class="vvo-story-cards-header">
+            <span class="vvo-story-cards-title"><span>🏙️</span> Choose a Real-World Kuala Lumpur Grid Situation:</span>
+            <span style="font-size: 0.73rem; color: var(--text-muted);">Click any situation to see how Vizier autonomously protects the grid</span>
+          </div>
+          <div class="vvo-story-grid">
+            <!-- Situation 1: Heatwave -->
+            <div class="vvo-story-card active" data-scenario="heatwave" onclick="selectVvoStoryCard('heatwave', this)">
+              <div class="vvo-story-card-top">
+                <span class="vvo-story-icon">🏢</span>
+                <span class="vvo-story-tag tag-heatwave">Peak A/C Load</span>
+              </div>
+              <div class="vvo-story-name">Afternoon Heatwave (38°C)</div>
+              <div class="vvo-story-text">Offices in Bangsar &amp; KL Sentral blast air-con at 2:30 PM, dragging voltage down to 0.938 p.u.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Boosts taps &amp; connects 50 MVAR capacitors.</div>
+            </div>
+
+            <!-- Situation 2: Solar Peak -->
+            <div class="vvo-story-card" data-scenario="solar_peak" onclick="selectVvoStoryCard('solar_peak', this)">
+              <div class="vvo-story-card-top">
+                <span class="vvo-story-icon">☀️</span>
+                <span class="vvo-story-tag tag-solar">Solar Backfeed</span>
+              </div>
+              <div class="vvo-story-name">Midday Solar Surge</div>
+              <div class="vvo-story-text">Rooftop solar in Bandar Utama &amp; PJ feeds excess power backward, pushing voltage to 1.058 p.u.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Commands inverters to absorb excess reactive power.</div>
+            </div>
+
+            <!-- Situation 3: Nocturnal -->
+            <div class="vvo-story-card" data-scenario="nocturnal" onclick="selectVvoStoryCard('nocturnal', this)">
+              <div class="vvo-story-card-top">
+                <span class="vvo-story-icon">🌙</span>
+                <span class="vvo-story-tag tag-night">Ferranti Cable Surge</span>
+              </div>
+              <div class="vvo-story-name">Late Night City Slumber</div>
+              <div class="vvo-story-text">At 3 AM when factories sleep, underground XLPE cables push voltage high in Putrajaya (1.052 p.u.).</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Steps down transformer taps to eliminate stress.</div>
+            </div>
+
+            <!-- Situation 4: Storm Squall -->
+            <div class="vvo-story-card" data-scenario="storm_squall" onclick="selectVvoStoryCard('storm_squall', this)">
+              <div class="vvo-story-card-top">
+                <span class="vvo-story-icon">⛈️</span>
+                <span class="vvo-story-tag tag-storm">75% Solar Drop</span>
+              </div>
+              <div class="vvo-story-name">Tropical Monsoon Squall</div>
+              <div class="vvo-story-text">Dark rain squall blankets KL in minutes, dropping solar by 75% and shocking industrial Shah Alam.</div>
+              <div class="vvo-story-ai-fix"><span>🤖</span> <strong>Vizier Fix:</strong> Rapid-injects +24 MVAR in 1.4s to prevent brownout.</div>
+            </div>
+          </div>
+          <!-- Hidden native selector for API sync -->
+          <select id="vvoScenarioSelect" style="display: none;" onchange="onVvoScenarioChange(this.value)">
+            <option value="heatwave">Afternoon Heatwave</option>
+            <option value="solar_peak">Midday Solar Peak</option>
+            <option value="nocturnal">Nocturnal Light Load</option>
+            <option value="storm_squall">Monsoon Cloud Squall</option>
+          </select>
+        </div>
+
+        <!-- Human Operational Advisory Banner -->
+        <div class="vvo-human-advisor-card">
+          <div class="vvo-advisor-left">
+            <div class="vvo-advisor-avatar">🤖</div>
+            <div>
+              <div class="vvo-advisor-meta">
+                <span class="vvo-advisor-badge">Vizier Autonomous Advisor</span>
+                <span class="vvo-advisor-time" id="vvoAdvisorTime">Live MYT</span>
+              </div>
+              <div class="vvo-advisor-narrative" id="vvoAdvisorNarrative">
+                Currently stabilizing <strong>Afternoon Heatwave (38°C)</strong> across Greater KL. Heavy air-conditioning loads in commercial towers threatened voltage collapse. Vizier evaluated 15 network configurations in 1.4s, coordinating Bangsar's transformer tap (+2) and Shah Alam's capacitor bank (+50 MVAR) to restore 100% safe voltage.
+              </div>
+            </div>
           </div>
           <div class="vvo-actions-group">
             <button id="btnRunVizierAuto" class="vvo-btn-primary" onclick="runVizierAutoStudy()">
@@ -3604,7 +4238,70 @@ ORDER BY valid_time ASC, site_name ASC;
           </div>
         </div>
 
-        <!-- 5 Executive KPI Summary Tiles -->
+        <!-- Human-Readable Visual Health & Impact Meters (Graphs for humans) -->
+        <div class="vvo-human-meters-grid">
+          <!-- Meter 1: Voltage Safety Range Target -->
+          <div class="vvo-meter-card">
+            <div class="vvo-meter-header">
+              <span class="vvo-meter-title">Voltage Safety Range</span>
+              <span class="vvo-meter-chip success" id="vvoMeterVoltageChip">100% Safe</span>
+            </div>
+            <div class="vvo-meter-track" title="ANSI C84.1 safe range: 0.95 to 1.05 p.u.">
+              <div class="vvo-meter-fill" id="vvoMeterVoltageFill" style="width: 95%; background: linear-gradient(90deg, #10b981, #34d399);"></div>
+            </div>
+            <div class="vvo-meter-footer">
+              <span>Worst Substation:</span>
+              <span class="vvo-meter-bold" id="vvoMeterWorstSub">0.998 p.u. (Bangsar)</span>
+            </div>
+          </div>
+
+          <!-- Meter 2: Power Waste Reduction -->
+          <div class="vvo-meter-card">
+            <div class="vvo-meter-header">
+              <span class="vvo-meter-title">Transmission Energy Waste</span>
+              <span class="vvo-meter-chip success" id="vvoMeterLossChip">-38.7% Less Waste</span>
+            </div>
+            <div class="vvo-meter-track" title="Line losses reduced from 8.42 MW to 5.16 MW">
+              <div class="vvo-meter-fill" id="vvoMeterLossFill" style="width: 61.3%; background: linear-gradient(90deg, #0284c7, #38bdf8);"></div>
+            </div>
+            <div class="vvo-meter-footer">
+              <span>Current Feeder Loss:</span>
+              <span class="vvo-meter-bold" id="vvoMeterLossVal">5.16 MW (Was 8.42 MW)</span>
+            </div>
+          </div>
+
+          <!-- Meter 3: Community Cost Savings -->
+          <div class="vvo-meter-card">
+            <div class="vvo-meter-header">
+              <span class="vvo-meter-title">Consumer Energy Savings</span>
+              <span class="vvo-meter-chip success">TNB Bulk Tariff</span>
+            </div>
+            <div class="vvo-meter-track" title="Annual avoided OPEX">
+              <div class="vvo-meter-fill" style="width: 82%; background: linear-gradient(90deg, #059669, #10b981);"></div>
+            </div>
+            <div class="vvo-meter-footer">
+              <span>OPEX Saved:</span>
+              <span class="vvo-meter-bold" style="color: #34d399;">RM 1.48 Million / yr</span>
+            </div>
+          </div>
+
+          <!-- Meter 4: Transformer Lifespan Extension -->
+          <div class="vvo-meter-card">
+            <div class="vvo-meter-header">
+              <span class="vvo-meter-title">Transformer Life Protection</span>
+              <span class="vvo-meter-chip success">-58% Mechanical Jolts</span>
+            </div>
+            <div class="vvo-meter-track" title="Tap changer mechanical operations reduced from 38 to 16/day">
+              <div class="vvo-meter-fill" style="width: 42%; background: linear-gradient(90deg, #9333ea, #c084fc);"></div>
+            </div>
+            <div class="vvo-meter-footer">
+              <span>Added Equipment Life:</span>
+              <span class="vvo-meter-bold" style="color: #c084fc;">+4.2 Years Lifespan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Executive KPI Summary Tiles (Underlying Details) -->
         <div class="vvo-tiles-grid" id="vvoKpiTiles">
           <div class="vvo-tile">
             <span class="vvo-tile-label">Active System Losses</span>
@@ -3647,11 +4344,11 @@ ORDER BY valid_time ASC, site_name ASC;
               <span id="vvoValTaps">16</span><span class="vvo-tile-unit">ops/d</span>
               <span class="vvo-badge-diff" id="vvoBadgeTaps">-58%</span>
             </div>
-            <span class="vvo-tile-sub">OLTC mechanical fatigue life extended +4.2 yrs</span>
+            <span class="vvo-tile-sub" id="vvoSubTaps">Baseline: 38 ops (Wear reduced)</span>
           </div>
         </div>
 
-        <!-- Main Studio Grid: Left Network Topology (60%) | Right Inspector & Curves (40%) -->
+                <!-- Main Studio Grid: Left Network Topology (60%) | Right Inspector & Curves (40%) -->
         <div class="vvo-main-grid">
           <!-- Left Column: Interactive Network Diagram & Voltage Meter -->
           <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -5925,8 +6622,117 @@ ORDER BY valid_time ASC, site_name ASC;
     }, 240);
   }
 
+
+  const FLEET_MIX_DATA = {
+    ALL: {
+      totalMw: 6324,
+      windMw: 5452,
+      solarMw: 872,
+      windPct: 86.2,
+      solarPct: 13.8,
+      headroom: "+23.7%",
+      advisory: "<strong>Grid Advisory (Global Fleet):</strong> Peak renewable generation of <strong>2,185 MW</strong> arrives on <strong>29 Sep at 11:00 UTC</strong>. Natural line cooling provides <strong>+23.7%</strong> transmission headroom. <em>Recommendation: Safely throttle 3 fossil peaker units to avoid 140 tonnes of CO₂.</em>"
+    },
+    MY: {
+      totalMw: 881,
+      windMw: 0,
+      solarMw: 881,
+      windPct: 0.0,
+      solarPct: 100.0,
+      headroom: "+18.4%",
+      advisory: "<strong>Grid Advisory (Malaysia / ASEAN):</strong> Equatorial solar generation peaks at <strong>620 MW</strong> at 12:30 MYT. Dynamic ambient cooling unlocks <strong>+18.4%</strong> transmission line capacity along the Klang Valley corridor. <em>Recommendation: Charge battery storage banks during midday solar surplus.</em>"
+    },
+    PT: {
+      totalMw: 1421,
+      windMw: 1393,
+      solarMw: 28,
+      windPct: 98.0,
+      solarPct: 2.0,
+      headroom: "+26.1%",
+      advisory: "<strong>Grid Advisory (Portugal Fleet):</strong> Atlantic coastal winds deliver sustained generation peaking at <strong>1,140 MW</strong>. High offshore wind speeds (12.4 m/s) provide <strong>+26.1%</strong> dynamic line cooling across the Centro and Norte transmission corridors."
+    },
+    US: {
+      totalMw: 3102,
+      windMw: 2689,
+      solarMw: 413,
+      windPct: 86.7,
+      solarPct: 13.3,
+      headroom: "+24.8%",
+      advisory: "<strong>Grid Advisory (United States Fleet):</strong> Midwest wind farms and California solar facilities forecast combined output peak of <strong>1,890 MW</strong>. Real-time IEEE 738 dynamic line rating unlocks <strong>+24.8%</strong> capacity across interties."
+    },
+    ES: {
+      totalMw: 404,
+      windMw: 356,
+      solarMw: 48,
+      windPct: 88.1,
+      solarPct: 11.9,
+      headroom: "+21.5%",
+      advisory: "<strong>Grid Advisory (Spain Fleet):</strong> Iberian solar-wind synergy expected to deliver <strong>310 MW</strong> peak. Dry air convection enables <strong>+21.5%</strong> conductor headroom."
+    },
+    PL: {
+      totalMw: 711,
+      windMw: 511,
+      solarMw: 200,
+      windPct: 71.9,
+      solarPct: 28.1,
+      headroom: "+19.3%",
+      advisory: "<strong>Grid Advisory (Poland Fleet):</strong> Baltic wind corridor and Przykona solar deliver <strong>540 MW</strong> peak. Ambient wind cooling unlocks <strong>+19.3%</strong> transmission throughput."
+    },
+    FR: {
+      totalMw: 101,
+      windMw: 101,
+      solarMw: 0,
+      windPct: 100.0,
+      solarPct: 0.0,
+      headroom: "+22.0%",
+      advisory: "<strong>Grid Advisory (France Fleet):</strong> Inland wind fleet operating at high capacity factor (0.28). Ambient breezes provide <strong>+22.0%</strong> transmission line headroom."
+    }
+  };
+
+  function updateHumanBriefing(country) {
+    const data = FLEET_MIX_DATA[country] || FLEET_MIX_DATA.ALL;
+    const barWind = document.getElementById('barMixWind');
+    const barSolar = document.getElementById('barMixSolar');
+    const lblWind = document.getElementById('lblMixWind');
+    const lblSolar = document.getElementById('lblMixSolar');
+    const lblTotal = document.getElementById('humanGenMixTotalLabel');
+    const advText = document.getElementById('humanWxAdvisoryText');
+
+    if (barWind) {
+      barWind.style.width = data.windPct + '%';
+      barWind.style.display = data.windPct > 0 ? 'flex' : 'none';
+      barWind.innerHTML = '<span>💨 Wind ' + data.windPct + '% (' + data.windMw.toLocaleString() + ' MW)</span>';
+      barWind.title = 'Wind: ' + data.windMw.toLocaleString() + ' MW (' + data.windPct + '%)';
+    }
+    if (barSolar) {
+      barSolar.style.width = data.solarPct + '%';
+      barSolar.style.display = data.solarPct > 0 ? 'flex' : 'none';
+      barSolar.innerHTML = '<span>☀️ Solar ' + data.solarPct + '% (' + data.solarMw.toLocaleString() + ' MW)</span>';
+      barSolar.title = 'Solar: ' + data.solarMw.toLocaleString() + ' MW (' + data.solarPct + '%)';
+    }
+    if (lblWind) lblWind.textContent = data.windMw.toLocaleString() + ' MW (' + data.windPct + '%)';
+    if (lblSolar) lblSolar.textContent = data.solarMw.toLocaleString() + ' MW (' + data.solarPct + '%)';
+    if (lblTotal) lblTotal.textContent = data.totalMw.toLocaleString() + ' MW Total Installed';
+    if (advText) advText.innerHTML = data.advisory;
+
+    // Update fleet pills
+    document.querySelectorAll('.wn3-fleet-pill').forEach(pill => {
+      if (pill.getAttribute('data-country') === country) pill.classList.add('active');
+      else pill.classList.remove('active');
+    });
+
+    // Sync select
+    const sel = document.getElementById('wn3CountrySelect');
+    if (sel && sel.value !== country) sel.value = country;
+  }
+
+  function selectWxCountryPill(country, btnElem) {
+    onWeatherNextCountryChange(country, true);
+  }
+
   // Country change handler
   function onWeatherNextCountryChange(country, updateZoom = true) {
+    updateHumanBriefing(country);
     wn3CurrentCountry = country;
     updateKpiTiles(country);
     renderHourlyView(country);
@@ -6202,6 +7008,7 @@ ORDER BY valid_time ASC, site_name ASC;
 
   // Initialize WeatherNext 3 Studio
   function initWeatherNext3Studio() {
+    updateHumanBriefing(wn3CurrentCountry);
     updateKpiTiles(wn3CurrentCountry);
     renderHourlyView(wn3CurrentCountry);
     renderDailyView(wn3CurrentCountry);
@@ -6224,6 +7031,8 @@ ORDER BY valid_time ASC, site_name ASC;
   window.initWeatherNextMap = initWeatherNext3Studio;
   window.renderAllWeatherNext3Charts = renderAllWeatherNext3Charts;
   window.onWeatherNextCountryChange = onWeatherNextCountryChange;
+  window.selectWxCountryPill = selectWxCountryPill;
+  window.updateHumanBriefing = updateHumanBriefing;
   window.pullLatestRun = pullLatestRun;
   window.switchWxSubmode = switchWxSubmode;
   window.toggleCardView = toggleCardView;

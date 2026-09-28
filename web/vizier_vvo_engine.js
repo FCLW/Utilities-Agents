@@ -180,6 +180,27 @@
     { trial: 15, loss: 5.16, mu: 5.22, sigma: 0.12, ei: 0.15, best: 5.16, note: 'GLOBAL OPTIMUM CONVERGED (-38.7% Loss Reduction)' }
   ];
 
+
+  // Human-Friendly Scenario Narratives (For Situation Room Advisor)
+  const SCENARIO_HUMAN_NARRATIVES = {
+    heatwave: {
+      optimized: "Currently stabilizing <strong>Afternoon Heatwave (38°C)</strong> across Greater KL. Heavy air-conditioning loads in commercial towers threatened voltage collapse. Vizier evaluated 15 network configurations in 1.4s, coordinating Bangsar's transformer tap (+2) and Shah Alam's capacitor bank (+50 MVAR) to restore 100% safe voltage.",
+      baseline: "⚠️ <strong>WARNING - Afternoon Heatwave Active:</strong> Commercial air conditioners are drawing intense active and reactive current. Local uncoordinated controls allowed Bangsar to sag to <strong>0.938 p.u.</strong> (ANSI code violation). Active line losses have surged to <strong>8.42 MW</strong>."
+    },
+    solar_peak: {
+      optimized: "Currently stabilizing <strong>Midday Solar Surge</strong> across Klang Valley. Intensive rooftop and commercial solar generation pushed feeder voltage to an unsafe 1.058 p.u. in Bandar Utama. Vizier modulated smart inverter reactive absorption (-12 MVAR), dampening overvoltage and saving RM 3,600/day in losses.",
+      baseline: "⚠️ <strong>WARNING - High Solar DER Backfeed:</strong> Rooftop solar in Bandar Utama and PJ is feeding surplus power backward onto 132kV lines. Voltage has risen to <strong>1.058 p.u.</strong>, threatening customer sensitive equipment."
+    },
+    nocturnal: {
+      optimized: "Currently stabilizing <strong>Late Night Light Load (3:00 AM)</strong>. Low nighttime electricity demand causes underground high-voltage cables to produce excess capacitive charge (Ferranti effect). Vizier trimmed transformer taps (-2) across Putrajaya and Bukit Badong, eliminating equipment dielectric stress.",
+      baseline: "⚠️ <strong>WARNING - Nocturnal Ferranti Effect:</strong> Lightly loaded underground XLPE cables are acting as charging capacitors. Voltage at Putrajaya has spiked to <strong>1.052 p.u.</strong>, accelerating transformer insulation wear."
+    },
+    storm_squall: {
+      optimized: "Currently stabilizing <strong>Tropical Monsoon Cloud Squall</strong>. Sudden dark storm clouds dropped solar output by 75% across Selangor within 3 minutes. Vizier autonomously injected +24 MVAR of dynamic reactive power across Shah Alam in 1.4s, preventing industrial brownouts.",
+      baseline: "⚠️ <strong>WARNING - Severe Solar Deficit:</strong> Sudden convective squall dropped solar generation by 75%. Rapid VAR deficit caused an abrupt voltage drop at industrial Shah Alam to <strong>0.941 p.u.</strong>"
+    }
+  };
+
   // Studio State
   let currentScenario = 'heatwave';
   let isOptimized = true;
@@ -301,6 +322,78 @@
     if (elBadgeTaps) {
       elBadgeTaps.textContent = isOptimized ? '-58%' : 'Frequent';
       elBadgeTaps.style.color = isOptimized ? '#34d399' : '#f87171';
+    }
+
+
+    // Update Human-Friendly Visual Health & Impact Meters
+    const meterVChip = document.getElementById('vvoMeterVoltageChip');
+    const meterVFill = document.getElementById('vvoMeterVoltageFill');
+    const meterWorstSub = document.getElementById('vvoMeterWorstSub');
+
+    if (meterVChip) {
+      if (isOptimized) {
+        meterVChip.textContent = '100% Safe';
+        meterVChip.className = 'vvo-meter-chip success';
+      } else {
+        meterVChip.textContent = worstV < 0.95 ? 'UNDERVOLTAGE SAG' : 'OVERVOLTAGE SURGE';
+        meterVChip.className = 'vvo-meter-chip warn';
+      }
+    }
+    if (meterVFill) {
+      meterVFill.style.width = isOptimized ? '95%' : (worstV < 0.95 ? '45%' : '98%');
+      meterVFill.style.background = isOptimized
+        ? 'linear-gradient(90deg, #10b981, #34d399)'
+        : (worstV < 0.95 ? 'linear-gradient(90deg, #dc2626, #ef4444)' : 'linear-gradient(90deg, #d97706, #fbbf24)');
+    }
+    if (meterWorstSub) {
+      meterWorstSub.textContent = worstV.toFixed(3) + ' p.u. (' + kpi.worstBus + ')';
+      meterWorstSub.style.color = isOptimized ? '#34d399' : '#f87171';
+    }
+
+    const meterLossChip = document.getElementById('vvoMeterLossChip');
+    const meterLossFill = document.getElementById('vvoMeterLossFill');
+    const meterLossVal = document.getElementById('vvoMeterLossVal');
+
+    if (meterLossChip) {
+      const pctSaved = isOptimized ? (((kpi.baseLoss - loss) / kpi.baseLoss) * 100).toFixed(1) : '0';
+      meterLossChip.textContent = isOptimized ? ('-' + pctSaved + '% Less Waste') : 'Baseline Loss';
+      meterLossChip.className = isOptimized ? 'vvo-meter-chip success' : 'vvo-meter-chip warn';
+    }
+    if (meterLossFill) {
+      const lossRatio = Math.min(100, (loss / kpi.baseLoss) * 100);
+      meterLossFill.style.width = lossRatio + '%';
+      meterLossFill.style.background = isOptimized
+        ? 'linear-gradient(90deg, #0284c7, #38bdf8)'
+        : 'linear-gradient(90deg, #e11d48, #f43f5e)';
+    }
+    if (meterLossVal) {
+      meterLossVal.textContent = isOptimized
+        ? (loss.toFixed(2) + ' MW (Saved ' + (kpi.baseLoss - loss).toFixed(2) + ' MW)')
+        : (loss.toFixed(2) + ' MW (Unoptimized)');
+      meterLossVal.style.color = isOptimized ? '#38bdf8' : '#fda4af';
+    }
+
+    // Update Situation Room Advisor Narrative
+    const advNarrative = document.getElementById('vvoAdvisorNarrative');
+    if (advNarrative && SCENARIO_HUMAN_NARRATIVES[currentScenario]) {
+      advNarrative.innerHTML = isOptimized
+        ? SCENARIO_HUMAN_NARRATIVES[currentScenario].optimized
+        : SCENARIO_HUMAN_NARRATIVES[currentScenario].baseline;
+    }
+
+    // Update active highlight on Real-World Situation Story Cards
+    document.querySelectorAll('.vvo-story-card').forEach(card => {
+      if (card.getAttribute('data-scenario') === currentScenario) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+
+    // Keep native selector synchronized
+    const selScen = document.getElementById('vvoScenarioSelect');
+    if (selScen && selScen.value !== currentScenario) {
+      selScen.value = currentScenario;
     }
 
     // Engine badge
@@ -1036,6 +1129,12 @@
   window.runVizierAutoStudy = runVizierAutoStudy;
   window.runVizierSingleStep = runVizierSingleStep;
   window.resetVvoToBaseline = resetVvoToBaseline;
+  function selectVvoStoryCard(scenarioKey, cardElem) {
+    onVvoScenarioChange(scenarioKey);
+  }
+
+  window.selectVvoStoryCard = selectVvoStoryCard;
+
   window.onVvoScenarioChange = onVvoScenarioChange;
   window.selectVvoSubstation = selectVvoSubstation;
   window.onManualTapChange = onManualTapChange;
