@@ -6003,10 +6003,21 @@ ORDER BY valid_time ASC, site_name ASC;
 
   // Get data bundle
   function getData() {
-    return window.WeatherNextData || {
-      hourly: [],
-      daily: [],
-      assets: []
+    const raw = window.WEATHERNEXT_DATA || window.WeatherNextData || {};
+    const hourly = raw.portfolio_hourly || raw.hourly || [];
+    const daily = raw.daily_by_tech || raw.daily || [];
+    const rawAssets = raw.assets || [];
+    const assets = rawAssets.map(a => ({
+      ...a,
+      id: a.asset_id || a.id || a.name,
+      forecast_mwh: a.mwh != null ? a.mwh : (a.forecast_mwh || 0),
+      mean_cf_pct: a.capacity_factor != null ? (a.capacity_factor * 100).toFixed(1) : (a.mean_cf_pct || '0.0')
+    }));
+    return {
+      meta: raw.meta || {},
+      hourly,
+      daily,
+      assets
     };
   }
 
@@ -6022,16 +6033,16 @@ ORDER BY valid_time ASC, site_name ASC;
     const allAssets = getData().assets;
     const filtered = getFilteredAssets(country);
 
-    const globalWindCap = allAssets.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0) || 5452;
-    const globalSolarCap = allAssets.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0) || 872;
+    const globalWindCap = allAssets.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0) || 5496.5;
+    const globalSolarCap = allAssets.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0) || 1708.2;
     const globalTotCap = globalWindCap + globalSolarCap;
 
     const windCap = filtered.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0);
     const solarCap = filtered.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0);
     const totCap = windCap + solarCap;
 
-    const windRatio = country === 'ALL' ? 1.0 : (windCap / globalWindCap || 0.05);
-    const solarRatio = country === 'ALL' ? 1.0 : (solarCap / globalSolarCap || 0.05);
+    const windRatio = (!country || country === 'ALL') ? 1.0 : (windCap / globalWindCap || 0.05);
+    const solarRatio = (!country || country === 'ALL') ? 1.0 : (solarCap / globalSolarCap || 0.05);
 
     return {
       filteredAssets: filtered,
@@ -6068,16 +6079,19 @@ ORDER BY valid_time ASC, site_name ASC;
     return data.daily.map(d => {
       const windMwh = Math.round(d.wind_mwh * metrics.windRatio);
       const solarMwh = Math.round(d.solar_mwh * metrics.solarRatio);
+      const dDate = new Date(d.day + 'T12:00:00Z');
+      const weekday = d.weekday || (isNaN(dDate.getTime()) ? 'Day' : dDate.toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' }));
       return {
         day: d.day,
-        weekday: d.weekday,
+        weekday: weekday,
+        label: weekday,
         sub: d.day.slice(5),
-        full: `${d.weekday}, ${d.day} UTC`,
+        full: `${weekday}, ${d.day} UTC`,
         a: windMwh,
         b: solarMwh,
         total: windMwh + solarMwh,
         partial: d.hours < 20,
-        hours: d.hours
+        hours: d.hours != null ? (typeof d.hours === 'number' ? d.hours.toFixed(1) : d.hours) : '24'
       };
     });
   }
@@ -6202,7 +6216,12 @@ ORDER BY valid_time ASC, site_name ASC;
   // Render Card 3: Leaflet Fleet Map
   function initFleetMap() {
     const mapContainer = document.getElementById('wn3LeafletFleetMap');
-    if (!mapContainer || wn3FleetMap) return;
+    if (!mapContainer) return;
+    if (wn3FleetMap) {
+      renderFleetMapMarkers(wn3CurrentCountry);
+      wn3FleetMap.invalidateSize();
+      return;
+    }
 
     wn3FleetMap = L.map('wn3LeafletFleetMap', {
       center: [28.0, 10.0],
@@ -6213,19 +6232,23 @@ ORDER BY valid_time ASC, site_name ASC;
       attributionControl: false
     });
 
-    // Dark Matter tile layer
-    wn3TileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 19
+    // ESRI World Dark Gray Base (Free, high-performance, no watermark, no API key required)
+    wn3TileLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+      attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
     }).addTo(wn3FleetMap);
 
-    // Satellite layer
+    // Satellite layer (ESRI World Imagery)
     wn3SatLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 18
+      maxZoom: 18,
+      attribution: 'Source: Esri, Maxar, Earthstar Geographics'
     });
 
     wn3MarkersLayer = L.layerGroup().addTo(wn3FleetMap);
     renderFleetMapMarkers(wn3CurrentCountry);
+    setTimeout(() => {
+      if (wn3FleetMap) wn3FleetMap.invalidateSize();
+    }, 200);
   }
 
   function setFleetMapStyle(style) {
@@ -7045,6 +7068,14 @@ ORDER BY valid_time ASC, site_name ASC;
         initVizierMultiSubstationStudio();
       }
       updatePdmSim();
+
+      // Check URL hash for direct deep-linking (e.g. #tab-weathernext)
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#tab-')) {
+        const tabId = hash.replace('#', '');
+        const btn = document.querySelector(`.nav-tab-btn[onclick*="${tabId}"]`);
+        if (btn) switchMainTab(tabId, btn);
+      }
     });
   </script>
   <!-- Global Tooltip for WeatherNext & Charts -->
