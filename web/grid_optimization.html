@@ -3501,36 +3501,20 @@
             <span class="human-fleet-label">Select Regional Fleet:</span>
             <div class="human-fleet-pills">
               <button class="wn3-fleet-pill active" data-country="ALL" onclick="selectWxCountryPill('ALL', this)">
-                <span>🌐 Global Fleet</span> <span class="fleet-pill-mw">6,324 MW</span>
+                <span>🇲🇾 All Malaysia (National Fleet)</span> <span class="fleet-pill-mw">2,119 MW</span>
               </button>
-              <button class="wn3-fleet-pill" data-country="MY" onclick="selectWxCountryPill('MY', this)">
-                <span>🇲🇾 Malaysia</span> <span class="fleet-pill-mw">881 MW</span>
+              <button class="wn3-fleet-pill" data-country="WEST" onclick="selectWxCountryPill('WEST', this)">
+                <span>🌴 West Malaysia (Peninsular)</span> <span class="fleet-pill-mw">1,329 MW</span>
               </button>
-              <button class="wn3-fleet-pill" data-country="PT" onclick="selectWxCountryPill('PT', this)">
-                <span>🇵🇹 Portugal</span> <span class="fleet-pill-mw">1,421 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="US" onclick="selectWxCountryPill('US', this)">
-                <span>🇺🇸 United States</span> <span class="fleet-pill-mw">3,102 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="ES" onclick="selectWxCountryPill('ES', this)">
-                <span>🇪🇸 Spain</span> <span class="fleet-pill-mw">404 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="PL" onclick="selectWxCountryPill('PL', this)">
-                <span>🇵🇱 Poland</span> <span class="fleet-pill-mw">711 MW</span>
-              </button>
-              <button class="wn3-fleet-pill" data-country="FR" onclick="selectWxCountryPill('FR', this)">
-                <span>🇫🇷 France</span> <span class="fleet-pill-mw">101 MW</span>
+              <button class="wn3-fleet-pill" data-country="EAST" onclick="selectWxCountryPill('EAST', this)">
+                <span>🌊 East Malaysia (Sabah &amp; Sarawak)</span> <span class="fleet-pill-mw">790 MW</span>
               </button>
             </div>
             <!-- Hidden native select for API sync -->
             <select id="wn3CountrySelect" style="display: none;" onchange="onWeatherNextCountryChange(this.value)">
-              <option value="ALL">Global Fleet</option>
-              <option value="PT">Portugal</option>
-              <option value="US">United States</option>
-              <option value="ES">Spain</option>
-              <option value="MY">Malaysia / ASEAN</option>
-              <option value="PL">Poland</option>
-              <option value="FR">France</option>
+              <option value="ALL">🇲🇾 All Malaysia (National Fleet)</option>
+              <option value="WEST">🌴 West Malaysia (Peninsular)</option>
+              <option value="EAST">🌊 East Malaysia (Sabah &amp; Sarawak)</option>
             </select>
           </div>
 
@@ -3538,24 +3522,24 @@
           <div class="human-gen-mix-card" style="margin-bottom: 10px; padding: 8px 12px;">
             <div class="gen-mix-header">
               <span>⚡ Clean Energy Generation Capacity Mix</span>
-              <span id="humanGenMixTotalLabel" style="font-family: 'Roboto Mono', monospace; color: #38bdf8;">6,324 MW Total Installed</span>
+              <span id="humanGenMixTotalLabel" style="font-family: 'Roboto Mono', monospace; color: #38bdf8;">2,119 MW Total Installed</span>
             </div>
             <div class="gen-mix-bar-wrap" title="Generation capacity breakdown">
-              <div class="gen-mix-segment wind" id="barMixWind" style="width: 86.2%;" title="Wind: 5,452 MW (86.2%)">
-                <span>💨 Wind 86.2% (5,452 MW)</span>
+              <div class="gen-mix-segment wind" id="barMixWind" style="width: 6.4%;" title="Wind &amp; Clean Hybrid: 135 MW (6.4%)">
+                <span>💨 Wind/Hybrid 6.4% (135 MW)</span>
               </div>
-              <div class="gen-mix-segment solar" id="barMixSolar" style="width: 13.8%;" title="Solar: 872 MW (13.8%)">
-                <span>☀️ Solar 13.8% (872 MW)</span>
+              <div class="gen-mix-segment solar" id="barMixSolar" style="width: 93.6%;" title="Solar: 1,984 MW (93.6%)">
+                <span>☀️ Solar 93.6% (1,984 MW)</span>
               </div>
             </div>
             <div class="gen-mix-legend" style="margin-top: 4px;">
               <div class="gen-mix-legend-item">
                 <span class="gen-mix-dot" style="background: #38bdf8;"></span>
-                <span>Wind Fleet: <strong id="lblMixWind">5,452 MW</strong></span>
+                <span>Wind &amp; Hybrid: <strong id="lblMixWind">135 MW (6.4%)</strong></span>
               </div>
               <div class="gen-mix-legend-item">
                 <span class="gen-mix-dot" style="background: #fbbf24;"></span>
-                <span>Solar Fleet: <strong id="lblMixSolar">872 MW</strong></span>
+                <span>Solar PV: <strong id="lblMixSolar">1,984 MW (93.6%)</strong></span>
               </div>
               <div class="gen-mix-legend-item" style="margin-left: auto;">
                 <span style="color: #34d399;">⚡ Cable Cooling Headroom: <strong id="lblMixHeadroom">+23.7%</strong></span>
@@ -3725,13 +3709,9 @@
               <!-- Quick Zoom Region Strip -->
               <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
                 <span style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; align-self: center; margin-right: 4px;">Quick Zoom:</span>
-                <button class="wx-pill-btn active" onclick="zoomFleetRegion('ALL', this)">🌐 Global</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('PT', this)">🇵🇹 Portugal</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('US', this)">🇺🇸 United States</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('ES', this)">🇪🇸 Spain</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('MY', this)">🇲🇾 Malaysia / ASEAN</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('PL', this)">🇵🇱 Poland</button>
-                <button class="wx-pill-btn" onclick="zoomFleetRegion('FR', this)">🇫🇷 France</button>
+                <button class="wx-pill-btn active" data-region="ALL" onclick="zoomFleetRegion('ALL', this)">🇲🇾 All Malaysia</button>
+                <button class="wx-pill-btn" data-region="WEST" onclick="zoomFleetRegion('WEST', this)">🌴 West Malaysia (Peninsular)</button>
+                <button class="wx-pill-btn" data-region="EAST" onclick="zoomFleetRegion('EAST', this)">🌊 East Malaysia (Sabah &amp; Sarawak)</button>
               </div>
 
               <div id="fleetMapCanvasView" style="height: 440px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); position: relative;">
@@ -3743,7 +3723,7 @@
                   <thead>
                     <tr>
                       <th>Asset Name</th>
-                      <th>Country</th>
+                      <th>Regional Group</th>
                       <th>Tech</th>
                       <th>Capacity (MW)</th>
                       <th>Forecast (MWh)</th>
@@ -3820,13 +3800,13 @@
 SELECT 
   forecast_hour,
   TIMESTAMP_ADD(TIMESTAMP '2026-09-25 12:00:00 UTC', INTERVAL forecast_hour HOUR) AS valid_time,
-  site_id, site_name, country_iso, latitude, longitude, technology, installed_capacity_mw,
+  site_id, site_name, region_group, latitude, longitude, technology, installed_capacity_mw,
   wind_speed_100m_ms, solar_ghi_wm2, ambient_temp_c,
   ROUND(predicted_generation_mw, 2) AS predicted_mw,
   ROUND(predicted_generation_mw / installed_capacity_mw * 100, 1) AS capacity_factor_pct
 FROM `utilities_grid_optimization.weathernext_spatial_telemetry`
-WHERE forecast_run_id = 'WN3-GLOBAL-20260925-12Z'
-ORDER BY valid_time ASC, site_name ASC;
+WHERE country_iso = 'MY' AND forecast_run_id = 'WN3-MY-REGIONAL-20260925-12Z'
+ORDER BY valid_time ASC, region_group ASC, site_name ASC;
               </div>
             </div>
 
@@ -5960,15 +5940,14 @@ ORDER BY valid_time ASC, site_name ASC;
     cardAssets: 'chart'
   };
 
-  // Country geographic coordinates & zoom presets
+  // Regional geographic coordinates & zoom presets
   const COUNTRY_BOUNDS = {
-    ALL: { center: [28.0, 10.0], zoom: 2.2 },
-    PT:  { center: [39.6, -8.2], zoom: 7.2 },
-    US:  { center: [37.8, -98.0], zoom: 4.4 },
-    ES:  { center: [40.4, -3.7], zoom: 6.2 },
-    MY:  { center: [4.2, 108.5], zoom: 5.8 },
-    PL:  { center: [52.1, 19.4], zoom: 6.4 },
-    FR:  { center: [46.8, 2.5], zoom: 6.0 }
+    ALL:  { center: [4.2, 108.5], zoom: 5.8 },
+    MY:   { center: [4.2, 108.5], zoom: 5.8 },
+    WEST: { center: [4.2, 101.9], zoom: 7.0 },
+    MY_WEST: { center: [4.2, 101.9], zoom: 7.0 },
+    EAST: { center: [3.8, 114.5], zoom: 6.8 },
+    MY_EAST: { center: [3.8, 114.5], zoom: 6.8 }
   };
 
   // Helper: Format numbers with commas
@@ -6024,8 +6003,14 @@ ORDER BY valid_time ASC, site_name ASC;
   // Filter assets
   function getFilteredAssets(country) {
     const all = getData().assets;
-    if (!country || country === 'ALL') return all;
-    return all.filter(a => a.country === country);
+    if (!country || country === 'ALL' || country === 'MY') return all;
+    if (country === 'WEST' || country === 'MY_WEST') {
+      return all.filter(a => a.region_group === 'WEST' || a.group === 'West Malaysia' || a.group === 'WEST');
+    }
+    if (country === 'EAST' || country === 'MY_EAST') {
+      return all.filter(a => a.region_group === 'EAST' || a.group === 'East Malaysia' || a.group === 'EAST');
+    }
+    return all.filter(a => a.region_group === country || a.country === country);
   }
 
   // Calculate fleet capacity metrics
@@ -6033,16 +6018,16 @@ ORDER BY valid_time ASC, site_name ASC;
     const allAssets = getData().assets;
     const filtered = getFilteredAssets(country);
 
-    const globalWindCap = allAssets.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0) || 5496.5;
-    const globalSolarCap = allAssets.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0) || 1708.2;
+    const globalWindCap = allAssets.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0) || 135.0;
+    const globalSolarCap = allAssets.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0) || 1984.0;
     const globalTotCap = globalWindCap + globalSolarCap;
 
     const windCap = filtered.filter(a => a.tech === 'wind').reduce((s, a) => s + a.capacity_mw, 0);
     const solarCap = filtered.filter(a => a.tech === 'solar').reduce((s, a) => s + a.capacity_mw, 0);
     const totCap = windCap + solarCap;
 
-    const windRatio = (!country || country === 'ALL') ? 1.0 : (windCap / globalWindCap || 0.05);
-    const solarRatio = (!country || country === 'ALL') ? 1.0 : (solarCap / globalSolarCap || 0.05);
+    const windRatio = (!country || country === 'ALL' || country === 'MY') ? 1.0 : (windCap / globalWindCap || 0.05);
+    const solarRatio = (!country || country === 'ALL' || country === 'MY') ? 1.0 : (solarCap / globalSolarCap || 0.05);
 
     return {
       filteredAssets: filtered,
@@ -6224,9 +6209,9 @@ ORDER BY valid_time ASC, site_name ASC;
     }
 
     wn3FleetMap = L.map('wn3LeafletFleetMap', {
-      center: [28.0, 10.0],
-      zoom: 2.2,
-      minZoom: 1.8,
+      center: [4.2, 108.5],
+      zoom: 5.8,
+      minZoom: 4,
       maxZoom: 17,
       zoomControl: true,
       attributionControl: false
@@ -6292,7 +6277,7 @@ ORDER BY valid_time ASC, site_name ASC;
       const popupHtml = `
         <div style="font-family: var(--font); color: #f0f4fc; min-width: 200px;">
           <div style="font-size: 13px; font-weight: 700; margin-bottom: 3px;">${a.name}</div>
-          <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">${a.region}, ${a.country} · ${isWind ? '💨 Wind Farm' : '☀️ Solar PV Farm'}</div>
+          <div style="font-size: 11px; color: #94a3b8; margin-bottom: 6px;">${a.region_group === 'WEST' ? '🌴 West Malaysia' : '🌊 East Malaysia'} · ${a.region}</div>
           <div style="display: flex; justify-content: space-between; font-size: 11.5px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 5px; margin-top: 4px;">
             <span>Capacity:</span> <strong style="color: #38bdf8;">${a.capacity_mw} MW</strong>
           </div>
@@ -6322,7 +6307,7 @@ ORDER BY valid_time ASC, site_name ASC;
       const html = assets.map(a => `
         <tr>
           <td><strong>${a.name}</strong></td>
-          <td>${a.country}</td>
+          <td><span style="color: ${a.region_group === 'WEST' ? '#38bdf8' : '#34d399'}; font-weight: 600;">${a.region_group === 'WEST' ? '🌴 West Malaysia' : '🌊 East Malaysia'}</span><br><small style="color: var(--text-muted); font-size: 10px;">${a.region || ''}</small></td>
           <td><span style="background: ${a.tech === 'wind' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(251, 191, 36, 0.15)'}; color: ${a.tech === 'wind' ? '#38bdf8' : '#fbbf24'}; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${a.tech.toUpperCase()}</span></td>
           <td>${a.capacity_mw} MW</td>
           <td>${fmtNum(a.forecast_mwh)} MWh</td>
@@ -6458,46 +6443,32 @@ ORDER BY valid_time ASC, site_name ASC;
     }
   });
 
-  // AI Narrative Generator
+  // AI Narrative Generator - Dedicated to Malaysia Regional Fleets
   const COUNTRY_NARRATIVES = {
     ALL: `
-      <p>Across the next 15 days, this global portfolio is forecast to generate an estimated <strong>377,029 MWh</strong> against an installed base of <strong>6,324 MW</strong> (86% wind, 14% solar).</p>
-      <p>Production reaches a diurnal peak of <strong>2,185 MW</strong> on 29 Sep at 11:00 UTC, driven by synchronized Iberian and Atlantic frontal winds overlapping with peak midday solar irradiance.</p>
-      <p>Wind provides baseline bulk energy across the run, featuring three multi-day frontal surges. Solar delivers a dependable diurnal pulse peaking between 11:00 and 14:00 UTC daily.</p>
-      <p><strong>Meteorological Bias Correction:</strong> The raw WeatherNext 0.1° cell outputs represent spatial cell averages. Because wind farms are intentionally sited on high ridges and coastal bluffs, raw speeds understate hub-height velocities. For trading and scheduling, apply local SCADA bias-correction models to wind assets; solar GHI requires no calibration.</p>
-      <p><strong>Grid Transmission Synergy:</strong> Wind output surges correlate strongly with transmission corridor ambient crosswinds, allowing our IEEE 738 Dynamic Line Rating solver to unlock <strong>+20% to +35% ampacity headroom</strong> on key evacuation lines precisely when wind generation peaks.</p>
+      <p>Across the next 15 days, Malaysia's national renewable portfolio is forecast to generate an estimated <strong>124,500 MWh</strong> against an installed base of <strong>2,119 MW</strong> (94% solar PV, 6% clean hydro-hybrid and coastal wind).</p>
+      <p>National production reaches a diurnal peak of <strong>1,438 MW</strong> around midday (12:30–13:30 MYT / 04:30–05:30 UTC), driven by synchronized insolation across Peninsular Large Scale Solar (LSS) installations and Borneo floating solar corridors.</p>
+      <p>Solar provides the core generation block during clear morning windows with Global Horizontal Irradiance (GHI) exceeding 920 W/m². Afternoon tropical convective cloud cover and localized precipitation induce typical 20–35% diurnal attenuation from 15:30 MYT onwards.</p>
+      <p><strong>Meteorological Bias Correction:</strong> WeatherNext 0.1° synoptic resolution captures equatorial cloud kinematics and monsoon frontal boundaries. Localized bias correction is calibrated against TNB Grid System Operator (GSO) SCADA telemetry to prevent ramp-rate violations.</p>
+      <p><strong>Grid Transmission Synergy:</strong> Tropical thunderstorm downdrafts and coastal sea breezes provide aggressive ambient cooling. Our IEEE 738 Dynamic Line Rating (DLR) engine unlocks <strong>+21.4% ampacity headroom</strong> along congested 500kV and 275kV evacuation corridors exactly during peak renewable dispatch.</p>
     `,
-    PT: `
-      <p>Portugal represents EDP's flagship fleet, with <strong>1,421 MW</strong> across 62 assets (1,326 MW wind, 95 MW solar) forecast to generate <strong>91,480 MWh</strong> over the 15-day synoptic window.</p>
-      <p>Generation exhibits sharp Atlantic frontal spikes, peaking at <strong>684 MW</strong> on 28 Sep 14:00 UTC. Northern Serra da Padrela and Alto Minho ridgeline wind clusters sustain capacity factors exceeding 32% during oceanic gale events.</p>
-      <p><strong>Trading & Dispatch:</strong> Strong night-time wind energy creates opportunities for pumped-storage hydro pumping arbitrage in the Douro basin, capturing low off-peak spot prices.</p>
-      <p><strong>DLR Corridor Status:</strong> The 400kV Douro Internacional evacuation corridor benefits from 8.2 m/s perpendicular wind cooling, unlocking +24.8% thermal headroom.</p>
+    WEST: `
+      <p>The West Malaysia (Peninsular) fleet represents the industrial heart of the Malaysian grid under the TNB Grid System Operator (GSO), totaling <strong>1,329 MW</strong> across 22 utility-scale assets delivering an estimated <strong>78,200 MWh</strong> over the 15-day synoptic window.</p>
+      <p>Major generation hubs include Gurun LSS (100 MW), Kerian Solar Hub (100 MW), Marang Solar Complex (116 MW), and the landmark Tasik Kenyir Floating Solar Array (150 MW), peaking at <strong>985 MW</strong> around 13:00 MYT.</p>
+      <p><strong>Trading & Congestion Management:</strong> Generation from Kedah and Perak clusters evacuates through the 500kV northern corridor toward the high-demand Klang Valley industrial load centers. Midday solar surpluses allow dispatchers to throttle combined-cycle gas turbines (CCGT), saving gas feedstock and reducing carbon emissions.</p>
+      <p><strong>DLR Corridor Status:</strong> The 500kV Bukit Badong – Rawang corridor experiences 4.2 m/s perpendicular wind cooling, unlocking <strong>+22.6% thermal headroom (1,716 A vs 1,400 A SLR)</strong> while maintaining statutory ground clearances.</p>
     `,
-    US: `
-      <p>The North American portfolio comprises <strong>3,102 MW</strong> across 17 utility-scale assets (2,820 MW wind, 282 MW solar) generating an estimated <strong>188,400 MWh</strong>.</p>
-      <p>Large ERCOT and SPP wind farms (e.g., Timber Road, Meadow Lake, Wildcat) dominate production, with peak output hitting <strong>1,240 MW</strong> during continental high-pressure gradients.</p>
-      <p><strong>Congestion & Curtailment:</strong> Significant wind surges in western Texas and Indiana during nocturnal hours suggest hedging against locational marginal price (LMP) dips.</p>
-      <p><strong>IEEE 738 Headroom:</strong> Conductor temperatures remain well below 65°C under sustained 7.5 m/s crosswinds, enabling transmission operators to clear +26.2% additional wind energy without curtailment.</p>
-    `,
-    ES: `
-      <p>The Spanish fleet totals <strong>404 MW</strong> across 13 installations in Galicia, Castile and León, and Andalusia, delivering an estimated <strong>24,800 MWh</strong>.</p>
-      <p>Solar PV plants in Extremadura and Andalusia provide a robust 12:00–15:00 UTC injection of up to 72 MW peak, complementing coastal Galician wind generation.</p>
-      <p><strong>Meteorological Nuance:</strong> Meseta Central temperature inversions require SCADA calibration to adjust for boundary-layer stability during dawn hours.</p>
-    `,
-    MY: `
-      <p>The Malaysian ASEAN Grid portfolio spans <strong>881 MW</strong> across 9 strategic nodes including Gurun LSS (100MW), Cameron Highlands Hydro (120MW), Sepang Solar (50MW), and Bakun Hybrid (140MW), yielding <strong>48,200 MWh</strong>.</p>
-      <p>Solar generation peaks at <strong>410 MW</strong> during clear morning windows (10:00–13:30 MYT / 02:00–05:30 UTC), followed by afternoon convective cloud attenuation.</p>
-      <p><strong>IEEE 738 DLR Impact:</strong> Tropical squall crosswinds along the 500kV Bukit Badong - Klang Valley corridor provide aggressive conductor cooling, unlocking <strong>+23.7% ampacity headroom (1,732 A vs 1,400 A SLR)</strong> while keeping conductor sag safely above the 8.0m statutory clearance.</p>
-    `,
-    PL: `
-      <p>The Polish portfolio encompasses <strong>711 MW</strong> across 10 wind and solar assets, delivering an estimated <strong>43,500 MWh</strong> across the Baltic coastal and central lowlands.</p>
-      <p>Baltic maritime low-pressure systems provide steady, predictable wind output peaking at <strong>315 MW</strong> on 1 Oct 08:00 UTC.</p>
-    `,
-    FR: `
-      <p>The French portfolio totals <strong>101 MW</strong> across 9 wind farms in Brittany and Occitanie, producing an estimated <strong>6,200 MWh</strong>.</p>
-      <p>Mistral and Tramontane winds drive robust capacity factors on Mediterranean-adjacent sites, offering predictable intraday dispatch.</p>
+    EAST: `
+      <p>The East Malaysia fleet covers Sabah and Sarawak across Borneo, comprising <strong>790 MW</strong> across 15 utility-scale installations delivering an estimated <strong>46,300 MWh</strong>.</p>
+      <p>Flagship assets include the Bakun Energy Corridor Solar/Hybrid (140 MW), Baleh Reservoir Floating PV (100 MW), Murum Solar Project (80 MW), Batang Ai Floating Solar (60 MW), and the Kudat Coastal Wind & Solar Hybrid project (45 MW) in northern Sabah.</p>
+      <p><strong>Hydropower-Solar Cascading:</strong> In Sarawak, floating solar arrays on the Batang Ai and Bakun reservoir catchments operate in complementary cascade with existing Sarawak Energy mega-hydro plants: solar generates during sunlight hours, conserving reservoir water head for peak evening hydroelectric ramping.</p>
+      <p><strong>Sabah Grid Stabilization:</strong> In Sabah, the SESB grid utilizes fast-responding solar and Kudat coastal wind to offset diesel peaker generation along the Tuaran and Sandakan corridors, supported by <strong>+19.8%</strong> DLR capacity enhancement.</p>
     `
   };
+  // Aliases for compatibility
+  COUNTRY_NARRATIVES.MY = COUNTRY_NARRATIVES.ALL;
+  COUNTRY_NARRATIVES.MY_WEST = COUNTRY_NARRATIVES.WEST;
+  COUNTRY_NARRATIVES.MY_EAST = COUNTRY_NARRATIVES.EAST;
 
   function updateAiNarrative(country) {
     const el = document.getElementById('wn3AiNarrative');
@@ -6540,69 +6511,36 @@ ORDER BY valid_time ASC, site_name ASC;
 
   const FLEET_MIX_DATA = {
     ALL: {
-      totalMw: 6324,
-      windMw: 5452,
-      solarMw: 872,
-      windPct: 86.2,
-      solarPct: 13.8,
-      headroom: "+23.7%",
-      advisory: "<strong>Grid Advisory (Global Fleet):</strong> Peak renewable generation of <strong>2,185 MW</strong> arrives on <strong>29 Sep at 11:00 UTC</strong>. Natural line cooling provides <strong>+23.7%</strong> transmission headroom. <em>Recommendation: Safely throttle 3 fossil peaker units to avoid 140 tonnes of CO₂.</em>"
+      totalMw: 2119,
+      windMw: 135,
+      solarMw: 1984,
+      windPct: 6.4,
+      solarPct: 93.6,
+      headroom: "+21.4%",
+      advisory: "<strong>National Grid Advisory (Malaysia):</strong> Combined Peninsular and Borneo clean generation peaks at <strong>1,438 MW</strong> during peak insolation window (11:30–14:00 MYT). High ambient coastal crosswinds provide <strong>+21.4%</strong> dynamic line cooling across 500kV Peninsular backbone and 275kV Sarawak Energy interties. <em>Recommendation: Dispatch pumped-storage at Temenggor and charge BESS to absorb midday solar surge.</em>"
     },
-    MY: {
-      totalMw: 881,
-      windMw: 0,
-      solarMw: 881,
-      windPct: 0.0,
-      solarPct: 100.0,
-      headroom: "+18.4%",
-      advisory: "<strong>Grid Advisory (Malaysia / ASEAN):</strong> Equatorial solar generation peaks at <strong>620 MW</strong> at 12:30 MYT. Dynamic ambient cooling unlocks <strong>+18.4%</strong> transmission line capacity along the Klang Valley corridor. <em>Recommendation: Charge battery storage banks during midday solar surplus.</em>"
+    WEST: {
+      totalMw: 1329,
+      windMw: 50,
+      solarMw: 1279,
+      windPct: 3.8,
+      solarPct: 96.2,
+      headroom: "+22.6%",
+      advisory: "<strong>Grid Advisory (West Malaysia / Peninsular):</strong> TNB 500kV grid receives massive injection from Large Scale Solar (LSS) clusters in Kedah, Perak, and Terengganu peaking at <strong>985 MW</strong> at 13:00 MYT. Dynamic Line Rating (IEEE 738) unlocks <strong>+22.6%</strong> transmission capacity along the congested Klang Valley and northern evacuation corridors."
     },
-    PT: {
-      totalMw: 1421,
-      windMw: 1393,
-      solarMw: 28,
-      windPct: 98.0,
-      solarPct: 2.0,
-      headroom: "+26.1%",
-      advisory: "<strong>Grid Advisory (Portugal Fleet):</strong> Atlantic coastal winds deliver sustained generation peaking at <strong>1,140 MW</strong>. High offshore wind speeds (12.4 m/s) provide <strong>+26.1%</strong> dynamic line cooling across the Centro and Norte transmission corridors."
-    },
-    US: {
-      totalMw: 3102,
-      windMw: 2689,
-      solarMw: 413,
-      windPct: 86.7,
-      solarPct: 13.3,
-      headroom: "+24.8%",
-      advisory: "<strong>Grid Advisory (United States Fleet):</strong> Midwest wind farms and California solar facilities forecast combined output peak of <strong>1,890 MW</strong>. Real-time IEEE 738 dynamic line rating unlocks <strong>+24.8%</strong> capacity across interties."
-    },
-    ES: {
-      totalMw: 404,
-      windMw: 356,
-      solarMw: 48,
-      windPct: 88.1,
-      solarPct: 11.9,
-      headroom: "+21.5%",
-      advisory: "<strong>Grid Advisory (Spain Fleet):</strong> Iberian solar-wind synergy expected to deliver <strong>310 MW</strong> peak. Dry air convection enables <strong>+21.5%</strong> conductor headroom."
-    },
-    PL: {
-      totalMw: 711,
-      windMw: 511,
-      solarMw: 200,
-      windPct: 71.9,
-      solarPct: 28.1,
-      headroom: "+19.3%",
-      advisory: "<strong>Grid Advisory (Poland Fleet):</strong> Baltic wind corridor and Przykona solar deliver <strong>540 MW</strong> peak. Ambient wind cooling unlocks <strong>+19.3%</strong> transmission throughput."
-    },
-    FR: {
-      totalMw: 101,
-      windMw: 101,
-      solarMw: 0,
-      windPct: 100.0,
-      solarPct: 0.0,
-      headroom: "+22.0%",
-      advisory: "<strong>Grid Advisory (France Fleet):</strong> Inland wind fleet operating at high capacity factor (0.28). Ambient breezes provide <strong>+22.0%</strong> transmission line headroom."
+    EAST: {
+      totalMw: 790,
+      windMw: 85,
+      solarMw: 705,
+      windPct: 10.8,
+      solarPct: 89.2,
+      headroom: "+19.8%",
+      advisory: "<strong>Grid Advisory (East Malaysia / Sabah & Sarawak):</strong> Sarawak Energy 275kV grid and SESB Sabah network benefit from Bakun, Murum, Batang Ai floating solar arrays and Kudat coastal wind corridor delivering <strong>453 MW</strong> peak. Conductor temperatures stay under 58°C with natural cooling, enabling <strong>+19.8%</strong> intertie headroom."
     }
   };
+  FLEET_MIX_DATA.MY = FLEET_MIX_DATA.ALL;
+  FLEET_MIX_DATA.MY_WEST = FLEET_MIX_DATA.WEST;
+  FLEET_MIX_DATA.MY_EAST = FLEET_MIX_DATA.EAST;
 
   function updateHumanBriefing(country) {
     const data = FLEET_MIX_DATA[country] || FLEET_MIX_DATA.ALL;
@@ -6645,7 +6583,7 @@ ORDER BY valid_time ASC, site_name ASC;
     onWeatherNextCountryChange(country, true);
   }
 
-  // Country change handler
+  // Country / Regional change handler
   function onWeatherNextCountryChange(country, updateZoom = true) {
     updateHumanBriefing(country);
     wn3CurrentCountry = country;
@@ -6655,6 +6593,16 @@ ORDER BY valid_time ASC, site_name ASC;
     renderAssetsView(country);
     renderFleetMapMarkers(country);
     updateAiNarrative(country);
+
+    // Sync quick-zoom buttons
+    document.querySelectorAll('#cardFleetMap .wx-pill-btn').forEach(b => {
+      const r = b.getAttribute('data-region') || b.textContent;
+      if (r === country || (country === 'ALL' && r.includes('All')) || (country === 'WEST' && r.includes('West')) || (country === 'EAST' && r.includes('East'))) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
 
     if (updateZoom && wn3FleetMap && COUNTRY_BOUNDS[country]) {
       const cfg = COUNTRY_BOUNDS[country];
@@ -6698,7 +6646,7 @@ ORDER BY valid_time ASC, site_name ASC;
       const logBox = document.getElementById('wxSubagentLogBox');
       if (logBox) {
         const item = document.createElement('div');
-        item.innerHTML = `<span style="color: #64748b;">[${new Date().toISOString().slice(11, 19)} UTC]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Fresh synoptic run ingested from BigQuery table \`utilities_grid_optimization.weathernext_spatial_telemetry\`. 126 assets synchronized.`;
+        item.innerHTML = `<span style="color: #64748b;">[${new Date().toISOString().slice(11, 19)} UTC]</span> <span style="color: #38bdf8;">[sub_weathernext_forecast_consumer]</span> Fresh synoptic run ingested from BigQuery table \`utilities_grid_optimization.weathernext_spatial_telemetry\`. 37 Malaysian utility-scale assets synchronized across West and East Malaysia corridors.`;
         logBox.prepend(item);
       }
 
