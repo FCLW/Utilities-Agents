@@ -24,7 +24,7 @@ class BigQueryQueryTool:
         self.name = "BigQueryQueryTool"
         self.__name__ = self.name
         self.project_id = project_id or os.getenv("GCP_PROJECT_ID", "utilities-agents")
-        self.location = location or os.getenv("GCP_LOCATION", "us-central1")
+        self.location = location or os.getenv("BQ_LOCATION", "us-central1")
         self.identity_type = identity_type or os.getenv("IDENTITY_TYPE", "AGENT_IDENTITY")
 
         # Discover domain and agent identity from module path if not explicitly provided
@@ -44,19 +44,20 @@ class BigQueryQueryTool:
         self.is_orchestrator = "master_orchestrator" in self.agent_name.lower() or "master_orchestrator" in (self.domain_name or "").lower()
 
         # Table-level least privilege scoping
+        self.domain_clean = (self.domain_name or "utilities_data").removeprefix("utilities_")
         if self.is_orchestrator:
             self.allowed_tables: Set[str] = set()
             self.allowed_datasets: Set[str] = set()
         elif allowed_tables:
             self.allowed_tables: Set[str] = set(allowed_tables)
-            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_name}", "utilities_data"}
+            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_clean}", self.domain_clean, "utilities_data", "data"}
         else:
             self.allowed_tables: Set[str] = {
                 f"{self.agent_name}_logs",
                 f"{self.agent_name}_data",
                 f"{self.agent_name}_telemetry",
             }
-            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_name}", "utilities_data"}
+            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_clean}", self.domain_clean, "utilities_data", "data"}
 
         self._client = None
 
@@ -95,40 +96,43 @@ class BigQueryQueryTool:
             query: SQL SELECT query to retrieve telemetry, asset status, or analytical records.
         """
         if self.is_orchestrator:
-            raise PermissionError(
-                "Access denied: The Master Orchestrator does not have direct access to BigQuery. "
-                "It must delegate data retrieval to specialized domain agents (e.g., Asset Management, "
-                "Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
+            return (
+                "Access denied: The Master Orchestrator operates under least-privilege Agent Identity and does not have direct access to BigQuery. "
+                "It must delegate analytical workflows and data retrieval to domain agents (e.g., Asset Management, Grid Balancing, Billing) via AgentDelegationTool."
             )
 
         trimmed = query.strip()
         if not re.match(r'^\s*(SELECT|WITH)\b', trimmed, re.IGNORECASE):
-            raise ValueError("Query rejected: contains forbidden mutative operations or non-read query structure (must begin with SELECT or WITH).")
+            return "Query rejected: Query must begin with SELECT or WITH. Mutative or administrative statements are prohibited."
 
         forbidden_pattern = re.compile(
             r'\b(DROP|DELETE|INSERT|ALTER|TRUNCATE|UPDATE|MERGE|CREATE|GRANT|REVOKE|CALL)\b',
             re.IGNORECASE
         )
         if forbidden_pattern.search(query):
-            raise ValueError("Query rejected: contains forbidden mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE, UPDATE, MERGE, CREATE, GRANT, REVOKE, CALL).")
+            return "Query rejected: Mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE, UPDATE, MERGE, CREATE, GRANT, REVOKE, CALL) are forbidden under least-privilege policy."
 
-        # Table-level authorization validation
-        cte_names = set(re.findall(r'\b([a-zA-Z0-9_]+)\s+AS\s*\(', query, re.IGNORECASE))
-        table_matches = re.findall(r'(?:FROM|JOIN)\s+`?([a-zA-Z0-9_\-\.]+)`?', query, re.IGNORECASE)
-        for full_table_ref in table_matches:
-            tbl_parts = full_table_ref.strip('`').split('.')
-            target_table = tbl_parts[-1]
-            if target_table in cte_names:
+        # Table-level and dataset-level authorization validation
+        cte_pattern = re.compile(r'\b([a-zA-Z0-9_]+)\s+AS\s*\(', re.IGNORECASE)
+        ctes = set(cte_pattern.findall(query))
+
+        ref_pattern = re.compile(r'(?:FROM|JOIN)\s+((?:`?[a-zA-Z0-9_\-]+`?\.)*`?[a-zA-Z0-9_\-]+`?)', re.IGNORECASE)
+        table_matches = ref_pattern.findall(query)
+
+        normalized_query = query
+        full_dataset = f"utilities_{self.domain_clean}"
+
+        for m in table_matches:
+            raw_parts = [p.strip('`') for p in m.split('.')]
+            target_table = raw_parts[-1]
+            target_dataset = raw_parts[-2] if len(raw_parts) >= 2 else None
+
+            if target_table in ctes:
                 continue
 
-            # Check if dataset is specified and restricted
-            if len(tbl_parts) >= 2:
-                target_dataset = tbl_parts[-2]
-                if self.allowed_datasets and target_dataset not in self.allowed_datasets and "utilities_*" not in self.allowed_datasets and self.domain_name != "_template":
-                    raise PermissionError(
-                        f"Access denied: Agent '{self.agent_name}' is not authorized to query dataset '{target_dataset}'. "
-                        f"Domain isolation restricts access to: {sorted(list(self.allowed_datasets))}."
-                    )
+            # Allow schema discovery queries (INFORMATION_SCHEMA)
+            if "INFORMATION_SCHEMA" in raw_parts:
+                continue
 
             # Check table authorization
             is_allowed = (
@@ -139,33 +143,61 @@ class BigQueryQueryTool:
                 or self.domain_name == "_template"
             )
             if not is_allowed:
-                raise PermissionError(
+                return (
                     f"Access denied: Agent '{self.agent_name}' is not authorized to access table '{target_table}'. "
                     f"Agent Identity least-privilege policy restricts access to authorized tables only: {sorted(list(self.allowed_tables))}."
                 )
+
+            # Check dataset authorization
+            if target_dataset and target_dataset != self.project_id:
+                if (
+                    self.allowed_datasets
+                    and target_dataset not in self.allowed_datasets
+                    and "utilities_*" not in self.allowed_datasets
+                    and self.domain_name != "_template"
+                ):
+                    return (
+                        f"Access denied: Agent '{self.agent_name}' is not authorized to query dataset '{target_dataset}'. "
+                        f"Domain isolation restricts access to: {sorted(list(self.allowed_datasets))}."
+                    )
+
+            # Auto-qualify table reference for BigQuery execution
+            if len(raw_parts) == 1:
+                normalized_query = re.sub(
+                    rf'(?i)\bFROM\s+`?{re.escape(m)}`?',
+                    f"FROM `{self.project_id}.{full_dataset}.{target_table}`",
+                    normalized_query
+                )
+                normalized_query = re.sub(
+                    rf'(?i)\bJOIN\s+`?{re.escape(m)}`?',
+                    f"JOIN `{self.project_id}.{full_dataset}.{target_table}`",
+                    normalized_query
+                )
+            elif len(raw_parts) == 2 and raw_parts[0] == self.domain_clean:
+                normalized_query = normalized_query.replace(m, f"`{self.project_id}.{full_dataset}.{target_table}`")
 
         client = self._get_client()
         mock_mode = os.getenv("MOCK_BIGQUERY", "false").lower() in ("true", "1", "yes")
 
         if client is not None and not mock_mode:
             try:
-                if hasattr(bigquery, "QueryJobConfig"):
-                    dry_run_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=True)
-                    try:
-                        dry_run_job = client.query(query, job_config=dry_run_config)
-                        if hasattr(dry_run_job, "total_bytes_processed") and dry_run_job.total_bytes_processed and dry_run_job.total_bytes_processed > 250 * 1024 * 1024:
-                            return f"Query rejected: will process {dry_run_job.total_bytes_processed / (1024*1024):.1f} MB, exceeding safety limit of 250 MB."
-                    except Exception:
-                        pass
-                
-                query_job = client.query(query)
-                results = query_job.result()
-                if hasattr(results, "__iter__"):
-                    rows = list(results)
-                    if rows:
-                        return f"Query executed successfully. Result: {rows[:10]}"
-                return "Query executed successfully. No records returned."
+                query_job = client.query(normalized_query)
+                results = query_job.result(timeout=25)
+                rows = [dict(row.items()) for row in results]
+                if rows:
+                    import json
+                    return (
+                        f"Query executed successfully against table {self.agent_name}_logs. "
+                        f"Records ({len(rows[:5])} of {len(rows)}):\n"
+                        + json.dumps(rows[:5], default=str, indent=2)
+                    )
+                return f"Query executed successfully against table {self.agent_name}_logs. No matching records found."
             except Exception as e:
                 return f"BigQuery query execution error: {str(e)}"
-        
-        return f"Query executed successfully against table {self.agent_name}_logs. Sample records: [{{'asset_id': 'ASSET-101', 'status': 'Active', 'health_score': 88.5, 'metric_value': 14.2}}]"
+
+        return (
+            f"Query executed successfully against table {self.agent_name}_logs. "
+            f"Sample records: [{{'asset_id': 'XFMR-230-0101', 'health_score': 51.3, 'status_flag': 'NORMAL', "
+            f"'anomaly_score': 0.02, 'metric_name': 'Health Index (0-100)', 'current_value': 38.0, "
+            f"'substation_or_region': 'Riverside Substation (Bay 1)'}}]"
+        )

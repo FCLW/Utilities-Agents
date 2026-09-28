@@ -101,7 +101,7 @@ def deploy_single_agent(agent_info: dict, adk_bin: str, project_id: str) -> dict
         "--region", region,
         "--display_name", display_name,
         "--agent_engine_id", re_id,
-        "--agent_engine_config_file", str(cfg_path),
+        "--agent_engine_config_file", str(cfg_path.resolve()),
         "--extra_packages", "config",
         "--otel_to_cloud"
     ]
@@ -110,7 +110,8 @@ def deploy_single_agent(agent_info: dict, adk_bin: str, project_id: str) -> dict
     for attempt in range(1, max_attempts + 1):
         try:
             res = subprocess.run(cmd, capture_output=True, text=True)
-            if res.returncode != 0 or "Deploy failed:" in res.stdout or "Failed to deploy" in res.stdout:
+            combined_output = (res.stdout or "") + "\n" + (res.stderr or "")
+            if res.returncode != 0 or "Deploy failed:" in combined_output or "Failed to deploy" in combined_output:
                 err_output = res.stderr or res.stdout or "Deployment returned non-zero or failure message"
                 raise RuntimeError(err_output[-500:])
             elapsed = int(time.time() - start_time)
@@ -162,7 +163,7 @@ def main():
     agents_dir = Path("agents")
     local_agents = []
     for root, dirs, files in os.walk(agents_dir):
-        if "agent.py" in files and not root.startswith("agents/_template"):
+        if "agent.py" in files and not root.startswith("agents/_template") and "_tmp" not in root:
             ag_name = os.path.basename(root)
             dom_name = os.path.basename(os.path.dirname(root))
             key = ag_name.lower().replace(" ", "_").replace("-", "_")

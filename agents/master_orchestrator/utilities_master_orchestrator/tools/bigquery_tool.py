@@ -32,8 +32,7 @@ class BigQueryQueryTool:
 
     def run(self, query: str) -> str:
         """Denies execution and instructs the caller to use AgentDelegationTool."""
-        raise PermissionError(
-            "Access denied: The Master Orchestrator does not have direct access to BigQuery. "
-            "It must delegate data retrieval to specialized domain agents (e.g., Asset Management, "
-            "Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
+        return (
+            "Access denied: The Master Orchestrator operates under least-privilege Agent Identity and does not have direct access to BigQuery. "
+            "It must delegate analytical workflows and data retrieval to specialized domain agents (e.g., Asset Management, Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
         )

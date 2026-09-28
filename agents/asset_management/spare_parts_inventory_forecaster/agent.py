@@ -1,6 +1,10 @@
 import os
+os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+os.environ["GOOGLE_API_USE_CLIENT_CERTIFICATE"] = "false"
+os.environ["GOOGLE_API_USE_MTLS_ENDPOINT"] = "never"
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
+
 # Ensure global endpoint for Gemini 3.7 Flash on Vertex AI
-os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
 
 from google.adk import Agent
 from .app_utils.prompt_loader import load_prompt_layer
@@ -91,15 +95,12 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
     """Executes the Worker -> Critic pipeline, sanitizing outputs into structured markdown."""
     import sys
     from google.adk.runners import InMemoryRunner
+    from google.adk import Agent
     agent_mod = sys.modules.get(__name__)
     w = getattr(agent_mod, "worker_agent", worker_agent)
     c = getattr(agent_mod, "critic_agent", critic_agent)
     
-    if callable(w):
-        worker_resp = w(message)
-    elif hasattr(w, "run") and type(w).__name__ != "Agent":
-        worker_resp = w.run(message)
-    elif type(w).__name__ == "Agent":
+    if isinstance(w, Agent) or type(w).__name__ == "Agent":
         try:
             runner = InMemoryRunner(agent=w)
             events = await runner.run_debug(message, quiet=True)
@@ -110,8 +111,12 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
                         if getattr(p, "text", None):
                             parts.append(p.text)
             worker_resp = "".join(parts) if parts else f"Worker analysis for: {message}"
-        except Exception:
-            worker_resp = f"Worker analysis for: {message}"
+        except Exception as e:
+            worker_resp = f"Worker analysis error: {e}"
+    elif callable(w):
+        worker_resp = w(message)
+    elif hasattr(w, "run"):
+        worker_resp = w.run(message)
     else:
         worker_resp = f"Worker analysis for: {message}"
     if hasattr(worker_resp, "__await__"):
@@ -119,11 +124,7 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
     content = worker_resp.content if hasattr(worker_resp, "content") else str(worker_resp)
 
     critic_prompt = f"Review and format this output into a Markdown table: {content}"
-    if callable(c):
-        critic_resp = c(critic_prompt)
-    elif hasattr(c, "run") and type(c).__name__ != "Agent":
-        critic_resp = c.run(critic_prompt)
-    elif type(c).__name__ == "Agent":
+    if isinstance(c, Agent) or type(c).__name__ == "Agent":
         try:
             runner = InMemoryRunner(agent=c)
             events = await runner.run_debug(critic_prompt, quiet=True)
@@ -136,6 +137,10 @@ async def workflow_router(message: str, session_state: dict = None) -> str:
             critic_resp = "".join(parts) if parts else chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
         except Exception:
             critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
+    elif callable(c):
+        critic_resp = c(critic_prompt)
+    elif hasattr(c, "run"):
+        critic_resp = c.run(critic_prompt)
     else:
         critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
     if hasattr(critic_resp, "__await__"):

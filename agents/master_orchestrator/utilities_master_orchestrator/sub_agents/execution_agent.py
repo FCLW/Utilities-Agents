@@ -1,5 +1,8 @@
 import os
-os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))
+os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+os.environ["GOOGLE_API_USE_CLIENT_CERTIFICATE"] = "false"
+os.environ["GOOGLE_API_USE_MTLS_ENDPOINT"] = "never"
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
 
 from google.adk import Agent
 from ..tools.delegation_tool import AgentDelegationTool

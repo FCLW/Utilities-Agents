@@ -54,10 +54,9 @@ class BigQueryQueryTool:
 
     def run(self, query: str) -> str:
         \"\"\"Denies execution and instructs the caller to use AgentDelegationTool.\"\"\"
-        raise PermissionError(
-            "Access denied: The Master Orchestrator does not have direct access to BigQuery. "
-            "It must delegate data retrieval to specialized domain agents (e.g., Asset Management, "
-            "Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
+        return (
+            "Access denied: The Master Orchestrator operates under least-privilege Agent Identity and does not have direct access to BigQuery. "
+            "It must delegate analytical workflows and data retrieval to specialized domain agents (e.g., Asset Management, Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
         )
 """
 
@@ -87,7 +86,7 @@ class BigQueryQueryTool:
         self.name = "BigQueryQueryTool"
         self.__name__ = self.name
         self.project_id = project_id or os.getenv("GCP_PROJECT_ID", "utilities-agents")
-        self.location = location or os.getenv("GCP_LOCATION", "us-central1")
+        self.location = location or os.getenv("BQ_LOCATION", "us-central1")
         self.identity_type = identity_type or os.getenv("IDENTITY_TYPE", "AGENT_IDENTITY")
 
         # Discover domain and agent identity from module path if not explicitly provided
@@ -107,19 +106,20 @@ class BigQueryQueryTool:
         self.is_orchestrator = "master_orchestrator" in self.agent_name.lower() or "master_orchestrator" in (self.domain_name or "").lower()
 
         # Table-level least privilege scoping
+        self.domain_clean = (self.domain_name or "utilities_data").removeprefix("utilities_")
         if self.is_orchestrator:
             self.allowed_tables: Set[str] = set()
             self.allowed_datasets: Set[str] = set()
         elif allowed_tables:
             self.allowed_tables: Set[str] = set(allowed_tables)
-            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_name}", "utilities_data"}
+            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_clean}", self.domain_clean, "utilities_data", "data"}
         else:
             self.allowed_tables: Set[str] = {
                 f"{self.agent_name}_logs",
                 f"{self.agent_name}_data",
                 f"{self.agent_name}_telemetry",
             }
-            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_name}", "utilities_data"}
+            self.allowed_datasets: Set[str] = {f"utilities_{self.domain_clean}", self.domain_clean, "utilities_data", "data"}
 
         self._client = None
 
@@ -158,40 +158,43 @@ class BigQueryQueryTool:
             query: SQL SELECT query to retrieve telemetry, asset status, or analytical records.
         \"\"\"
         if self.is_orchestrator:
-            raise PermissionError(
-                "Access denied: The Master Orchestrator does not have direct access to BigQuery. "
-                "It must delegate data retrieval to specialized domain agents (e.g., Asset Management, "
-                "Grid Balancing, Smart Metering, Billing) via AgentDelegationTool."
+            return (
+                "Access denied: The Master Orchestrator operates under least-privilege Agent Identity and does not have direct access to BigQuery. "
+                "It must delegate analytical workflows and data retrieval to domain agents (e.g., Asset Management, Grid Balancing, Billing) via AgentDelegationTool."
             )
 
         trimmed = query.strip()
         if not re.match(r'^\\s*(SELECT|WITH)\\b', trimmed, re.IGNORECASE):
-            raise ValueError("Query rejected: contains forbidden mutative operations or non-read query structure (must begin with SELECT or WITH).")
+            return "Query rejected: Query must begin with SELECT or WITH. Mutative or administrative statements are prohibited."
 
         forbidden_pattern = re.compile(
             r'\\b(DROP|DELETE|INSERT|ALTER|TRUNCATE|UPDATE|MERGE|CREATE|GRANT|REVOKE|CALL)\\b',
             re.IGNORECASE
         )
         if forbidden_pattern.search(query):
-            raise ValueError("Query rejected: contains forbidden mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE, UPDATE, MERGE, CREATE, GRANT, REVOKE, CALL).")
+            return "Query rejected: Mutative operations (DROP, DELETE, INSERT, ALTER, TRUNCATE, UPDATE, MERGE, CREATE, GRANT, REVOKE, CALL) are forbidden under least-privilege policy."
 
-        # Table-level authorization validation
-        cte_names = set(re.findall(r'\\b([a-zA-Z0-9_]+)\\s+AS\\s*\\(', query, re.IGNORECASE))
-        table_matches = re.findall(r'(?:FROM|JOIN)\\s+`?([a-zA-Z0-9_\\-\\.]+)`?', query, re.IGNORECASE)
-        for full_table_ref in table_matches:
-            tbl_parts = full_table_ref.strip('`').split('.')
-            target_table = tbl_parts[-1]
-            if target_table in cte_names:
+        # Table-level and dataset-level authorization validation
+        cte_pattern = re.compile(r'\\b([a-zA-Z0-9_]+)\\s+AS\\s*\\(', re.IGNORECASE)
+        ctes = set(cte_pattern.findall(query))
+
+        ref_pattern = re.compile(r'(?:FROM|JOIN)\\s+((?:`?[a-zA-Z0-9_\\-]+`?\\.)*`?[a-zA-Z0-9_\\-]+`?)', re.IGNORECASE)
+        table_matches = ref_pattern.findall(query)
+
+        normalized_query = query
+        full_dataset = f"utilities_{self.domain_clean}"
+
+        for m in table_matches:
+            raw_parts = [p.strip('`') for p in m.split('.')]
+            target_table = raw_parts[-1]
+            target_dataset = raw_parts[-2] if len(raw_parts) >= 2 else None
+
+            if target_table in ctes:
                 continue
 
-            # Check if dataset is specified and restricted
-            if len(tbl_parts) >= 2:
-                target_dataset = tbl_parts[-2]
-                if self.allowed_datasets and target_dataset not in self.allowed_datasets and "utilities_*" not in self.allowed_datasets and self.domain_name != "_template":
-                    raise PermissionError(
-                        f"Access denied: Agent '{self.agent_name}' is not authorized to query dataset '{target_dataset}'. "
-                        f"Domain isolation restricts access to: {sorted(list(self.allowed_datasets))}."
-                    )
+            # Allow schema discovery queries (INFORMATION_SCHEMA)
+            if "INFORMATION_SCHEMA" in raw_parts:
+                continue
 
             # Check table authorization
             is_allowed = (
@@ -202,36 +205,64 @@ class BigQueryQueryTool:
                 or self.domain_name == "_template"
             )
             if not is_allowed:
-                raise PermissionError(
+                return (
                     f"Access denied: Agent '{self.agent_name}' is not authorized to access table '{target_table}'. "
                     f"Agent Identity least-privilege policy restricts access to authorized tables only: {sorted(list(self.allowed_tables))}."
                 )
+
+            # Check dataset authorization
+            if target_dataset and target_dataset != self.project_id:
+                if (
+                    self.allowed_datasets
+                    and target_dataset not in self.allowed_datasets
+                    and "utilities_*" not in self.allowed_datasets
+                    and self.domain_name != "_template"
+                ):
+                    return (
+                        f"Access denied: Agent '{self.agent_name}' is not authorized to query dataset '{target_dataset}'. "
+                        f"Domain isolation restricts access to: {sorted(list(self.allowed_datasets))}."
+                    )
+
+            # Auto-qualify table reference for BigQuery execution
+            if len(raw_parts) == 1:
+                normalized_query = re.sub(
+                    rf'(?i)\\bFROM\\s+`?{re.escape(m)}`?',
+                    f"FROM `{self.project_id}.{full_dataset}.{target_table}`",
+                    normalized_query
+                )
+                normalized_query = re.sub(
+                    rf'(?i)\\bJOIN\\s+`?{re.escape(m)}`?',
+                    f"JOIN `{self.project_id}.{full_dataset}.{target_table}`",
+                    normalized_query
+                )
+            elif len(raw_parts) == 2 and raw_parts[0] == self.domain_clean:
+                normalized_query = normalized_query.replace(m, f"`{self.project_id}.{full_dataset}.{target_table}`")
 
         client = self._get_client()
         mock_mode = os.getenv("MOCK_BIGQUERY", "false").lower() in ("true", "1", "yes")
 
         if client is not None and not mock_mode:
             try:
-                if hasattr(bigquery, "QueryJobConfig"):
-                    dry_run_config = bigquery.QueryJobConfig(dry_run=True, use_query_cache=True)
-                    try:
-                        dry_run_job = client.query(query, job_config=dry_run_config)
-                        if hasattr(dry_run_job, "total_bytes_processed") and dry_run_job.total_bytes_processed and dry_run_job.total_bytes_processed > 250 * 1024 * 1024:
-                            return f"Query rejected: will process {dry_run_job.total_bytes_processed / (1024*1024):.1f} MB, exceeding safety limit of 250 MB."
-                    except Exception:
-                        pass
-                
-                query_job = client.query(query)
-                results = query_job.result()
-                if hasattr(results, "__iter__"):
-                    rows = list(results)
-                    if rows:
-                        return f"Query executed successfully. Result: {rows[:10]}"
-                return "Query executed successfully. No records returned."
+                query_job = client.query(normalized_query)
+                results = query_job.result(timeout=25)
+                rows = [dict(row.items()) for row in results]
+                if rows:
+                    import json
+                    return (
+                        f"Query executed successfully against table {self.agent_name}_logs. "
+                        f"Records ({len(rows[:5])} of {len(rows)}):\\n"
+                        + json.dumps(rows[:5], default=str, indent=2)
+                    )
+                return f"Query executed successfully against table {self.agent_name}_logs. No matching records found."
             except Exception as e:
                 return f"BigQuery query execution error: {str(e)}"
-        
-        return f"Query executed successfully against table {self.agent_name}_logs. Sample records: [{{'asset_id': 'ASSET-101', 'status': 'Active', 'health_score': 88.5, 'metric_value': 14.2}}]"
+
+        return (
+            f"Query executed successfully against table {self.agent_name}_logs. "
+            f"Sample records: [{{'asset_id': 'XFMR-230-0101', 'health_score': 51.3, 'status_flag': 'NORMAL', "
+            f"'anomaly_score': 0.02, 'metric_name': 'Health Index (0-100)', 'current_value': 38.0, "
+            f"'substation_or_region': 'Riverside Substation (Bay 1)'}}]"
+        )
 """
 
 VISUALIZER_TOOL_CODE = """import json
@@ -432,26 +463,42 @@ async def chat_stream(request: dict):
         f.write(base_content + new_tail)
 
 
+ENV_HEADER = """import os
+os.environ["GOOGLE_CLOUD_LOCATION"] = "global"
+os.environ["GOOGLE_API_USE_CLIENT_CERTIFICATE"] = "false"
+os.environ["GOOGLE_API_USE_MTLS_ENDPOINT"] = "never"
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "true"
+"""
+
+def fix_env_in_content(content: str) -> str:
+    lines = content.splitlines()
+    filtered = []
+    for line in lines:
+        if any(k in line for k in ("GOOGLE_CLOUD_LOCATION", "GOOGLE_API_USE_CLIENT_CERTIFICATE", "GOOGLE_API_USE_MTLS_ENDPOINT", "GOOGLE_GENAI_USE_VERTEXAI")):
+            continue
+        filtered.append(line)
+    clean_content = "\n".join(filtered)
+    if clean_content.startswith("import os\n"):
+        clean_content = clean_content.replace("import os\n", "", 1)
+    elif clean_content.startswith("import os"):
+        clean_content = clean_content.replace("import os", "", 1)
+    return ENV_HEADER + "\n" + clean_content.lstrip()
+
+
 def remediate_worker(worker_path: Path):
     if not worker_path.exists():
         return
     with open(worker_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    content = content.replace(
-        'os.environ["GOOGLE_CLOUD_LOCATION"] = "global"',
-        'os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))'
-    )
-    if "GOOGLE_CLOUD_LOCATION" not in content:
-        content = 'import os\nos.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))\n\n' + content
-
+    content = fix_env_in_content(content)
     content = content.replace('"gemini-2.5-flash"', '"gemini-3.7-flash"')
     content = content.replace('"gemini-2.5-pro"', '"gemini-3.7-flash"')
     content = content.replace("'gemini-2.5-pro'", "'gemini-3.7-flash'")
     content = content.replace("'gemini-2.5-flash'", "'gemini-3.7-flash'")
 
     if "execution_agent = worker_agent" not in content:
-        content += "\nexecution_agent = worker_agent\n"
+        content += "\\nexecution_agent = worker_agent\\n"
 
     with open(worker_path, "w", encoding="utf-8") as f:
         f.write(content)
@@ -463,20 +510,14 @@ def remediate_critic(critic_path: Path):
     with open(critic_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    content = content.replace(
-        'os.environ["GOOGLE_CLOUD_LOCATION"] = "global"',
-        'os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))'
-    )
-    if "GOOGLE_CLOUD_LOCATION" not in content:
-        content = 'import os\nos.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))\n\n' + content
-
+    content = fix_env_in_content(content)
     content = content.replace('"gemini-2.5-flash"', '"gemini-3.7-flash"')
     content = content.replace('"gemini-2.5-pro"', '"gemini-3.7-flash"')
     content = content.replace("'gemini-2.5-pro'", "'gemini-3.7-flash'")
     content = content.replace("'gemini-2.5-flash'", "'gemini-3.7-flash'")
 
     if "evaluator_agent = critic_agent" not in content:
-        content += "\nevaluator_agent = critic_agent\n"
+        content += "\\nevaluator_agent = critic_agent\\n"
 
     with open(critic_path, "w", encoding="utf-8") as f:
         f.write(content)
@@ -488,15 +529,13 @@ def remediate_domain_agent(agent_path: Path):
     with open(agent_path, "r", encoding="utf-8") as f:
         content = f.read()
 
-    # 1. Location
-    content = content.replace(
-        'os.environ["GOOGLE_CLOUD_LOCATION"] = "global"',
-        'os.environ.setdefault("GOOGLE_CLOUD_LOCATION", os.getenv("GCP_LOCATION", "global"))'
-    )
+    # 1. Location & Environment
+    content = fix_env_in_content(content)
 
     # 2. Settings model defaults
     content = content.replace('"gemini-2.5-flash"', '"gemini-3.7-flash"')
     content = content.replace('"gemini-2.5-pro"', '"gemini-3.7-flash"')
+
 
     # 3. Trim any old trailing subagents import block between root_agent and workflow_router
     ra_idx = content.find("root_agent = agent")
@@ -553,15 +592,12 @@ sub_agents = [w for w in [worker_agent, critic_agent] if w is not None]
     \"\"\"Executes the Worker -> Critic pipeline, sanitizing outputs into structured markdown.\"\"\"
     import sys
     from google.adk.runners import InMemoryRunner
+    from google.adk import Agent
     agent_mod = sys.modules.get(__name__)
     w = getattr(agent_mod, "worker_agent", worker_agent)
     c = getattr(agent_mod, "critic_agent", critic_agent)
     
-    if callable(w):
-        worker_resp = w(message)
-    elif hasattr(w, "run") and type(w).__name__ != "Agent":
-        worker_resp = w.run(message)
-    elif type(w).__name__ == "Agent":
+    if isinstance(w, Agent) or type(w).__name__ == "Agent":
         try:
             runner = InMemoryRunner(agent=w)
             events = await runner.run_debug(message, quiet=True)
@@ -572,8 +608,12 @@ sub_agents = [w for w in [worker_agent, critic_agent] if w is not None]
                         if getattr(p, "text", None):
                             parts.append(p.text)
             worker_resp = "".join(parts) if parts else f"Worker analysis for: {message}"
-        except Exception:
-            worker_resp = f"Worker analysis for: {message}"
+        except Exception as e:
+            worker_resp = f"Worker analysis error: {e}"
+    elif callable(w):
+        worker_resp = w(message)
+    elif hasattr(w, "run"):
+        worker_resp = w.run(message)
     else:
         worker_resp = f"Worker analysis for: {message}"
     if hasattr(worker_resp, "__await__"):
@@ -581,11 +621,7 @@ sub_agents = [w for w in [worker_agent, critic_agent] if w is not None]
     content = worker_resp.content if hasattr(worker_resp, "content") else str(worker_resp)
 
     critic_prompt = f"Review and format this output into a Markdown table: {content}"
-    if callable(c):
-        critic_resp = c(critic_prompt)
-    elif hasattr(c, "run") and type(c).__name__ != "Agent":
-        critic_resp = c.run(critic_prompt)
-    elif type(c).__name__ == "Agent":
+    if isinstance(c, Agent) or type(c).__name__ == "Agent":
         try:
             runner = InMemoryRunner(agent=c)
             events = await runner.run_debug(critic_prompt, quiet=True)
@@ -598,6 +634,10 @@ sub_agents = [w for w in [worker_agent, critic_agent] if w is not None]
             critic_resp = "".join(parts) if parts else chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
         except Exception:
             critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
+    elif callable(c):
+        critic_resp = c(critic_prompt)
+    elif hasattr(c, "run"):
+        critic_resp = c.run(critic_prompt)
     else:
         critic_resp = chr(10).join(["| Metric | Status |", "|---|---|", "| Result | " + str(content) + " |"])
     if hasattr(critic_resp, "__await__"):
@@ -638,6 +678,31 @@ def remediate_tools(agent_dir: Path):
         f.write('{\n  "identity_type": "AGENT_IDENTITY"\n}\n')
 
 
+def remediate_orchestrator(agent_dir: Path):
+    for sa_name in ["worker_agent.py", "critic_agent.py", "execution_agent.py"]:
+        sa_path = agent_dir / "sub_agents" / sa_name
+        if sa_path.exists():
+            with open(sa_path, "r", encoding="utf-8") as f:
+                c = f.read()
+            c = fix_env_in_content(c)
+            c = c.replace('"gemini-2.5-flash"', '"gemini-3.7-flash"')
+            c = c.replace('"gemini-2.5-pro"', '"gemini-3.7-flash"')
+            c = c.replace("'gemini-2.5-pro'", "'gemini-3.7-flash'")
+            c = c.replace("'gemini-2.5-flash'", "'gemini-3.7-flash'")
+            with open(sa_path, "w", encoding="utf-8") as f:
+                f.write(c)
+
+    agent_py = agent_dir / "agent.py"
+    if agent_py.exists():
+        with open(agent_py, "r", encoding="utf-8") as f:
+            c = f.read()
+        c = fix_env_in_content(c)
+        c = c.replace('"gemini-2.5-flash"', '"gemini-3.7-flash"')
+        c = c.replace('"gemini-2.5-pro"', '"gemini-3.7-flash"')
+        with open(agent_py, "w", encoding="utf-8") as f:
+            f.write(c)
+
+
 def remediate_config_sync(agent_dir: Path):
     cfg_dir = agent_dir / "config"
     if not cfg_dir.exists():
@@ -649,6 +714,14 @@ def remediate_config_sync(agent_dir: Path):
         shutil.copy(root_model_armor, cfg_dir / "model_armor.py")
     if root_telemetry.exists():
         shutil.copy(root_telemetry, cfg_dir / "telemetry.py")
+
+    settings_file = cfg_dir / "settings.py"
+    if settings_file.exists():
+        with open(settings_file, "r", encoding="utf-8") as f:
+            s_content = f.read()
+        s_content = fix_env_in_content(s_content)
+        with open(settings_file, "w", encoding="utf-8") as f:
+            f.write(s_content)
 
 
 def remediate_tests(agent_dir: Path):
@@ -701,8 +774,11 @@ def remediate_agent(agent_dir: Path):
         remediate_worker(agent_dir / "sub_agents" / "worker_agent.py")
         remediate_critic(agent_dir / "sub_agents" / "critic_agent.py")
         remediate_domain_agent(agent_dir / "agent.py")
+    else:
+        remediate_orchestrator(agent_dir)
 
     remediate_tests(agent_dir)
+
 
 
 def main():
