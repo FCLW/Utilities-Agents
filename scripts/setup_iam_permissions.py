@@ -109,7 +109,12 @@ def configure_agent_engine_configs():
             p.write_text(config_json, encoding="utf-8")
             count += 1
 
-    print(f"✅ Generated .agent_engine_config.json (AGENT_IDENTITY) across {count} agent packages.")
+    grid_opt_dir = REPO_ROOT / "grid_optimization"
+    if grid_opt_dir.exists():
+        (grid_opt_dir / ".agent_engine_config.json").write_text(config_json, encoding="utf-8")
+        count += 1
+
+    print(f"✅ Generated .agent_engine_config.json (AGENT_IDENTITY) across {count} agent packages (including grid_optimization).")
 
 def setup_iam(dry_run: bool = False):
     project_id = settings.gcp_project_id
@@ -375,6 +380,61 @@ def validate_agent_identity_permissions(verbose: bool = True) -> bool:
         f"All 113 agent packages configured with Agent Identity (.agent_engine_config.json)",
         all_configs_valid,
         f"Valid packages: {config_count}/113 (missing={len(missing_config)}, invalid={len(invalid_config)})"
+    )
+
+    # Check 6: Grid Optimization Agent Identity Configuration
+    grid_opt_cfg = REPO_ROOT / "grid_optimization" / ".agent_engine_config.json"
+    grid_opt_cfg_valid = False
+    if grid_opt_cfg.exists():
+        try:
+            cfg_data = json.loads(grid_opt_cfg.read_text())
+            grid_opt_cfg_valid = (cfg_data.get("identity_type") == "AGENT_IDENTITY")
+        except Exception:
+            pass
+    record_check(
+        "Grid Optimization package configured with Agent Identity (.agent_engine_config.json)",
+        grid_opt_cfg_valid,
+        f"Path: {grid_opt_cfg} (identity_type=AGENT_IDENTITY)"
+    )
+
+    # Check 7: Grid Optimization Orchestrator Zero-Direct BigQuery Access
+    grid_orch_blocked = False
+    try:
+        from grid_optimization.tools.multi_dataset_bq_tool import MultiDatasetBigQueryTool
+        tool = MultiDatasetBigQueryTool(persona_id="grid_optimization_orchestrator")
+        try:
+            tool.query_dataset(dataset="utilities_grid_operations", table="feeder_telemetry")
+        except PermissionError as pe:
+            if "least-privilege Agent Identity and does not have direct access to BigQuery" in str(pe):
+                grid_orch_blocked = True
+    except Exception as e:
+        pass
+    record_check(
+        "Grid Optimization Master Orchestrator zero-direct BigQuery access enforced",
+        grid_orch_blocked,
+        "Direct queries strictly blocked; analytical data retrieval requires persona delegation"
+    )
+
+    # Check 8: Grid Optimization Persona Table-Level Least Privilege
+    grid_persona_least_priv = False
+    try:
+        from grid_optimization.tools.multi_dataset_bq_tool import MultiDatasetBigQueryTool
+        asset_tool = MultiDatasetBigQueryTool(persona_id="asset_reliability_agent")
+        # Allowed table
+        res_allowed = asset_tool.query_dataset(dataset="utilities_asset_management", table="transformer_dga")
+        # Blocked table
+        blocked_ok = False
+        try:
+            asset_tool.query_dataset(dataset="utilities_grid_operations", table="feeder_telemetry")
+        except PermissionError:
+            blocked_ok = True
+        grid_persona_least_priv = (res_allowed.table == "transformer_dga") and blocked_ok
+    except Exception:
+        pass
+    record_check(
+        "Grid Optimization Personas table-level least-privilege scoping enforced",
+        grid_persona_least_priv,
+        "asset_reliability_agent allowed on transformer_dga, blocked on utilities_grid_operations"
     )
 
     print("\n-------------------------------------------------------")

@@ -1790,3 +1790,130 @@ agents:
     service_account: 'None (Agent Identity: SPIFFE principal)'
     sub_domain: smart_meter_management
     identity_type: AGENT_IDENTITY
+  grid_optimization_orchestrator:
+    agent_name: Grid Optimization Master Orchestrator
+    datasets: []
+    service_account: 'None (Agent Identity: No direct BigQuery access)'
+    sub_domain: master_orchestrator
+    identity_type: AGENT_IDENTITY
+  grid_dispatcher_agent:
+    agent_name: Grid Dispatcher Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_grid_operations
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Feeder electrical topology and SCADA telemetry
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: feeder_telemetry
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: grid_operations
+    identity_type: AGENT_IDENTITY
+  planning_engineer_agent:
+    agent_name: Planning Engineer Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_grid_operations
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Hosting capacity models and feeder telemetry
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: hosting_capacity_models
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: grid_operations
+    identity_type: AGENT_IDENTITY
+  derms_manager_agent:
+    agent_name: DERMS Manager Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_grid_balancing
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: DER and VPP aggregated telemetry
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: der_telemetry
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: grid_balancing
+    identity_type: AGENT_IDENTITY
+  protection_control_agent:
+    agent_name: Protection and Control Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_grid_operations
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Relay settings and coordination parameters
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: relay_settings_catalog
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: grid_operations
+    identity_type: AGENT_IDENTITY
+  asset_reliability_agent:
+    agent_name: Asset Reliability Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_asset_management
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Transformer DGA and breaker health diagnostics
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: transformer_dga
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: asset_management
+    identity_type: AGENT_IDENTITY
+  grid_analytics_data_scientist_agent:
+    agent_name: Grid Analytics Data Scientist Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_grid_operations
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: AMI and SCADA analytical profiles
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: ami_load_profiles
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: grid_operations
+    identity_type: AGENT_IDENTITY
+  field_operations_tech_agent:
+    agent_name: Field Operations Tech Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_asset_management
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: Predictive maintenance and dispatch work orders
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: pdm_work_orders
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: asset_management
+    identity_type: AGENT_IDENTITY
+  regulatory_compliance_officer_agent:
+    agent_name: Regulatory Compliance Officer Agent
+    datasets:
+    - access_level: roles/bigquery.dataViewer
+      dataset_id: utilities_regulatory_compliance
+      location: ${GOOGLE_CLOUD_LOCATION}
+      tables:
+      - description: SAIDI/SAIFI reliability and NERC compliance records
+        partitioning:
+          field: event_timestamp
+          type: DAY
+        table_id: saidi_saifi_audit_records
+    service_account: 'None (Agent Identity: SPIFFE principal)'
+    sub_domain: regulatory_compliance
+    identity_type: AGENT_IDENTITY
+

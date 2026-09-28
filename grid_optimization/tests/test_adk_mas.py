@@ -286,3 +286,41 @@ class TestADKMasComponents:
         assert "Bakun" in res_bakun["output"]["substation_or_region"]
         assert res_bakun["subagents_telemetry"]["dlr_solver"]["data"]["voltage_kv"] == 500
 
+    def test_12_agent_identity_and_least_privilege(self):
+        """Verify Agent Identity configuration, orchestrator zero-direct BQ, and table least privilege."""
+        # 1. Config file check
+        cfg_path = Path(__file__).resolve().parents[1] / ".agent_engine_config.json"
+        assert cfg_path.exists(), "Missing .agent_engine_config.json"
+        cfg_data = json.loads(cfg_path.read_text())
+        assert cfg_data.get("identity_type") == "AGENT_IDENTITY"
+
+        # 2. Orchestrator zero direct BQ query check
+        with pytest.raises(PermissionError) as exc_info:
+            orchestrator.bq.query_dataset(dataset="utilities_grid_operations", table="feeder_telemetry")
+        assert "least-privilege Agent Identity and does not have direct access to BigQuery" in str(exc_info.value)
+
+        # 3. Delegated query succeeds under domain persona
+        res = query_grid_telemetry(dataset_name="utilities_asset_management")
+        assert res["status"] == "SUCCESS"
+        assert res["delegated_persona"] == "asset_reliability_agent"
+        assert "agentIdentity" in res["effective_identity"] or "principal://" in res["effective_identity"]
+
+        # 4. Table-level least privilege: asset persona allowed on transformer_dga
+        asset_persona = orchestrator.personas["asset_reliability_agent"]
+        asset_res = asset_persona.bq.query_dataset(dataset="utilities_asset_management", table="transformer_dga")
+        assert asset_res.table == "transformer_dga"
+
+        # 5. Table-level least privilege: asset persona blocked on foreign dataset/table
+        with pytest.raises(PermissionError) as exc_blocked:
+            asset_persona.bq.query_dataset(dataset="utilities_grid_operations", table="feeder_telemetry")
+        assert "is not authorized" in str(exc_blocked.value)
+
+        # 6. DDL/DML rejection
+        with pytest.raises(PermissionError) as exc_dml:
+            asset_persona.bq.query_dataset(
+                dataset="utilities_asset_management",
+                table="transformer_dga",
+                sql_query="DELETE FROM transformer_dga WHERE 1=1"
+            )
+        assert "Query rejected" in str(exc_dml.value) or "Security violation" in str(exc_dml.value)
+

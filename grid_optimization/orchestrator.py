@@ -47,7 +47,10 @@ class GridOptimizationOrchestrator:
     def __init__(self):
         self.harness = ValidationHarness()
         self.hitl = HITLGateway()
-        self.bq = MultiDatasetBigQueryTool()
+        # Multi-Dataset BigQuery Tool
+        # The Master Orchestrator operates under least-privilege Agent Identity (zero direct BQ access)
+        # and delegates analytical queries to domain persona agents.
+        self.bq = MultiDatasetBigQueryTool(persona_id="grid_optimization_orchestrator")
 
         # Aliases for ADK tool consistency
         self.validation_harness = self.harness
@@ -75,16 +78,16 @@ class GridOptimizationOrchestrator:
             "skill_regulatory_audit_reporter": RegulatoryAuditReporterSkill(),
         }
 
-        # 8 Core Personas
+        # 8 Core Personas - each provisioned with persona-scoped Agent Identity
         self.personas = {
-            "grid_dispatcher_agent": GridDispatcherPersona(self.harness, self.hitl, self.bq),
-            "planning_engineer_agent": PlanningEngineerPersona(self.harness, self.hitl, self.bq),
-            "derms_manager_agent": DermsManagerPersona(self.harness, self.hitl, self.bq),
-            "protection_control_agent": ProtectionControlPersona(self.harness, self.hitl, self.bq),
-            "asset_reliability_agent": AssetReliabilityPersona(self.harness, self.hitl, self.bq),
-            "grid_analytics_data_scientist_agent": GridAnalyticsDataScientistPersona(self.harness, self.hitl, self.bq),
-            "field_operations_tech_agent": FieldOperationsTechPersona(self.harness, self.hitl, self.bq),
-            "regulatory_compliance_officer_agent": RegulatoryComplianceOfficerPersona(self.harness, self.hitl, self.bq),
+            "grid_dispatcher_agent": GridDispatcherPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="grid_dispatcher_agent")),
+            "planning_engineer_agent": PlanningEngineerPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="planning_engineer_agent")),
+            "derms_manager_agent": DermsManagerPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="derms_manager_agent")),
+            "protection_control_agent": ProtectionControlPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="protection_control_agent")),
+            "asset_reliability_agent": AssetReliabilityPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="asset_reliability_agent")),
+            "grid_analytics_data_scientist_agent": GridAnalyticsDataScientistPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="grid_analytics_data_scientist_agent")),
+            "field_operations_tech_agent": FieldOperationsTechPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="field_operations_tech_agent")),
+            "regulatory_compliance_officer_agent": RegulatoryComplianceOfficerPersona(self.harness, self.hitl, MultiDatasetBigQueryTool(persona_id="regulatory_compliance_officer_agent")),
         }
 
         # 6 Collaborative Workflows

@@ -39,10 +39,13 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# Ensure environment settings for Vertex AI
+# Ensure environment settings for Vertex AI and Agent Identity
 default_proj = getattr(settings, "gcp_project_id", None) or os.getenv("GCP_PROJECT_ID", "utilities-agents")
-os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
-os.environ.setdefault("GOOGLE_CLOUD_LOCATION", getattr(settings, "gcp_location", None) or os.getenv("GCP_LOCATION", "us-central1"))
+os.environ.setdefault("IDENTITY_TYPE", "AGENT_IDENTITY")
+os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "true")
+os.environ.setdefault("GOOGLE_CLOUD_LOCATION", getattr(settings, "gcp_location", None) or os.getenv("GCP_LOCATION", "global"))
+os.environ.setdefault("GOOGLE_API_USE_CLIENT_CERTIFICATE", "false")
+os.environ.setdefault("GOOGLE_API_USE_MTLS_ENDPOINT", "never")
 if "GOOGLE_CLOUD_PROJECT" not in os.environ:
     os.environ["GOOGLE_CLOUD_PROJECT"] = default_proj
 
@@ -469,25 +472,52 @@ def manage_hitl_ticket(
         return {"status": "ERROR", "message": f"Unsupported action '{action}'. Use 'list', 'approve', or 'reject'."}
 
 
-def query_grid_telemetry(dataset_name: str, query: str = "") -> dict:
-    """Queries multi-dataset BigQuery tables for grid telemetry, asset health, and market data.
+def query_grid_telemetry(
+    dataset_name: str,
+    query: str = "",
+    delegated_persona_id: Optional[str] = None
+) -> dict:
+    """Queries multi-dataset BigQuery tables for grid telemetry, asset health, and market data under Agent Identity.
+
+    Under Google Cloud Agent Identity least-privilege architecture, the Master Orchestrator
+    has zero direct access to BigQuery and delegates analytical queries to the authorized domain persona.
 
     Args:
         dataset_name: BigQuery dataset (e.g. 'utilities_grid_operations',
             'utilities_asset_management', 'utilities_grid_balancing').
-        query: SQL query or filter string.
+        query: Safe read-only SQL query or filter string (must begin with SELECT or WITH).
+        delegated_persona_id: Optional domain persona ID to execute the query. If omitted,
+            automatically resolved based on dataset domain ownership.
 
     Returns:
-        dict: Query results with schema and simulated or live records.
+        dict: Query results with schema, rows, and active Agent Identity credentials.
     """
-    tool = orchestrator.multi_dataset_tool
+    # Resolve domain persona for delegation
+    if not delegated_persona_id:
+        if "asset" in dataset_name:
+            delegated_persona_id = "asset_reliability_agent"
+        elif "balancing" in dataset_name:
+            delegated_persona_id = "derms_manager_agent"
+        elif "regulatory" in dataset_name or "trade" in dataset_name or "wholesale" in dataset_name:
+            delegated_persona_id = "regulatory_compliance_officer_agent"
+        else:
+            delegated_persona_id = "grid_analytics_data_scientist_agent"
+
+    persona = orchestrator.personas.get(delegated_persona_id)
+    tool = persona.bq if persona else orchestrator.multi_dataset_tool
+
     table_name = "feeder_telemetry"
     if "asset" in dataset_name:
         table_name = "transformer_dga"
     elif "balancing" in dataset_name or "trade" in dataset_name:
         table_name = "lmp_congestion"
 
-    res = tool.query_dataset(dataset=dataset_name, table=table_name, sql_query=query if query else None)
+    res = tool.query_dataset(
+        dataset=dataset_name,
+        table=table_name,
+        sql_query=query if query else None,
+        persona_id=delegated_persona_id,
+    )
     return {
         "status": "SUCCESS",
         "dataset": dataset_name,
@@ -495,6 +525,8 @@ def query_grid_telemetry(dataset_name: str, query: str = "") -> dict:
         "total_rows": res.total_rows,
         "rows": res.rows,
         "is_mock": res.is_mock,
+        "delegated_persona": delegated_persona_id,
+        "effective_identity": res.effective_identity,
     }
 
 
