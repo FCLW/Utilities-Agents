@@ -15,6 +15,8 @@
   <!-- WeatherNext 3 Charting & Data Bundle -->
   <script src="charts.js"></script>
   <script src="weathernext_data.js"></script>
+  <!-- Vertex AI Vizier Multi-Substation Optimization Engine -->
+  <script src="vizier_vvo_engine.js"></script>
   
   <style>
     :root {
@@ -2183,6 +2185,216 @@
     .tt-val { font-variant-numeric: tabular-nums; font-weight: 600; font-family: 'Roboto Mono', monospace; }
     .legend-swatch { width: 10px; height: 10px; border-radius: 2.5px; display: inline-block; }
 
+    /* ========================================================
+       VIZIER BAYESIAN VOLT-VAR STUDIO (KLANG VALLEY GRID)
+       ======================================================== */
+    .vvo-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 14px;
+    }
+    .vvo-scenario-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 360px;
+    }
+    .vvo-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .vvo-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .vvo-btn-primary {
+      background: linear-gradient(135deg, #9333ea, #7c3aed);
+      color: #fff;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.35);
+    }
+    .vvo-btn-primary:hover {
+      background: linear-gradient(135deg, #a855f7, #9333ea);
+      transform: translateY(-1px);
+    }
+    .vvo-btn-secondary {
+      background: var(--surface-1, #1e293b);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .vvo-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .vvo-tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+      transition: transform 0.2s ease;
+    }
+    .vvo-tile {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .vvo-tile::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #a855f7, #38bdf8);
+      opacity: 0.8;
+    }
+    .vvo-tile-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .vvo-tile-val {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin: 2px 0;
+    }
+    .vvo-tile-unit {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .vvo-tile-sub {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      line-height: 1.3;
+    }
+    .vvo-badge-diff {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 999px;
+      margin-left: 6px;
+      font-family: 'Roboto Mono', monospace;
+    }
+    .vvo-main-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 1100px) {
+      .vvo-main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .vvo-network-stage {
+      height: 380px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      position: relative;
+      background: #0b1120;
+    }
+    .vvo-state-pill {
+      font-size: 0.72rem;
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      background: rgba(168, 85, 247, 0.12);
+      color: #c084fc;
+    }
+    .vvo-node-picker-strip {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .vvo-node-btn {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 4px 9px;
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 600;
+    }
+    .vvo-node-btn.active {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: #a855f7;
+      color: #c084fc;
+    }
+    .vvo-param-box {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .vvo-param-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .vvo-param-val {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .vvo-param-hint {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--border-color);
@@ -2268,7 +2480,7 @@
           <span>⛅</span> WeatherNext 3 Forecast &amp; DLR <span class="tab-badge" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.35);">Live</span>
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-vizier" onclick="switchMainTab('tab-vizier', this)">
-          <span>📊</span> Vizier Bayesian Studio
+          <span>📊</span> Vizier Volt-VAR Studio <span class="tab-badge" style="background: rgba(168, 85, 247, 0.18); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35);">KL Multi-Substation</span>
         </button>
         <button class="nav-tab-btn" role="tab" id="tabBtn-pdm" onclick="switchMainTab('tab-pdm', this)">
           <span>🛡️</span> Predictive Maintenance (PdM)
@@ -3344,108 +3556,288 @@ ORDER BY valid_time ASC, site_name ASC;
       </div>
     </div>
 
-    <!-- TAB 4: VIZIER BAYESIAN STUDIO -->
+<!-- TAB 4: VIZIER BAYESIAN VOLT-VAR STUDIO (KLANG VALLEY MULTI-SUBSTATION) -->
     <div id="tab-vizier" class="tab-pane" role="tabpanel">
-      <div class="card">
-        <div class="card-header">
+      <div class="card" style="padding: 18px 22px;">
+        <!-- Header -->
+        <div class="card-header" style="margin-bottom: 14px;">
           <div>
-            <h2 class="card-title"><span>📊</span> Vertex AI Vizier Bayesian Volt-VAR Optimization Studio</h2>
-            <div class="card-subtitle">Gaussian Process Expected Improvement (GP-EI) searches non-convex piecewise inverter setpoints.</div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-family: 'Roboto Mono', monospace;">Vertex AI Vizier · Bayesian AC-OPF</span>
+              <span style="font-size: 0.74rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">Klang Valley 500kV/275kV/132kV Substation Mesh</span>
+            </div>
+            <h2 class="card-title"><span>📊</span> Live Multi-Substation Volt-VAR Optimization Studio (Kuala Lumpur Ring)</h2>
+            <div class="card-subtitle">Autonomous Gaussian Process Expected Improvement (GP-EI) searches joint non-convex inverter setpoints, transformer taps, and capacitor steps to minimize technical losses and maintain strict voltage compliance.</div>
           </div>
-          <span class="horizon-tag">Engine: Vertex AI Vizier GP-EI</span>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
+            <span class="horizon-tag" id="vvoStudyStatusTag">Study: kv-vvo-opt-2026 · 6 Substations Live</span>
+            <div style="display: flex; gap: 6px;">
+              <button class="wx-pill-btn active" id="btnVvoSubmodeGrid" onclick="switchVvoSubmode('grid', this)">🗺️ Grid Topology</button>
+              <button class="wx-pill-btn" id="btnVvoSubmodeBayesian" onclick="switchVvoSubmode('bayesian', this)">📈 Bayesian GP-EI Convergence</button>
+              <button class="wx-pill-btn" id="btnVvoSubmodeVoltages" onclick="switchVvoSubmode('voltages', this)">⚡ Voltage Profile</button>
+            </div>
+          </div>
         </div>
 
-        <div class="studio-grid">
-          <!-- Parameter Breakpoint Sliders -->
-          <div class="slider-group">
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>V1 (Max Reactive Injection Knee)</span>
-                <span class="slider-val" id="valV1">0.920 p.u.</span>
-              </div>
-              <input type="range" id="inputV1" min="0.88" max="0.95" step="0.005" value="0.92" oninput="updateVizierSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>V2 (Deadband Start)</span>
-                <span class="slider-val" id="valV2">0.970 p.u.</span>
-              </div>
-              <input type="range" id="inputV2" min="0.95" max="0.99" step="0.005" value="0.97" oninput="updateVizierSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>V3 (Deadband End)</span>
-                <span class="slider-val" id="valV3">1.030 p.u.</span>
-              </div>
-              <input type="range" id="inputV3" min="1.01" max="1.05" step="0.005" value="1.03" oninput="updateVizierSim()">
-            </div>
-
-            <div class="slider-item">
-              <div class="slider-label-row">
-                <span>V4 (Max Reactive Absorption Knee)</span>
-                <span class="slider-val" id="valV4">1.080 p.u.</span>
-              </div>
-              <input type="range" id="inputV4" min="1.05" max="1.12" step="0.005" value="1.08" oninput="updateVizierSim()">
-            </div>
-
-            <button class="btn-sim" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="runVizierBayesianTrial()">
-              <span>⚡</span> Run Vizier Trial (GP-EI)
+        <!-- Top Controls & Scenario Bar -->
+        <div class="vvo-topbar">
+          <div class="vvo-scenario-group">
+            <label for="vvoScenarioSelect" class="vvo-label">Grid Operating Scenario:</label>
+            <select id="vvoScenarioSelect" class="wn3-picker" onchange="onVvoScenarioChange(this.value)">
+              <option value="heatwave">🏢 Afternoon Air-Con Peak (38°C Tropical Heatwave) · Severe Voltage Sag & High Losses</option>
+              <option value="solar_peak">☀️ Midday Solar Peak (High DER Backfeed) · Overvoltage at Bandar Utama & Shah Alam</option>
+              <option value="nocturnal">🌙 Nocturnal Light Load (Cable Ferranti Effect) · High Cable Capacitance Voltage Rise</option>
+              <option value="storm_squall">⛈️ Monsoon Cloud Squall · Sudden 75% Solar Drop & Dynamic VAR Deficit</option>
+            </select>
+          </div>
+          <div class="vvo-actions-group">
+            <button id="btnRunVizierAuto" class="vvo-btn-primary" onclick="runVizierAutoStudy()">
+              <span id="vvoAutoSpinner" class="spinner-pull" style="display: none;">🔄</span>
+              <span id="vvoAutoLabel">▶ Run Live Vizier Study (15 Trials)</span>
             </button>
+            <button id="btnRunVizierStep" class="vvo-btn-secondary" onclick="runVizierSingleStep()">
+              <span>⚡</span> Step Trial (GP-EI)
+            </button>
+            <button class="vvo-btn-secondary" onclick="resetVvoToBaseline()" title="Reset to unoptimized local autonomous state">
+              <span>↺</span> Reset Baseline
+            </button>
+          </div>
+        </div>
 
-            <div id="vizierTrialLog" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; font-size: 0.78rem; font-family: 'Roboto Mono', monospace; color: var(--text-muted); line-height: 1.4; max-height: 120px; overflow-y: auto;">
-              [Vizier Engine]: Study ready. 12 trials completed. Global minimum loss: 2.34 MW.
+        <!-- 5 Executive KPI Summary Tiles -->
+        <div class="vvo-tiles-grid" id="vvoKpiTiles">
+          <div class="vvo-tile">
+            <span class="vvo-tile-label">Active System Losses</span>
+            <div class="vvo-tile-val">
+              <span id="vvoValLoss">5.16</span><span class="vvo-tile-unit">MW</span>
+              <span class="vvo-badge-diff" id="vvoBadgeLoss">-38.7%</span>
+            </div>
+            <span class="vvo-tile-sub" id="vvoSubLoss">Baseline: 8.42 MW (Saved 3.26 MW)</span>
+          </div>
+
+          <div class="vvo-tile">
+            <span class="vvo-tile-label">Annual OPEX Energy Savings</span>
+            <div class="vvo-tile-val">
+              <span style="color: #34d399;">RM <span id="vvoValSavings">1.48</span>M</span><span class="vvo-tile-unit">/yr</span>
+            </div>
+            <span class="vvo-tile-sub">Based on TNB Commercial Bulk Tariff</span>
+          </div>
+
+          <div class="vvo-tile">
+            <span class="vvo-tile-label">Worst Bus Voltage Deviation</span>
+            <div class="vvo-tile-val">
+              <span id="vvoValWorstV">0.998</span><span class="vvo-tile-unit">p.u.</span>
+              <span class="vvo-badge-diff" id="vvoBadgeV" style="background: rgba(13, 144, 79, 0.2); color: #34d399;">100% Valid</span>
+            </div>
+            <span class="vvo-tile-sub" id="vvoSubWorstV">Baseline: 0.932 p.u. (TNB violation cleared)</span>
+          </div>
+
+          <div class="vvo-tile">
+            <span class="vvo-tile-label">Reactive Power Sloshing</span>
+            <div class="vvo-tile-val">
+              <span id="vvoValSloshing">5.2</span><span class="vvo-tile-unit">MVAR</span>
+              <span class="vvo-badge-diff" id="vvoBadgeSloshing">-88.9%</span>
+            </div>
+            <span class="vvo-tile-sub" id="vvoSubSloshing">Circulating VARs eliminated between hubs</span>
+          </div>
+
+          <div class="vvo-tile">
+            <span class="vvo-tile-label">Tap Operations / Day</span>
+            <div class="vvo-tile-val">
+              <span id="vvoValTaps">16</span><span class="vvo-tile-unit">ops/d</span>
+              <span class="vvo-badge-diff" id="vvoBadgeTaps">-58%</span>
+            </div>
+            <span class="vvo-tile-sub">OLTC mechanical fatigue life extended +4.2 yrs</span>
+          </div>
+        </div>
+
+        <!-- Main Studio Grid: Left Network Topology (60%) | Right Inspector & Curves (40%) -->
+        <div class="vvo-main-grid">
+          <!-- Left Column: Interactive Network Diagram & Voltage Meter -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Interactive Klang Valley Substation Schematic -->
+            <div class="wn3-card" id="cardVvoNetwork" style="margin-bottom: 0;">
+              <div class="wn3-card-head" style="margin-bottom: 8px;">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>🗺️</span> Klang Valley Substation Grid Mesh (Live Telemetry &amp; Power Flow)
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Click any substation node to inspect local transformers, capacitor banks, and smart inverters. Real-time animated lines illustrate active &amp; reactive power flow with line loading and technical losses.
+                  </p>
+                  <div class="wn3-legend" style="margin-top: 6px;">
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: #34d399;"></span> Normal Voltage (0.98 - 1.02 p.u.)</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: #fbbf24;"></span> Marginal (0.95 - 0.98 / 1.02 - 1.05 p.u.)</span>
+                    <span class="wn3-legend-item"><span class="wn3-legend-swatch" style="background: #f43f5e;"></span> ANSI / TNB Violation (&lt;0.95 / &gt;1.05 p.u.)</span>
+                  </div>
+                </div>
+                <div class="wn3-card-tools">
+                  <span class="vvo-state-pill" id="vvoEngineModeBadge">Mode: Vizier GP-EI Optimized</span>
+                  <button class="wn3-tool-btn" onclick="toggleMaximizeCard('cardVvoNetwork')" title="Maximize view">⛶</button>
+                </div>
+              </div>
+
+              <!-- SVG Network Schematic Stage -->
+              <div class="vvo-network-stage" id="vvoNetworkStage">
+                <svg id="vvoNetworkSvg" viewBox="0 0 760 390" style="width: 100%; height: 100%; overflow: visible;">
+                  <defs>
+                    <!-- Grid background pattern -->
+                    <pattern id="vvoGridPat" width="30" height="30" patternUnits="userSpaceOnUse">
+                      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                    </pattern>
+                    <!-- Glow filters -->
+                    <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="4" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur stdDeviation="3" result="blur" />
+                      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                  </defs>
+
+                  <rect width="100%" height="100%" fill="var(--bg-primary)" />
+                  <rect width="100%" height="100%" fill="url(#vvoGridPat)" />
+
+                  <!-- Transmission Corridors (Lines) -->
+                  <g id="vvoLinesGroup"></g>
+
+                  <!-- Line Loss HUD Labels -->
+                  <g id="vvoLineLabelsGroup"></g>
+
+                  <!-- Substation Nodes -->
+                  <g id="vvoNodesGroup"></g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Substation Bus Voltage Profile Comparison Bars -->
+            <div class="wn3-card" id="cardVvoVoltageProfile" style="margin-bottom: 0;">
+              <div class="wn3-card-head">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>⚡</span> Multi-Substation Voltage Profile (Baseline vs. Vizier GP-EI)
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Statutory limits (ANSI C84.1: 0.95 - 1.05 p.u.). Vizier tightens all bus voltages strictly into the green high-efficiency corridor (0.985 - 1.015 p.u.).
+                  </p>
+                </div>
+              </div>
+              <div id="vvoVoltageBarsContainer" style="padding: 6px 0;"></div>
             </div>
           </div>
 
-          <!-- Dynamic SVG Volt-VAR Q(V) Response Curve -->
-          <div class="visual-stage">
-            <svg id="vvoSvg" width="100%" height="240" viewBox="0 0 500 240" style="overflow: visible;">
-              <!-- Grid lines -->
-              <line x1="50" y1="20" x2="50" y2="200" stroke="var(--border-color)" stroke-width="1.5" />
-              <line x1="50" y1="110" x2="470" y2="110" stroke="var(--border-color)" stroke-width="1.5" stroke-dasharray="4 4" />
-              <line x1="50" y1="200" x2="470" y2="200" stroke="var(--border-color)" stroke-width="1.5" />
-
-              <!-- ANSI C84.1 Safe Voltage Zone Highlight (0.95 to 1.05) -->
-              <rect x="150" y="20" width="200" height="180" fill="rgba(13, 144, 79, 0.08)" />
-              <text x="250" y="36" text-anchor="middle" fill="var(--success)" font-size="11" font-family="'Roboto Mono', monospace">
-                ANSI C84.1 Envelope (0.95 - 1.05 p.u.)
-              </text>
-
-              <!-- Axes labels -->
-              <text x="40" y="30" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">+Q (Inject)</text>
-              <text x="40" y="114" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0 VAR</text>
-              <text x="40" y="198" text-anchor="end" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">-Q (Absorb)</text>
-
-              <text x="50" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0.90</text>
-              <text x="150" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">0.95</text>
-              <text x="250" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.00</text>
-              <text x="350" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.05</text>
-              <text x="450" y="218" text-anchor="middle" fill="var(--text-muted)" font-size="10" font-family="'Roboto Mono', monospace">1.10</text>
-
-              <!-- Dynamic Piecewise Volt-VAR Curve -->
-              <polyline id="vvoPolyline" points="50,40 100,40 190,110 310,110 410,180 470,180" fill="none" stroke="var(--primary)" stroke-width="3.5" />
-
-              <!-- Knee points circles -->
-              <circle id="ptV1" cx="100" cy="40" r="5" fill="#8ab4f8" />
-              <circle id="ptV2" cx="190" cy="110" r="5" fill="#8ab4f8" />
-              <circle id="ptV3" cx="310" cy="110" r="5" fill="#8ab4f8" />
-              <circle id="ptV4" cx="410" cy="180" r="5" fill="#8ab4f8" />
-            </svg>
-
-            <div style="width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;">
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">ACTIVE LOSSES</div>
-                <div id="vvoLossVal" style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--accent);">2.34 MW (-22.0%)</div>
+          <!-- Right Column: Bayesian GP-EI Convergence & Substation Inspector -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- CARD: Live Bayesian Convergence Chart (GP-EI) -->
+            <div class="wn3-card" id="cardVvoBayesian" style="margin-bottom: 0;">
+              <div class="wn3-card-head" style="margin-bottom: 8px;">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>📈</span> Vertex AI Vizier Bayesian Convergence (GP-EI)
+                  </h3>
+                  <p class="wn3-card-sub">
+                    Gaussian Process posterior mean &amp; 95% uncertainty envelope (&mu; &plusmn; 2&sigma;). Blue band contracts around the global loss minimum.
+                  </p>
+                </div>
+                <div class="wn3-card-tools">
+                  <span id="vvoTrialCounterBadge" class="horizon-tag" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">Trial 15 / 15</span>
+                </div>
               </div>
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">VOLTAGE COMPLIANCE</div>
-                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--success);">100% ANSI Compliant</div>
+
+              <!-- SVG Convergence Stage -->
+              <div style="height: 190px; width: 100%;">
+                <svg id="vvoConvergenceSvg" viewBox="0 0 420 180" style="width: 100%; height: 100%; overflow: visible;"></svg>
               </div>
-              <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px; text-align: center;">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">INVERTER CAP RATIO</div>
-                <div style="font-family: 'Roboto Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">0.44 kVAR / kW</div>
+
+              <!-- Legend for Convergence -->
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; padding: 0 4px;">
+                <span>● Evaluated Trials</span>
+                <span style="color: #a855f7;">▬ GP Surrogate Mean &mu;</span>
+                <span style="color: rgba(56, 189, 248, 0.8);">░ 95% Confidence (&plusmn;2&sigma;)</span>
+                <span style="color: #34d399; font-weight: 700;">★ Best: 5.16 MW</span>
+              </div>
+            </div>
+
+            <!-- CARD: Substation Parameter Inspector & Q(V) Inverter Curve -->
+            <div class="wn3-card" id="cardVvoInspector" style="margin-bottom: 0;">
+              <div class="wn3-card-head" style="margin-bottom: 8px;">
+                <div>
+                  <h3 class="wn3-card-title">
+                    <span>⚙️</span> Substation Inspector &amp; Volt-VAR Curve
+                  </h3>
+                  <p class="wn3-card-sub" id="vvoInspectorSub">
+                    Viewing assets and piecewise smart inverter curve for: <strong id="vvoSelectedNodeName">PMU Bangsar</strong>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Substation Quick Picker -->
+              <div class="vvo-node-picker-strip">
+                <button class="vvo-node-btn" onclick="selectVvoSubstation('BBAD', this)">Bukit Badong</button>
+                <button class="vvo-node-btn active" onclick="selectVvoSubstation('BANG', this)">Bangsar</button>
+                <button class="vvo-node-btn" onclick="selectVvoSubstation('KLCC', this)">KLCC Central</button>
+                <button class="vvo-node-btn" onclick="selectVvoSubstation('BUTA', this)">Bandar Utama</button>
+                <button class="vvo-node-btn" onclick="selectVvoSubstation('SHAH', this)">Shah Alam</button>
+                <button class="vvo-node-btn" onclick="selectVvoSubstation('PUTR', this)">Putrajaya</button>
+              </div>
+
+              <!-- Active Substation Readout & Controls -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <div class="vvo-param-box">
+                  <div class="vvo-param-label">OLTC Transformer Tap</div>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <input type="range" id="vvoSliderTap" min="-16" max="16" step="1" value="2" class="slider-field" oninput="onManualTapChange(this.value)">
+                    <span id="vvoReadoutTap" class="vvo-param-val" style="color: #38bdf8;">Tap +2</span>
+                  </div>
+                  <span class="vvo-param-hint">&plusmn;0.625% ratio per tap step</span>
+                </div>
+
+                <div class="vvo-param-box">
+                  <div class="vvo-param-label">Shunt Capacitor Bank</div>
+                  <div style="display: flex; gap: 6px; margin-top: 4px;" id="vvoCapButtonGroup">
+                    <button class="wx-pill-btn" onclick="setVvoCapacitor(0)">0</button>
+                    <button class="wx-pill-btn" onclick="setVvoCapacitor(25)">25M</button>
+                    <button class="wx-pill-btn active" onclick="setVvoCapacitor(50)">50M</button>
+                    <button class="wx-pill-btn" onclick="setVvoCapacitor(75)">75M</button>
+                  </div>
+                  <span class="vvo-param-hint" id="vvoCapHint">50 MVAR active injection</span>
+                </div>
+              </div>
+
+              <!-- Piecewise Smart Inverter Q(V) Dynamic Curve -->
+              <div style="margin-top: 12px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 0.72rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Smart Inverter Volt-VAR Piecewise Q(V) Curve</span>
+                  <span id="vvoInverterQVal" style="font-family: 'Roboto Mono', monospace; font-size: 0.75rem; font-weight: 700; color: #fbbf24;">Dispatch: +12.4 MVAR Inject</span>
+                </div>
+                <svg id="vvoCurveSvg" viewBox="0 0 380 140" style="width: 100%; height: 130px; overflow: visible;"></svg>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; font-size: 0.68rem; font-family: 'Roboto Mono', monospace; text-align: center;">
+                  <div>V1: <span id="valV1Readout">0.920</span></div>
+                  <div>V2: <span id="valV2Readout">0.970</span></div>
+                  <div>V3: <span id="valV3Readout">1.030</span></div>
+                  <div>V4: <span id="valV4Readout">1.080</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ADK Subagent Stream & BigQuery Log -->
+            <div class="wn3-card" style="padding: 12px 14px; margin-bottom: 0;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase;">ADK Orchestration Stream</span>
+                  <span style="background: rgba(13, 144, 79, 0.15); color: var(--success); font-size: 0.68rem; font-weight: 600; padding: 1px 6px; border-radius: 4px;">● LIVE</span>
+                </div>
+                <span style="font-size: 0.7rem; color: var(--text-muted); font-family: 'Roboto Mono', monospace;">BigQuery: utilities_grid_optimization.vizier_vvo_trials</span>
+              </div>
+              <div class="wx-log-box" id="vvoStreamLogBox" style="max-height: 110px;">
+                <div><span style="color: #64748b;">[15:40:01 MYT]</span> <span style="color: #c084fc;">[sub_bayesian_volt_var_optimizer]</span> Initialized Vertex AI Vizier Study `kv-vvo-opt-2026` across 6 Klang Valley substations.</div>
+                <div><span style="color: #64748b;">[15:40:02 MYT]</span> <span style="color: #38bdf8;">[sub_scada_telemetry_collector]</span> Substation baseline telemetry ingested: active loss 8.42 MW, worst bus sag at Bangsar (0.938 p.u.).</div>
+                <div><span style="color: #64748b;">[15:40:03 MYT]</span> <span style="color: #34d399;">[sub_bayesian_volt_var_optimizer]</span> Trial #15 converged to Global Optimum: active loss reduced to 5.16 MW (-38.7%), 100% voltage compliance.</div>
               </div>
             </div>
           </div>
@@ -3893,6 +4285,12 @@ ORDER BY valid_time ASC, site_name ASC;
           }
           if (window.renderAllWeatherNext3Charts) {
             renderAllWeatherNext3Charts();
+          }
+        }, 150);
+      } else if (tabId === 'tab-vizier') {
+        setTimeout(() => {
+          if (window.initVizierMultiSubstationStudio) {
+            initVizierMultiSubstationStudio();
           }
         }, 150);
       }
@@ -5844,62 +6242,10 @@ ORDER BY valid_time ASC, site_name ASC;
 })(window);
 
 
-    // Vertex AI Vizier Bayesian Volt-VAR Simulator
-    function updateVizierSim() {
-      const v1 = parseFloat(document.getElementById('inputV1').value);
-      const v2 = parseFloat(document.getElementById('inputV2').value);
-      const v3 = parseFloat(document.getElementById('inputV3').value);
-      const v4 = parseFloat(document.getElementById('inputV4').value);
-
-      document.getElementById('valV1').textContent = `${v1.toFixed(3)} p.u.`;
-      document.getElementById('valV2').textContent = `${v2.toFixed(3)} p.u.`;
-      document.getElementById('valV3').textContent = `${v3.toFixed(3)} p.u.`;
-      document.getElementById('valV4').textContent = `${v4.toFixed(3)} p.u.`;
-
-      function puToX(pu) { return 50 + ((pu - 0.90) / 0.20) * 400; }
-
-      const x1 = Math.round(puToX(v1));
-      const x2 = Math.round(puToX(v2));
-      const x3 = Math.round(puToX(v3));
-      const x4 = Math.round(puToX(v4));
-
-      const poly = document.getElementById('vvoPolyline');
-      if (poly) {
-        poly.setAttribute('points', `50,40 ${x1},40 ${x2},110 ${x3},110 ${x4},180 470,180`);
-      }
-
-      const p1 = document.getElementById('ptV1');
-      const p2 = document.getElementById('ptV2');
-      const p3 = document.getElementById('ptV3');
-      const p4 = document.getElementById('ptV4');
-      if (p1) p1.setAttribute('cx', x1);
-      if (p2) p2.setAttribute('cx', x2);
-      if (p3) p3.setAttribute('cx', x3);
-      if (p4) p4.setAttribute('cx', x4);
-
-      const deadbandWidth = v3 - v2;
-      const slope = 1.0 / (Math.max(0.01, v2 - v1) + Math.max(0.01, v4 - v3));
-      const activeLoss = (2.2 + (deadbandWidth - 0.06) * 4.5 + Math.abs(slope - 15) * 0.04).toFixed(2);
-      const reduction = (((3.0 - activeLoss) / 3.0) * 100).toFixed(1);
-
-      const lossElem = document.getElementById('vvoLossVal');
-      if (lossElem) lossElem.textContent = `${activeLoss} MW (-${reduction}%)`;
-    }
-
-    let vizierTrialCount = 12;
-    function runVizierBayesianTrial() {
-      vizierTrialCount++;
-      const bestV1 = (0.915 + Math.random() * 0.01).toFixed(3);
-      const bestV2 = (0.965 + Math.random() * 0.01).toFixed(3);
-      const bestV3 = (1.025 + Math.random() * 0.01).toFixed(3);
-      const bestV4 = (1.075 + Math.random() * 0.01).toFixed(3);
-      const loss = (2.18 + Math.random() * 0.1).toFixed(2);
-
-      const log = document.getElementById('vizierTrialLog');
-      if (log) {
-        log.innerHTML = `[Trial #${vizierTrialCount} GP-EI]: Proposed V1=${bestV1}, V2=${bestV2}, V3=${bestV3}, V4=${bestV4} &rarr; Loss=${loss} MW (Feasible).<br>` + log.innerHTML;
-      }
-    }
+    // Vertex AI Vizier Multi-Substation Volt-VAR Optimization Studio
+    // The multi-substation Klang Valley optimization engine is loaded via vizier_vvo_engine.js:
+    // Functions: window.initVizierMultiSubstationStudio, window.updateVizierSim, window.runVizierBayesianTrial,
+    // window.runVizierAutoStudy, window.runVizierSingleStep, window.resetVvoToBaseline, window.onVvoScenarioChange
 
     // Predictive Maintenance Duval Triangle Simulator
     function updatePdmSim() {
@@ -5994,7 +6340,9 @@ ORDER BY valid_time ASC, site_name ASC;
       loadWorkflow('flisr');
       initWeatherNextMap();
       updateWeatherNextSim();
-      updateVizierSim();
+      if (window.initVizierMultiSubstationStudio) {
+        initVizierMultiSubstationStudio();
+      }
       updatePdmSim();
     });
   </script>
