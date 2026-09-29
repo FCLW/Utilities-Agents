@@ -520,6 +520,81 @@
     .badge-opt { background: rgba(251, 188, 4, 0.2); color: #fbbc04; }
     .badge-llm { background: rgba(255, 109, 0, 0.2); color: #ff6d00; }
 
+    .persona-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .meta-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .meta-pill {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.73rem;
+      font-family: 'Roboto Mono', monospace;
+      display: inline-block;
+      line-height: 1.35;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .meta-pill:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+    .meta-row:nth-child(1) .meta-pill {
+      color: #f59e0b;
+      border-color: rgba(245, 158, 11, 0.35);
+      background: rgba(245, 158, 11, 0.08);
+    }
+    .meta-row:nth-child(1) .meta-pill:hover {
+      color: #fef08a;
+      border-color: #fbbf24;
+      background: rgba(245, 158, 11, 0.18);
+    }
+    .meta-row:nth-child(2) .meta-pill {
+      color: #60a5fa;
+      border-color: rgba(96, 165, 250, 0.35);
+      background: rgba(96, 165, 250, 0.08);
+    }
+    .meta-row:nth-child(2) .meta-pill:hover {
+      color: #bfdbfe;
+      border-color: #93c5fd;
+      background: rgba(96, 165, 250, 0.18);
+    }
+    [data-theme="light"] .meta-row:nth-child(1) .meta-pill {
+      color: #b45309;
+      border-color: rgba(180, 83, 9, 0.3);
+      background: rgba(245, 158, 11, 0.08);
+    }
+    [data-theme="light"] .meta-row:nth-child(2) .meta-pill {
+      color: #1d4ed8;
+      border-color: rgba(29, 78, 216, 0.3);
+      background: rgba(37, 99, 235, 0.08);
+    }
+
     .bq-tag-group {
       display: flex;
       flex-wrap: wrap;
@@ -3029,11 +3104,19 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">ADMS</span><span class="meta-pill">EMS</span><span class="meta-pill">SCADA</span><span class="meta-pill">OMS</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">ADMS</span>
+              <span class="meta-pill">EMS</span>
+              <span class="meta-pill">SCADA</span>
+              <span class="meta-pill">OMS</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_grid_balancing</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_grid_operations</span>
+              <span class="meta-pill">utilities_grid_balancing</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3080,11 +3163,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">PSS/E</span><span class="meta-pill">CYME</span><span class="meta-pill">Synergi</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">PSS/E</span>
+              <span class="meta-pill">CYME</span>
+              <span class="meta-pill">Synergi</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_asset_management</span>
+              <span class="meta-pill">utilities_production_forecasting</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3131,11 +3221,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">DERMS</span><span class="meta-pill">DRMS</span><span class="meta-pill">Wholesale Market Portals</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">DERMS</span>
+              <span class="meta-pill">DRMS</span>
+              <span class="meta-pill">Wholesale Market Portals</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_wholesale_trading</span><span class="meta-pill">utilities_grid_balancing</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_wholesale_trading</span>
+              <span class="meta-pill">utilities_grid_balancing</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3182,11 +3279,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">Relay Tools</span><span class="meta-pill">CAPE</span><span class="meta-pill">Aspen OneLiner</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">Relay Tools</span>
+              <span class="meta-pill">CAPE</span>
+              <span class="meta-pill">Aspen OneLiner</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_grid_operations</span><span class="meta-pill">utilities_asset_management</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_grid_operations</span>
+              <span class="meta-pill">utilities_asset_management</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3233,11 +3337,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">APM</span><span class="meta-pill">EAM / CMMS</span><span class="meta-pill">GIS</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">APM</span>
+              <span class="meta-pill">EAM / CMMS</span>
+              <span class="meta-pill">GIS</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_data</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_asset_management</span>
+              <span class="meta-pill">utilities_data</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3284,11 +3395,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">Vertex AI</span><span class="meta-pill">BigQuery ML</span><span class="meta-pill">WeatherNext</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">Vertex AI</span>
+              <span class="meta-pill">BigQuery ML</span>
+              <span class="meta-pill">WeatherNext</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_smart_meter_management</span><span class="meta-pill">utilities_production_forecasting</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_smart_meter_management</span>
+              <span class="meta-pill">utilities_production_forecasting</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3335,11 +3453,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">MWM</span><span class="meta-pill">Field GIS</span><span class="meta-pill">Substation SCADA</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">MWM</span>
+              <span class="meta-pill">Field GIS</span>
+              <span class="meta-pill">Substation SCADA</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_asset_management</span><span class="meta-pill">utilities_grid_operations</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_asset_management</span>
+              <span class="meta-pill">utilities_grid_operations</span>
+            </div>
           </div>
         </div>
       </div>
@@ -3382,11 +3507,18 @@
         <div class="persona-footer">
           <div class="meta-row">
             <span class="meta-title">Key Systems:</span>
-            <div class="meta-pills"><span class="meta-pill">NERC Portals</span><span class="meta-pill">ISO Settlements</span><span class="meta-pill">PUC Filing System</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">NERC Portals</span>
+              <span class="meta-pill">ISO Settlements</span>
+              <span class="meta-pill">PUC Filing System</span>
+            </div>
           </div>
           <div class="meta-row">
             <span class="meta-title">BigQuery Data:</span>
-            <div class="meta-pills"><span class="meta-pill">utilities_regulatory_compliance</span><span class="meta-pill">utilities_wholesale_trading</span></div>
+            <div class="meta-pills">
+              <span class="meta-pill">utilities_regulatory_compliance</span>
+              <span class="meta-pill">utilities_wholesale_trading</span>
+            </div>
           </div>
         </div>
       </div>

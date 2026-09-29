@@ -141,9 +141,8 @@ For the complete catalog of individual agent capabilities, datasets, and reasoni
 ├── web/                          # Containerized web showcase (Cloud Run)
 │   ├── catalog.json              # Structured fleet metadata
 │   ├── index.html                # Interactive portal UI with emphasized MAS launch banner
-│   ├── grid_optimization.html    # Backward-compatible redirect to persona/grid_optimization.html
 │   ├── persona/                  # Grid Optimization Multi-Agent System Studio
-│   │   ├── index.html            # Standalone Grid Optimization Studio entry point
+│   │   ├── index.html            # Standalone Grid Optimization Studio entry point (served at /persona/)
 │   │   ├── grid_optimization.html # Interactive MAS persona dashboard & simulation UI
 │   │   ├── charts.js             # High-performance grid telemetry & waveform charts
 │   │   ├── weathernext_data.js   # Live NWP & DLR for West and East Malaysia fleets

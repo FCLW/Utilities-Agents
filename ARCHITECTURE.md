@@ -98,9 +98,8 @@ enterprise-agents-suite/
 └── web/                              # Showcase Web Portal (Deployed to Cloud Run)
     ├── index.html                    # Single-page interactive catalog application
     ├── catalog.json                  # Metadata for all 113 agents consumed by the frontend
-    ├── grid_optimization.html        # Backward-compatible redirect to persona/grid_optimization.html
     ├── persona/                      # Grid Optimization Multi-Agent System Studio
-    │   ├── index.html                # Standalone Grid Optimization Studio entry point
+    │   ├── index.html                # Standalone Grid Optimization Studio entry point (served at /persona/)
     │   ├── grid_optimization.html    # Interactive MAS persona dashboard & simulation UI
     │   ├── charts.js                 # High-performance grid telemetry & waveform charts
     │   ├── weathernext_data.js       # Live NWP & DLR for West and East Malaysia fleets
