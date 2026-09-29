@@ -3,12 +3,22 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from config.settings import settings
+try:
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+    from config.settings import settings
+    default_project_id = settings.gcp_project_id
+    default_region = settings.gcp_region
+    default_portal_service = getattr(settings, "cloud_run_portal_service", "utilities-agents-portal")
+    default_demo_bucket = getattr(settings, "gcs_demo_bucket", "utilities-agents-demos")
+except Exception:
+    default_project_id = os.getenv("GCP_PROJECT_ID", "utilities-agents")
+    default_region = os.getenv("GCP_REGION", "us-central1")
+    default_portal_service = os.getenv("CLOUD_RUN_PORTAL_SERVICE", "utilities-agents-portal")
+    default_demo_bucket = os.getenv("GCS_DEMO_BUCKET", "utilities-agents-demos")
 
 def deploy_showcase():
-    project_id = settings.gcp_project_id
-    region = settings.gcp_region
+    project_id = default_project_id
+    region = default_region
     web_dir = Path("web")
     
     if not web_dir.exists():
@@ -62,8 +72,8 @@ EXPOSE 8080
 }
 """
 
-    portal_service = getattr(settings, "cloud_run_portal_service", "utilities-agents-portal")
-    demo_bucket = getattr(settings, "gcs_demo_bucket", "utilities-agents-demos")
+    portal_service = default_portal_service
+    demo_bucket = default_demo_bucket
     image_tag = f"{region}-docker.pkg.dev/{project_id}/cloud-run-source-deploy/{portal_service}:latest"
 
     cloudbuild_content = f"""steps:
